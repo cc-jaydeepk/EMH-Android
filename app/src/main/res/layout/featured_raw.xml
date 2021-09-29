@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgFeatured"
+            android:layout_width="@dimen/fav_frag_img"
+            android:layout_height="@dimen/fav_frag_img"
+            app:srcCompat="@drawable/ic_fav_liturgy" />
+
+        <TextView
+            android:id="@+id/txtFeaturedNm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_toRightOf="@+id/imgFeatured"
+            android:text="A Liturgy for DayBreak"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16ssp" />
+
+        <ImageView
+            android:id="@+id/img_featuredshare"
+            android:layout_width="@dimen/fav_frag_shareimg"
+            android:layout_height="@dimen/fav_frag_shareimg"
+            android:layout_below="@+id/txtFeaturedNm"
+            android:layout_marginTop="@dimen/_29sdp"
+            android:layout_toRightOf="@+id/imgFeatured"
+            android:src="@drawable/ic_shareimage" />
+
+        <ImageView
+            android:id="@+id/imgFeaturedfasv"
+            android:layout_width="@dimen/fav_frag_shareimg"
+            android:layout_height="@dimen/fav_frag_shareimg"
+            android:layout_below="@+id/txtFeaturedNm"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_29sdp"
+            android:layout_toRightOf="@+id/img_featuredshare"
+            android:src="@drawable/ic_favorite" />
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFeaturedNm"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/_27sdp"
+            android:text="@string/read_now"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/fav_frag_btn"
+            app:strokeColor="@color/loginbg" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="#C3C0C0" />
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/coverImage"
+            android:layout_width="@dimen/getcollection_img"
+            android:layout_height="@dimen/getcollection_img"
+            android:src="@drawable/ic_collection" />
+
+        <TextView
+            android:id="@+id/txtLiturgyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imageBook"
+            android:layout_toRightOf="@+id/coverImage"
+            android:text="Liturgies of LABOR  &amp; VOCATION"
+            android:textColor="@color/black"
+            android:textSize="@dimen/getcollection_txtsize" />
+
+        <ImageView
+            android:id="@+id/imageBook"
+            android:layout_width="@dimen/getcollection_rightimg"
+            android:layout_height="@dimen/getcollection_rightimg"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/ic_book" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLiturgyName"
+            android:layout_marginTop="@dimen/getcollection_txtmargin"
+            android:layout_toRightOf="@+id/coverImage"
+            android:text="$ 19.30"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/getcollection_txtprice" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLiturgyName"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/getcollection_txtmargin"
+            android:backgroundTint="@color/loginbg"
+            android:padding="@dimen/_5sdp"
+            android:text="@string/unlock_collection"
+            android:textSize="@dimen/getcollection_btntxt" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/coverImage"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@android:color/black" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home"></item>
+
+    <item
+        android:id="@+id/nav_myLiturgiesFragment"
+        android:icon="@drawable/ic_liturgies"
+        android:title="My Liturgies"></item>
+
+    <item
+        android:id="@+id/nav_favoritesFragment"
+        android:icon="@drawable/ic_fevrite"
+        android:title="Favorites"></item>
+
+    <item
+        android:id="@+id/nav_getLiturgiesFragment"
+        android:icon="@drawable/ic_pruchase_liturgy"
+        android:title="Get Liturgies"></item>
+
+</menu>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_layout"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="@dimen/home_img"
+            android:layout_height="@dimen/home_img"
+            android:src="@drawable/home_frg_img" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/liturgitxtmargin"
+            android:text="10 sep 2021"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/liturgitxtsize" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5ssp"
+            android:fontFamily="sans-serif"
+            android:text="@string/daily_liturgy_quote"
+            android:textColor="@color/black"
+            android:textSize="@dimen/home_frg_liturgiesnm"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/home_frg_txtmrg"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/home_frg_txtmrg"
+            android:fontFamily="sans-serif-light"
+            android:text="&#34;Give us discernment to know when \n to simply \n shut off our screens and to sit \n quietly in your presence.&#34;"
+            android:textSize="@dimen/home_frg_dessize" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/home_frg_txtmrg"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/home_frg_txtmrg"
+            android:fontFamily="sans-serif-condensed"
+            android:text="from &#34;For Those Flooded by Too Much Information&#34;"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/home_frg_size"
+            android:textStyle="italic" />
+
+        <ImageView
+            android:layout_width="@dimen/home_frg_shareimg"
+            android:layout_height="@dimen/home_frg_shareimg"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/homeshare"
+            app:tint="@color/loginbg" />
+
+    </LinearLayout>
+
+
+</ScrollView>

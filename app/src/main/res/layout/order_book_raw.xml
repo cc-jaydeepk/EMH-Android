@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/orderbook_layoutmargin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_orderbook"
+            android:layout_width="@dimen/orderbook_imagesixe"
+            android:layout_height="@dimen/orderbook_imagesixe"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/orderbook_marginright"
+            android:layout_toRightOf="@+id/img_orderbook"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Every Moment Holy, Vil 1 - Pocket Edition "
+                android:textColor="@color/black"
+                android:textSize="@dimen/orderbook_txtname" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/orderbook_btn_size"
+                android:layout_marginTop="@dimen/orderbook_margin"
+                android:layout_marginRight="@dimen/orderbook_btn_marginright"
+                android:drawableLeft="@drawable/ic_rabbit_room"
+                android:padding="@dimen/orderbook_btnpadding"
+                android:text="@string/rabbit_room"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/orderbook_btn_txtsixe"
+                app:strokeColor="@color/loginbg" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/orderbook_btn_size"
+                android:layout_marginTop="@dimen/orderbook_margintop"
+                android:layout_marginRight="@dimen/orderbook_btn_marginright"
+                android:drawableLeft="@drawable/ic_amazone_icon"
+                android:padding="@dimen/orderbook_btnpadding"
+                android:text="@string/amazon"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/orderbook_btn_txtsixe"
+                app:strokeColor="@color/loginbg" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="#C3C0C0" />
+
+</LinearLayout>

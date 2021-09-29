@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp">
+
+    <ImageView
+        android:id="@+id/imgFavCover"
+        android:layout_width="@dimen/fav_frag_img"
+        android:layout_height="@dimen/fav_frag_img"
+        app:srcCompat="@drawable/ic_fav_liturgy" />
+
+    <TextView
+        android:id="@+id/txtLiturgy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imgFavCover"
+        android:text="Liturgy"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/txtLiturgyNm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLiturgy"
+        android:layout_toLeftOf="@+id/imgShareimag"
+        android:layout_toRightOf="@+id/imgFavCover"
+        android:text="A Liturgy for DayBreak"
+        android:textColor="@color/black"
+        android:textSize="@dimen/fav_frag_txt" />
+
+    <ImageView
+        android:id="@+id/imgShareimag"
+        android:layout_width="@dimen/fav_frag_shareimg"
+        android:layout_height="@dimen/fav_frag_shareimg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        app:srcCompat="@drawable/ic_shareimage" />
+
+    <ImageView
+        android:id="@+id/img_favorite"
+        android:layout_width="@dimen/fav_frag_shareimg"
+        android:layout_height="@dimen/fav_frag_shareimg"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        app:srcCompat="@drawable/ic_heart"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLiturgyNm"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/_28sdp"
+        android:layout_toRightOf="@+id/imgFavCover"
+        android:text="Free"
+        android:textColor="@color/loginbg"
+        android:textSize="@dimen/fav_frag_freetxt" />
+
+    <Button
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtLiturgyNm"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:padding="@dimen/_3sdp"
+        android:text="Read Now"
+        android:textColor="@color/loginbg"
+        android:textSize="@dimen/fav_frag_btn"
+        app:strokeColor="@color/loginbg" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/imgFavCover"
+        android:layout_marginTop="@dimen/viewmargin"
+        android:background="@android:color/black" />
+</RelativeLayout>

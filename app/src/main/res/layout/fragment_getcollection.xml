@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- <include
+         android:id="@+id/toolbar_layout"
+         layout="@layout/toolbar_layout"></include>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_layout"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/getliturgy_img_size"
+            android:layout_height="@dimen/getliturgy_img_size"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/getliturgy_txtmargin"
+            android:gravity="center"
+            android:text="Liturgies Name"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/getliturgy_txt_size" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/getliturgy_txtmargin"
+            android:gravity="center"
+            android:text="$ 19.99"
+            android:textAllCaps="true"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/getliturgy_purchstxt_size"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/getliturgy_btnlayout"
+            android:layout_marginRight="@dimen/getliturgy_btnlayout"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnUnlock"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/loginbg"
+                android:padding="@dimen/getliturgy_btn_padding"
+                android:text="Unlock"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/getliturgy_btn_txtsize"
+                app:strokeColor="@color/loginbg" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:padding="@dimen/getliturgy_btn_padding"
+                android:text="@string/about"
+                android:textAllCaps="true"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/getliturgy_btn_txtsize"
+                app:strokeColor="@color/loginbg" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

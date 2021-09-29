@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgFavCover"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/ic_fav_liturgy" />
+
+        <TextView
+            android:id="@+id/txtLiturgy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgFavCover"
+            android:text="Liturgy"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/txtLiturgyNm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLiturgy"
+            android:layout_toRightOf="@+id/imgFavCover"
+            android:text="A Liturgy for DayBreak"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/imgFavShare"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignEnd="@+id/txtLiturgyNm"
+            android:src="@drawable/ic_shareimage" />
+
+        <ImageView
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_alignEnd="@+id/imgFavShare"
+            android:src="@drawable/ic_fevrite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLiturgyNm"
+            android:layout_toRightOf="@+id/imgFavCover"
+            android:text="free"
+            android:textSize="@dimen/_14ssp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLiturgyNm"
+            android:layout_alignParentRight="true"
+            android:text="Read Now" />
+
+    </RelativeLayout>
+
+</LinearLayout>

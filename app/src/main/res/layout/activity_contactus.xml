@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/register_imgsize"
+            android:layout_height="@dimen/register_imgsize"
+            android:src="@drawable/login_topimg" />
+
+        <EditText
+            android:id="@+id/edtFirstName"
+            style="@style/edtStyle"
+            android:layout_marginTop="@dimen/rgste_margintop"
+            android:background="@drawable/bg_register_edt"
+            android:hint="@string/your_name" />
+
+        <EditText
+            android:id="@+id/edtEmail"
+            style="@style/edtStyle"
+            android:layout_marginTop="@dimen/rgste_fstnm_margintop"
+            android:background="@drawable/bg_register_edt"
+            android:hint="Your E-Mail Address" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/bg_register_edt"
+            android:lines="3"
+            android:maxLines="7"
+            android:padding="@dimen/_25sdp" />
+
+        <Button
+            style="@style/edtStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:backgroundTint="@color/loginbg"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/login_button_txtsize" />
+
+    </LinearLayout>
+
+</ScrollView>
