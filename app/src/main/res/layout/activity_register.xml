@@ -64,12 +64,6 @@
 
             </com.hbb20.CountryCodePicker>
 
-          <!--  <EditText
-                android:id="@+id/country_code"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="wrap_content"
-                android:hint="+91" />-->
-
             <View
                 android:layout_width="1dp"
                 android:layout_height="@dimen/view_hight"

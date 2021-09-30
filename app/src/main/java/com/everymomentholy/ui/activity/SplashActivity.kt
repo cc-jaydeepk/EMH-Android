@@ -6,7 +6,7 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 
-class SpalshActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
     lateinit var handler: Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,7 @@ class SpalshActivity : AppCompatActivity() {
 
         handler = Handler()
         handler.postDelayed({
-            val intent = Intent(this@SpalshActivity, FirstActivity::class.java)
+            val intent = Intent(this@SplashActivity, SelectOptionActivity::class.java)
             startActivity(intent)
             finish()
         }, 2000)

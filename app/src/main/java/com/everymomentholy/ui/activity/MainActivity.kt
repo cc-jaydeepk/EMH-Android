@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_main)
 
         drawerLayout = findViewById(R.id.drawer_layout)
 
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // Call syncState() on the action bar so it'll automatically change to the back button when the drawer layout is open
-       // actionBarToggle.syncState()
+        // actionBarToggle.syncState()
 
         val navBottomView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
 

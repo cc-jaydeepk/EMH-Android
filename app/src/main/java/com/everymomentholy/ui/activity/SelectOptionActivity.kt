@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 
-class FirstActivity : AppCompatActivity() {
+class SelectOptionActivity : AppCompatActivity() {
 
     lateinit var btnRegister: Button
     lateinit var btnLogin: Button
@@ -15,26 +15,26 @@ class FirstActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_first)
+        setContentView(R.layout.activty_select_option)
 
         supportActionBar?.hide()
 
         btnRegister = findViewById(R.id.btnRegister)
         btnRegister.setOnClickListener {
-            val intent = Intent(this@FirstActivity, RegisterActivty::class.java)
+            val intent = Intent(this@SelectOptionActivity, RegisterActivity::class.java)
             startActivity(intent)
         }
 
         btnLogin = findViewById(R.id.btnLogin)
         btnLogin.setOnClickListener {
-            val intent = Intent(this@FirstActivity, LoginActivity::class.java)
+            val intent = Intent(this@SelectOptionActivity, LoginActivity::class.java)
             startActivity(intent)
         }
 
         txtSkip = findViewById(R.id.txtSkip)
         txtSkip.setOnClickListener {
             // val intent = Intent(this@FirstActivity, HomeActivity::class.java)
-            val intent = Intent(this@FirstActivity, MainActivity::class.java)
+            val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
             startActivity(intent)
         }
     }

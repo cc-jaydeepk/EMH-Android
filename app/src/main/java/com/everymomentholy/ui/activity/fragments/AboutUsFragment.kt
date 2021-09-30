@@ -17,6 +17,4 @@ class AboutUsFragment : Fragment() {
         return view
     }
 
-
-
 }

@@ -4,25 +4,32 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.ForgotPasswordRequestVo
+import com.everymomentholy.api.request.LoginRequestVo
 import com.everymomentholy.api.request.RegisterRequestVo
+import com.everymomentholy.api.response.ForgotPasswordResponseVo
+import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.api.response.RegisterResponseVo
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.SavaPreferences
+import com.everymomentholy.utils.SharedPreference
+import com.everymomentholy.utils.Utils
 import com.hbb20.CountryCodePicker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
-class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeListener {
+
+class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeListener {
 
     private var ccp: CountryCodePicker? = null
     private var countryCode: String? = null
@@ -36,12 +43,23 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
     private lateinit var edtPhoneNumber: EditText
     private lateinit var country_code: EditText
     private lateinit var android_id: String
+    private lateinit var txtForgot: TextView
+    lateinit var sharedPreferences: SavaPreferences
+    private lateinit var imgCheckbox: ImageView
+    var isAcceptTerms = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         supportActionBar?.hide()
+
+
+
+        sharedPreferences = SavaPreferences(applicationContext)
+
+        //  sharedPref = getSharedPreferences(USER_PREF, Context.MODE_PRIVATE);
 
         android_id = Settings.Secure.getString(
             applicationContext.contentResolver,
@@ -61,7 +79,11 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
         edtPassword = findViewById(R.id.edtPassword)
         edtConfirmPsw = findViewById(R.id.edtConfirmPsw)
         edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
-
+        imgCheckbox = findViewById(R.id.imgCheckbox)
+        imgCheckbox.setOnClickListener {
+            isAcceptTerms = true
+            imgCheckbox.setImageResource(R.drawable.ic_check_box);
+        }
 
         btnRedister = findViewById(R.id.btnRedister)
         btnRedister.setOnClickListener {
@@ -69,23 +91,35 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
 
 
             if (checkValidation()) {
-                var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
 
-                registrationRequestVo.firstName = edtFirstName.text.toString().trim()
-                registrationRequestVo.lastName = edtLastName.text.toString().trim()
-                registrationRequestVo.email = edtEmail.text.toString().trim()
-                registrationRequestVo.countryCode = "+44"
-                registrationRequestVo.password = edtPassword.text.toString().trim()
-                registrationRequestVo.deviceType = "1"
-                registrationRequestVo.deviceId = android_id
-                registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
-                registration(registrationRequestVo)
+                if (Utils.isNetworkAvailable(this)) {
+
+                    var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
+                    registrationRequestVo.firstName = edtFirstName.text.toString().trim()
+                    registrationRequestVo.lastName = edtLastName.text.toString().trim()
+                    registrationRequestVo.email = edtEmail.text.toString().trim()
+                    registrationRequestVo.countryCode = "+44"
+                    registrationRequestVo.password = edtPassword.text.toString().trim()
+                    registrationRequestVo.deviceType = "1"
+                    registrationRequestVo.deviceId = android_id
+                    registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
+                    registration(registrationRequestVo)
+
+                } else {
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        resources.getString(R.string.check_internet),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
             }
 
         }
 
 
     }
+
 
     private fun registration(registrationRequestVo: RegisterRequestVo) {
         val request = APIService.buildService(APIInterface::class.java)
@@ -101,21 +135,33 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
 
                         Log.e("Successfull", response.body()!!.message)
 
-                        val intent = Intent(this@RegisterActivty, MainActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        Utils.writeIntToSharedPref(
+                            this@RegisterActivity, Constants.PrefUserID,
+                            response.body()!!.userId
+                        )
 
-                        Toast.makeText(
-                            this@RegisterActivty,
-                            "Registration successfully",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        /*sharedPreferences.putInt(Constants.PrefUserID,
+                            response.body()!!.userId)*/
+
+                        if (isAcceptTerms != false) {
+                            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                        } else {
+                            isAcceptTerms = false
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "Please agree to Privacy Policy",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
 
                     } else {
                         Log.e("Fail", response.body()!!.message.toString())
                         Toast.makeText(
-                            this@RegisterActivty,
+                            this@RegisterActivity,
                             "Registration Fail",
                             Toast.LENGTH_LONG
                         ).show()
@@ -123,7 +169,7 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
                 }
 
                 override fun onFailure(call: Call<RegisterResponseVo>, t: Throwable) {
-                    Toast.makeText(this@RegisterActivty, "${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RegisterActivity, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } catch (exception: Exception) {
@@ -159,6 +205,10 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
         val lastNm = edtLastName.text.toString().trim()
         val email = edtEmail.text.toString().trim()
         val password = edtPassword.text.toString().trim()
+        val confirmPsw = edtConfirmPsw.text.toString().trim()
+        val phoneNo = edtPhoneNumber.text.toString().trim()
+
+
         var isValid = true
 
         if (firstNm.isEmpty()) {
@@ -173,9 +223,21 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
             isValid = false
         }
 
+        if (email.isEmpty()) {
+            edtEmail.error = resources.getString(R.string.email_error)
+            edtEmail.requestFocus()
+            isValid = false
+        }
+
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edtFirstName.error = resources.getString(R.string.valid_email_error)
             edtFirstName.requestFocus()
+            isValid = false
+        }
+
+        if (phoneNo.isEmpty()) {
+            edtPhoneNumber.error = resources.getString(R.string.phoneno_error)
+            edtPhoneNumber.requestFocus()
             isValid = false
         }
 
@@ -184,6 +246,41 @@ class RegisterActivty : AppCompatActivity(), CountryCodePicker.OnCountryChangeLi
             edtPassword.requestFocus()
             isValid = false
         }
+
+        /*if (!TextUtils.isEmpty(phoneNo)) {
+            return Patterns.PHONE.matcher(phoneNo).matches();
+        }*/
+
+        if (edtPhoneNumber.equals("") || edtPhoneNumber.equals(null) || edtPhoneNumber.length() < 10) {
+            edtPhoneNumber.error = resources.getString(R.string.phoneno_error)
+            edtPhoneNumber.requestFocus()
+            isValid = false
+        }
+
+        if (confirmPsw.isEmpty()) {
+            edtConfirmPsw.error = resources.getString(R.string.confirmpassword_error)
+            edtConfirmPsw.requestFocus()
+            isValid = false
+            if (!edtPassword.equals(edtConfirmPsw)) {
+                edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
+                edtConfirmPsw.requestFocus()
+                isValid = false
+            }
+        }
+
+        /*if (!edtPassword.equals(edtConfirmPsw)) {
+            edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
+            edtConfirmPsw.requestFocus()
+            isValid = false
+        }*/
+
+        /*if (!edtPassword.text.toString().equals(edtConfirmPsw.text.toString())) {
+            edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
+            edtConfirmPsw.requestFocus()
+            isValid = false
+        }*/
+
+
 
         return isValid
     }

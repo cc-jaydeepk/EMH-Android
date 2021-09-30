@@ -4,11 +4,11 @@
     <string name="skip_login">Skip Login</string>
     <string name="register_to_continue">Register To Continue</string>
     <string name="login_to_continue">Login To Continue</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="email">Email</string>
+    <string name="first_name">First Name <font color="#FF0000">*</font></string>
+    <string name="last_name">Last Name <font color="#FF0000">*</font></string>
+    <string name="email">Email <font color="#FF0000">*</font></string>
     <string name="phone_number">Phone Number</string>
-    <string name="password">Password</string>
+    <string name="password">Password <font color="#FF0000">*</font></string>
     <string name="login">Login</string>
     <string name="i_have_read_and_agree_to_the">I have read and agree to the</string>
     <string name="close">Close</string>
@@ -16,8 +16,8 @@
     <string name="submit">Submit</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="old_password">Old Password</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_password">Confirm Password</string>
+    <string name="new_password">New Password <font color="#FF0000">*</font></string>
+    <string name="confirm_password">Confirm Password <font color="#FF0000">*</font></string>
     <string name="daily_liturgy_quote">Daily Liturgy Quote</string>
     <string name="open">Open</string>
     <string name="ok">Ok</string>
@@ -47,9 +47,24 @@
     <string name="share_link">Share Link</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-    <string name="firstname_error">Plaese enter your first name</string>
-    <string name="lastname_error">Plaese enter your last name</string>
-    <string name="valid_email_error">Plaese enter valid email</string>
+    <string name="firstname_error">Please enter first name.</string>
+    <string name="lastname_error">Please enter last name.</string>
+
     <string name="password_error">Plaese enter password</string>
+    <string name="confirmpassword_error">Please enter confirm password</string>
+    <string name="matchpassword_error">Password and confirm password do not match!</string>
+    <string name="phoneno_error">Please enter phone number.</string>
+    <string name="valid_phoneno_error">Please enter valid phone number.</string>
+    <string name="email_error">Please enter email address.</string>
+    <string name="valid_email_error">Please enter valid email address.</string>
+    <string name="check_internet">Please check internet connection.</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="verification_code">Verification Code <font color="#FF0000">*</font></string>
+    <string name="update_password">Update Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="registred_e_mail_id">Registred E-mail ID</string>
+    <string name="reset_password_error">Please enter new password.</string>
+    <string name="reset_confirmpassword_error">Please enter confirm password.</string>
+    <string name="reset_verificationcode_error">Please enter verification code.</string>
 
 </resources>
