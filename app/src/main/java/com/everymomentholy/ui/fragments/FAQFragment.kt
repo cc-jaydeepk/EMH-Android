@@ -1,4 +1,4 @@
-package com.everymomentholy.ui.activity.fragments
+package com.everymomentholy.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,8 +13,7 @@ import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 import com.everymomentholy.ui.activity.ContactUsActivty
 
-
-class FAQFragment : Fragment() {
+class FAQFragment: Fragment() {
 
     private lateinit var btnContactus: Button
     private lateinit var textFaq: TextView

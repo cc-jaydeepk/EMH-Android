@@ -1,16 +1,16 @@
 package com.everymomentholy.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.everymomentholy.R
-import com.everymomentholy.ui.activity.fragments.*
+import com.everymomentholy.ui.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -116,7 +116,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         // Call syncState() on the action bar so it'll automatically change to the back button when the drawer layout is open
         // actionBarToggle.syncState()
 
@@ -170,5 +169,4 @@ class MainActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
-
 }

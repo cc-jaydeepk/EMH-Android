@@ -1,6 +1,7 @@
-package com.everymomentholy.ui.activity.fragments
+package com.everymomentholy.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
 import com.everymomentholy.api.response.ResponseVo
-import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,8 +21,6 @@ import java.lang.Exception
 class HomeFragment : Fragment() {
 
     private lateinit var txtTitle: TextView
-    //lateinit var responsevo: ResponseVo()
-    // lateinit var responseVo: ResponseVo
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,10 +46,9 @@ class HomeFragment : Fragment() {
                     response: Response<HomeDailyLiturgyResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
+
                         var responseVo: ResponseVo = ResponseVo()
                         txtTitle.text = responseVo.parentLiturgy
-
-
                     } else {
 
                     }
@@ -66,5 +63,4 @@ class HomeFragment : Fragment() {
         }
 
     }
-
 }

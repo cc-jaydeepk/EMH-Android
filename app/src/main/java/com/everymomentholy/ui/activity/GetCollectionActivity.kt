@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
-import com.everymomentholy.ui.activity.adapter.FavoriteAdapter
-import com.everymomentholy.ui.activity.adapter.GetCollectionAdapter
+import com.everymomentholy.ui.adapter.GetCollectionAdapter
 
 class GetCollectionActivity : AppCompatActivity() {
 

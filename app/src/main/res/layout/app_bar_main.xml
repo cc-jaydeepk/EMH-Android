@@ -45,7 +45,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/_9sdp"
-                    android:src="@drawable/ic_searchimg" />
+                    android:src="@drawable/ic_notification" />
 
             </RelativeLayout>
 

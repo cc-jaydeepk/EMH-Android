@@ -1,4 +1,4 @@
-package com.everymomentholy.ui.activity.fragments
+package com.everymomentholy.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
-import com.everymomentholy.ui.activity.adapter.OrderBookAdapter
+import com.everymomentholy.ui.adapter.OrderBookAdapter
 
 class OrderBookFragment : Fragment() {
 

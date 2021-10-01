@@ -1,4 +1,4 @@
-package com.everymomentholy.ui.activity.fragments
+package com.everymomentholy.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 
-class AboutUsFragment : Fragment() {
+class ShareLiturgiesFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_aboutus, container, false)
+        val view = inflater.inflate(R.layout.ffragment_share, container, false)
         return view
     }
-
 }

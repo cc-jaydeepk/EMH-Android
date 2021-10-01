@@ -8,4 +8,11 @@ class HomeDailyLiturgyResponseVo {
 
 
     var response = ResponseVo()
+
+    var quote: String = ""
+    var parentLiturgy: String = ""
+    var date: String = ""
+    var message: String = ""
+
+
 }

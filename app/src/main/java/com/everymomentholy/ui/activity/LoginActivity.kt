@@ -2,15 +2,15 @@ package com.everymomentholy.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
-import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
+import android.provider.Settings
+import android.util.Log
+import android.util.Patterns
+import android.widget.Toast
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.LoginRequestVo
@@ -75,7 +75,6 @@ class LoginActivity : AppCompatActivity() {
 
 
         }
-
     }
 
     private fun login(loginRequestVo: LoginRequestVo) {

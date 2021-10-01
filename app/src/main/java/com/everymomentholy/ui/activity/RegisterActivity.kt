@@ -3,31 +3,24 @@ package com.everymomentholy.ui.activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.everymomentholy.R
+import com.everymomentholy.utils.SavaPreferences
+import com.hbb20.CountryCodePicker
 import android.provider.Settings
-import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.request.ForgotPasswordRequestVo
-import com.everymomentholy.api.request.LoginRequestVo
 import com.everymomentholy.api.request.RegisterRequestVo
-import com.everymomentholy.api.response.ForgotPasswordResponseVo
-import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.api.response.RegisterResponseVo
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.SavaPreferences
-import com.everymomentholy.utils.SharedPreference
 import com.everymomentholy.utils.Utils
-import com.hbb20.CountryCodePicker
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeListener {
 
@@ -48,14 +41,11 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     private lateinit var imgCheckbox: ImageView
     var isAcceptTerms = false
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         supportActionBar?.hide()
-
-
 
         sharedPreferences = SavaPreferences(applicationContext)
 
@@ -116,10 +106,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             }
 
         }
-
-
     }
-
 
     private fun registration(registrationRequestVo: RegisterRequestVo) {
         val request = APIService.buildService(APIInterface::class.java)
@@ -284,5 +271,4 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         return isValid
     }
-
 }

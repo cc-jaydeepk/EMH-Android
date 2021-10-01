@@ -1,19 +1,16 @@
-package com.everymomentholy.ui.activity.fragments
+package com.everymomentholy.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
-import com.everymomentholy.ui.activity.adapter.FavoriteAdapter
-import com.everymomentholy.ui.activity.adapter.FeaturedAdapter
+import com.everymomentholy.ui.adapter.FeaturedAdapter
 
-class FeaturedFragment : Fragment() {
+class FeaturedFragment: Fragment() {
 
     private lateinit var rcvFeatured: RecyclerView
     private var adapter: RecyclerView.Adapter<FeaturedAdapter.MyViewHolder>? = null
@@ -30,5 +27,4 @@ class FeaturedFragment : Fragment() {
         adapter = FeaturedAdapter()
         return view
     }
-
 }

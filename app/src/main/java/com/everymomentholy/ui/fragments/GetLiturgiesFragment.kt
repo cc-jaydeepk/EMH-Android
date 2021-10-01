@@ -1,4 +1,4 @@
-package com.everymomentholy.ui.activity.fragments
+package com.everymomentholy.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle

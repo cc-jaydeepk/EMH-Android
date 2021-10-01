@@ -2,11 +2,9 @@ package com.everymomentholy.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
@@ -14,8 +12,6 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.ForgotPasswordRequestVo
 import com.everymomentholy.api.response.ForgotPasswordResponseVo
-import com.everymomentholy.api.response.LoginResponseVo
-import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,15 +30,12 @@ class ForgotPasswordActivity : AppCompatActivity() {
         edtForgotEmail = findViewById(R.id.edtForgotEmail)
         btnForgotPswSubmit = findViewById(R.id.btnForgotSubmit)
 
-
         btnForgotPswSubmit.setOnClickListener {
 
             if (checkValidation()) {
                 if (Utils.isNetworkAvailable(this)) {
 
-
                     forgotPassword()
-
 
                 } else {
                     Toast.makeText(

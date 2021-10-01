@@ -2,11 +2,12 @@ package com.everymomentholy.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
+import android.os.Handler
 
 class SplashActivity : AppCompatActivity() {
+
     lateinit var handler: Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {

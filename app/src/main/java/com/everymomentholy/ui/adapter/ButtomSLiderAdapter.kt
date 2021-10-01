@@ -1,4 +1,4 @@
-package com.everymomentholy.ui.activity.adapter
+package com.everymomentholy.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +8,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
-import java.security.AccessController.getContext
 
-
-class ButtomSLiderAdapter : RecyclerView.Adapter<ButtomSLiderAdapter.MyViewHolder>() {
+class ButtomSLiderAdapter: RecyclerView.Adapter<ButtomSLiderAdapter.MyViewHolder>() {
     // lateinit var imgShare: ImageView
     //var context: Context? = null
 
@@ -31,12 +29,12 @@ class ButtomSLiderAdapter : RecyclerView.Adapter<ButtomSLiderAdapter.MyViewHolde
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.itemView.context
         holder.imgShare.setOnClickListener {
-           /* val builder = AlertDialog.Builder(context)
-            val inflater = layoutInflater
-            val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
+            /* val builder = AlertDialog.Builder(context)
+             val inflater = layoutInflater
+             val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
 
-            builder.setView(dialogLayout)
-            builder.show()*/
+             builder.setView(dialogLayout)
+             builder.show()*/
 
             val builder = AlertDialog.Builder(context)
             val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)

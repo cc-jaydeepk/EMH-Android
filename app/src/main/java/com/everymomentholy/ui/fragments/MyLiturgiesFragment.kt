@@ -1,4 +1,4 @@
-package com.everymomentholy.ui.activity.fragments
+package com.everymomentholy.ui.fragments
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
-import com.everymomentholy.ui.activity.adapter.ButtomSLiderAdapter
-import com.everymomentholy.ui.activity.adapter.MyLiturgyAdapter
+import com.everymomentholy.ui.adapter.ButtomSLiderAdapter
+import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MyLiturgiesFragment : Fragment() {
@@ -38,11 +38,11 @@ class MyLiturgiesFragment : Fragment() {
         }
 
         /*val callback = object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.nav_favoritesFragment)
-            }
+           override fun handleOnBackPressed() {
+               findNavController().navigate(R.id.nav_favoritesFragment)
+           }
 
-        }*/
+       }*/
 
 
 
@@ -50,7 +50,7 @@ class MyLiturgiesFragment : Fragment() {
 
         requireActivity()
             .onBackPressedDispatcher
-            .addCallback(activity!!, object : OnBackPressedCallback(true) {
+            .addCallback(requireActivity(), object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     Log.d(TAG, "Fragment back pressed invoked")
                     // Do custom work here
@@ -83,7 +83,4 @@ class MyLiturgiesFragment : Fragment() {
         dialog?.setContentView(view)
         dialog?.show()
     }
-
-
-
 }
