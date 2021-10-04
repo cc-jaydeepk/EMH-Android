@@ -1,18 +1,23 @@
 package com.everymomentholy.ui.fragments
 
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
+import com.everymomentholy.api.response.HomegetSettingResponseVo
 import com.everymomentholy.api.response.ResponseVo
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +26,10 @@ import java.lang.Exception
 class HomeFragment : Fragment() {
 
     private lateinit var txtTitle: TextView
+    private lateinit var txtQuote: TextView
+    private lateinit var txtDailyQuote: TextView
+    private lateinit var txtDate: TextView
+    private lateinit var imgHomeClock: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,8 +39,54 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         txtTitle = view.findViewById(R.id.txtTitle)
-        dailyLiturgyQuote()
+        txtQuote = view.findViewById(R.id.txtQuote)
+        txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
+        txtDate = view.findViewById(R.id.txtDate)
+        imgHomeClock = view.findViewById(R.id.imgHomeClock)
+
+       // dailyLiturgyQuote()
+        //getSettings()
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dailyLiturgyQuote()
+        getSettings()
+    }
+
+    private fun getSettings() {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.getSettings()
+
+        try {
+            call.enqueue(object : Callback<HomegetSettingResponseVo> {
+                override fun onResponse(
+                    call: Call<HomegetSettingResponseVo>,
+                    response: Response<HomegetSettingResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                       // txtQuote.text = response.body()!!.response.parentLiturgy
+                        Glide
+                            .with(context!!)
+                            .load(response.body()!!.response.home_page_liturgy_image)
+                            .centerCrop()
+                            .into(imgHomeClock)
+
+
+                    } else {
+
+                    }
+                }
+
+                override fun onFailure(call: Call<HomegetSettingResponseVo>, t: Throwable) {
+                    Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
     }
 
     private fun dailyLiturgyQuote() {
@@ -47,8 +102,10 @@ class HomeFragment : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        var responseVo: ResponseVo = ResponseVo()
-                        txtTitle.text = responseVo.parentLiturgy
+                        txtQuote.text = response.body()!!.response.parentLiturgy
+                        txtDailyQuote.text = response.body()!!.response.quote
+                        txtDate.text = response.body()!!.response.date
+
                     } else {
 
                     }

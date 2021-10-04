@@ -15,11 +15,13 @@
 
 
         <ImageView
+            android:id="@+id/imgHomeClock"
             android:layout_width="@dimen/home_img"
             android:layout_height="@dimen/home_img"
-            android:src="@drawable/home_frg_img" />
+            />
 
         <TextView
+            android:id="@+id/txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/liturgitxtmargin"
@@ -39,6 +41,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/txtDailyQuote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_frg_txtmrg"
@@ -49,6 +52,7 @@
             android:textSize="@dimen/home_frg_dessize" />
 
         <TextView
+            android:id="@+id/txtQuote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_frg_txtmrg"

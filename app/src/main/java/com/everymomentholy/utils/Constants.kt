@@ -11,6 +11,8 @@ class Constants {
         const val API_FORGOT_PASSWORD = "forgotPassword"
         const val API_RESET_PASSWORD = "updatePassword"
         const val API_HOME_DAILY_LITURGY_QUOTE = "dailyLiturgyQuote"
+        const val API_HOME_GETSETTINGS = "getSettings"
+        const val API_HOME_NOTIFICATIONLIST = "notificationList"
 
 
         //Shared preferences keys

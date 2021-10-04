@@ -1,6 +1,7 @@
 package com.everymomentholy.utils
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
@@ -34,7 +35,6 @@ class Utils {
             }
             return false
         }
-
 
 
         fun writeStringToSharedPref(activity: Context, key: String?, value: String?) {
@@ -89,6 +89,20 @@ class Utils {
                 activity.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
             return sharedPref.getBoolean(key, defaultValue)
         }
+
+        /*fun showProgressDialog(
+            context: Context?,
+            title: String?,
+            message: String?
+        ): ProgressDialog? {
+            val mProgressDialog = ProgressDialog(context, ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT)
+            mProgressDialog.setCancelable(false)
+            if (title != null) mProgressDialog.setTitle(title)
+            if (message != null) mProgressDialog.setMessage(message) else mProgressDialog.setMessage(
+                "Please wait..."
+            )
+            return mProgressDialog
+        }*/
 
         fun readStringFromSharedPrefContext(
             context: Context,

@@ -6,13 +6,12 @@ class HomeDailyLiturgyResponseVo {
 
     var statusCode: Int = 1
 
+    var response: ResponseVo = ResponseVo()
 
-    var response = ResponseVo()
-
-    var quote: String = ""
+    /*var quote: String = ""
     var parentLiturgy: String = ""
     var date: String = ""
-    var message: String = ""
+    var message: String = ""*/
 
 
 }

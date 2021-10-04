@@ -1,11 +1,14 @@
 package com.everymomentholy.ui.activity
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
+import com.everymomentholy.utils.Utils
 
 class SelectOptionActivity : AppCompatActivity() {
 
@@ -33,6 +36,7 @@ class SelectOptionActivity : AppCompatActivity() {
 
         txtSkip = findViewById(R.id.txtSkip)
         txtSkip.setOnClickListener {
+
             // val intent = Intent(this@FirstActivity, HomeActivity::class.java)
             val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
             startActivity(intent)

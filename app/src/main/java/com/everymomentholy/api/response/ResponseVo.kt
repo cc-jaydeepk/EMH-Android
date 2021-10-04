@@ -1,35 +1,35 @@
 package com.everymomentholy.api.response
 
-class ResponseVo {
+import com.google.gson.annotations.SerializedName
 
-    /*var quote: String = ""
-    var parentLiturgy: String = ""
-    var date: String = ""
-    var message: String = ""*/
+open class ResponseVo {
 
+    //dailyLiturgyQuote API Response
     var quote: String = ""
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var parentLiturgy: String = ""
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var date: String = ""
-        get() = field
-        set(value) {
-            field = value
-        }
 
     var message: String = ""
-        get() = field
-        set(value) {
-            field = value
-        }
 
+
+    //getSetting API Response
+    var featured_liturgy_message: String = ""
+
+    var home_page_liturgy_image: String = ""
+
+    var liturgy_expire_hours: String = ""
+
+    var max_volume_price: String = ""
+
+
+    //notificationList API Response
+     //var data: List<DataVo> = DataVo
+
+    //@SerializedName("message")
+   // var notificationmessage: String = ""
+
+    //var data: ArrayList<DataVo> = ArrayList()
 
 }

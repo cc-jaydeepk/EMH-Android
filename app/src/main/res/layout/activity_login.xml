@@ -32,7 +32,16 @@
         style="@style/edtStyle"
         android:layout_marginTop="@dimen/rgste_fstnm_margintop"
         android:background="@drawable/bg_register_edt"
-        android:hint="@string/password" />
+        android:hint="@string/password"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/txtForgotPsw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Forgot Password"
+        android:textSize="@dimen/_16ssp" />
 
     <Button
         android:id="@+id/btn_Login"
@@ -45,11 +54,5 @@
         android:textColor="@color/white"
         android:textSize="@dimen/login_button_txtsize" />
 
-    <TextView
-        android:id="@+id/txtForgotPsw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Forgot Password"
-        android:textSize="@dimen/_18ssp" />
 
 </LinearLayout>

@@ -29,5 +29,14 @@ interface APIInterface {
     @GET(Constants.API_HOME_DAILY_LITURGY_QUOTE)
     fun dailyLiturgyQuote(): Call<HomeDailyLiturgyResponseVo>
 
+    @GET(Constants.API_HOME_GETSETTINGS)
+    fun getSettings(): Call<HomegetSettingResponseVo>
+
+    @GET(Constants.API_HOME_NOTIFICATIONLIST)
+    fun notificationList(): Call<NotificationResponseVo>
+
+    /*@GET(Constants.API_HOME_DAILY_LITURGY_QUOTE)
+    fun dailyLiturgyQuote(): Call<ResponseVo>*/
+
 
 }

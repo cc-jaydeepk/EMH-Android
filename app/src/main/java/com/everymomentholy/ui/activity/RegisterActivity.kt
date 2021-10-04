@@ -127,14 +127,12 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             response.body()!!.userId
                         )
 
-                        /*sharedPreferences.putInt(Constants.PrefUserID,
-                            response.body()!!.userId)*/
-
                         if (isAcceptTerms != false) {
-                            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                            showDialog()
+                            /*val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
+                            startActivity(intent)*/
                         } else {
                             isAcceptTerms = false
                             Toast.makeText(
@@ -170,8 +168,14 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
-        //val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
-        val dialogLayout = inflater.inflate(R.layout.login_dialog, null)
+        val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
+        // val dialogLayout = inflater.inflate(R.layout.login_dialog, null)
+        val txtOk = dialogLayout.findViewById<TextView>(R.id.txtOk)
+        txtOk.setOnClickListener {
+            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
 
         builder.setView(dialogLayout)
         builder.show()

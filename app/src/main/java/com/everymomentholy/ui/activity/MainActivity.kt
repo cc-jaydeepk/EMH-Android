@@ -20,21 +20,37 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarToggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
     private lateinit var iv_toolbar_back: ImageView
+    private lateinit var iv_toolbar_notification: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        drawerLayout = findViewById(R.id.drawer_layout)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        drawerLayout = findViewById(R.id.drawer_layout)
+        navView = findViewById(R.id.nav_view)
+        val navBottomView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
+
+        var fragment1: Fragment? = null
+        fragment1 = HomeFragment()
+        addFragment(fragment1)
+
+        iv_toolbar_notification = findViewById(R.id.iv_toolbar_notification)
+        iv_toolbar_notification.setOnClickListener {
+            /*val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
+            startActivity(intent)*/
+
+            var fragment: Fragment
+            fragment = NotificationListFragment()
+            replaceFragment(fragment)
+        }
 
         iv_toolbar_back = findViewById(R.id.iv_toolbar_back)
         iv_toolbar_back.setOnClickListener {
-
+            drawerLayout.openDrawer(navView)
         }
 
-        navView = findViewById(R.id.nav_view)
 
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
@@ -116,12 +132,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Call syncState() on the action bar so it'll automatically change to the back button when the drawer layout is open
-        // actionBarToggle.syncState()
 
-        val navBottomView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
-
-        loadFragment(HomeFragment())
+       // loadFragment(HomeFragment())
 
         navBottomView.setOnNavigationItemSelectedListener {
             val fragment: Fragment
@@ -169,4 +181,13 @@ class MainActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
+    private fun addFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.nav_host_fragment, fragment)
+        //transaction.replace(R.id.nav_host_fragment, fragment)
+        transaction.commit()
+        drawerLayout.closeDrawers()
+    }
+
 }

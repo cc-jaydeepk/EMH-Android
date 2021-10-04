@@ -31,9 +31,10 @@
 
         <activity android:name=".ui.activity.ForgotPasswordActivity" />
 
-        <activity android:name=".ui.activity.ResetPasswordActivity"/>
+        <activity android:name=".ui.activity.ResetPasswordActivity" />
 
-        <activity android:name=".ui.activity.HomeActivity" />
+        <!--<activity android:name=".ui.activity.HomeActivity" />-->
+
 
         <activity android:name=".ui.activity.MainActivity" />
 
@@ -42,6 +43,10 @@
         <activity android:name=".ui.activity.ChangePasswordActivity" />
 
         <activity android:name=".ui.activity.ContactUsActivty" />
+
+        <activity android:name=".ui.activity.NotificationListActivity" />
+
+        <activity android:name=".ui.activity.NotificationDetailActivity" />
     </application>
 
 </manifest>
