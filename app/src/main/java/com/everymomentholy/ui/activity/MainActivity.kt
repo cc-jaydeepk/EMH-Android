@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -11,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.everymomentholy.R
 import com.everymomentholy.ui.fragments.*
+import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,12 +24,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navView: NavigationView
     private lateinit var iv_toolbar_back: ImageView
     private lateinit var iv_toolbar_notification: ImageView
+    private lateinit var iv_toolbar_backImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
@@ -126,6 +132,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_logoutFragment -> {
                     // replaceFragment(ExploreTrailFragment())
+                    Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), false);
+                    val intent = Intent(applicationContext, SelectOptionActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                     true
                 }
                 else -> false
@@ -145,6 +155,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_myLiturgiesFragment -> {
+                    title = resources.getString(R.string.my_liturgy)
                     fragment = MyLiturgiesFragment()
                     loadFragment(fragment)
                     return@setOnNavigationItemSelectedListener true

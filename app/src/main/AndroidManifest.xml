@@ -42,7 +42,7 @@
 
         <activity android:name=".ui.activity.ChangePasswordActivity" />
 
-        <activity android:name=".ui.activity.ContactUsActivty" />
+        <activity android:name=".ui.activity.ContactUsActivity" />
 
         <activity android:name=".ui.activity.NotificationListActivity" />
 

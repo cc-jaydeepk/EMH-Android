@@ -120,6 +120,13 @@ class ResetPasswordActivity : AppCompatActivity() {
             isValid = false
         }
 
+        if(!newPassword.equals(confirmPassword)){
+            edtResetConfirmPassword.error =
+                resources.getString(R.string.reset_matchpassword_error)
+            edtResetConfirmPassword.requestFocus()
+            isValid = false
+        }
+
         if (verificationCode.isEmpty()) {
             edtVerificationCode.error = resources.getString(R.string.reset_verificationcode_error)
             edtVerificationCode.requestFocus()

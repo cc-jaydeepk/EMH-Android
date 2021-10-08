@@ -1,16 +1,17 @@
 package com.everymomentholy.ui.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import com.everymomentholy.R
 import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.LoginRequestVo
@@ -20,7 +21,7 @@ import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -50,6 +51,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        /* if (Utils.getLoggedStatus(applicationContext)) {
+             val intent = Intent(applicationContext, MainActivity::class.java)
+             startActivity(intent)
+         } else {
+            // val intent = Intent(applicationContext, LoginActivity::class.java)
+             startActivity(intent)
+         }*/
+
         btn_Login.setOnClickListener {
 
             if (checkValidation()) {
@@ -60,7 +69,8 @@ class LoginActivity : AppCompatActivity() {
                     loginRequestVo.deviceId = android_id
                     loginRequestVo.email = edtLoginEmail.text.toString().trim()
                     loginRequestVo.password = edtLoginPassword.text.toString().trim()
-                    loginRequestVo.deviceType = "1"
+                    //loginRequestVo.deviceType = "1"
+                    loginRequestVo.deviceType = Constants.DEVICE_TYPE
                     login(loginRequestVo)
                 } else {
                     Toast.makeText(
@@ -90,12 +100,24 @@ class LoginActivity : AppCompatActivity() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        Log.e("loginresponse", response.body()!!.message)
+                        Utils.writeIntToSharedPref(
+                            this@LoginActivity, Constants.PrefUserID,
+                            response.body()!!.response.userId
+                        )
 
                         Utils.readStringFromSharedPref(
                             this@LoginActivity, Constants.SHARED_PREF_TOKEN,
-                            response.body()!!.token
+                            response.body()!!.response.token
                         )
+
+                        Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), true);
+
+                        /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+                        val myEdit = sharedPreferences.edit()
+                        myEdit.putInt("userId", response.body()!!.response.userId)
+                        myEdit.apply()*/
+
+                        // Log.e("loginresponse", appOpenCount)
 
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.flags =

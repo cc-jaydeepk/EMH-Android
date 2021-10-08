@@ -16,20 +16,21 @@
             android:src="@drawable/login_topimg" />
 
         <EditText
-            android:id="@+id/edtFirstName"
+            android:id="@+id/edtYourName"
             style="@style/edtStyle"
             android:layout_marginTop="@dimen/rgste_margintop"
             android:background="@drawable/bg_register_edt"
             android:hint="@string/your_name" />
 
         <EditText
-            android:id="@+id/edtEmail"
+            android:id="@+id/edtEmailAddress"
             style="@style/edtStyle"
             android:layout_marginTop="@dimen/rgste_fstnm_margintop"
             android:background="@drawable/bg_register_edt"
             android:hint="Your E-Mail Address" />
 
         <EditText
+            android:id="@+id/edtMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_20sdp"
@@ -41,6 +42,7 @@
             android:padding="@dimen/_25sdp" />
 
         <Button
+            android:id="@+id/btnContactusSubmit"
             style="@style/edtStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

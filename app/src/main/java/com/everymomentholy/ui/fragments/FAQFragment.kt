@@ -11,7 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.everymomentholy.R
-import com.everymomentholy.ui.activity.ContactUsActivty
+import com.everymomentholy.ui.activity.ContactUsActivity
 
 class FAQFragment: Fragment() {
 
@@ -31,7 +31,7 @@ class FAQFragment: Fragment() {
         btnContactus = view.findViewById(R.id.btnContactus)
         btnContactus.setOnClickListener {
 
-            val intent = Intent(activity, ContactUsActivty::class.java)
+            val intent = Intent(activity, ContactUsActivity::class.java)
             startActivity(intent)
         }
         return view

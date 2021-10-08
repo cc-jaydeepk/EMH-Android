@@ -1,13 +1,15 @@
 package com.everymomentholy.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
@@ -16,7 +18,6 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.DataVo
 import com.everymomentholy.api.response.NotificationResponseVo
 import com.everymomentholy.interfaces.NotificationListClickListner
-import com.everymomentholy.ui.activity.NotificationDetailActivity
 import com.everymomentholy.ui.adapter.NotificationListAdapter
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +28,9 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
 
     private lateinit var rcvNotificationList: RecyclerView
     private lateinit var notificationAdapter: NotificationListAdapter
+    private lateinit var notificationLinear: LinearLayout
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +39,7 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_notificationlist, container, false)
         rcvNotificationList = view.findViewById(R.id.rcvNotificationList)
+        notificationLinear = view.findViewById(R.id.notificationLinear)
         getNotificationList()
         return view
     }
@@ -96,10 +101,27 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
         rcvNotificationList.adapter = notificationAdapter
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onNotificationListClick(pos: Int, dataVo: DataVo) {
-        val intent = Intent(context, NotificationDetailActivity::class.java)
+        /*val intent = Intent(context, NotificationDetailActivity::class.java)
         intent.putExtra("date", dataVo.createdAt)
         intent.putExtra("message", dataVo.message)
-        startActivity(intent)
+        startActivity(intent)*/
+
+        // txtToolbarTitle.setText(getString(R.string.select_vehicle))
+
+
+        val bundle = Bundle()
+        bundle.putString("date", dataVo.createdAt)
+        bundle.putString("message", dataVo.message)
+
+        val notificationDetailFrag = NotificationDetailFragment()
+        // val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        val transaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+        transaction.replace(R.id.nav_host_fragment, notificationDetailFrag)
+            .addToBackStack(null)
+        transaction.commit()
+
+        notificationDetailFrag.setArguments(bundle)
     }
 }

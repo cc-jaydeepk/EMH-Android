@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 
-class ButtomSLiderAdapter: RecyclerView.Adapter<ButtomSLiderAdapter.MyViewHolder>() {
-    // lateinit var imgShare: ImageView
-    //var context: Context? = null
+class ButtomSLiderAdapter : RecyclerView.Adapter<ButtomSLiderAdapter.MyViewHolder>() {
+
 
     var freeLiturgiesList: ArrayList<Fragment> = ArrayList()
 
@@ -29,12 +29,6 @@ class ButtomSLiderAdapter: RecyclerView.Adapter<ButtomSLiderAdapter.MyViewHolder
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val context = holder.itemView.context
         holder.imgShare.setOnClickListener {
-            /* val builder = AlertDialog.Builder(context)
-             val inflater = layoutInflater
-             val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
-
-             builder.setView(dialogLayout)
-             builder.show()*/
 
             val builder = AlertDialog.Builder(context)
             val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)
@@ -42,15 +36,7 @@ class ButtomSLiderAdapter: RecyclerView.Adapter<ButtomSLiderAdapter.MyViewHolder
             builder.show()
         }
 
-        /* val builder = AlertDialog.Builder(v.getContext())
-         val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)
-         builder.setView(view)
 
-         builder.setNegativeButton(
-             "back"
-         ) { dialog, which -> dialog.dismiss() }
-         val alertDialog = builder.create()
-         alertDialog.show()*/
     }
 
     override fun getItemCount(): Int {

@@ -1,9 +1,6 @@
 package com.everymomentholy.api
 
-import com.everymomentholy.api.request.ForgotPasswordRequestVo
-import com.everymomentholy.api.request.LoginRequestVo
-import com.everymomentholy.api.request.RegisterRequestVo
-import com.everymomentholy.api.request.ResetPasswordRequestVo
+import com.everymomentholy.api.request.*
 import com.everymomentholy.api.response.*
 import com.everymomentholy.utils.Constants
 import retrofit2.Call
@@ -34,6 +31,27 @@ interface APIInterface {
 
     @GET(Constants.API_HOME_NOTIFICATIONLIST)
     fun notificationList(): Call<NotificationResponseVo>
+
+    @GET(Constants.API_MY_LITURGIES_LIST)
+    fun getLiturgies(
+        @Query("appUserId") appUserId: Int?,
+        @Query("deviceId") deviceId: String?
+    ): Call<MyLiturgiesResponseVo>
+
+    @GET(Constants.API_GET_BOOKS)
+    fun getBooks(
+        @Query("appUserId") appUserId: Int?,
+        @Query("deviceId") deviceId: String?
+    ): Call<GetBookResponseVo>
+
+    @GET(Constants.API_ABOUTUS)
+    fun aboutUs(): Call<AboutUsResponseVO>
+
+    @GET(Constants.API_TERMSCONDITION)
+    fun termsCondition(): Call<TermsConditionResponseVo>
+
+    @POST(Constants.API_CONTACTUS)
+    fun contactUs(@Body contactUsRequestVo: ContactUsRequestVo): Call<ContectUsResponseVo>
 
     /*@GET(Constants.API_HOME_DAILY_LITURGY_QUOTE)
     fun dailyLiturgyQuote(): Call<ResponseVo>*/

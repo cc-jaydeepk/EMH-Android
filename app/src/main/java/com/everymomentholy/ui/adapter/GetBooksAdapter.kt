@@ -5,21 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.response.DataVo
+import com.everymomentholy.interfaces.BookListClickListner
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
 
-class MyLiturgyAdapter(
+class GetBooksAdapter(
     var context: Context,
-    var liturgyList: List<DataVo>,
-    var liturgyListClickListner: LiturgyLitstClickListner
-) : RecyclerView.Adapter<MyLiturgyAdapter.ViewHolder>() {
-
+    var getBooklist: List<DataVo>,
+    var bookListClickListner: BookListClickListner
+): RecyclerView.Adapter<GetBooksAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgLiturgycoverImage: ImageView = view.findViewById(R.id.imgLiturgycoverImage)
@@ -33,17 +32,15 @@ class MyLiturgyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val myLiturgies = liturgyList[position]
-
-        holder.txtLiturgiesTitle.text = myLiturgies.chapterTitle
-
+       // val getBook = bookList[position]
+        val bookList = getBooklist[position]
+        holder.txtLiturgiesTitle.text = bookList.chapterTitle
         Glide.with(context)
-            .load(myLiturgies.chapterPageImage)
+            .load(bookList.chapterPageImage)
             .into(holder.imgLiturgycoverImage)
-
     }
 
     override fun getItemCount(): Int {
-       return liturgyList.size
+        return getBooklist.size
     }
 }

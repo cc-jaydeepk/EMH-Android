@@ -29,6 +29,15 @@
                     android:layout_marginLeft="@dimen/_6sdp"
                     android:src="@drawable/drawer_image" />
 
+                <ImageView
+                    android:id="@+id/iv_toolbar_backImage"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_6sdp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_back" />
+
                 <TextView
                     android:id="@+id/txt_toolbar_name"
                     android:layout_width="wrap_content"

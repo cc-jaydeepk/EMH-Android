@@ -1,6 +1,7 @@
 package com.everymomentholy.ui.activity
 
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -84,16 +85,25 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                 if (Utils.isNetworkAvailable(this)) {
 
-                    var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
-                    registrationRequestVo.firstName = edtFirstName.text.toString().trim()
-                    registrationRequestVo.lastName = edtLastName.text.toString().trim()
-                    registrationRequestVo.email = edtEmail.text.toString().trim()
-                    registrationRequestVo.countryCode = "+44"
-                    registrationRequestVo.password = edtPassword.text.toString().trim()
-                    registrationRequestVo.deviceType = "1"
-                    registrationRequestVo.deviceId = android_id
-                    registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
-                    registration(registrationRequestVo)
+                    if (isAcceptTerms) {
+                        var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
+                        registrationRequestVo.firstName = edtFirstName.text.toString().trim()
+                        registrationRequestVo.lastName = edtLastName.text.toString().trim()
+                        registrationRequestVo.email = edtEmail.text.toString().trim()
+                        registrationRequestVo.countryCode = "+44"
+                        registrationRequestVo.password = edtPassword.text.toString().trim()
+                        registrationRequestVo.deviceType = "1"
+                        registrationRequestVo.deviceId = android_id
+                        registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
+                        registration(registrationRequestVo)
+                    } else {
+                        isAcceptTerms = false
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "Please agree to Privacy Policy",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
 
                 } else {
                     Toast.makeText(
@@ -120,19 +130,24 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        Log.e("Successfull", response.body()!!.message)
+                        // Log.e("Successfull", response.body()!!.message)
+                        // Log.e("Successfull", response.body()!!.userId.toString())
 
                         Utils.writeIntToSharedPref(
                             this@RegisterActivity, Constants.PrefUserID,
                             response.body()!!.userId
                         )
 
-                        if (isAcceptTerms != false) {
+                        val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+                        val myEdit = sharedPreferences.edit()
+                        myEdit.putInt("userId", response.body()!!.userId)
+                        myEdit.apply()
+
+                        showDialog()
+
+                        /*if (isAcceptTerms != false) {
                             showDialog()
-                            /*val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)*/
+
                         } else {
                             isAcceptTerms = false
                             Toast.makeText(
@@ -140,7 +155,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                                 "Please agree to Privacy Policy",
                                 Toast.LENGTH_LONG
                             ).show()
-                        }
+                        }*/
 
 
                     } else {
@@ -197,7 +212,22 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val email = edtEmail.text.toString().trim()
         val password = edtPassword.text.toString().trim()
         val confirmPsw = edtConfirmPsw.text.toString().trim()
-        val phoneNo = edtPhoneNumber.text.toString().trim()
+        //val phoneNo = edtPhoneNumber.text.toString().trim()
+
+//        if (isAcceptTerms != false) {
+//           // showDialog()
+//            /*val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+//            intent.flags =
+//                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            startActivity(intent)*/
+//        } else {
+//            isAcceptTerms = false
+//            Toast.makeText(
+//                this@RegisterActivity,
+//                "Please agree to Privacy Policy",
+//                Toast.LENGTH_LONG
+//            ).show()
+//        }
 
 
         var isValid = true
@@ -221,16 +251,16 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            edtFirstName.error = resources.getString(R.string.valid_email_error)
-            edtFirstName.requestFocus()
+            edtEmail.error = resources.getString(R.string.valid_email_error)
+            edtEmail.requestFocus()
             isValid = false
         }
 
-        if (phoneNo.isEmpty()) {
+        /*if (phoneNo.isEmpty()) {
             edtPhoneNumber.error = resources.getString(R.string.phoneno_error)
             edtPhoneNumber.requestFocus()
             isValid = false
-        }
+        }*/
 
         if (password.isEmpty()) {
             edtPassword.error = resources.getString(R.string.password_error)
@@ -238,25 +268,27 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             isValid = false
         }
 
-        /*if (!TextUtils.isEmpty(phoneNo)) {
-            return Patterns.PHONE.matcher(phoneNo).matches();
-        }*/
-
-        if (edtPhoneNumber.equals("") || edtPhoneNumber.equals(null) || edtPhoneNumber.length() < 10) {
+        /*if (edtPhoneNumber.equals("") || edtPhoneNumber.equals(null) || edtPhoneNumber.length() < 10) {
             edtPhoneNumber.error = resources.getString(R.string.phoneno_error)
             edtPhoneNumber.requestFocus()
             isValid = false
-        }
+        }*/
 
         if (confirmPsw.isEmpty()) {
             edtConfirmPsw.error = resources.getString(R.string.confirmpassword_error)
             edtConfirmPsw.requestFocus()
             isValid = false
-            if (!edtPassword.equals(edtConfirmPsw)) {
+            /*if (!edtPassword.equals(edtConfirmPsw)) {
                 edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
                 edtConfirmPsw.requestFocus()
                 isValid = false
-            }
+            }*/
+        }
+
+        if (!password.equals(confirmPsw)) {
+            edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
+            edtConfirmPsw.requestFocus()
+            isValid = false
         }
 
         /*if (!edtPassword.equals(edtConfirmPsw)) {
@@ -270,8 +302,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             edtConfirmPsw.requestFocus()
             isValid = false
         }*/
-
-
 
         return isValid
     }

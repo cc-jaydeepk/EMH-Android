@@ -1,14 +1,10 @@
 package com.everymomentholy.api.response
 
-class LoginResponseVo {
+class TermsConditionResponseVo {
 
     var status: Boolean = true
 
-    var statusCode: Int = 0
-
-    var message: String = ""
+    var statusCode: Int = 1
 
     var response: ResponseVo = ResponseVo()
-
-    //var token: String = ""
 }

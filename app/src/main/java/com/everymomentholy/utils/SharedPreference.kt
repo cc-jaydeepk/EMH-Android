@@ -1,7 +1,6 @@
 package com.everymomentholy.utils
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
@@ -31,6 +30,18 @@ class SharedPreference {
             val editor = sharedPref.edit()
             editor.putInt(key, value)
             editor.commit()
+        }
+
+        private fun getPrefs(context: Context): SharedPreferences? {
+            return context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        }
+
+        fun save(context: Context?, key: String?, value: Int) {
+            getPrefs(context!!)!!.edit().putInt(key, value).commit()
+        }
+
+        fun getInt(context: Context?, key: String?): Int {
+            return getPrefs(context!!)!!.getInt(key, 0)
         }
 
         /*private fun SavePreferences(key: String, value: Int) {

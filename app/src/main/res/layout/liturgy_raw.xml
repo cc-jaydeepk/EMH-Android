@@ -12,7 +12,7 @@
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/coverImage"
+            android:id="@+id/imgLiturgycoverImage"
             android:layout_width="@dimen/myliturgyimagsize"
             android:layout_height="@dimen/myliturgyimagsize"
             android:layout_marginLeft="@dimen/myliturgyimagmrg"
@@ -22,11 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/myliturgyimagmrg"
-
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/liturgiesTitle"
+                android:id="@+id/txtLiturgiesTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/liturgies_name"

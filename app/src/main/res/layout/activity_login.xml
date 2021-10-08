@@ -25,7 +25,8 @@
         android:layout_marginTop="@dimen/rgste_fstnm_margintop"
         android:background="@drawable/bg_register_edt"
         android:hint="@string/email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/edtLoginPassword"
@@ -33,14 +34,17 @@
         android:layout_marginTop="@dimen/rgste_fstnm_margintop"
         android:background="@drawable/bg_register_edt"
         android:hint="@string/password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/txtForgotPsw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_15sdp"
         android:gravity="right"
-        android:text="Forgot Password"
+        android:text="@string/forgot_password"
         android:textSize="@dimen/_16ssp" />
 
     <Button

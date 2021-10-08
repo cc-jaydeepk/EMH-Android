@@ -1,11 +1,10 @@
 package com.everymomentholy.utils
 
-import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.widget.Toast
+import com.everymomentholy.utils.SharedPreference.Companion.getPreferences
 
 class Utils {
 
@@ -37,6 +36,16 @@ class Utils {
         }
 
 
+        fun writeUserIdBooleanFromSharedPref(context: Context?, loggedIn: Boolean) {
+            val editor = getPreferences(context).edit()
+            editor.putBoolean(Constants.LOGGED_IN_PREF, loggedIn)
+            editor.apply()
+        }
+
+        fun readUserIdBooleanFromSharedPref(context: Context?): Boolean {
+            return getPreferences(context).getBoolean(Constants.LOGGED_IN_PREF, false)
+        }
+
         fun writeStringToSharedPref(activity: Context, key: String?, value: String?) {
             val sharedPref: SharedPreferences =
                 activity.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
@@ -58,6 +67,21 @@ class Utils {
             ) else ""
         }
 
+        fun readStringData(activity: Context, key: String?, defaultValue: String?) {
+            val sharedPreference =
+                activity.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            var editor = sharedPreference.edit()
+            //editor.putString(key, defaultValue)
+            editor.putString(key, defaultValue)
+            editor.apply()
+        }
+
+        fun writeStringData(activity: Context, key: String?, defaultValue: String?) {
+            val sharedPreference =
+                activity.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            sharedPreference.getString(key, defaultValue)
+        }
+
         fun writeIntToSharedPref(context: Context, key: String?, value: Int) {
             val sharedPref: SharedPreferences =
                 context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
@@ -65,6 +89,23 @@ class Utils {
             editor.putInt(key, value)
             editor.apply()
         }
+
+
+        fun readIntData(context: Context, key: String?, defaultValue: Int): Int {
+            val sharedPref: SharedPreferences = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            return sharedPref.getInt(key, defaultValue)
+        }
+
+
+        fun readBoolFromSharedPrefe(context: Context?, loggedIn: Boolean) {
+            val editor: SharedPreferences.Editor = getPreferences(context).edit()
+            editor.putBoolean(Constants.LOGGED_IN_PREF, loggedIn)
+            editor.apply()
+        }
+
+        /*fun getLoggedStatus(context: Context?): Boolean {
+            return getPreferences(context).getBoolean(LOGGED_IN_PREF, false)
+        }*/
 
         fun readIntFromSharedPref(context: Context, key: String?, defaultValue: Int): Int {
             val sharedPref: SharedPreferences =
@@ -80,7 +121,7 @@ class Utils {
             editor.apply()
         }
 
-        fun readBoolFromSharedPref(
+        /*fun readBoolFromSharedPref(
             activity: Activity,
             key: String?,
             defaultValue: Boolean
@@ -88,7 +129,7 @@ class Utils {
             val sharedPref =
                 activity.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
             return sharedPref.getBoolean(key, defaultValue)
-        }
+        }*/
 
         /*fun showProgressDialog(
             context: Context?,

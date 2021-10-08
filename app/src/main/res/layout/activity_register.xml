@@ -57,7 +57,8 @@
                 style="@style/edtStyle"
                 android:layout_marginTop="@dimen/rgste_fstnm_margintop"
                 android:background="@drawable/bg_register_edt"
-                android:hint="@string/email" />
+                android:hint="@string/email"
+                android:singleLine="true" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -71,6 +72,7 @@
                     android:id="@+id/country_code_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:clickable="true"
                     android:focusable="true"
                     app:showFlag="false">
@@ -92,7 +94,8 @@
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="@string/phone_number"
-                    android:padding="@dimen/login_button_padding" />
+                    android:padding="@dimen/login_button_padding"
+                    android:singleLine="true" />
 
             </RelativeLayout>
 
@@ -102,7 +105,8 @@
                 android:layout_marginTop="@dimen/rgste_fstnm_margintop"
                 android:background="@drawable/bg_register_edt"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/edtConfirmPsw"
@@ -110,7 +114,8 @@
                 android:layout_marginTop="@dimen/rgste_fstnm_margintop"
                 android:background="@drawable/bg_register_edt"
                 android:hint="@string/confirm_password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:singleLine="true" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

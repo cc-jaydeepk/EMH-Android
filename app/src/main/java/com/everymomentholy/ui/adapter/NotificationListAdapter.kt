@@ -1,26 +1,20 @@
 package com.everymomentholy.ui.adapter
 
-import android.R.attr.author
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.response.DataVo
-import com.everymomentholy.interfaces.NotificationListClickListner
-import com.everymomentholy.ui.activity.NotificationDetailActivity
-import com.everymomentholy.ui.fragments.NotificationDetailFragment
+import com.everymomentholy.ui.fragments.NotificationListFragment
 
 
 class NotificationListAdapter(
     var context: Context, var notificationList: List<DataVo>,
-    var notificationClickListner: NotificationListClickListner
+    var notificationClickListner: NotificationListFragment
 ) : RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -46,7 +40,6 @@ class NotificationListAdapter(
 //            intent.putExtra("message", notification.message)
 //            context.startActivity(intent)
 
-            //notificationClickListner.onNotificationListClick(notificationList[position],notificationList[position])
             notificationClickListner.onNotificationListClick(position, notification)
 
         }

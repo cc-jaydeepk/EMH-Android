@@ -19,7 +19,7 @@
     <dimen name="register_checkbox_size">@dimen/_15sdp</dimen>
     <dimen name="login_button_padding">@dimen/_12sdp</dimen>
     <dimen name="login_button_txtsize">@dimen/_12sdp</dimen>
-    <dimen name="button_margin">@dimen/_13sdp</dimen>
+    <dimen name="button_margin">@dimen/_11sdp</dimen>
     <dimen name="agreetxtsize">@dimen/_12ssp</dimen>
     <dimen name="privacytxtsize">@dimen/_14ssp</dimen>
     <dimen name="countrycodepadding">@dimen/_10sdp</dimen>
