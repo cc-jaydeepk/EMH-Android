@@ -15,7 +15,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/_2sdp"
         android:layout_marginRight="@dimen/_2sdp"
-        android:layout_marginBottom="@dimen/_40sdp"
         android:background="@color/white"
         android:orientation="vertical">
 

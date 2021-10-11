@@ -59,10 +59,10 @@ class MainActivity : AppCompatActivity() {
 
 
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
+                this,
+                drawerLayout,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
         ) {
             /** Called when a drawer has settled in a completely closed state.  */
             override fun onDrawerClosed(drawerView: View) {
@@ -181,7 +181,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.nav_host_fragment, fragment)
-        transaction.addToBackStack(null)
+        //transaction.addToBackStack(null)
+        transaction.disallowAddToBackStack()
         transaction.commit()
     }
 
@@ -189,7 +190,8 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         transaction.replace(R.id.nav_host_fragment, fragment)
-        transaction.addToBackStack(null)
+        transaction.disallowAddToBackStack()
+        // transaction.addToBackStack(null)
         transaction.commit()
     }
 
