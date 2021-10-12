@@ -1,9 +1,10 @@
 package com.everymomentholy.ui.activity
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 import com.everymomentholy.utils.SavaPreferences
@@ -11,13 +12,16 @@ import com.hbb20.CountryCodePicker
 import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.RegisterRequestVo
 import com.everymomentholy.api.response.RegisterResponseVo
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.CustomProgressDialog
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,7 +44,10 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     private lateinit var txtForgot: TextView
     lateinit var sharedPreferences: SavaPreferences
     private lateinit var imgCheckbox: ImageView
+    private lateinit var registerProgressBar: ProgressBar
     var isAcceptTerms = false
+    lateinit var progressCardView: CardView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +71,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         ccp!!.setDefaultCountryUsingNameCode("IN")
 
+        progressCardView = findViewById(R.id.progressCardView)
+        registerProgressBar = findViewById(R.id.registerProgressBar)
         edtFirstName = findViewById(R.id.edtFirstName)
         edtLastName = findViewById(R.id.edtLastName)
         edtEmail = findViewById(R.id.edtEmail)
@@ -78,14 +87,15 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         btnRedister = findViewById(R.id.btnRedister)
         btnRedister.setOnClickListener {
-            // showDialog()
 
+            showDialog()
 
-            if (checkValidation()) {
+            /*if (checkValidation()) {
 
                 if (Utils.isNetworkAvailable(this)) {
 
                     if (isAcceptTerms) {
+                        progressCardView.visibility = View.VISIBLE
                         var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
                         registrationRequestVo.firstName = edtFirstName.text.toString().trim()
                         registrationRequestVo.lastName = edtLastName.text.toString().trim()
@@ -113,7 +123,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                     ).show()
                 }
 
-            }
+            }*/
 
         }
     }
@@ -143,6 +153,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         myEdit.putInt("userId", response.body()!!.userId)
                         myEdit.apply()
 
+                        progressCardView.visibility = View.GONE
                         showDialog()
 
                         /*if (isAcceptTerms != false) {
@@ -179,7 +190,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     }
 
     private fun showDialog() {
-        val dialog = Dialog(this)
 
         val builder = AlertDialog.Builder(this)
         val inflater = layoutInflater
@@ -213,22 +223,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val password = edtPassword.text.toString().trim()
         val confirmPsw = edtConfirmPsw.text.toString().trim()
         //val phoneNo = edtPhoneNumber.text.toString().trim()
-
-//        if (isAcceptTerms != false) {
-//           // showDialog()
-//            /*val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-//            intent.flags =
-//                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            startActivity(intent)*/
-//        } else {
-//            isAcceptTerms = false
-//            Toast.makeText(
-//                this@RegisterActivity,
-//                "Please agree to Privacy Policy",
-//                Toast.LENGTH_LONG
-//            ).show()
-//        }
-
 
         var isValid = true
 

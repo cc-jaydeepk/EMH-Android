@@ -1,8 +1,6 @@
 package com.everymomentholy.api.response
 
-class BaseResponseVo {
-
-    var code: Int = 0
-
+class Response {
     var message: String = ""
+    var data: ArrayList<LiturgiesDataVo> = ArrayList()
 }

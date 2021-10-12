@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/liturgitxtmargin"
+            android:fontFamily="@font/lato_medium"
             android:text="10 sep 2021"
             android:textColor="@color/loginbg"
             android:textSize="@dimen/liturgitxtsize" />
@@ -33,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5ssp"
-            android:fontFamily="sans-serif"
+            android:fontFamily="@font/lato_semibold"
             android:text="@string/daily_liturgy_quote"
             android:textColor="@color/black"
             android:textSize="@dimen/home_frg_liturgiesnm"
@@ -46,7 +47,8 @@
             android:layout_marginLeft="@dimen/home_frg_txtmrg"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="@dimen/home_frg_txtmrg"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
             android:text="&#34;Give us discernment to know when \n to simply \n shut off our screens and to sit \n quietly in your presence.&#34;"
             android:textSize="@dimen/home_frg_dessize" />
 
@@ -57,16 +59,15 @@
             android:layout_marginLeft="@dimen/home_frg_txtmrg"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="@dimen/home_frg_txtmrg"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/lato_mediumitalic"
             android:text="from &#34;For Those Flooded by Too Much Information&#34;"
             android:textColor="@color/loginbg"
-            android:textSize="@dimen/home_frg_size"
-            android:textStyle="italic" />
+            android:textSize="@dimen/home_frg_size" />
 
         <ImageView
             android:layout_width="@dimen/home_frg_shareimg"
             android:layout_height="@dimen/home_frg_shareimg"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_26sdp"
             android:src="@drawable/homeshare"
             app:tint="@color/loginbg" />
 

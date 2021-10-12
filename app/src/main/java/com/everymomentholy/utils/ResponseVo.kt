@@ -1,7 +1,6 @@
 package com.everymomentholy.utils
 
-import com.everymomentholy.api.response.DataVo
-import com.everymomentholy.api.response.ResponseVo
+import com.everymomentholy.api.response.LiturgiesDataVo
 import com.google.gson.annotations.SerializedName
 
 class ResponseVo {
@@ -10,7 +9,7 @@ class ResponseVo {
 
    // var data: List<DataVo> = List<DataVo>
 
-    var data: ArrayList<DataVo> = ArrayList()
+    var data: ArrayList<LiturgiesDataVo> = ArrayList()
 
     @SerializedName("message")
     // var message: String = ""

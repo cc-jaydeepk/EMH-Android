@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="loginbg">#820B0C</color>
+    <color name="dialogBackground">#F12F71</color>
+    <color name="colorPrimary">#D15D85</color>
+
+    <color name="dialogOkTxt">#51A8ED</color>
+    <color name="dialogCancelTxt">#F44336</color>
 </resources>

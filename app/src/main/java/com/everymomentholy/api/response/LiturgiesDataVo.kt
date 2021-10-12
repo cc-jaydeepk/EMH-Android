@@ -1,6 +1,6 @@
 package com.everymomentholy.api.response
 
-class DataVo {
+class LiturgiesDataVo {
 
     //dailyLiturgies API Response
     var notificationId: Int = 1
@@ -12,7 +12,7 @@ class DataVo {
     var createdAt: String = ""
 
     //getLiturgies API Response
-    var bookId : Int = 1
+    var bookId: Int = 1
     var chapterId: Int = 1
     var chapterPageImage: String = ""
     var chapterTitle: String = ""
@@ -25,17 +25,13 @@ class DataVo {
     var price: String = ""
 
     //getBooks API Response
-    var LiturgyAvailable: String = ""
-    var bookAmount: String = ""
-    var bookCoverPageImage: String =""
-    //var bookId: Int = 1
-    var bookTitle: String = ""
-    var discountAmount: String = ""
-    var isFreeLiturgyAvailable: String = ""
-    //var isPurchased: String = ""
-    var isVolume: String = ""
-    var volumeAmount: String = ""
-    var volumeCoverPageImage: String = ""
     var volumeId: Int = 1
     var volumeTitle: String = ""
+    var volumeAmount: String = ""
+    var volumeCoverPageImage: String = ""
+    var discountAmount: String = ""
+
+    // var isPurchased : String = ""
+    var isVolume: String = ""
+
 }

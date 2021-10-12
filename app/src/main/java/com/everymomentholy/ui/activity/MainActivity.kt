@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var iv_toolbar_back: ImageView
     private lateinit var iv_toolbar_notification: ImageView
     private lateinit var iv_toolbar_backImage: ImageView
+    private lateinit var txt_toolbar_name: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+
+        txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
+
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
@@ -59,10 +65,10 @@ class MainActivity : AppCompatActivity() {
 
 
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
+            this,
+            drawerLayout,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         ) {
             /** Called when a drawer has settled in a completely closed state.  */
             override fun onDrawerClosed(drawerView: View) {
@@ -143,25 +149,44 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-       // loadFragment(HomeFragment())
+        // loadFragment(HomeFragment())
 
         navBottomView.setOnNavigationItemSelectedListener {
             val fragment: Fragment
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
+                    iv_toolbar_notification.setImageResource(R.drawable.ic_notification);
+                    txt_toolbar_name.text = "Every Moment Holy"
                     fragment = HomeFragment()
                     loadFragment(fragment)
                     return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.nav_myLiturgiesFragment -> {
-                    title = resources.getString(R.string.my_liturgy)
+                    iv_toolbar_notification.setImageResource(R.drawable.ic_searchimg);
+                    iv_toolbar_notification.setOnClickListener {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Search",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    txt_toolbar_name.text = "My Liturgies"
                     fragment = MyLiturgiesFragment()
                     loadFragment(fragment)
                     return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.nav_favoritesFragment -> {
+                    txt_toolbar_name.text = "Favorites"
+                    iv_toolbar_notification.setImageResource(R.drawable.ic_searchimg);
+                    iv_toolbar_notification.setOnClickListener {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Favorites",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                     fragment = FavoritesFragment()
                     loadFragment(fragment)
                     return@setOnNavigationItemSelectedListener true

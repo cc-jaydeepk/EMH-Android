@@ -45,14 +45,14 @@ class AboutUsFragment : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        txtAbout.text = response.body()!!.response.description
+                        //txtAbout.text = response.body()!!.response.description
 
                     } else {
-                        Toast.makeText(
+                        /*Toast.makeText(
                             context,
                             response.body()!!.response.message.toString(),
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
                 }
 

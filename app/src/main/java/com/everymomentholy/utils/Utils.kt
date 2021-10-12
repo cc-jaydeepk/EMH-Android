@@ -1,5 +1,6 @@
 package com.everymomentholy.utils
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
@@ -131,7 +132,7 @@ class Utils {
             return sharedPref.getBoolean(key, defaultValue)
         }*/
 
-        /*fun showProgressDialog(
+        fun showProgressDialog(
             context: Context?,
             title: String?,
             message: String?
@@ -143,7 +144,7 @@ class Utils {
                 "Please wait..."
             )
             return mProgressDialog
-        }*/
+        }
 
         fun readStringFromSharedPrefContext(
             context: Context,

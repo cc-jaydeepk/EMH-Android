@@ -12,37 +12,42 @@
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/cover"
-            android:layout_width="@dimen/buttomsheet_imgsize"
-            android:layout_height="@dimen/buttomsheet_imgsize"
+            android:id="@+id/imgFreeLiturgiescover"
+            style="@style/liturgiesListImageStyle"
             android:layout_margin="@dimen/_10sdp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/ic_fav_liturgy" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_3sdp">
+            android:layout_marginTop="@dimen/_5sdp">
 
             <TextView
-                android:id="@+id/txtLiturgiesNm"
+                android:id="@+id/txtFreeLiturgiesTitle"
+                style="@style/liturgiesListTitleTextStyle"
+                android:text="Liturgies Name" />
+
+
+            <!--<TextView
+                android:id="@+id/txtFreeLiturgiesTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Liturgies Name"
                 android:textColor="@color/black"
                 android:textSize="@dimen/buttomsheet_txt_size"
-                android:textStyle="bold" />
+                android:textStyle="bold" />-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtLiturgiesNm"
+                android:layout_below="@+id/txtLiturgiesTitle"
                 android:layout_marginTop="@dimen/buttomsheet_txt_margin">
 
                 <TextView
                     android:id="@+id/txt_free"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_47sdp"
                     android:text="@string/free"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/buttomsheet_freetxt_size" />
@@ -51,8 +56,8 @@
                     android:id="@+id/imgShare"
                     android:layout_width="@dimen/buttomsheet_shareimg_size"
                     android:layout_height="@dimen/buttomsheet_shareimg_size"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/buttomsheet_shareimg_margin"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="@dimen/_47sdp"
                     android:layout_toRightOf="@+id/txt_free"
                     android:src="@drawable/homeshare" />
 
@@ -60,8 +65,8 @@
                     android:id="@+id/imgFavorite"
                     android:layout_width="@dimen/buttomsheet_shareimg_size"
                     android:layout_height="@dimen/buttomsheet_shareimg_size"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/buttomsheet_favmargin"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="@dimen/_47sdp"
                     android:layout_toRightOf="@+id/imgShare"
                     android:src="@drawable/ic_fevrite" />
 
@@ -71,10 +76,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:fontFamily="@font/lato_medium"
                     android:text="@string/read_now"
                     android:textAllCaps="true"
                     android:textColor="@color/loginbg"
+                    android:textSize="@dimen/_10ssp"
                     app:strokeColor="@color/loginbg" />
 
             </RelativeLayout>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgGetLiturge"
+            android:layout_width="@dimen/getliturgy_img_size"
+            android:layout_height="@dimen/getliturgy_img_size"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/txtLiturgyTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/getliturgy_txtmargin"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
+            android:text="Liturgies Name"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/getliturgy_txt_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/getliturgy_txtmargin"
+                android:fontFamily="@font/lato_bold"
+                android:text="$"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/getliturgy_purchstxt_size" />
+
+            <TextView
+                android:id="@+id/txtLiturgyPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/getliturgy_txtmargin"
+                android:fontFamily="@font/lato_bold"
+                android:gravity="center"
+                android:text="@string/purchased"
+                android:textAllCaps="true"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/getliturgy_purchstxt_size" />
+
+        </LinearLayout>
+
+        <!--<TextView
+            android:id="@+id/txtLiturgyPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/getliturgy_txtmargin"
+            android:gravity="center"
+            android:text="@string/purchased"
+            android:textAllCaps="true"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/getliturgy_purchstxt_size"
+            android:textStyle="bold" />-->
+
+
+    </LinearLayout>
+
+</RelativeLayout>

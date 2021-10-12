@@ -68,6 +68,8 @@
     <string name="reset_confirmpassword_error">Please enter confirm password.</string>
     <string name="reset_verificationcode_error">Please enter verification code.</string>
     <string name="my_liturgy">My Liturgies</string>
+    <string name="please_wait">Loading..</string>
+    <string name="registration_succesful">Registration Sucessful</string>
 
 
 </resources>

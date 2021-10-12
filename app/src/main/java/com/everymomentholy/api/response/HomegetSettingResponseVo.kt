@@ -6,5 +6,7 @@ class HomegetSettingResponseVo {
 
     var statusCode : Int = 1
 
-    var response: ResponseVo = ResponseVo()
+    //var response: ResponseVo = ResponseVo()
+
+    var response: SettingResponseVo = SettingResponseVo()
 }

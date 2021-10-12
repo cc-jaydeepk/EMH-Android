@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        app:srcCompat="@drawable/ic_fav_liturgy" />
+
+    <TextView
+        android:id="@+id/txtFreeLiturgiesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/txt_free"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtFreeLiturgiesTitle"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toRightOf="@+id/imageView"
+        android:text="@string/free" />
+
+    <ImageView
+        android:id="@+id/imgShare"
+        android:layout_width="@dimen/buttomsheet_shareimg_size"
+        android:layout_height="@dimen/buttomsheet_shareimg_size"
+        android:layout_below="@+id/txtFreeLiturgiesTitle"
+        android:layout_marginLeft="39dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toRightOf="@+id/txt_free"
+        android:src="@drawable/homeshare" />
+
+    <ImageView
+        android:id="@+id/imgFavorite"
+        android:layout_width="@dimen/buttomsheet_shareimg_size"
+        android:layout_height="@dimen/buttomsheet_shareimg_size"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="27dp"
+        android:layout_marginBottom="602dp"
+        android:layout_toRightOf="@+id/imgShare"
+        android:src="@drawable/ic_fevrite" />
+
+
+</RelativeLayout>

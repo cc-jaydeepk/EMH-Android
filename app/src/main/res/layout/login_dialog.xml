@@ -16,26 +16,20 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_7sdp"
-            android:layout_marginRight="@dimen/_7sdp"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/dialogBigTextStyle"
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
-            android:text="You need to Login first"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
+            android:text="@string/app_name" />
+
+        <TextView
+            style="@style/dialogSmallTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:gravity="center"
+            android:text="You need to Login first" />
 
         <View
             android:layout_width="match_parent"
@@ -49,17 +43,25 @@
             android:layout_height="@dimen/_30sdp"
             android:orientation="horizontal">
 
+            <!-- <TextView
+                 android:id="@+id/txtOk"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="@dimen/_3sdp"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:text="Ok"
+                 android:textColor="#51A8ED"
+                 android:textSize="@dimen/_16ssp"
+                 android:textStyle="bold" />-->
+
             <TextView
                 android:id="@+id/txtOk"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/dialogOkTextStyle"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Ok"
-                android:textColor="#51A8ED"
-                android:textSize="@dimen/_16ssp"
-                android:textStyle="bold" />
+                android:text="Ok" />
 
             <View
                 android:layout_width="1dp"
@@ -67,7 +69,7 @@
                 android:layout_toRightOf="@id/txtOk"
                 android:background="#DAD5D5" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/txtCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +78,15 @@
                 android:gravity="center"
                 android:text="Cancel"
                 android:textColor="#F44336"
-                android:textSize="@dimen/_16ssp" />
+                android:textSize="@dimen/_16ssp" />-->
+
+            <TextView
+                android:id="@+id/txtCancel"
+                style="@style/dialogCancelTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Cancel" />
 
 
         </LinearLayout>

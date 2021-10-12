@@ -1,6 +1,5 @@
 package com.everymomentholy.ui.fragments
 
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,6 +29,7 @@ class HomeFragment : Fragment() {
     private lateinit var txtDailyQuote: TextView
     private lateinit var txtDate: TextView
     private lateinit var imgHomeClock: ImageView
+    private lateinit var imgHomeShare: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
         txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
         txtDate = view.findViewById(R.id.txtDate)
         imgHomeClock = view.findViewById(R.id.imgHomeClock)
+       // imgHomeShare = view.findViewById(R.id.imgHomeShare)
 
        // dailyLiturgyQuote()
         //getSettings()

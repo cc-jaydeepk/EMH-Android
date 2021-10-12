@@ -5,22 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
-import com.everymomentholy.api.response.DataVo
+import com.everymomentholy.api.response.LiturgiesDataVo
 import com.everymomentholy.ui.fragments.NotificationListFragment
 
 
 class NotificationListAdapter(
-    var context: Context, var notificationList: List<DataVo>,
+    var context: Context, var notificationList: List<LiturgiesDataVo>,
     var notificationClickListner: NotificationListFragment
 ) : RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var notificationTitle: TextView = view.findViewById(R.id.txtNotificationTitle)
         var notificationTime: TextView = view.findViewById(R.id.txtNotificationTime)
-        var layoutLinear: LinearLayout = view.findViewById(R.id.layoutLinear)
+        var layoutLinear: RelativeLayout = view.findViewById(R.id.relativeLayour)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

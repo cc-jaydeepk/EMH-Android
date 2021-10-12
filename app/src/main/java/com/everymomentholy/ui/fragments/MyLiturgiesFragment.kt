@@ -4,6 +4,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +18,11 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
-import com.everymomentholy.api.response.DataVo
+import com.everymomentholy.api.response.LiturgiesDataVo
 import com.everymomentholy.api.response.MyLiturgiesResponseVo
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
-import com.everymomentholy.ui.adapter.ButtomSLiderAdapter
+import com.everymomentholy.ui.adapter.BottomSliderAdapter
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
-import com.everymomentholy.ui.adapter.NotificationListAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,6 +40,8 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     private lateinit var android_id: String
     private lateinit var bt: BottomSheetDialog
     var prefeUserId: Int = 0
+    lateinit var freeLiturgies: ArrayList<LiturgiesDataVo>
+    private lateinit var bottomSliderAdapter: BottomSliderAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +51,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         val view = inflater.inflate(R.layout.fragment_myliturgies, container, false)
 
         recycler_liturgy = view.findViewById(R.id.recycler_liturgy)
-       // txtUserId = view.findViewById(R.id.txtUserId)
+        // txtUserId = view.findViewById(R.id.txtUserId)
         ll_enroute_bottom_sheet = view.findViewById(R.id.ll_enroute_bottom_sheet)
 
         android_id = Settings.Secure.getString(
@@ -91,6 +93,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
+                        freeLiturgies =
+                            response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<LiturgiesDataVo>
+
+                        Log.e("free liturgies", freeLiturgies.size.toString())
+
                         liturgyAdapter = MyLiturgyAdapter(
                             context!!,
                             response.body()!!.response.data,
@@ -125,16 +132,36 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         val view = layoutInflater.inflate(R.layout.activity_buttom_slider, null)
 
         val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
-        buttomRcv.layoutManager = LinearLayoutManager(activity)
-        buttomRcv.adapter = ButtomSLiderAdapter()
-        // adapter = ButtomSLiderAdapter()
+
+        android_id = Settings.Secure.getString(
+            requireContext().contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+
+        val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
+            "MySharedPref",
+            MODE_PRIVATE
+        )
+
+        prefeUserId = sharedPreferences.getInt("userId", 0)
+        bottomSliderAdapter = BottomSliderAdapter(
+            requireContext(),
+            freeLiturgies,
+
+            )
+        val layoutManager: RecyclerView.LayoutManager =
+            LinearLayoutManager(context)
+        buttomRcv.layoutManager = layoutManager
+        buttomRcv.adapter = bottomSliderAdapter
+
 
         dialog?.setCancelable(true)
         dialog?.setContentView(view)
         dialog?.show()
     }
 
-    override fun onMyLiturgiesListClick(pos: Int, dataVo: DataVo) {
+
+    override fun onMyLiturgiesListClick(pos: Int, dataVo: LiturgiesDataVo) {
         TODO("Not yet implemented")
     }
 }

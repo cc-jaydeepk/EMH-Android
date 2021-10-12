@@ -1,22 +1,24 @@
 package com.everymomentholy.ui.activity
 
-import android.content.Context
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.LoginRequestVo
 import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.CustomProgressDialog
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var edtLoginPassword: EditText
     private lateinit var android_id: String
     private lateinit var txtForgotPsw: TextView
+    lateinit var progressCardView: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,9 @@ class LoginActivity : AppCompatActivity() {
         edtLoginEmail = findViewById(R.id.edtLoginEmail)
         edtLoginPassword = findViewById(R.id.edtLoginPassword)
         txtForgotPsw = findViewById(R.id.txtForgotPsw)
+        progressCardView = findViewById(R.id.progressCardView)
+
+
 
         txtForgotPsw.setOnClickListener {
             var intent = Intent(this@LoginActivity, ForgotPasswordActivity::class.java)
@@ -60,6 +66,8 @@ class LoginActivity : AppCompatActivity() {
          }*/
 
         btn_Login.setOnClickListener {
+
+            progressCardView.visibility = View.VISIBLE
 
             if (checkValidation()) {
 
@@ -118,6 +126,9 @@ class LoginActivity : AppCompatActivity() {
                         myEdit.apply()*/
 
                         // Log.e("loginresponse", appOpenCount)
+
+
+                        progressCardView.visibility = View.GONE
 
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.flags =

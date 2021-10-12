@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayour"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_2sdp"
-    android:id="@+id/layoutLinear"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/_5sdp"
+    android:padding="@dimen/_5sdp">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/txtNotificationTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,23 +14,32 @@
         android:text="title"
         android:textColor="@color/black"
         android:textSize="@dimen/_16ssp"
-        android:textStyle="bold" />
+        style="@style/liturgiesListTitleTextStyle"
+        android:textStyle="bold" />-->
+    <ImageView
+        android:id="@+id/nextImage"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:src="@drawable/ic_next" />
+
+    <TextView
+        android:id="@+id/txtNotificationTitle"
+        style="@style/liturgiesListTitleTextStyle"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_toLeftOf="@+id/nextImage"
+        android:text="title" />
 
     <TextView
         android:id="@+id/txtNotificationTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/txtNotificationTitle"
         android:layout_marginLeft="@dimen/_7sdp"
+        android:fontFamily="@font/lato_light"
         android:text="title"
-        android:textColor="#D1CDCD"
-        android:textSize="@dimen/_14ssp" />
+        android:textSize="@dimen/_11ssp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_7sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:background="#C3C0C0" />
 
-</LinearLayout>
+</RelativeLayout>

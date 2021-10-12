@@ -45,11 +45,11 @@ class ConditionFragment : Fragment() {
                         //txtTermsCondition.text = response.body()!!.response.termsDescription
 
                     } else {
-                        Toast.makeText(
+                        /*Toast.makeText(
                             context,
                             response.body()!!.response.message.toString(),
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
                 }
 

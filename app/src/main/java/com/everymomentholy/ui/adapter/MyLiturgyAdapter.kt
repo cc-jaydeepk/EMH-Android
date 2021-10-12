@@ -5,18 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
-import com.everymomentholy.api.response.DataVo
+import com.everymomentholy.api.response.LiturgiesDataVo
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
 
 class MyLiturgyAdapter(
     var context: Context,
-    var liturgyList: List<DataVo>,
+    var liturgyList: List<LiturgiesDataVo>,
     var liturgyListClickListner: LiturgyLitstClickListner
 ) : RecyclerView.Adapter<MyLiturgyAdapter.ViewHolder>() {
 
@@ -28,7 +26,7 @@ class MyLiturgyAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.liturgy_raw, parent, false)
+            .inflate(R.layout.myliturgies_raw, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -44,6 +42,6 @@ class MyLiturgyAdapter(
     }
 
     override fun getItemCount(): Int {
-       return liturgyList.size
+        return liturgyList.size
     }
 }

@@ -28,6 +28,81 @@
         <item name="android:layout_marginLeft">@dimen/rgste_fstnm_marginleft</item>
         <item name="android:layout_marginRight">@dimen/rgste_fstnm_marginleft</item>
         <item name="android:padding">@dimen/login_button_padding</item>
+        <item name="fontFamily">@font/lato_medium</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+
+    <style name="bigTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/lato_medium</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/rgstr_txtsize</item>
+    </style>
+
+    <style name="liturgiesListTitleTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/lato_semibold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/myliturgytxtsize</item>
+    </style>
+
+    <style name="registerButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/lato_medium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/login_button_txtsize</item>
+        <item name="backgroundTint">@color/loginbg</item>
+        <item name="android:padding">@dimen/login_button_padding</item>
+        <item name="android:layout_marginLeft">@dimen/rgste_fstnm_marginleft</item>
+        <item name="android:layout_marginRight">@dimen/rgste_fstnm_marginleft</item>
+    </style>
+
+    <style name="liturgiesListImageStyle">
+        <item name="android:layout_width">@dimen/fav_frag_img</item>
+        <item name="android:layout_height">@dimen/fav_frag_img</item>
+        <item name="android:layout_marginRight">@dimen/myliturgyimagmrg</item>
+    </style>
+
+    <style name="liturgiesListButtonStyle">
+        <item name="fontFamily">@font/lato_medium</item>
+        <item name="android:textColor">@color/loginbg</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+    </style>
+
+    <style name="dialogBigTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/lato_bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/_18ssp</item>
+    </style>
+
+    <style name="dialogSmallTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/lato_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/_14ssp</item>
+    </style>
+
+    <style name="dialogOkTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/lato_regular</item>
+        <item name="android:textColor">@color/dialogOkTxt</item>
+        <item name="android:textSize">@dimen/_18ssp</item>
+    </style>
+
+    <style name="dialogCancelTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fontFamily">@font/lato_regular</item>
+        <item name="android:textColor">@color/dialogCancelTxt</item>
+        <item name="android:textSize">@dimen/_18ssp</item>
     </style>
 
     <style name="Widget.Button" parent="android:Widget">
@@ -40,6 +115,10 @@
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="CustomDialogTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
 </resources>

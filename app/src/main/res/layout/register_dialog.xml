@@ -17,25 +17,18 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/dialogBigTextStyle"
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
+            android:text="@string/app_name" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/dialogSmallTextStyle"
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
-            android:text="@string/registration_successful"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
+            android:text="@string/registration_succesful" />
 
         <View
             android:layout_width="match_parent"
@@ -45,12 +38,10 @@
 
         <TextView
             android:id="@+id/txtOk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/dialogOkTextStyle"
             android:layout_marginTop="@dimen/_7sdp"
-            android:text="@string/ok"
-            android:textColor="#51A8ED"
-            android:textSize="@dimen/_20sdp" />
+            android:gravity="center"
+            android:text="@string/ok" />
 
     </LinearLayout>
 

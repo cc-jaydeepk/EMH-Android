@@ -42,7 +42,7 @@ interface APIInterface {
     fun getBooks(
         @Query("appUserId") appUserId: Int?,
         @Query("deviceId") deviceId: String?
-    ): Call<GetBookResponseVo>
+    ): Call<GetLiturgiesResponseVo>
 
     @GET(Constants.API_ABOUTUS)
     fun aboutUs(): Call<AboutUsResponseVO>
