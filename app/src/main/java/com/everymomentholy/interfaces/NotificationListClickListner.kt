@@ -1,7 +1,7 @@
 package com.everymomentholy.interfaces
 
-import com.everymomentholy.api.response.LiturgiesDataVo
+import com.everymomentholy.api.response.NotificationDataVo
 
 interface NotificationListClickListner {
-    fun onNotificationListClick(pos: Int, dataVo: LiturgiesDataVo)
+    fun onNotificationListClick(pos: Int, dataVo: NotificationDataVo)
 }

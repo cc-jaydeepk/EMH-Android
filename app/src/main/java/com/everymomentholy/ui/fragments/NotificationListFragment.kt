@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.response.LiturgiesDataVo
+import com.everymomentholy.api.response.NotificationDataVo
 import com.everymomentholy.api.response.NotificationResponseVo
 import com.everymomentholy.interfaces.NotificationListClickListner
 import com.everymomentholy.ui.adapter.NotificationListAdapter
@@ -102,7 +102,7 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
-    override fun onNotificationListClick(pos: Int, dataVo: LiturgiesDataVo) {
+    override fun onNotificationListClick(pos: Int, dataVo: NotificationDataVo) {
         /*val intent = Intent(context, NotificationDetailActivity::class.java)
         intent.putExtra("date", dataVo.createdAt)
         intent.putExtra("message", dataVo.message)

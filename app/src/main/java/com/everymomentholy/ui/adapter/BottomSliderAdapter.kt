@@ -10,12 +10,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
-import com.everymomentholy.api.response.LiturgiesDataVo
+import com.everymomentholy.api.response.MyLiturgiesDataVo
 
 class BottomSliderAdapter(
     var context: Context,
-    var liturgyList: List<LiturgiesDataVo>,
-   // var freeLiturgyListClickListner: FreeLiturgyLitstClickListner
+    //var liturgyList: List<LiturgiesDataVo>,
+    var liturgyList: List<MyLiturgiesDataVo>,
+    // var freeLiturgyListClickListner: FreeLiturgyLitstClickListner
 ) : RecyclerView.Adapter<BottomSliderAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -32,11 +33,9 @@ class BottomSliderAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // val context = holder.itemView.context
         val freeLiturgies = liturgyList[position]
 
         holder.txtfreeLiturgiesTitle.text = freeLiturgies.chapterTitle
-        // holder.txtFree.text = freeLiturgies.isFree
 
         Glide.with(context)
             .load(freeLiturgies.chapterPageImage)
@@ -54,7 +53,6 @@ class BottomSliderAdapter(
 
     override fun getItemCount(): Int {
         return liturgyList.size
-        //return 3
-        //return freeLiturgiesList.size
+
     }
 }

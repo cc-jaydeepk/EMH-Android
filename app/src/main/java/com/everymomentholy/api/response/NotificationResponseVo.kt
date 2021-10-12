@@ -1,7 +1,5 @@
 package com.everymomentholy.api.response
 
-import com.everymomentholy.utils.ResponseVo
-
 class NotificationResponseVo {
 
     var status: Boolean = true
@@ -10,5 +8,6 @@ class NotificationResponseVo {
 
     //var response: ResponseVo = ResponseVo()
 
-    var response: ResponseVo = ResponseVo()
+   // var response: ResponseVo = ResponseVo()
+    var response: NotificationResponse = NotificationResponse()
 }

@@ -9,12 +9,13 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
-import com.everymomentholy.api.response.LiturgiesDataVo
+import com.everymomentholy.api.response.GetLiturgiesDataVo
 
 
 class GetLiturgiesAdapter(
     var context: Context,
-    var getLiturgiesList: List<LiturgiesDataVo>
+   // var getLiturgiesList: List<LiturgiesDataVo>
+    var getLiturgiesList: List<GetLiturgiesDataVo>
 ) :
     PagerAdapter() {
     override fun getCount(): Int {

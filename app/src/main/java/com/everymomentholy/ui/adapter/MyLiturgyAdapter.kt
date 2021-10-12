@@ -9,12 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
-import com.everymomentholy.api.response.LiturgiesDataVo
+import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
 
 class MyLiturgyAdapter(
     var context: Context,
-    var liturgyList: List<LiturgiesDataVo>,
+   // var liturgyList: List<LiturgiesDataVo>,
+    var liturgyList: List<MyLiturgiesDataVo>,
     var liturgyListClickListner: LiturgyLitstClickListner
 ) : RecyclerView.Adapter<MyLiturgyAdapter.ViewHolder>() {
 

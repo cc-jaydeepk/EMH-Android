@@ -18,7 +18,8 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
-import com.everymomentholy.api.response.LiturgiesDataVo
+import com.everymomentholy.api.response.NotificationDataVo
+import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.MyLiturgiesResponseVo
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
 import com.everymomentholy.ui.adapter.BottomSliderAdapter
@@ -40,7 +41,8 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     private lateinit var android_id: String
     private lateinit var bt: BottomSheetDialog
     var prefeUserId: Int = 0
-    lateinit var freeLiturgies: ArrayList<LiturgiesDataVo>
+    //lateinit var freeLiturgies: ArrayList<LiturgiesDataVo>
+    lateinit var freeLiturgies: ArrayList<MyLiturgiesDataVo>
     private lateinit var bottomSliderAdapter: BottomSliderAdapter
 
     override fun onCreateView(
@@ -93,8 +95,8 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        freeLiturgies =
-                            response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<LiturgiesDataVo>
+                        //freeLiturgies = response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<LiturgiesDataVo>
+                        freeLiturgies = response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<MyLiturgiesDataVo>
 
                         Log.e("free liturgies", freeLiturgies.size.toString())
 
@@ -161,7 +163,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     }
 
 
-    override fun onMyLiturgiesListClick(pos: Int, dataVo: LiturgiesDataVo) {
+    override fun onMyLiturgiesListClick(pos: Int, dataVo: NotificationDataVo) {
         TODO("Not yet implemented")
     }
 }

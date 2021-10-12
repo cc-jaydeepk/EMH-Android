@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.everymomentholy.R
-import com.everymomentholy.api.response.LiturgiesDataVo
+import com.everymomentholy.api.response.NotificationDataVo
 import com.everymomentholy.interfaces.NotificationListClickListner
 import com.everymomentholy.ui.fragments.NotificationListFragment
 
@@ -76,7 +76,7 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
     }*/
 
 
-    override fun onNotificationListClick(pos: Int, dataVo: LiturgiesDataVo) {
+    override fun onNotificationListClick(pos: Int, dataVo: NotificationDataVo) {
         val intent = Intent(this@NotificationListActivity, NotificationDetailActivity::class.java)
         startActivity(intent)
     }
