@@ -1,10 +1,7 @@
 package com.everymomentholy.ui.activity
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
@@ -18,7 +15,6 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.LoginRequestVo
 import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.CustomProgressDialog
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback

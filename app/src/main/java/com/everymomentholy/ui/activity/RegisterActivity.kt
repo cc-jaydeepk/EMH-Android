@@ -1,10 +1,7 @@
 package com.everymomentholy.ui.activity
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 import com.everymomentholy.utils.SavaPreferences
@@ -21,7 +18,6 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.RegisterRequestVo
 import com.everymomentholy.api.response.RegisterResponseVo
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.CustomProgressDialog
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +38,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     private lateinit var country_code: EditText
     private lateinit var android_id: String
     private lateinit var txtForgot: TextView
-    lateinit var sharedPreferences: SavaPreferences
+
     private lateinit var imgCheckbox: ImageView
     private lateinit var registerProgressBar: ProgressBar
     var isAcceptTerms = false
@@ -55,9 +51,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         supportActionBar?.hide()
 
-        sharedPreferences = SavaPreferences(applicationContext)
-
-        //  sharedPref = getSharedPreferences(USER_PREF, Context.MODE_PRIVATE);
 
         android_id = Settings.Secure.getString(
             applicationContext.contentResolver,
@@ -88,9 +81,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         btnRedister = findViewById(R.id.btnRedister)
         btnRedister.setOnClickListener {
 
-            showDialog()
 
-            /*if (checkValidation()) {
+            if (checkValidation()) {
 
                 if (Utils.isNetworkAvailable(this)) {
 
@@ -123,7 +115,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                     ).show()
                 }
 
-            }*/
+            }
 
         }
     }
@@ -156,17 +148,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         progressCardView.visibility = View.GONE
                         showDialog()
 
-                        /*if (isAcceptTerms != false) {
-                            showDialog()
-
-                        } else {
-                            isAcceptTerms = false
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                "Please agree to Privacy Policy",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }*/
 
 
                     } else {
@@ -250,11 +231,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             isValid = false
         }
 
-        /*if (phoneNo.isEmpty()) {
-            edtPhoneNumber.error = resources.getString(R.string.phoneno_error)
-            edtPhoneNumber.requestFocus()
-            isValid = false
-        }*/
+
 
         if (password.isEmpty()) {
             edtPassword.error = resources.getString(R.string.password_error)
@@ -262,21 +239,12 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             isValid = false
         }
 
-        /*if (edtPhoneNumber.equals("") || edtPhoneNumber.equals(null) || edtPhoneNumber.length() < 10) {
-            edtPhoneNumber.error = resources.getString(R.string.phoneno_error)
-            edtPhoneNumber.requestFocus()
-            isValid = false
-        }*/
 
         if (confirmPsw.isEmpty()) {
             edtConfirmPsw.error = resources.getString(R.string.confirmpassword_error)
             edtConfirmPsw.requestFocus()
             isValid = false
-            /*if (!edtPassword.equals(edtConfirmPsw)) {
-                edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
-                edtConfirmPsw.requestFocus()
-                isValid = false
-            }*/
+
         }
 
         if (!password.equals(confirmPsw)) {
@@ -285,17 +253,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             isValid = false
         }
 
-        /*if (!edtPassword.equals(edtConfirmPsw)) {
-            edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
-            edtConfirmPsw.requestFocus()
-            isValid = false
-        }*/
 
-        /*if (!edtPassword.text.toString().equals(edtConfirmPsw.text.toString())) {
-            edtConfirmPsw.error = resources.getString(R.string.matchpassword_error)
-            edtConfirmPsw.requestFocus()
-            isValid = false
-        }*/
 
         return isValid
     }
