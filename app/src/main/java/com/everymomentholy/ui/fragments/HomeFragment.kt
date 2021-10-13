@@ -1,7 +1,6 @@
 package com.everymomentholy.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +14,11 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
 import com.everymomentholy.api.response.HomegetSettingResponseVo
-import com.everymomentholy.api.response.ResponseVo
-import org.json.JSONObject
+import com.folioreader.FolioReader
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
+
 
 class HomeFragment : Fragment() {
 
@@ -43,10 +41,13 @@ class HomeFragment : Fragment() {
         txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
         txtDate = view.findViewById(R.id.txtDate)
         imgHomeClock = view.findViewById(R.id.imgHomeClock)
-       // imgHomeShare = view.findViewById(R.id.imgHomeShare)
+        // imgHomeShare = view.findViewById(R.id.imgHomeShare)
 
-       // dailyLiturgyQuote()
+        // dailyLiturgyQuote()
         //getSettings()
+
+        val folioReader = FolioReader.get()
+        folioReader.openBook(R.raw.before_shopping)
         return view
     }
 
@@ -68,7 +69,7 @@ class HomeFragment : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                       // txtQuote.text = response.body()!!.response.parentLiturgy
+                        // txtQuote.text = response.body()!!.response.parentLiturgy
                         Glide
                             .with(context!!)
                             .load(response.body()!!.response.home_page_liturgy_image)

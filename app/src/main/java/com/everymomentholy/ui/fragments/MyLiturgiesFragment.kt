@@ -127,6 +127,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                             response.body()!!.response.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
+                        Log.e("litu", response.body()!!.response.message)
                     }
                 }
 
