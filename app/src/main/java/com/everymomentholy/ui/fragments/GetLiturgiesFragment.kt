@@ -17,6 +17,8 @@ import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.response.GetLiturgiesResponseVo
 import com.everymomentholy.interfaces.GetLiturgiesClickListner
 import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,7 +50,12 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             Context.MODE_PRIVATE
         )
 
-        prefeUserId = sharedPreferences.getInt("userId", 0)
+       // prefeUserId = sharedPreferences.getInt("userId", 0)
+        prefeUserId = Utils.readIntData(
+            requireActivity(),
+            Constants.PrefUserID,
+            0
+        )!!
         getBooks()
 
         return view

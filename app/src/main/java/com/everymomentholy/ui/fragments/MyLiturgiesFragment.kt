@@ -24,6 +24,8 @@ import com.everymomentholy.api.response.MyLiturgiesResponseVo
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
 import com.everymomentholy.ui.adapter.BottomSliderAdapter
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,6 +43,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     private lateinit var android_id: String
     private lateinit var bt: BottomSheetDialog
     var prefeUserId: Int = 0
+
     //lateinit var freeLiturgies: ArrayList<LiturgiesDataVo>
     lateinit var freeLiturgies: ArrayList<MyLiturgiesDataVo>
     private lateinit var bottomSliderAdapter: BottomSliderAdapter
@@ -66,7 +69,14 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             MODE_PRIVATE
         )
 
-        prefeUserId = sharedPreferences.getInt("userId", 0)
+        //prefeUserId = sharedPreferences.getInt("userId", 0)
+        prefeUserId = Utils.readIntData(
+            requireActivity(),
+            Constants.PrefUserID,
+            0
+        )!!
+
+        Log.e("log", prefeUserId.toString())
 
         getMyLiturgiesList()
 
@@ -96,7 +106,8 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                     if (response.body()?.statusCode == 1) {
 
                         //freeLiturgies = response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<LiturgiesDataVo>
-                        freeLiturgies = response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<MyLiturgiesDataVo>
+                        freeLiturgies =
+                            response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<MyLiturgiesDataVo>
 
                         Log.e("free liturgies", freeLiturgies.size.toString())
 

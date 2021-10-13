@@ -16,6 +16,8 @@ class Constants {
         const val API_HOME_NOTIFICATIONLIST = "notificationList"
         const val API_MY_LITURGIES_LIST = "getLiturgies"
         const val API_GET_BOOKS = "getBooks"
+        const val API_GET_USER_PROFILE = "getUserProfile/{userid}"
+        const val API_GET_USER_PROFILE_UPDATE = "updateUserProfile/{userid}"
         const val API_LOGOUT = "logout"
         const val API_ABOUTUS = "getStaticPages?slug=about-us"
         const val API_TERMSCONDITION = "getStaticPages?slug=terms-conditions"

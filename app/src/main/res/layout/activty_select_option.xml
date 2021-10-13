@@ -8,7 +8,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="@dimen/_310sdp"
         android:src="@drawable/splashimage" />
 
     <Button
@@ -23,7 +23,6 @@
         android:padding="@dimen/login_button_padding"
         android:text="@string/login"
         android:textAllCaps="true"
-        android:textColor="@color/white"
         android:textSize="@dimen/login_button_txtsize" />
 
     <Button

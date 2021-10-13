@@ -28,7 +28,7 @@ class BottomSliderAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.buttomslider_raw, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.bottom_slider_raw, parent, false)
         return MyViewHolder(itemView)
     }
 

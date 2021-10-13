@@ -43,6 +43,10 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     private lateinit var registerProgressBar: ProgressBar
     var isAcceptTerms = false
     lateinit var progressCardView: CardView
+    lateinit var iv_toolbar_drawer: ImageView
+    lateinit var iv_toolbar_backImage: ImageView
+    lateinit var iv_toolbar_notification: ImageView
+    lateinit var txt_toolbar_name: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +54,16 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         setContentView(R.layout.activity_register)
 
         supportActionBar?.hide()
+
+//        iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
+//        iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+//        txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
+//        iv_toolbar_notification = findViewById(R.id.iv_toolbar_notification)
+//
+//        iv_toolbar_drawer.visibility = View.GONE
+//        txt_toolbar_name.visibility = View.GONE
+//        iv_toolbar_notification.visibility = View.GONE
+//        iv_toolbar_backImage.visibility = View.VISIBLE
 
 
         android_id = Settings.Secure.getString(
@@ -132,22 +146,19 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        // Log.e("Successfull", response.body()!!.message)
-                        // Log.e("Successfull", response.body()!!.userId.toString())
-
                         Utils.writeIntToSharedPref(
                             this@RegisterActivity, Constants.PrefUserID,
                             response.body()!!.userId
                         )
 
-                        val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+
+                        /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
                         val myEdit = sharedPreferences.edit()
                         myEdit.putInt("userId", response.body()!!.userId)
-                        myEdit.apply()
+                        myEdit.apply()*/
 
                         progressCardView.visibility = View.GONE
                         showDialog()
-
 
 
                     } else {

@@ -17,7 +17,9 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white">
 
-            <RelativeLayout
+            <include layout="@layout/toolbar_layout" />
+
+            <!--<RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize">
 
@@ -57,7 +59,7 @@
                     android:layout_marginRight="@dimen/_9sdp"
                     android:src="@drawable/ic_notification" />
 
-            </RelativeLayout>
+            </RelativeLayout>-->
 
         </androidx.appcompat.widget.Toolbar>
 

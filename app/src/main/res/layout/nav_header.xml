@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/_16sdp"
-    android:layout_marginLeft="@dimen/_16sdp"
+    android:layout_marginStart="@dimen/_5sdp"
+    android:layout_marginLeft="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_33sdp"
     android:background="@color/white"
     android:orientation="vertical">
@@ -12,12 +12,15 @@
         android:id="@+id/profile_image"
         android:layout_width="@dimen/navheader_image"
         android:layout_height="@dimen/navheader_image"
+        android:layout_marginLeft="@dimen/_10sdp"
         android:src="@drawable/profileimage" />
 
     <TextView
         android:id="@+id/txtUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:fontFamily="@font/lato_regular"
         android:text="Denisha Varagiya"
         android:textColor="@color/black"
         android:textSize="@dimen/navheader_name"
@@ -26,13 +29,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:fontFamily="@font/lato_light"
         android:text="varagiyadm@gmail.com"
         android:textSize="@dimen/navheader_email" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
-        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:background="#B8B4B4" />
+
 
 </LinearLayout>

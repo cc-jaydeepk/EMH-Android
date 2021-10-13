@@ -13,20 +13,36 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <!--<de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="@dimen/myprofile_img"
             android:layout_height="@dimen/myprofile_img"
             android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/profileimage" />-->
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/myprofile_img"
+            android:layout_height="@dimen/myprofile_img"
+            android:layout_marginTop="@dimen/_20sdp"
             android:src="@drawable/profileimage" />
+
+        <ImageView
+            android:id="@+id/ivOpenGallaery"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_36sdp"
+            android:layout_marginLeft="@dimen/_36sdp"
+            android:layout_marginTop="-48dp"
+            android:src="@drawable/ic_edit_image" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:fontFamily="@font/lato_medium"
             android:gravity="center"
             android:text="Denisha Varagiya"
-            android:fontFamily="@font/lato_medium"
             android:textColor="@color/white"
             android:textSize="@dimen/myprofile_txtname_size" />
 
@@ -40,7 +56,7 @@
 
 
             <ImageView
-                android:id="@+id/imgOrderHis"
+                android:id="@+id/ivOrderHis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
@@ -48,7 +64,7 @@
                 android:src="@drawable/ic_orderhistory" />
 
             <ImageView
-                android:id="@+id/imgChangePsw"
+                android:id="@+id/ivChangePsw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
@@ -65,21 +81,21 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/edtUserFirstName"
+            android:id="@+id/edtUpdateFirstName"
             style="@style/edtStyle"
             android:layout_marginTop="@dimen/rgste_margintop"
             android:background="@drawable/bg_register_edt"
             android:hint="Denisha" />
 
         <EditText
-            android:id="@+id/edtUserLastName"
+            android:id="@+id/edtUpdateLastName"
             style="@style/edtStyle"
             android:layout_marginTop="@dimen/rgste_margintop"
             android:background="@drawable/bg_register_edt"
             android:hint="Varagiya" />
 
         <EditText
-            android:id="@+id/edtUserEmail"
+            android:id="@+id/edtUpdateEmail"
             style="@style/edtStyle"
             android:layout_marginTop="@dimen/rgste_margintop"
             android:background="@drawable/bg_register_edt"
@@ -110,7 +126,7 @@
                 android:background="@color/black" />
 
             <EditText
-                android:id="@+id/edtUserPhoneNuber"
+                android:id="@+id/edtUpdatePhoneNuber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_2sdp"
@@ -123,13 +139,14 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/btnEditProfile"
+            android:id="@+id/btnUpdateProfile"
             style="@style/edtStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10"
             android:backgroundTint="@color/loginbg"
-            android:text="@string/edit_profile"
+            android:text="Update Profile"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/login_button_txtsize" />
 

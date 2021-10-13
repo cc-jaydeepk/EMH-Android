@@ -1,6 +1,7 @@
 package com.everymomentholy.ui.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -24,8 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarToggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
-    private lateinit var iv_toolbar_back: ImageView
+    private lateinit var iv_toolbar_drawer: ImageView
     private lateinit var iv_toolbar_notification: ImageView
+    private lateinit var iv_toolbar_search: ImageView
     private lateinit var iv_toolbar_backImage: ImageView
     private lateinit var txt_toolbar_name: TextView
 
@@ -35,7 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
         iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+        iv_toolbar_notification = findViewById(R.id.iv_toolbar_notification)
+        iv_toolbar_search = findViewById(R.id.iv_toolbar_search)
 
         txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
 
@@ -44,22 +50,31 @@ class MainActivity : AppCompatActivity() {
         navView = findViewById(R.id.nav_view)
         val navBottomView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
 
+
         var fragment1: Fragment? = null
         fragment1 = HomeFragment()
         addFragment(fragment1)
 
-        iv_toolbar_notification = findViewById(R.id.iv_toolbar_notification)
+
         iv_toolbar_notification.setOnClickListener {
             /*val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
             startActivity(intent)*/
 
+            txt_toolbar_name.text = "Notifications"
+            iv_toolbar_notification.visibility = View.GONE
+            iv_toolbar_drawer.visibility = View.GONE
+            iv_toolbar_backImage.visibility = View.VISIBLE
             var fragment: Fragment
             fragment = NotificationListFragment()
             replaceFragment(fragment)
         }
 
-        iv_toolbar_back = findViewById(R.id.iv_toolbar_back)
-        iv_toolbar_back.setOnClickListener {
+        iv_toolbar_backImage.setOnClickListener {
+            onBackPressed()
+        }
+
+
+        iv_toolbar_drawer.setOnClickListener {
             drawerLayout.openDrawer(navView)
         }
 
@@ -155,6 +170,9 @@ class MainActivity : AppCompatActivity() {
             val fragment: Fragment
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
+
+                    iv_toolbar_notification.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
                     iv_toolbar_notification.setImageResource(R.drawable.ic_notification);
                     txt_toolbar_name.text = "Every Moment Holy"
                     fragment = HomeFragment()
@@ -163,8 +181,10 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_myLiturgiesFragment -> {
-                    iv_toolbar_notification.setImageResource(R.drawable.ic_searchimg);
-                    iv_toolbar_notification.setOnClickListener {
+                    iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    // iv_toolbar_notification.setImageResource(R.drawable.ic_searchimg);
+                    iv_toolbar_search.setOnClickListener {
                         Toast.makeText(
                             this@MainActivity,
                             "Search",
@@ -204,6 +224,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadFragment(fragment: Fragment) {
+        txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.black));
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.nav_host_fragment, fragment)
         //transaction.addToBackStack(null)
@@ -221,6 +242,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addFragment(fragment: Fragment) {
+        txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.nav_host_fragment, fragment)
         //transaction.replace(R.id.nav_host_fragment, fragment)

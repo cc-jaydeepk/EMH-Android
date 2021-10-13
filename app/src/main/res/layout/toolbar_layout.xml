@@ -8,6 +8,54 @@
         android:layout_height="?actionBarSize">
 
         <ImageView
+            android:id="@+id/iv_toolbar_drawer"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:src="@drawable/drawer_image" />
+
+        <ImageView
+            android:id="@+id/iv_toolbar_backImage"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:src="@drawable/ic_back"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt_toolbar_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/lato_italic"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/iv_toolbar_notification"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_9sdp"
+            android:src="@drawable/ic_notification"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_toolbar_search"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_9sdp"
+            android:src="@drawable/ic_searchimg"
+            android:visibility="gone" />
+
+        <!--<ImageView
+            android:id="@+id/iv_toolbar_back"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
             android:layout_centerVertical="true"
@@ -15,6 +63,7 @@
             android:src="@drawable/drawer_image" />
 
         <TextView
+            android:id="@+id/txt_toolbar_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -28,7 +77,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/_10sdp"
-            android:src="@drawable/ic_search" />
+            android:src="@drawable/ic_search" />-->
 
     </RelativeLayout>
 

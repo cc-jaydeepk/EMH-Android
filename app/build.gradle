@@ -73,5 +73,9 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
+    //imagePicker library
+    //implementation 'com.github.Drjacky:ImagePicker:1.8.4'
+    //implementation 'com.github.dhaval2404:imagepicker:2.1'
+
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.everymomentholy">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -47,6 +48,13 @@
         <activity android:name=".ui.activity.NotificationListActivity" />
 
         <activity android:name=".ui.activity.NotificationDetailActivity" />
+
+        <activity android:name=".ui.activity.EditProfileActivity" />
     </application>
+
+    <uses-sdk
+        tools:overrideLibrary="com.example.lib1, com.example.lib2"
+        android:minSdkVersion="2"
+        android:targetSdkVersion="22" />
 
 </manifest>

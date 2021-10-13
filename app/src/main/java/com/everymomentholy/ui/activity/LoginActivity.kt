@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                             response.body()!!.response.userId
                         )
 
-                        Utils.readStringFromSharedPref(
+                        Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.SHARED_PREF_TOKEN,
                             response.body()!!.response.token
                         )

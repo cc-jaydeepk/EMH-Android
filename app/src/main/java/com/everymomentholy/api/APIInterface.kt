@@ -4,10 +4,7 @@ import com.everymomentholy.api.request.*
 import com.everymomentholy.api.response.*
 import com.everymomentholy.utils.Constants
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface APIInterface {
 
@@ -43,6 +40,31 @@ interface APIInterface {
         @Query("appUserId") appUserId: Int?,
         @Query("deviceId") deviceId: String?
     ): Call<GetLiturgiesResponseVo>
+
+    @GET(Constants.API_GET_USER_PROFILE)
+    fun getUserProfile(
+        @Path("userid") id: Int,
+        @Query("deviceId") deviceId: String?,
+        @Header("Authorization") token: String
+    ): Call<GetUserProfileVo>
+
+    @POST(Constants.API_GET_USER_PROFILE_UPDATE)
+    fun getUserProfileUpdate(
+        @Path("userid") id: Int,
+        @Query("deviceId") deviceId: String?,
+        @Query("firstName") firstName: String?,
+        @Query("lastName") lastName: String?,
+        @Query("email") email: String,
+        @Query("countryCode") countryCode: String,
+        @Header("Authorization") token: String
+    ): Call<GetUserProfileUpdateResponseVo>
+
+    @POST(Constants.API_GET_USER_PROFILE_UPDATE)
+    fun getUserProfileEdit(
+        @Path("userid") id: Int,
+        @Body getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo,
+        @Header("Authorization") token: String
+    ): Call<GetUserProfileUpdateResponseVo>
 
     @GET(Constants.API_ABOUTUS)
     fun aboutUs(): Call<AboutUsResponseVO>
