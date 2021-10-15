@@ -3,6 +3,7 @@ package com.everymomentholy.ui.activity
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var profileImage: String
 
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -110,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
         var fragment1: Fragment? = null
         fragment1 = HomeFragment()
-        addFragment(fragment1)
+        addFragment(fragment1, "Every Moment Holy")
 
 
 
@@ -125,7 +128,7 @@ class MainActivity : AppCompatActivity() {
             iv_toolbar_backImage.visibility = View.VISIBLE
             var fragment: Fragment
             fragment = NotificationListFragment()
-            replaceFragment(fragment)
+            replaceFragment(fragment, "Notification")
         }
 
         iv_toolbar_backImage.setOnClickListener {
@@ -192,54 +195,54 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
-                    replaceFragment(HomeFragment())
+                    replaceFragment(HomeFragment(), "Every Moment Holy")
                     true
                 }
                 R.id.nav_myLiturgiesFragment -> {
-                    replaceFragment(MyLiturgiesFragment())
+                    replaceFragment(MyLiturgiesFragment(), "My Liturgies")
                     true
                 }
                 R.id.nav_favoritesFragment -> {
-                    replaceFragment(FavoritesFragment())
+                    replaceFragment(FavoritesFragment(), "Favourites")
                     true
                 }
                 R.id.nav_getLiturgiesFragment -> {
-                    replaceFragment(GetLiturgiesFragment())
+                    replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     true
                 }
                 R.id.nav_featuredFragment -> {
-                    replaceFragment(FeaturedFragment())
+                    replaceFragment(FeaturedFragment(), "Featured")
                     true
                 }
                 R.id.nav_orderBookFragment -> {
-                    replaceFragment(OrderBookFragment())
+                    replaceFragment(OrderBookFragment(), "Book Ordered")
                     true
                 }
                 R.id.nav_searchFragment -> {
-                    replaceFragment(SearchFragment())
+                    replaceFragment(SearchFragment(), "Search")
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
-                    replaceFragment(ShareLiturgiesFragment())
+                    replaceFragment(ShareLiturgiesFragment(), "Share")
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
-                    replaceFragment(AboutUsFragment())
+                    replaceFragment(AboutUsFragment(), "About Us")
                     true
                 }
                 R.id.nav_FAQFragment -> {
-                    replaceFragment(FAQFragment())
+                    replaceFragment(FAQFragment(), "FAQ")
                     true
                 }
                 R.id.nav_conditionFragment -> {
-                    replaceFragment(ConditionFragment())
+                    replaceFragment(ConditionFragment(), "Terms & Condition")
                     true
                 }
                 R.id.nav_myProfileFragment -> {
                     txt_toolbar_name.text = "My Profile"
                     iv_toolbar_notification.visibility = View.GONE
                     navBottomView.visibility = View.GONE
-                    replaceFragment(MyProfileFragment())
+                    replaceFragment(MyProfileFragment(), "My Profile")
                     true
                 }
                 R.id.nav_logoutFragment -> {
@@ -283,7 +286,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     txt_toolbar_name.text = "My Liturgies"
                     fragment = MyLiturgiesFragment()
-                    loadFragment(fragment)
+                    replaceFragment(fragment, "My Liturgies")
                     return@setOnNavigationItemSelectedListener true
                 }
 
@@ -298,12 +301,12 @@ class MainActivity : AppCompatActivity() {
                         ).show()
                     }
                     fragment = FavoritesFragment()
-                    loadFragment(fragment)
+                    replaceFragment(fragment, "Favourites")
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     fragment = GetLiturgiesFragment()
-                    loadFragment(fragment)
+                    replaceFragment(fragment, "Get Liturgies")
                     return@setOnNavigationItemSelectedListener true
                 }
 
@@ -457,7 +460,9 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    fun AppCompatActivity.replaceFragment(fragment: Fragment) {
+    fun AppCompatActivity.replaceFragment(fragment: Fragment, txtToolbarTitle: String) {
+        txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
+        txt_toolbar_name.text = txtToolbarTitle
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         transaction.replace(R.id.nav_host_fragment, fragment)
@@ -466,8 +471,9 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    private fun addFragment(fragment: Fragment) {
+    private fun addFragment(fragment: Fragment, txtToolbarTitle: String) {
         txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
+        txt_toolbar_name.text = txtToolbarTitle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.nav_host_fragment, fragment)
         //transaction.replace(R.id.nav_host_fragment, fragment)

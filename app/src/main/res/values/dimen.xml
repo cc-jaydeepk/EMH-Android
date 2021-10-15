@@ -47,7 +47,7 @@
     <dimen name="buttomsheet_favmargin">@dimen/_12sdp</dimen>
     <dimen name="buttomsheet_layoutmargin">@dimen/_7sdp</dimen>
     <dimen name="getliturgy_img_size">@dimen/_170sdp</dimen>
-    <dimen name="getliturgy_txt_size">@dimen/_24ssp</dimen>
+    <dimen name="getliturgy_txt_size">@dimen/_22ssp</dimen>
     <dimen name="getliturgy_purchstxt_size">@dimen/_18ssp</dimen>
     <dimen name="getliturgy_margin">@dimen/_7sdp</dimen>
     <dimen name="getliturgy_btn_padding">@dimen/_12sdp</dimen>
@@ -55,7 +55,7 @@
     <dimen name="getliturgy_txtmargin">@dimen/_10sdp</dimen>
     <dimen name="getliturgy_btnlayout">@dimen/_13sdp</dimen>
     <dimen name="navheader_image">@dimen/_60sdp</dimen>
-    <dimen name="navheader_name">@dimen/_14ssp</dimen>
+    <dimen name ="navheader_name">@dimen/_14ssp</dimen>
     <dimen name="navheader_email">@dimen/_12ssp</dimen>
     <dimen name="myprofile_img">@dimen/_96sdp</dimen>
     <dimen name="myprofile_margin">@dimen/_7sdp</dimen>

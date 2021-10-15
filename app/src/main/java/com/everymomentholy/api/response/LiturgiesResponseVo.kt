@@ -1,7 +1,10 @@
 package com.everymomentholy.api.response
 
-class LiturgiesResponseVo {
+import java.io.Serializable
+
+class LiturgiesResponseVo : Serializable {
     var message: String = ""
-   // var data: ArrayList<LiturgiesDataVo> = ArrayList()
+
+    // var data: ArrayList<LiturgiesDataVo> = ArrayList()
     var data: ArrayList<GetLiturgiesDataVo> = ArrayList()
 }

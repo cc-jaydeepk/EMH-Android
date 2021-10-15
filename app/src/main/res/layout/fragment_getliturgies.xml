@@ -11,7 +11,7 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_300sdp"
+        android:layout_height="@dimen/_400sdp"
         android:clipToPadding="false"
         android:overScrollMode="never" />
 
@@ -28,43 +28,6 @@
         app:piv_unselectedColor="#8F8C8C"
         app:piv_viewPager="@id/viewPager" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/getliturgy_btnlayout"
-        android:layout_marginRight="@dimen/getliturgy_btnlayout"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnUnlock"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/loginbg"
-            android:fontFamily="@font/lato_medium"
-            android:padding="@dimen/getliturgy_btn_padding"
-            android:text="Unlock"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/getliturgy_btn_txtsize"
-            app:strokeColor="@color/loginbg" />
-
-        <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato_medium"
-            android:padding="@dimen/getliturgy_btn_padding"
-            android:text="@string/about"
-            android:textAllCaps="true"
-            android:textColor="@color/loginbg"
-            android:textSize="@dimen/getliturgy_btn_txtsize"
-            app:strokeColor="@color/loginbg" />
-
-    </LinearLayout>
 
 </LinearLayout>

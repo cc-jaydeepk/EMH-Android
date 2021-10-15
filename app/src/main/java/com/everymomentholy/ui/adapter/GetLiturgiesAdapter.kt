@@ -1,20 +1,23 @@
 package com.everymomentholy.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.response.GetLiturgiesDataVo
+import com.everymomentholy.ui.activity.AboutBookLiturgiesActivity
 
 
 class GetLiturgiesAdapter(
     var context: Context,
-   // var getLiturgiesList: List<LiturgiesDataVo>
+    // var getLiturgiesList: List<LiturgiesDataVo>
     var getLiturgiesList: List<GetLiturgiesDataVo>
 ) :
     PagerAdapter() {
@@ -32,17 +35,37 @@ class GetLiturgiesAdapter(
         var imgGetLiturge: ImageView = view.findViewById(R.id.imgGetLiturge)
         var txtLiturgyTitle: TextView = view.findViewById(R.id.txtLiturgyTitle)
         var txtLiturgyPrice: TextView = view.findViewById(R.id.txtLiturgyPrice)
+        var btnGetLiturgiesAbout: Button = view.findViewById(R.id.btnGetLiturgiesAbout)
+
 
         val getLiturgies = getLiturgiesList[position]
 
-        txtLiturgyTitle.text = getLiturgies.volumeTitle
-        txtLiturgyPrice.text = getLiturgies.volumeAmount
+        if (getLiturgies.isVolume == "Yes") {
 
-        Glide.with(context)
-            .load(getLiturgies.volumeCoverPageImage)
-            .into(imgGetLiturge)
+            txtLiturgyTitle.text = getLiturgies.volumeTitle
+            txtLiturgyPrice.text = getLiturgies.volumeAmount
+
+            Glide.with(context)
+                .load(getLiturgies.volumeCoverPageImage)
+                .into(imgGetLiturge)
+        } else {
+
+            txtLiturgyTitle.text = getLiturgies.bookTitle
+            txtLiturgyPrice.text = getLiturgies.bookAmount
+
+            Glide.with(context)
+                .load(getLiturgies.bookCoverPageImage)
+                .into(imgGetLiturge)
+        }
 
         container.addView(view)
+
+
+        btnGetLiturgiesAbout.setOnClickListener() {
+            val intent = Intent(context, AboutBookLiturgiesActivity::class.java)
+            intent.putExtra("liturgies", getLiturgies)
+            context.startActivity(intent)
+        }
         return view
     }
 

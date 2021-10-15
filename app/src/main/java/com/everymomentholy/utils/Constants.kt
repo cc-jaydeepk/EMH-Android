@@ -23,6 +23,7 @@ class Constants {
         const val API_TERMSCONDITION = "getStaticPages?slug=terms-conditions"
         const val API_ABOUT_BOOK = "aboutBook"
         const val API_CONTACTUS = "contactUs"
+        const val API_ABOUT_VOLUME = "aboutVolume"
 
 
         const val DEVICE_TYPE = "1"

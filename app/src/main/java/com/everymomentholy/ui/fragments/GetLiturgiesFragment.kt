@@ -1,13 +1,18 @@
 package com.everymomentholy.ui.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.everymomentholy.R
@@ -16,6 +21,8 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.response.GetLiturgiesResponseVo
 import com.everymomentholy.interfaces.GetLiturgiesClickListner
+import com.everymomentholy.ui.activity.AboutBookLiturgiesActivity
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -30,7 +37,10 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     private lateinit var adapter: GetLiturgiesAdapter
     private lateinit var android_id: String
     var prefeUserId: Int = 0
+    lateinit var txtToolbarName: TextView
+    lateinit var btnGetLiturgiesAbout: Button
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,7 +60,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             Context.MODE_PRIVATE
         )
 
-       // prefeUserId = sharedPreferences.getInt("userId", 0)
+        // prefeUserId = sharedPreferences.getInt("userId", 0)
         prefeUserId = Utils.readIntData(
             requireActivity(),
             Constants.PrefUserID,
@@ -67,7 +77,15 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         getLiturgiesRequestVo.deviceId = android_id
 
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.getBooks(getLiturgiesRequestVo.appUserId, getLiturgiesRequestVo.deviceId)
+        val call = request.getBooks(
+            getLiturgiesRequestVo.appUserId,
+            getLiturgiesRequestVo.deviceId,
+            "bearer " + Utils.readStringFromSharedPref(
+                requireContext(),
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
+        )
 
         try {
             call.enqueue(object : Callback<GetLiturgiesResponseVo> {
@@ -87,7 +105,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                              false
                          )*/
                         viewPager.setPadding(100, 0, 100, 0)
-                        viewPager.setAdapter(adapter);
+                        viewPager.adapter = adapter;
 
 
                     } else {

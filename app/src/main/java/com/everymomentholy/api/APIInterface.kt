@@ -41,7 +41,8 @@ interface APIInterface {
     @GET(Constants.API_GET_BOOKS)
     fun getBooks(
         @Query("appUserId") appUserId: Int?,
-        @Query("deviceId") deviceId: String?
+        @Query("deviceId") deviceId: String?,
+        @Header("Authorization") token: String
     ): Call<GetLiturgiesResponseVo>
 
     @GET(Constants.API_GET_USER_PROFILE)
@@ -119,6 +120,10 @@ interface APIInterface {
 
     /*@GET(Constants.API_HOME_DAILY_LITURGY_QUOTE)
     fun dailyLiturgyQuote(): Call<ResponseVo>*/
+    @GET(Constants.API_ABOUT_BOOK)
+    fun aboutBook(@Query("bookId") bookid: Int): Call<AboutBookResponseVo>
 
+    @GET(Constants.API_ABOUT_VOLUME)
+    fun getAboutVolume(@Query("volumeId") volumnId:Int): Call<AboutVolumeResponseVo>
 
 }
