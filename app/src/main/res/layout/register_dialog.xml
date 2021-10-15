@@ -21,9 +21,10 @@
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
-            android:text="@string/app_name" />
+           />
 
         <TextView
+            android:id="@+id/txtDialogSucces"
             style="@style/dialogSmallTextStyle"
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"

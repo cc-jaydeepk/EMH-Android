@@ -3,7 +3,7 @@ package com.everymomentholy.utils
 class Constants {
 
     companion object {
-       // const val BASE_URL = "http://203.109.113.162:8686/every_moment_holy/public/api/"
+        // const val BASE_URL = "http://203.109.113.162:8686/every_moment_holy/public/api/"
         const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/"
 
         //API
@@ -34,6 +34,10 @@ class Constants {
         const val PrefUserID = "userId"
         const val SHARED_PREF_TOKEN = "token"
         const val LOGGED_IN_PREF = "logged_in_status"
+        const val USER_NAME = "firstName"
+        const val USER_EMAIL = "email"
+        const val PROFILE_PIC = "userProfilePic"
+        const val DEFAULT_PROFILE_PIC = "userProfilePic"
     }
 
 }

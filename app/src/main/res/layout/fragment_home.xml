@@ -65,6 +65,7 @@
             android:textSize="@dimen/home_frg_size" />
 
         <ImageView
+            android:id="@+id/ivHomeShare"
             android:layout_width="@dimen/home_frg_shareimg"
             android:layout_height="@dimen/home_frg_shareimg"
             android:layout_marginTop="@dimen/_26sdp"

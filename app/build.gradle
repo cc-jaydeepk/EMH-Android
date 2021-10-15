@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.folioreader:folioreader:0.5.4'
 
     //imagePicker library
-    //implementation 'com.github.Drjacky:ImagePicker:1.8.4'
+    implementation 'com.github.Drjacky:ImagePicker:1.8.4'
     //implementation 'com.github.dhaval2404:imagepicker:2.1'
 
 

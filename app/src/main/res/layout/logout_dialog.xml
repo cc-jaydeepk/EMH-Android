@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_150sdp"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,30 +11,23 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/bg_dialog"
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_7sdp"
-            android:layout_marginRight="@dimen/_7sdp"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+            style="@style/dialogBigTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:gravity="center" />
+
+        <TextView
+            style="@style/dialogSmallTextStyle"
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
-            android:text="Are you sure you want to Log out?"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
+            android:text="Are you sure you want to Log out?" />
 
         <View
             android:layout_width="match_parent"
@@ -43,13 +35,6 @@
             android:layout_marginTop="@dimen/_12sdp"
             android:background="#DAD5D5" />
 
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:text="@string/ok"
-            android:textColor="#51A8ED"
-            android:textSize="@dimen/_20sdp" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,15 +42,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtOk"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/txtLougotCancel"
+                style="@style/dialogOkTextStyle"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="NO"
-                android:textColor="#51A8ED"
-                android:textSize="@dimen/_16ssp"
+                android:text="No"
                 android:textStyle="bold" />
 
             <View
@@ -74,20 +56,18 @@
                 android:layout_toRightOf="@id/txtOk"
                 android:background="#DAD5D5" />
 
+
             <TextView
-                android:id="@+id/txtCancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/txtLogoutYes"
+                style="@style/dialogOkTextStyle"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Yes"
-                android:textColor="#51A8ED"
-                android:textSize="@dimen/_16ssp" />
+                android:text="Yes" />
 
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -110,6 +110,11 @@ class LoginActivity : AppCompatActivity() {
                         )
 
                         Utils.writeStringToSharedPref(
+                            this@LoginActivity, Constants.USER_NAME,
+                            response.body()!!.response.firstName
+                        )
+
+                        Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.SHARED_PREF_TOKEN,
                             response.body()!!.response.token
                         )

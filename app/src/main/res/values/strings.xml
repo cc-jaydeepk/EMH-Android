@@ -71,5 +71,8 @@
     <string name="please_wait">Loading..</string>
     <string name="registration_succesful">Registration Sucessful</string>
 
+    <string name="firstName_error">Please enter FirstName.</string>
+    <string name="lastName_error">Please enter LastName.</string>
+
 
 </resources>

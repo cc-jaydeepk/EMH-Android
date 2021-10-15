@@ -1,24 +1,41 @@
 package com.everymomentholy.ui.activity
 
+import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.provider.Settings
+import android.text.Editable
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.bumptech.glide.Glide
 import com.everymomentholy.R
+import com.everymomentholy.api.APIInterface
+import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.GetUserProfileRequestVo
+import com.everymomentholy.api.request.LogoutRequestVo
+import com.everymomentholy.api.response.GetUserProfileVo
+import com.everymomentholy.api.response.LogoutResponseVo
 import com.everymomentholy.ui.fragments.*
+import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,11 +49,36 @@ class MainActivity : AppCompatActivity() {
     private lateinit var iv_toolbar_backImage: ImageView
     private lateinit var txt_toolbar_name: TextView
 
+    private lateinit var iv_drawer_profile_image: ImageView
+    private lateinit var txt_drawer_UserName: TextView
+    private lateinit var txt_drawer_email: TextView
+
+    private lateinit var android_id: String
+    var prefeUserId: Int = 0
+
+    lateinit var userName: String
+    lateinit var profileImage: String
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        android_id = Settings.Secure.getString(
+            this.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+
+        prefeUserId = Utils.readIntData(
+            this,
+            Constants.PrefUserID,
+            0
+        )!!
+
+
+
 
         iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
         iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
@@ -44,6 +86,21 @@ class MainActivity : AppCompatActivity() {
         iv_toolbar_search = findViewById(R.id.iv_toolbar_search)
 
         txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
+
+
+        val mNavigationView = findViewById<NavigationView>(R.id.nav_view)
+        val headerView = mNavigationView.getHeaderView(0)
+
+        txt_drawer_UserName = headerView.findViewById<TextView>(R.id.txt_drawer_UserName)
+        txt_drawer_email = headerView.findViewById<TextView>(R.id.txt_drawer_email)
+        iv_drawer_profile_image = headerView.findViewById(R.id.iv_drawer_profile_image)
+
+        txt_drawer_UserName.text =  Utils.readStringFromSharedPref(
+            this@MainActivity, Constants.USER_NAME,
+            ""
+        ).toString()
+
+        //getUserProfile()
 
 
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -54,6 +111,8 @@ class MainActivity : AppCompatActivity() {
         var fragment1: Fragment? = null
         fragment1 = HomeFragment()
         addFragment(fragment1)
+
+
 
 
         iv_toolbar_notification.setOnClickListener {
@@ -88,12 +147,40 @@ class MainActivity : AppCompatActivity() {
             /** Called when a drawer has settled in a completely closed state.  */
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
+                // txt_drawer_UserName.text = userName
+
             }
 
             /** Called when a drawer has settled in a completely open state.  */
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
+                // txt_drawer_UserName.text = userName
+                //  lastsynced.setText(lastsynced());
 
+                profileImage = Utils.readStringFromSharedPref(
+                    this@MainActivity, Constants.PROFILE_PIC,
+                    ""
+                ).toString()
+                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
+
+                profileImage = Utils.readStringFromSharedPref(
+                    this@MainActivity, Constants.DEFAULT_PROFILE_PIC,
+                    ""
+                ).toString()
+
+                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
+
+                txt_drawer_UserName.text = Utils.readStringFromSharedPref(
+                    this@MainActivity, Constants.USER_NAME,
+                    ""
+                ).toString()
+
+
+                txt_drawer_email.text = Utils.readStringFromSharedPref(
+                    this@MainActivity, Constants.USER_EMAIL,
+                    ""
+                ).toString()
+                invalidateOptionsMenu()
             }
         }
 
@@ -101,6 +188,7 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener {
+
             drawerLayout.closeDrawer(GravityCompat.START)
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
@@ -148,23 +236,25 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_myProfileFragment -> {
+                    txt_toolbar_name.text = "My Profile"
+                    iv_toolbar_notification.visibility = View.GONE
+                    navBottomView.visibility = View.GONE
                     replaceFragment(MyProfileFragment())
                     true
                 }
                 R.id.nav_logoutFragment -> {
-                    // replaceFragment(ExploreTrailFragment())
-                    Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), false);
-                    val intent = Intent(applicationContext, SelectOptionActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
+                    showLogoutDialog()
+
+                    /* Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), false);
+                     val intent = Intent(applicationContext, SelectOptionActivity::class.java)
+                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                     startActivity(intent)*/
                     true
                 }
                 else -> false
             }
         }
 
-
-        // loadFragment(HomeFragment())
 
         navBottomView.setOnNavigationItemSelectedListener {
             val fragment: Fragment
@@ -223,6 +313,141 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showLogoutDialog() {
+        val alertDialog = AlertDialog.Builder(
+            this
+        )
+        val inflater = (this as Activity).layoutInflater
+        val alertView: View = inflater.inflate(R.layout.logout_dialog, null)
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertButtonCancel = alertView.findViewById<View>(R.id.txtLougotCancel) as TextView
+        val alertButtonYes = alertView.findViewById<View>(R.id.txtLogoutYes) as TextView
+
+
+        alertButtonYes.setOnClickListener {
+            //show.dismiss()
+            var logoutRequestVo: LogoutRequestVo = LogoutRequestVo()
+            logoutRequestVo.userId = prefeUserId
+            logoutUser(logoutRequestVo)
+        }
+
+        alertButtonCancel.setOnClickListener {
+            show.dismiss()
+        }
+        show.setCanceledOnTouchOutside(false);
+    }
+
+    private fun logoutUser(logoutRequestVo: LogoutRequestVo) {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.logoutUser(
+                logoutRequestVo,
+                "bearer " + Utils.readStringFromSharedPref(
+                    this,
+                    Constants.SHARED_PREF_TOKEN,
+                    ""
+                )
+            )
+
+        try {
+            call.enqueue(object : Callback<LogoutResponseVo> {
+                override fun onResponse(
+                    call: Call<LogoutResponseVo>,
+                    response: Response<LogoutResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        /*Toast.makeText(
+                            this@MainActivity,
+                            "Logout sucessfull",
+                            Toast.LENGTH_LONG
+                        ).show()*/
+
+                        Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), false);
+                        Utils.clearAllPreference(this@MainActivity)
+                        //dialog.dismiss()
+                        val intent = Intent(this@MainActivity, SelectOptionActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+
+                    } else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            response.body()!!.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<LogoutResponseVo>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+
+    private fun getUserProfile() {
+        var getUserProfileRequestVo: GetUserProfileRequestVo = GetUserProfileRequestVo()
+        getUserProfileRequestVo.deviceId = android_id
+        getUserProfileRequestVo.userId = prefeUserId
+
+        Log.e(
+            "token", Utils.readStringFromSharedPref(
+                this,
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            ).toString()
+        )
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.getUserProfile(
+                getUserProfileRequestVo.userId, getUserProfileRequestVo.deviceId,
+                "bearer " + Utils.readStringFromSharedPref(
+                    this,
+                    Constants.SHARED_PREF_TOKEN,
+                    ""
+                )
+            )
+
+
+        try {
+            call.enqueue(object : Callback<GetUserProfileVo> {
+                override fun onResponse(
+                    call: Call<GetUserProfileVo>,
+                    response: Response<GetUserProfileVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                        Glide.with(this@MainActivity)
+                            .load(response.body()!!.response.userProfilePic)
+                            .into(iv_drawer_profile_image)
+
+                    } else {
+                        /* Toast.makeText(
+                             requireActivity(),
+                             response.body()!!.response.message,
+                             Toast.LENGTH_LONG
+                         ).show()*/
+                    }
+                }
+
+                override fun onFailure(call: Call<GetUserProfileVo>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
     private fun loadFragment(fragment: Fragment) {
         txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.black));
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -248,6 +473,16 @@ class MainActivity : AppCompatActivity() {
         //transaction.replace(R.id.nav_host_fragment, fragment)
         transaction.commit()
         drawerLayout.closeDrawers()
+    }
+
+    /*override fun onResume() {
+        super.onResume()
+        getUserProfile()
+    }*/
+
+    override fun onStart() {
+        super.onStart()
+        // getUserProfile()
     }
 
 }

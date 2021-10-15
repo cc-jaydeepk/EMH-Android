@@ -93,8 +93,18 @@ class Utils {
 
 
         fun readIntData(context: Context, key: String?, defaultValue: Int): Int {
-            val sharedPref: SharedPreferences = context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val sharedPref: SharedPreferences =
+                context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
             return sharedPref.getInt(key, defaultValue)
+        }
+
+        fun clearAllPreference(context: Context) {
+            val sharedPref: SharedPreferences =
+                context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val editor = sharedPref.edit()
+            editor.clear()
+
+            editor.apply()
         }
 
 

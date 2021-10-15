@@ -52,11 +52,18 @@
         <activity android:name=".ui.activity.NotificationDetailActivity" />
 
         <activity android:name=".ui.activity.EditProfileActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
-    <uses-sdk
-        tools:overrideLibrary="com.example.lib1, com.example.lib2"
-        android:minSdkVersion="2"
-        android:targetSdkVersion="22" />
+
 
 </manifest>

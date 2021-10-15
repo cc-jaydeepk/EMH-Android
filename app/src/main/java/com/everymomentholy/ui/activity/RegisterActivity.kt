@@ -151,6 +151,11 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             response.body()!!.userId
                         )
 
+                       /* Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.SHARED_PREF_TOKEN,
+                            response.body()!!.response.token
+                        )*/
+
 
                         /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
                         val myEdit = sharedPreferences.edit()

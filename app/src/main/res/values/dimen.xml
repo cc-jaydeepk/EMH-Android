@@ -57,9 +57,9 @@
     <dimen name="navheader_image">@dimen/_60sdp</dimen>
     <dimen name="navheader_name">@dimen/_14ssp</dimen>
     <dimen name="navheader_email">@dimen/_12ssp</dimen>
-    <dimen name="myprofile_img">@dimen/_80sdp</dimen>
+    <dimen name="myprofile_img">@dimen/_96sdp</dimen>
     <dimen name="myprofile_margin">@dimen/_7sdp</dimen>
-    <dimen name="myprofile_txtname_size">@dimen/_22ssp</dimen>
+    <dimen name="myprofile_txtname_size">@dimen/_18ssp</dimen>
     <dimen name="orderbook_imagesixe">@dimen/_90sdp</dimen>
     <dimen name="orderbook_layoutmargin">@dimen/_10sdp</dimen>
     <dimen name="orderbook_txtname">@dimen/_16ssp</dimen>

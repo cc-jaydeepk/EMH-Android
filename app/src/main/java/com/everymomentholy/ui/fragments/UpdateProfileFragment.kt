@@ -1,14 +1,19 @@
-package com.everymomentholy.ui.activity
+package com.everymomentholy.ui.fragments
 
+import android.R.attr.bitmap
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
@@ -22,7 +27,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EditProfileActivity : AppCompatActivity() {
+
+class UpdateProfileFragment : Fragment() {
 
     private lateinit var edtUpdateFirstName: EditText
     private lateinit var edtUpdateLastName: EditText
@@ -33,28 +39,28 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var profile_image: CircleImageView
     lateinit var progressCardView: CardView
 
+//    lateinit var bitmapImage: Bitmap
+
     private lateinit var android_id: String
     var prefeUserId: Int = 0
-    private val IMG_REQUEST = 21
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_profile)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_update_profile, container, false)
 
-        edtUpdateFirstName = findViewById(R.id.edtUpdateFirstName)
-        edtUpdateLastName = findViewById(R.id.edtUpdateLastName)
-        edtUpdateEmail = findViewById(R.id.edtUpdateEmail)
-        edtUpdatePhoneNuber = findViewById(R.id.edtUpdatePhoneNuber)
-        btnUpdateProfile = findViewById(R.id.btnUpdateProfile)
-        ivOpenGallaery = findViewById(R.id.ivOpenGallaery)
-        profile_image = findViewById(R.id.profile_image)
-        progressCardView = findViewById(R.id.progressCardView)
+        edtUpdateFirstName = view.findViewById(R.id.edtUpdateFirstName)
+        edtUpdateLastName = view.findViewById(R.id.edtUpdateLastName)
+        edtUpdateEmail = view.findViewById(R.id.edtUpdateEmail)
+        edtUpdatePhoneNuber = view.findViewById(R.id.edtUpdatePhoneNuber)
+        btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile)
+        ivOpenGallaery = view.findViewById(R.id.ivOpenGallaery)
+        profile_image = view.findViewById(R.id.profile_image)
+        progressCardView = view.findViewById(R.id.progressCardView)
 
         ivOpenGallaery.setOnClickListener {
-//            val intent = Intent()
-//            intent.type = "image/*"
-//            intent.action = Intent.ACTION_GET_CONTENT
-//            startActivityForResult(intent, IMG_REQUEST)
 
             ImagePicker.with(this)
                 .crop()
@@ -62,12 +68,12 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         android_id = Settings.Secure.getString(
-            contentResolver,
+            requireActivity().contentResolver,
             Settings.Secure.ANDROID_ID
         )
 
         prefeUserId = Utils.readIntData(
-            this,
+            requireContext(),
             Constants.PrefUserID,
             0
         )!!
@@ -75,14 +81,15 @@ class EditProfileActivity : AppCompatActivity() {
         btnUpdateProfile.setOnClickListener {
 
             progressCardView.visibility = View.VISIBLE
-           // getUserProfileUpdate()
+            getUserProfileUpdate()
 
         }
+
+        return view
     }
 
-
-    /*private fun getUserProfileUpdate() {
-        var getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo =
+    private fun getUserProfileUpdate() {
+        /*var getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo =
             GetUserProfileUpdateRequestVo()
         getUserProfileUpdateRequestVo.deviceId = android_id
         getUserProfileUpdateRequestVo.userId = prefeUserId
@@ -101,7 +108,7 @@ class EditProfileActivity : AppCompatActivity() {
                 getUserProfileUpdateRequestVo.email,
                 getUserProfileUpdateRequestVo.countryCode,
                 "bearer " + Utils.readStringFromSharedPref(
-                    this,
+                    requireActivity(),
                     Constants.SHARED_PREF_TOKEN,
                     ""
                 )
@@ -117,17 +124,25 @@ class EditProfileActivity : AppCompatActivity() {
                     if (response.body()?.statusCode == 1) {
 
                         progressCardView.visibility = View.GONE
-                        showSuccesDialog()
 
-                        *//*Toast.makeText(
-                            this@EditProfileActivity,
-                            "Profile update successfully",
-                            Toast.LENGTH_LONG
-                        ).show()*//*
+                        val bundle = Bundle()
+                        bundle.putString("name", getUserProfileUpdateRequestVo.firstName)
+                        //bundle.putParcelable("BitmapImage", bitmapImage);
+
+
+                        val myProfileFragment = MyProfileFragment()
+                        val transaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+                        transaction.replace(R.id.nav_host_fragment, myProfileFragment)
+                            .addToBackStack(null)
+                        transaction.commit()
+
+                        myProfileFragment.setArguments(bundle)
+
+                        // showSuccesDialog()
 
                     } else {
                         Toast.makeText(
-                            this@EditProfileActivity,
+                            requireActivity(),
                             response.body()!!.message,
                             Toast.LENGTH_LONG
                         ).show()
@@ -135,17 +150,17 @@ class EditProfileActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<GetUserProfileUpdateResponseVo>, t: Throwable) {
-                    Toast.makeText(this@EditProfileActivity, "${t.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireActivity(), "${t.message}", Toast.LENGTH_SHORT)
                         .show()
                 }
             })
         } catch (exception: Exception) {
             exception.printStackTrace()
-        }
-    }*/
+        }*/
+    }
 
     private fun showSuccesDialog() {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireActivity())
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
         // val dialogLayout = inflater.inflate(R.layout.login_dialog, null)
@@ -153,7 +168,8 @@ class EditProfileActivity : AppCompatActivity() {
         val txtDialogSucces = dialogLayout.findViewById<TextView>(R.id.txtDialogSucces)
         txtDialogSucces.text = "User profile updated successfully"
         txtOk.setOnClickListener {
-            onBackPressed()
+            // onBackPressed()
+
         }
 
         builder.setView(dialogLayout)
@@ -164,7 +180,9 @@ class EditProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         val uri = data!!.data
-        profile_image.setImageURI(uri)
-    }
+        var bitmapImage = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
+        profile_image.setImageBitmap(bitmapImage)
 
+        //profile_image.setImageURI(uri)
+    }
 }

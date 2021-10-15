@@ -1,6 +1,8 @@
 package com.everymomentholy.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +29,10 @@ class HomeFragment : Fragment() {
     private lateinit var txtDailyQuote: TextView
     private lateinit var txtDate: TextView
     private lateinit var imgHomeClock: ImageView
-    private lateinit var imgHomeShare: ImageView
+    private lateinit var ivHomeShare: ImageView
+
+    lateinit var quotesText: String
+    lateinit var cotedText: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,15 +46,25 @@ class HomeFragment : Fragment() {
         txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
         txtDate = view.findViewById(R.id.txtDate)
         imgHomeClock = view.findViewById(R.id.imgHomeClock)
-        // imgHomeShare = view.findViewById(R.id.imgHomeShare)
+        ivHomeShare = view.findViewById(R.id.ivHomeShare)
+
+        ivHomeShare.setOnClickListener {
+           // shareText()
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_TEXT, quotesText)
+            shareIntent.type = "text/plain"
+            startActivity(Intent.createChooser(shareIntent, "send to"))
+        }
 
         // dailyLiturgyQuote()
         //getSettings()
 
-        val folioReader = FolioReader.get()
-        folioReader.openBook(R.raw.before_shopping)
+        //  val folioReader = FolioReader.get()
+        //folioReader.openBook(R.raw.before_shopping)
         return view
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -108,6 +123,10 @@ class HomeFragment : Fragment() {
                         txtDailyQuote.text = response.body()!!.response.quote
                         txtDate.text = response.body()!!.response.date
 
+                        quotesText = response.body()!!.response.quote
+                        cotedText = response.body()!!.response.parentLiturgy
+                        Log.e("text", quotesText)
+
                     } else {
 
                     }
@@ -121,5 +140,13 @@ class HomeFragment : Fragment() {
             exception.printStackTrace()
         }
 
+    }
+
+    private fun shareText() {
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.putExtra(Intent.EXTRA_TEXT, quotesText)
+        shareIntent.type = "text/plain"
+        startActivity(Intent.createChooser(shareIntent, "send to"))
     }
 }

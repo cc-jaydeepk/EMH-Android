@@ -3,8 +3,11 @@ package com.everymomentholy.api
 import com.everymomentholy.api.request.*
 import com.everymomentholy.api.response.*
 import com.everymomentholy.utils.Constants
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface APIInterface {
 
@@ -48,6 +51,7 @@ interface APIInterface {
         @Header("Authorization") token: String
     ): Call<GetUserProfileVo>
 
+    @Multipart
     @POST(Constants.API_GET_USER_PROFILE_UPDATE)
     fun getUserProfileUpdate(
         @Path("userid") id: Int,
@@ -56,15 +60,53 @@ interface APIInterface {
         @Query("lastName") lastName: String?,
         @Query("email") email: String,
         @Query("countryCode") countryCode: String,
-        @Header("Authorization") token: String
+        // @Query("userProfilePic") userProfilePic: String,
+        @Header("Authorization") token: String,
+        @Part image: MultipartBody.Part?
+
     ): Call<GetUserProfileUpdateResponseVo>
 
+    /*@POST(Constants.API_GET_USER_PROFILE_UPDATE)
+    fun updateUserData(
+        @Path("userid") id: Int,
+        @Query("deviceId") deviceId: String?,
+        @Query("firstName") firstName: String?,
+        @Query("lastName") lastName: String?,
+        @Query("email") email: String,
+        @Query("countryCode") countryCode: String,
+        @Part MultipartBody.Part image,
+        @Header("Authorization") token: String
+    ): Call<c>*/
+
+    @Multipart
+    @POST(Constants.API_GET_USER_PROFILE_UPDATE)
+    fun uploadImage(
+        @Path("userid") id: Int,
+        @Query("deviceId") deviceId: String?,
+        @Query("firstName") firstName: String?,
+        @Query("lastName") lastName: String?,
+        @Query("email") email: String,
+        @Query("countryCode") countryCode: String,
+        @Header("Authorization") token: String,
+        @Part("userProfilePic") image: MultipartBody.Part?
+    ): Call<GetUserProfileUpdateResponseVo?>
+
+    @Multipart
     @POST(Constants.API_GET_USER_PROFILE_UPDATE)
     fun getUserProfileEdit(
         @Path("userid") id: Int,
         @Body getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo,
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Part image: Part?
     ): Call<GetUserProfileUpdateResponseVo>
+
+    @POST(Constants.API_LOGOUT)
+    fun logoutUser(
+        @Body logoutRequestVo: LogoutRequestVo,
+        @Header("Authorization") token: String
+    ): Call<LogoutResponseVo>
+
+    // fun userLogin(@Body loginRequestVo: LoginRequestVo): Call<LoginResponseVo>
 
     @GET(Constants.API_ABOUTUS)
     fun aboutUs(): Call<AboutUsResponseVO>

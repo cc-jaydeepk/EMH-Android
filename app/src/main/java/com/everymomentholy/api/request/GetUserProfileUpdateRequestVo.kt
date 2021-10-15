@@ -8,4 +8,7 @@ class GetUserProfileUpdateRequestVo {
     var lastName: String = ""
     var email: String = ""
     var countryCode: String = ""
+    var mobileNo: String = ""
+
+    var userProfilePic: String = ""
 }

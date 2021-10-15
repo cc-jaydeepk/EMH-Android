@@ -3,10 +3,13 @@ package com.everymomentholy.utils
 import android.content.Context
 import android.content.SharedPreferences
 
+
+
+
 class SavaPreferences(context: Context) {
     private val sharedPreference = context.getSharedPreferences("myPreference", 0)
 
-    fun putInt(key: String, value: Int){
+    fun putInt(key: String, value: Int) {
         sharedPreference.edit().putInt(key, value).apply()
     }
 
@@ -33,6 +36,30 @@ class SavaPreferences(context: Context) {
 
     private fun getUserSettings(): Int {
         //val userSettings: SharedPreferences = getSharedPreferences("userSettings", Context.MODE_PRIVATE)
-       return sharedPreference.getInt("timeOne", 2)
+        return sharedPreference.getInt("timeOne", 2)
     }
+
+    private var sharedPref: SharedPreferences? = null
+    private val PREF_STRING = "pref_value"
+    fun login(username_params: String?, email_params: String?) {
+
+       // sharedPref = getSharedPreferences(PREF_STRING, 0)
+        val editor: SharedPreferences.Editor = sharedPreference.edit()
+        editor.putString("username", username_params)
+        editor.putString("email", email_params)
+       // transaction
+        editor.commit() // only after commit() data is saved in sharedPreferences
+    }
+
+    fun getDataFromPrefernces() {
+       // val prefefnces: SharedPreferences = this.getApplicationContext<Context>().getSharedPreferences(PREF_STRING, 0)
+        val editor = sharedPreference.edit()
+        val username = sharedPreference.getString("username", "")
+        val email = sharedPreference.getString("email", "")
+        editor.commit();
+    }
+
+
+
+
 }
