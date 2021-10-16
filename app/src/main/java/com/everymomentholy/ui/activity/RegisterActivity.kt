@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -157,7 +158,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         )
 
                         Utils.writeStringToSharedPref(
-                            this@RegisterActivity, Constants.EMAIL,
+                            this@RegisterActivity, Constants.USER_EMAIL,
                             registrationRequestVo.email
                         )
 
@@ -218,6 +219,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         Toast.makeText(this, "Country Name " + countryName, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("NewApi")
     private fun checkValidation(): Boolean {
 
         val firstNm = edtFirstName.text.toString().trim()

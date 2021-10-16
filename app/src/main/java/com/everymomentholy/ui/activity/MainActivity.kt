@@ -122,12 +122,12 @@ class MainActivity : AppCompatActivity() {
         ).toString()
 
         txt_drawer_email.text = Utils.readStringFromSharedPref(
-            this@MainActivity, Constants.EMAIL,
+            this@MainActivity, Constants.USER_EMAIL,
             ""
         ).toString()
 
         userImage = Utils.readStringFromSharedPref(
-            this@MainActivity, Constants.PROFILE_Image,
+            this@MainActivity, Constants.PROFILE_PIC,
             ""
         ).toString()
         //iv_drawer_profile_image.setImageURI(Uri.parse(userImage))
@@ -176,13 +176,16 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity, Constants.PROFILE_PIC,
                     ""
                 ).toString()
-                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
 
-                profileImage = Utils.readStringFromSharedPref(
-                    this@MainActivity, Constants.DEFAULT_PROFILE_PIC,
-                    ""
-                ).toString()
-                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
+                Glide.with(this@MainActivity)
+                    .load(profileImage)
+                    .into(iv_drawer_profile_image)
+
+                /* profileImage = Utils.readStringFromSharedPref(
+                     this@MainActivity, Constants.DEFAULT_PROFILE_PIC,
+                     ""
+                 ).toString()
+                 iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))*/
 
 
                 /*if (yourBool) {
@@ -477,12 +480,12 @@ class MainActivity : AppCompatActivity() {
                         Log.e("Name", response.body()!!.response.firstName)
 
                         Utils.writeStringToSharedPref(
-                            this@MainActivity, Constants.EMAIL,
+                            this@MainActivity, Constants.USER_EMAIL,
                             response.body()!!.response.email
                         )
 
                         Utils.writeStringToSharedPref(
-                            this@MainActivity, Constants.PROFILE_Image,
+                            this@MainActivity, Constants.PROFILE_PIC,
                             response.body()!!.response.userProfilePic
                         )
 

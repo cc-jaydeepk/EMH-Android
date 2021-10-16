@@ -6,6 +6,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.MediaStore
@@ -17,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.graphics.drawable.toBitmap
@@ -70,6 +72,7 @@ class MyProfileFragment : Fragment() {
     lateinit var userProfileMultipart: MultipartBody.Part
     lateinit var progressCardView: CardView
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -456,24 +459,25 @@ class MyProfileFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (isImageSelect) {
-            profile_upload_ImageUri = data!!.data!!
-            var bitmapImage = MediaStore.Images.Media.getBitmap(
-                requireActivity().contentResolver,
-                profile_upload_ImageUri
-            )
-            //profile_image.setImageBitmap(bitmapImage)
+        if (data!!.data != null) {
+            if (isImageSelect) {
+                profile_upload_ImageUri = data!!.data!!
+                var bitmapImage = MediaStore.Images.Media.getBitmap(
+                    requireActivity().contentResolver,
+                    profile_upload_ImageUri
+                )
+                //profile_image.setImageBitmap(bitmapImage)
 
-            profile_image.setImageURI(profile_upload_ImageUri)
-        } else {
-            Toast.makeText(
-                requireActivity(),
-                "Image not selected",
-                Toast.LENGTH_LONG
-            ).show()
+                profile_image.setImageURI(profile_upload_ImageUri)
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Image not selected",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
         }
-
-
         //uploadFile(uri, "My Image");
 
 

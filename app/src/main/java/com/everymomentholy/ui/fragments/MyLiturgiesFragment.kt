@@ -2,6 +2,7 @@ package com.everymomentholy.ui.fragments
 
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +50,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     lateinit var freeLiturgies: ArrayList<MyLiturgiesDataVo>
     private lateinit var bottomSliderAdapter: BottomSliderAdapter
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -141,6 +144,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     private fun showBottomSheetDialog() {
         val dialog = context?.let { BottomSheetDialog(it) }
         val view = layoutInflater.inflate(R.layout.activity_buttom_slider, null)
@@ -157,7 +161,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             MODE_PRIVATE
         )
 
-        prefeUserId = sharedPreferences.getInt("userId", 0)
+        prefeUserId = sharedPreferences.getInt("", 0)
         bottomSliderAdapter = BottomSliderAdapter(
             requireContext(),
             freeLiturgies,

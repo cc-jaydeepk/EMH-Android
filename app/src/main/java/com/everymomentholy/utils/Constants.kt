@@ -25,6 +25,7 @@ class Constants {
         const val API_ABOUT_BOOK = "aboutBook"
         const val API_CONTACTUS = "contactUs"
         const val API_ABOUT_VOLUME = "aboutVolume"
+        const val API_GET_BOOKS_BY_VOLUME = "getBooksByVolume"
 
 
         const val DEVICE_TYPE = "1"
@@ -38,9 +39,7 @@ class Constants {
         const val USER_NAME = "firstName"
         const val NAME = "userName"
         const val USER_EMAIL = "email"
-        const val EMAIL = "usrEmail"
         const val PROFILE_PIC = "userProfilePic"
-        const val PROFILE_Image = "userProfileImge"
         const val PROFILE = "userProfilePic"
         const val DEFAULT_PROFILE_PIC = "userProfilePic"
     }

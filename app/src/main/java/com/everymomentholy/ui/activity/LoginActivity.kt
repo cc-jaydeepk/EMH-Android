@@ -1,6 +1,8 @@
 package com.everymomentholy.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
@@ -8,6 +10,7 @@ import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.everymomentholy.R
@@ -41,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
         var userLogin: Boolean? = false
     }*/
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -212,7 +216,7 @@ class LoginActivity : AppCompatActivity() {
                         )
 
                         Utils.writeStringToSharedPref(
-                            this@LoginActivity, Constants.PROFILE_Image,
+                            this@LoginActivity, Constants.PROFILE_PIC,
                             response.body()!!.response.userProfilePic
                         )
 
@@ -261,6 +265,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun checkValidation(): Boolean {
 
         val email = edtLoginEmail.text.toString().trim()

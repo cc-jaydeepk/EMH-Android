@@ -44,7 +44,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/ll_enroute_bottom_sheet"
+        android:id="@+id/ll_about_book_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

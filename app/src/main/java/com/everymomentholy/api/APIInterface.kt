@@ -130,6 +130,13 @@ interface APIInterface {
     fun aboutBook(@Query("bookId") bookid: Int): Call<AboutBookResponseVo>
 
     @GET(Constants.API_ABOUT_VOLUME)
-    fun getAboutVolume(@Query("volumeId") volumnId:Int): Call<AboutVolumeResponseVo>
+    fun getAboutVolume(@Query("volumeId") volumnId: Int): Call<AboutVolumeResponseVo>
+
+    @GET(Constants.API_GET_BOOKS_BY_VOLUME)
+    fun getCollectionList(
+        @Query("deviceId") deviceId: String,
+        @Query("volumeId") volumeId: Int,
+        @Query("appUserId") appUserId: Int?
+    ): Call<CollectionListResponseVo>
 
 }
