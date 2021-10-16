@@ -15,7 +15,7 @@
     <string name="your_name">Your Name</string>
     <string name="submit">Submit</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="old_password">Old Password</string>
+    <string name="old_password">Old Password <font color="#FF0000">*</font></string>
     <string name="new_password">New Password <font color="#FF0000">*</font></string>
     <string name="confirm_password">Confirm Password <font color="#FF0000">*</font></string>
     <string name="daily_liturgy_quote">Daily Liturgy Quote</string>

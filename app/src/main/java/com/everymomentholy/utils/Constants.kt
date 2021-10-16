@@ -19,6 +19,7 @@ class Constants {
         const val API_GET_USER_PROFILE = "getUserProfile/{userid}"
         const val API_GET_USER_PROFILE_UPDATE = "updateUserProfile/{userid}"
         const val API_LOGOUT = "logout"
+        const val API_CHANGEPASSWORD = "changePassword"
         const val API_ABOUTUS = "getStaticPages?slug=about-us"
         const val API_TERMSCONDITION = "getStaticPages?slug=terms-conditions"
         const val API_ABOUT_BOOK = "aboutBook"
@@ -29,15 +30,18 @@ class Constants {
         const val DEVICE_TYPE = "1"
         const val SHARED_PREF_APP_SETTINGS_RESPONSE = "APP_SETTINGS_RESPONSE"
 
-
         //Shared preferences keys
         const val SHARED_PREF_NAME = "EveryMomentHoly"
         const val PrefUserID = "userId"
         const val SHARED_PREF_TOKEN = "token"
         const val LOGGED_IN_PREF = "logged_in_status"
         const val USER_NAME = "firstName"
+        const val NAME = "userName"
         const val USER_EMAIL = "email"
+        const val EMAIL = "usrEmail"
         const val PROFILE_PIC = "userProfilePic"
+        const val PROFILE_Image = "userProfileImge"
+        const val PROFILE = "userProfilePic"
         const val DEFAULT_PROFILE_PIC = "userProfilePic"
     }
 

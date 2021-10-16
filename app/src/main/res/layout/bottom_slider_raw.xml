@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_47sdp"
                     android:text="@string/free"
+                    android:fontFamily="@font/lato_medium"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/buttomsheet_freetxt_size" />
 

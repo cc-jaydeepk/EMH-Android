@@ -5,5 +5,6 @@ class AboutUsResponseVO {
 
     var statusCode: Int = 1
 
-    var response: ResponseVo = ResponseVo()
+   // var response: ResponseVo = ResponseVo()
+    var response: AboutusResponse = AboutusResponse()
 }

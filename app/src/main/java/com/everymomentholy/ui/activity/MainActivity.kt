@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
-import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -58,8 +57,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var android_id: String
     var prefeUserId: Int = 0
 
+    var isuserLogin: Boolean = false
+
     lateinit var userName: String
-    lateinit var profileImage: String
+    var profileImage: String = ""
+    var userImage: String = ""
+    var yourBool: Boolean? = null
 
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -80,7 +83,10 @@ class MainActivity : AppCompatActivity() {
             0
         )!!
 
-
+        var yourBool = intent.getBooleanExtra("boolean", false)
+        //val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        // val yourLocked: Boolean = prefs.getBoolean("locked", false)
+        // val profile: Boolean = prefs.getBoolean("myProfile", false)
 
 
         iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
@@ -98,13 +104,6 @@ class MainActivity : AppCompatActivity() {
         txt_drawer_email = headerView.findViewById<TextView>(R.id.txt_drawer_email)
         iv_drawer_profile_image = headerView.findViewById(R.id.iv_drawer_profile_image)
 
-        txt_drawer_UserName.text =  Utils.readStringFromSharedPref(
-            this@MainActivity, Constants.USER_NAME,
-            ""
-        ).toString()
-
-        //getUserProfile()
-
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
@@ -115,7 +114,23 @@ class MainActivity : AppCompatActivity() {
         fragment1 = HomeFragment()
         addFragment(fragment1, "Every Moment Holy")
 
+        getUserProfile()
 
+        txt_drawer_UserName.text = Utils.readStringFromSharedPref(
+            this@MainActivity, Constants.NAME,
+            ""
+        ).toString()
+
+        txt_drawer_email.text = Utils.readStringFromSharedPref(
+            this@MainActivity, Constants.EMAIL,
+            ""
+        ).toString()
+
+        userImage = Utils.readStringFromSharedPref(
+            this@MainActivity, Constants.PROFILE_Image,
+            ""
+        ).toString()
+        //iv_drawer_profile_image.setImageURI(Uri.parse(userImage))
 
 
         iv_toolbar_notification.setOnClickListener {
@@ -150,15 +165,12 @@ class MainActivity : AppCompatActivity() {
             /** Called when a drawer has settled in a completely closed state.  */
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
-                // txt_drawer_UserName.text = userName
-
+                invalidateOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state.  */
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                // txt_drawer_UserName.text = userName
-                //  lastsynced.setText(lastsynced());
 
                 profileImage = Utils.readStringFromSharedPref(
                     this@MainActivity, Constants.PROFILE_PIC,
@@ -170,8 +182,40 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity, Constants.DEFAULT_PROFILE_PIC,
                     ""
                 ).toString()
-
                 iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
+
+
+                /*if (yourBool) {
+
+                    Glide.with(this@MainActivity)
+                        .load(userImage)
+                        .into(iv_drawer_profile_image)
+                } else {
+                    isuserLogin = false
+                    profileImage = Utils.readStringFromSharedPref(
+                        this@MainActivity, Constants.PROFILE_PIC,
+                        ""
+                    ).toString()
+                    iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
+                }*/
+
+                /*profileImage = Utils.readStringFromSharedPref(
+                    this@MainActivity, Constants.PROFILE_PIC,
+                    ""
+                ).toString()
+                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))*/
+
+                /*profileImage = Utils.readStringFromSharedPref(
+                    this@MainActivity, Constants.PROFILE_PIC,
+                    ""
+                ).toString()
+                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
+
+                profileImage = Utils.readStringFromSharedPref(
+                    this@MainActivity, Constants.DEFAULT_PROFILE_PIC,
+                    ""
+                ).toString()
+                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))*/
 
                 txt_drawer_UserName.text = Utils.readStringFromSharedPref(
                     this@MainActivity, Constants.USER_NAME,
@@ -360,11 +404,6 @@ class MainActivity : AppCompatActivity() {
                     response: Response<LogoutResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-                        /*Toast.makeText(
-                            this@MainActivity,
-                            "Logout sucessfull",
-                            Toast.LENGTH_LONG
-                        ).show()*/
 
                         Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), false);
                         Utils.clearAllPreference(this@MainActivity)
@@ -428,16 +467,35 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
+                        // isuserLogin = true
+
+                        Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.NAME,
+                            response.body()!!.response.firstName
+                        )
+
+                        Log.e("Name", response.body()!!.response.firstName)
+
+                        Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.EMAIL,
+                            response.body()!!.response.email
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.PROFILE_Image,
+                            response.body()!!.response.userProfilePic
+                        )
+
                         Glide.with(this@MainActivity)
                             .load(response.body()!!.response.userProfilePic)
                             .into(iv_drawer_profile_image)
 
                     } else {
-                        /* Toast.makeText(
-                             requireActivity(),
-                             response.body()!!.response.message,
-                             Toast.LENGTH_LONG
-                         ).show()*/
+                        Toast.makeText(
+                            this@MainActivity,
+                            response.body()!!.response.message,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
 
@@ -481,14 +539,14 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.closeDrawers()
     }
 
-    /*override fun onResume() {
+    override fun onResume() {
         super.onResume()
-        getUserProfile()
-    }*/
-
-    override fun onStart() {
-        super.onStart()
         // getUserProfile()
+        Glide.with(this@MainActivity)
+            .load(userImage)
+            .into(iv_drawer_profile_image)
+
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.everymomentholy.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
@@ -12,7 +13,9 @@ import androidx.cardview.widget.CardView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.GetUserProfileRequestVo
 import com.everymomentholy.api.request.LoginRequestVo
+import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -29,10 +32,20 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var android_id: String
     private lateinit var txtForgotPsw: TextView
     lateinit var progressCardView: CardView
+    var prefeUserId: Int = 0
+    var isUserLogin: Boolean = false
+
+
+    /*companion object {
+        var bOne: Boolean? = true
+        var userLogin: Boolean? = false
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+
 
         android_id = Settings.Secure.getString(
             applicationContext.contentResolver,
@@ -40,12 +53,19 @@ class LoginActivity : AppCompatActivity() {
         )
         Log.e("device id", android_id)
 
+        prefeUserId = Utils.readIntData(
+            this,
+            Constants.PrefUserID,
+            0
+        )!!
+
         btn_Login = findViewById(R.id.btn_Login)
         edtLoginEmail = findViewById(R.id.edtLoginEmail)
         edtLoginPassword = findViewById(R.id.edtLoginPassword)
         txtForgotPsw = findViewById(R.id.txtForgotPsw)
         progressCardView = findViewById(R.id.progressCardView)
 
+        // getUserProfile()
 
 
         txtForgotPsw.setOnClickListener {
@@ -91,7 +111,79 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun getUserProfile() {
+        var getUserProfileRequestVo: GetUserProfileRequestVo = GetUserProfileRequestVo()
+        getUserProfileRequestVo.deviceId = android_id
+        getUserProfileRequestVo.userId = prefeUserId
+
+        Log.e(
+            "token", Utils.readStringFromSharedPref(
+                this,
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            ).toString()
+        )
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.getUserProfile(
+                getUserProfileRequestVo.userId, getUserProfileRequestVo.deviceId,
+                "bearer " + Utils.readStringFromSharedPref(
+                    this,
+                    Constants.SHARED_PREF_TOKEN,
+                    ""
+                )
+            )
+
+
+        try {
+            call.enqueue(object : Callback<GetUserProfileVo> {
+                override fun onResponse(
+                    call: Call<GetUserProfileVo>,
+                    response: Response<GetUserProfileVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                        Utils.writeStringToSharedPref(
+                            this@LoginActivity, Constants.USER_NAME,
+                            response.body()!!.response.firstName
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@LoginActivity, Constants.USER_NAME,
+                            response.body()!!.response.email
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@LoginActivity, Constants.PROFILE_PIC,
+                            response.body()!!.response.userProfilePic
+                        )
+
+                        /*Glide.with(this@LoginActivity)
+                            .load(response.body()!!.response.userProfilePic)
+                            .into(iv_drawer_profile_image)*/
+
+                    } else {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            response.body()!!.response.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<GetUserProfileVo>, t: Throwable) {
+                    Toast.makeText(this@LoginActivity, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
     private fun login(loginRequestVo: LoginRequestVo) {
+
 
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.userLogin(loginRequestVo)
@@ -115,11 +207,25 @@ class LoginActivity : AppCompatActivity() {
                         )
 
                         Utils.writeStringToSharedPref(
+                            this@LoginActivity, Constants.USER_EMAIL,
+                            response.body()!!.response.email
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@LoginActivity, Constants.PROFILE_Image,
+                            response.body()!!.response.userProfilePic
+                        )
+
+                        Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.SHARED_PREF_TOKEN,
                             response.body()!!.response.token
                         )
 
-                        Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), true);
+                        Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), true)
+
+                       /* val prefs =
+                            PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
+                        val statusLocked = prefs.edit().putBoolean("locked", true).apply()*/
 
                         /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
                         val myEdit = sharedPreferences.edit()
@@ -131,9 +237,9 @@ class LoginActivity : AppCompatActivity() {
 
                         progressCardView.visibility = View.GONE
 
+                        isUserLogin = true
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.putExtra("boolean", isUserLogin)
                         startActivity(intent)
 
 

@@ -45,7 +45,7 @@ class AboutUsFragment : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        //txtAbout.text = response.body()!!.response.description
+                        txtAbout.text = response.body()!!.response.description
 
                     } else {
                         /*Toast.makeText(

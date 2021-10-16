@@ -93,7 +93,7 @@
 
 
                 <ImageView
-                    android:id="@+id/imgOrderHis"
+                    android:id="@+id/ivOrderHistory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_5sdp"
@@ -101,7 +101,7 @@
                     android:src="@drawable/ic_orderhistory" />
 
                 <ImageView
-                    android:id="@+id/imgChangePsw"
+                    android:id="@+id/ivChangePassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_5sdp"
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/free"
                 android:textSize="@dimen/_18ssp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/edtUserFirstName"

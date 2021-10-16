@@ -107,6 +107,12 @@ interface APIInterface {
         @Header("Authorization") token: String
     ): Call<LogoutResponseVo>
 
+    @POST(Constants.API_CHANGEPASSWORD)
+    fun changePassword(
+        @Body changePasswordRequestVo: ChangePasswordRequestVo,
+        @Header("Authorization") token: String
+    ): Call<ChangePasswordResponseVo>
+
     // fun userLogin(@Body loginRequestVo: LoginRequestVo): Call<LoginResponseVo>
 
     @GET(Constants.API_ABOUTUS)

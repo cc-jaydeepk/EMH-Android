@@ -15,7 +15,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.GetUserProfileRequestVo
 import com.everymomentholy.api.request.RegisterRequestVo
+import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.RegisterResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -37,6 +39,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     private lateinit var edtPhoneNumber: EditText
     private lateinit var country_code: EditText
     private lateinit var android_id: String
+    var prefeUserId: Int = 0
     private lateinit var txtForgot: TextView
 
     private lateinit var imgCheckbox: ImageView
@@ -55,22 +58,17 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         supportActionBar?.hide()
 
-//        iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
-//        iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
-//        txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
-//        iv_toolbar_notification = findViewById(R.id.iv_toolbar_notification)
-//
-//        iv_toolbar_drawer.visibility = View.GONE
-//        txt_toolbar_name.visibility = View.GONE
-//        iv_toolbar_notification.visibility = View.GONE
-//        iv_toolbar_backImage.visibility = View.VISIBLE
-
-
         android_id = Settings.Secure.getString(
             applicationContext.contentResolver,
             Settings.Secure.ANDROID_ID
         )
         Log.e("device id", android_id)
+
+        prefeUserId = Utils.readIntData(
+            this,
+            Constants.PrefUserID,
+            0
+        )!!
 
 
         ccp = findViewById(R.id.country_code_picker)
@@ -91,6 +89,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             isAcceptTerms = true
             imgCheckbox.setImageResource(R.drawable.ic_check_box);
         }
+
+        //getUserProfile()
 
         btnRedister = findViewById(R.id.btnRedister)
         btnRedister.setOnClickListener {
@@ -151,10 +151,15 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             response.body()!!.userId
                         )
 
-                       /* Utils.writeStringToSharedPref(
-                            this@RegisterActivity, Constants.SHARED_PREF_TOKEN,
-                            response.body()!!.response.token
-                        )*/
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.NAME,
+                            registrationRequestVo.firstName
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.EMAIL,
+                            registrationRequestVo.email
+                        )
 
 
                         /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
@@ -185,6 +190,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         }
 
     }
+
 
     private fun showDialog() {
 

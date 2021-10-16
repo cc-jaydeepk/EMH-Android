@@ -47,7 +47,7 @@ import java.io.IOException
 
 class MyProfileFragment : Fragment() {
 
-    lateinit var imgChangePsw: ImageView
+    lateinit var ivChangePassword: ImageView
     private lateinit var edtUserFirstName: EditText
     private lateinit var edtUserLastName: EditText
     private lateinit var edtUserEmail: EditText
@@ -80,7 +80,7 @@ class MyProfileFragment : Fragment() {
         freeText = view.findViewById(R.id.textFree)
         txtUseName = view.findViewById(R.id.txtUseName)
 
-        imgChangePsw = view.findViewById(R.id.imgChangePsw)
+        ivChangePassword = view.findViewById(R.id.ivChangePassword)
 
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile)
@@ -93,6 +93,8 @@ class MyProfileFragment : Fragment() {
         edtUserPhoneNumber = view.findViewById(R.id.edtUserPhoneNumber)
         profile_image = view.findViewById(R.id.profile_image)
         ivOpenGallery = view.findViewById(R.id.ivOpenGallery)
+
+
 
         ivOpenGallery.setOnClickListener {
             ImagePicker.with(this)
@@ -168,7 +170,7 @@ class MyProfileFragment : Fragment() {
         if (bundle != null) {
             val userName = bundle["name"].toString()
 
-            freeText.text = userName.toString()
+            //freeText.text = userName.toString()
             txtUseName.text = userName.toString()
 
         }
@@ -184,9 +186,14 @@ class MyProfileFragment : Fragment() {
             0
         )!!
 
+        txtUseName.text = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.NAME,
+            ""
+        ).toString()
+
         getUserProfile()
 
-        imgChangePsw.setOnClickListener {
+        ivChangePassword.setOnClickListener {
             val intent = Intent(activity, ChangePasswordActivity::class.java)
             startActivity(intent)
         }
@@ -368,8 +375,6 @@ class MyProfileFragment : Fragment() {
                             getUserProfileUpdateRequestVo.email
                         )
 
-
-
                         if (profile_upload_ImageUri != null) {
                             Utils.writeStringToSharedPref(
                                 requireActivity(), Constants.PROFILE_PIC,
@@ -382,6 +387,9 @@ class MyProfileFragment : Fragment() {
                             )
                         }
 
+                        val prefs =
+                            PreferenceManager.getDefaultSharedPreferences(requireActivity())
+                        val statusLocked = prefs.edit().putBoolean("myProfile", true).apply()
 
                         /* val preferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
                          val editor = preferences.edit()
