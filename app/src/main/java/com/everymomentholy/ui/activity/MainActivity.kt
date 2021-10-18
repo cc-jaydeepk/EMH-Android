@@ -2,10 +2,8 @@ package com.everymomentholy.ui.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -57,12 +55,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var android_id: String
     var prefeUserId: Int = 0
 
-    var isuserLogin: Boolean = false
 
-    lateinit var userName: String
     var profileImage: String = ""
     var userImage: String = ""
-    var yourBool: Boolean? = null
 
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -134,16 +129,16 @@ class MainActivity : AppCompatActivity() {
 
 
         iv_toolbar_notification.setOnClickListener {
-            /*val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
-            startActivity(intent)*/
+            val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
+            startActivity(intent)
 
-            txt_toolbar_name.text = "Notifications"
+            /*txt_toolbar_name.text = "Notifications"
             iv_toolbar_notification.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
             iv_toolbar_backImage.visibility = View.VISIBLE
             var fragment: Fragment
             fragment = NotificationListFragment()
-            replaceFragment(fragment, "Notification")
+            replaceFragment(fragment, "Notification")*/
         }
 
         iv_toolbar_backImage.setOnClickListener {
@@ -494,11 +489,11 @@ class MainActivity : AppCompatActivity() {
                             .into(iv_drawer_profile_image)
 
                     } else {
-                        Toast.makeText(
+                        /*Toast.makeText(
                             this@MainActivity,
                             response.body()!!.response.message,
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
                 }
 

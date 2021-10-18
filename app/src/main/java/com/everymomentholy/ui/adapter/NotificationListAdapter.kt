@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.response.NotificationDataVo
-import com.everymomentholy.ui.fragments.NotificationListFragment
+import com.everymomentholy.ui.activity.NotificationListActivity
 
 
 class NotificationListAdapter(
     var context: Context, var notificationList: List<NotificationDataVo>,
-    var notificationClickListner: NotificationListFragment
+    var notificationClickListner: NotificationListActivity
 ) : RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/_5sdp"
-    android:layout_marginLeft="@dimen/_5sdp"
-    android:layout_marginTop="@dimen/_33sdp"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <!--<de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_drawer_profile_image"
-        android:layout_width="@dimen/navheader_image"
-        android:layout_height="@dimen/navheader_image"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:src="@drawable/profileimage" />-->
-
-    <ImageView
-        android:id="@+id/iv_drawer_profile_image"
-        android:layout_width="@dimen/navheader_image"
-        android:layout_height="@dimen/navheader_image"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:src="@drawable/profileimage" />
-
-    <TextView
-        android:id="@+id/txt_drawer_UserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:fontFamily="@font/lato_regular"
-        android:text="Denisha Varagiya"
-        android:textColor="@color/black"
-        android:textSize="@dimen/navheader_name"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txt_drawer_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:fontFamily="@font/lato_light"
-        android:text="varagiyadm@gmail.com"
-        android:textSize="@dimen/navheader_email" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_1sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:background="#B8B4B4" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_33sdp"
+        android:background="@color/white"
+        android:orientation="vertical">
 
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/iv_drawer_profile_image"
+            android:layout_width="@dimen/navheader_image"
+            android:layout_height="@dimen/navheader_image"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:src="@drawable/profileimage" />
+
+        <TextView
+            android:id="@+id/txt_drawer_UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:fontFamily="@font/lato_regular"
+            android:text="Denisha Varagiya"
+            android:textColor="@color/black"
+            android:textSize="@dimen/navheader_name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_drawer_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:fontFamily="@font/lato_light"
+            android:text="varagiyadm@gmail.com"
+            android:textSize="@dimen/navheader_email" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="#B8B4B4" />
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

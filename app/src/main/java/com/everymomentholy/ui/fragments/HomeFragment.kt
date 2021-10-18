@@ -1,25 +1,34 @@
 package com.everymomentholy.ui.fragments
 
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.content.FileProvider
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.everymomentholy.BuildConfig
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
 import com.everymomentholy.api.response.HomegetSettingResponseVo
-import com.folioreader.FolioReader
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -28,8 +37,11 @@ class HomeFragment : Fragment() {
     private lateinit var txtQuote: TextView
     private lateinit var txtDailyQuote: TextView
     private lateinit var txtDate: TextView
+    private lateinit var txt_toolbar: TextView
     private lateinit var imgHomeClock: ImageView
     private lateinit var ivHomeShare: ImageView
+    private lateinit var rootLayout: NestedScrollView
+    private lateinit var txtToolbar: RelativeLayout
 
     lateinit var quotesText: String
     lateinit var cotedText: String
@@ -41,20 +53,25 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        rootLayout = view.findViewById(R.id.rootLayout)
+        txt_toolbar = view.findViewById(R.id.txt_toolbar)
+
         txtTitle = view.findViewById(R.id.txtTitle)
         txtQuote = view.findViewById(R.id.txtQuote)
         txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
         txtDate = view.findViewById(R.id.txtDate)
         imgHomeClock = view.findViewById(R.id.imgHomeClock)
         ivHomeShare = view.findViewById(R.id.ivHomeShare)
+        ivHomeShare.visibility = View.VISIBLE
 
         ivHomeShare.setOnClickListener {
-           // shareText()
-            val shareIntent = Intent()
-            shareIntent.action = Intent.ACTION_SEND
-            shareIntent.putExtra(Intent.EXTRA_TEXT, quotesText)
-            shareIntent.type = "text/plain"
-            startActivity(Intent.createChooser(shareIntent, "send to"))
+
+            ivHomeShare.visibility = View.GONE
+
+            screenShotCapture()
+
+            //After taking screenshot reset the button and view again
+            ivHomeShare.setVisibility(View.VISIBLE)
         }
 
         // dailyLiturgyQuote()
@@ -63,6 +80,80 @@ class HomeFragment : Fragment() {
         //  val folioReader = FolioReader.get()
         //folioReader.openBook(R.raw.before_shopping)
         return view
+    }
+
+    private fun screenShotCapture() {
+        var b: Bitmap = getBitmapFromView(rootLayout, Color.WHITE)
+
+        if (b != null) {
+
+            val saveFile: File =
+                getMainDirectoryName(requireActivity()) //get the path to save screenshot
+            val file: File = store(
+                b,
+                "screenshot.jpg",
+                saveFile
+            ) //save the screenshot to selected path
+            shareScreenshot(file) //finally share screenshot
+        } else  //If bitmap is null show toast message
+            Toast.makeText(requireActivity(), "Failed to take screenshot!!", Toast.LENGTH_SHORT)
+                .show()
+    }
+
+    open fun getBitmapFromView(view: View, defaultColor: Int): Bitmap {
+        var bitmap =
+            Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+        var canvas = Canvas(bitmap)
+        canvas.drawColor(defaultColor)
+        view.draw(canvas)
+        return bitmap
+    }
+
+    fun getMainDirectoryName(context: Context): File {
+
+        val mainDir = File(
+            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Demo"
+        )
+
+        //If File is not present create directory
+        if (!mainDir.exists()) {
+            if (mainDir.mkdir()) Log.e(
+                "Create Directory",
+                "Main Directory Created : $mainDir"
+            )
+        }
+        return mainDir
+    }
+
+    fun store(bm: Bitmap, fileName: String?, saveFilePath: File): File {
+
+        val dir = File(saveFilePath.absolutePath)
+        if (!dir.exists()) dir.mkdirs()
+        val file = File(saveFilePath.absolutePath, fileName)
+        try {
+            val fOut = FileOutputStream(file)
+            bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
+            fOut.flush()
+            fOut.close()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return file
+    }
+
+    private fun shareScreenshot(file: File) {
+
+        val uri = FileProvider.getUriForFile(
+            requireActivity(),
+            BuildConfig.APPLICATION_ID + "." + requireActivity().getLocalClassName() + ".provider",
+            file
+        )
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "")
+        intent.putExtra(Intent.EXTRA_STREAM, uri) //pass uri here
+        startActivity(Intent.createChooser(intent, "Share With"))
     }
 
 
@@ -142,11 +233,20 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun shareText() {
-        val shareIntent = Intent()
-        shareIntent.action = Intent.ACTION_SEND
-        shareIntent.putExtra(Intent.EXTRA_TEXT, quotesText)
-        shareIntent.type = "text/plain"
-        startActivity(Intent.createChooser(shareIntent, "send to"))
+    private fun shareScreenShot(imageFile: File) {
+        val uri = FileProvider.getUriForFile(
+            requireActivity(),
+            BuildConfig.APPLICATION_ID.toString() + "." + requireActivity().getLocalClassName() + ".provider",
+            imageFile
+        )
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        try {
+            this.startActivity(Intent.createChooser(intent, "Share With"))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(requireActivity(), "No App Available", Toast.LENGTH_SHORT).show()
+        }
     }
 }

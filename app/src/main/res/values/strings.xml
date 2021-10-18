@@ -74,5 +74,7 @@
     <string name="firstName_error">Please enter FirstName.</string>
     <string name="lastName_error">Please enter LastName.</string>
 
+    <string name="share_title">Share Screenshot</string>
+
 
 </resources>

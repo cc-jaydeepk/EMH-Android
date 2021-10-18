@@ -88,7 +88,7 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
     }
 
     fun setAdapter(context: Context, response: NotificationResponseVo) {
-        notificationAdapter = NotificationListAdapter(
+       /* notificationAdapter = NotificationListAdapter(
             context,
             // response.body()!!.response.data,
             response.response.data,
@@ -98,7 +98,7 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
             LinearLayoutManager(context)
         rcvNotificationList.layoutManager = layoutManager
         // attach adapter to the recycler view
-        rcvNotificationList.adapter = notificationAdapter
+        rcvNotificationList.adapter = notificationAdapter*/
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
