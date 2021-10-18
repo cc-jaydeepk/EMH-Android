@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
@@ -188,7 +187,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login(loginRequestVo: LoginRequestVo) {
 
-
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.userLogin(loginRequestVo)
 
@@ -227,7 +225,7 @@ class LoginActivity : AppCompatActivity() {
 
                         Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), true)
 
-                       /* val prefs =
+                        /* val prefs =
                             PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
                         val statusLocked = prefs.edit().putBoolean("locked", true).apply()*/
 
@@ -244,8 +242,9 @@ class LoginActivity : AppCompatActivity() {
                         isUserLogin = true
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.putExtra("boolean", isUserLogin)
+                        intent.flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
-
+                        finish()
 
                     } else {
                         Toast.makeText(

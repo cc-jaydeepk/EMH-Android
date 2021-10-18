@@ -79,7 +79,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/lato_medium"
                 android:gravity="center"
-                android:text="Denisha Varagiya"
+                android:text="Full name"
                 android:textColor="@color/white"
                 android:textSize="@dimen/myprofile_txtname_size" />
 
@@ -131,7 +131,7 @@
                 android:layout_marginTop="@dimen/rgste_margintop"
                 android:background="@drawable/bg_register_edt"
                 android:enabled="false"
-                android:hint="Denisha"
+                android:hint="First name"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -140,7 +140,7 @@
                 android:layout_marginTop="@dimen/rgste_margintop"
                 android:background="@drawable/bg_register_edt"
                 android:enabled="false"
-                android:hint="Varagiya"
+                android:hint="Last name"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -149,7 +149,7 @@
                 android:layout_marginTop="@dimen/rgste_margintop"
                 android:background="@drawable/bg_register_edt"
                 android:enabled="false"
-                android:hint="varagiyadm@gmail.com"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:singleLine="true" />
 

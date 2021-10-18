@@ -21,6 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryMomentHoly"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".ui.activity.AboutBookLiturgiesActivity"></activity>
         <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
@@ -52,7 +53,5 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
-
-
 
 </manifest>

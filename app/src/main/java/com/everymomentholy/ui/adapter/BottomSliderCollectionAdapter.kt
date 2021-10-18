@@ -16,22 +16,21 @@ import com.everymomentholy.api.response.MyLiturgiesDataVo
 
 class BottomSliderCollectionAdapter(
     var context: Context,
-    //var liturgyList: List<LiturgiesDataVo>,
     var liturgyList: List<CollectionDataVo>,
-    // var freeLiturgyListClickListner: FreeLiturgyLitstClickListner
 ) : RecyclerView.Adapter<BottomSliderCollectionAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        var imgShare = view.findViewById<ImageView>(R.id.imgShare)
         var imgFreeLiturgiescover = view.findViewById<ImageView>(R.id.imgFreeLiturgiescover)
         var txtfreeLiturgiesTitle = view.findViewById<TextView>(R.id.txtFreeLiturgiesTitle)
         var btnReadNow = view.findViewById<Button>(R.id.btnReadNow)
+        var txtLiturgiesPrice = view.findViewById<TextView>(R.id.txtLiturgiesPrice)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.bottom_slider_raw, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.raw_bottom_slider_get_liturgies_about, parent, false)
         return MyViewHolder(itemView)
     }
 
@@ -44,19 +43,18 @@ class BottomSliderCollectionAdapter(
             .load(freeLiturgies.bookCoverPageImage)
             .into(holder.imgFreeLiturgiescover)
 
-        holder.imgShare.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
-            val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)
-            builder.setView(view)
-            builder.show()
-        }
+        if (freeLiturgies.isPurchased == "Yes") {
 
-        if(freeLiturgies.isPurchased=="Yes"){
-
-        }else{
+        } else {
             holder.btnReadNow.text = "Purchase Collection"
         }
 
+        holder.btnReadNow.setOnClickListener() {
+            if (holder.btnReadNow.text == "Purchase Collection") {
+            }
+        }
+
+        holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
 
     }
 

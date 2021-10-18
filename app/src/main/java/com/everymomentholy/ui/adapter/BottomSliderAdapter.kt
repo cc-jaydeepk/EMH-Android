@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.folioreader.FolioReader
 
 class BottomSliderAdapter(
     var context: Context,
@@ -24,6 +26,7 @@ class BottomSliderAdapter(
         var imgShare = view.findViewById<ImageView>(R.id.imgShare)
         var imgFreeLiturgiescover = view.findViewById<ImageView>(R.id.imgFreeLiturgiescover)
         var txtfreeLiturgiesTitle = view.findViewById<TextView>(R.id.txtFreeLiturgiesTitle)
+        var btnReadNow = view.findViewById<Button>(R.id.btnReadNow)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -48,6 +51,10 @@ class BottomSliderAdapter(
             builder.show()
         }
 
+        holder.btnReadNow.setOnClickListener() {
+            val folioReader = FolioReader.get()
+            folioReader.openBook(freeLiturgies.chapterUrl)
+        }
 
     }
 

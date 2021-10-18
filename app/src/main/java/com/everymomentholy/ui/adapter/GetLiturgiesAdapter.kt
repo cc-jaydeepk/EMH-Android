@@ -36,6 +36,7 @@ class GetLiturgiesAdapter(
         var txtLiturgyTitle: TextView = view.findViewById(R.id.txtLiturgyTitle)
         var txtLiturgyPrice: TextView = view.findViewById(R.id.txtLiturgyPrice)
         var btnGetLiturgiesAbout: Button = view.findViewById(R.id.btnGetLiturgiesAbout)
+        var btnUnlock: Button = view.findViewById(R.id.btnUnlock)
 
 
         val getLiturgies = getLiturgiesList[position]
@@ -65,6 +66,14 @@ class GetLiturgiesAdapter(
             val intent = Intent(context, AboutBookLiturgiesActivity::class.java)
             intent.putExtra("liturgies", getLiturgies)
             context.startActivity(intent)
+        }
+
+        btnUnlock.setOnClickListener() {
+            if (getLiturgies.isVolume == "Yes") {
+                val intent = Intent(context, AboutBookLiturgiesActivity::class.java)
+                intent.putExtra("liturgies", getLiturgies)
+                context.startActivity(intent)
+            }
         }
         return view
     }
