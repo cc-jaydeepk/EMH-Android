@@ -37,17 +37,22 @@ class BottomSliderCollectionAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val freeLiturgies = liturgyList[position]
 
+        if (position == 0) {
+            holder.btnReadNow.text = "Unlock Volume"
+        } else {
+            holder.btnReadNow.text = "Unlock Collection"
+        }
         holder.txtfreeLiturgiesTitle.text = freeLiturgies.bookTitle
 
         Glide.with(context)
             .load(freeLiturgies.bookCoverPageImage)
             .into(holder.imgFreeLiturgiescover)
 
-        if (freeLiturgies.isPurchased == "Yes") {
+      /*  if (freeLiturgies.isPurchased == "Yes") {
 
         } else {
             holder.btnReadNow.text = "Purchase Collection"
-        }
+        }*/
 
         holder.btnReadNow.setOnClickListener() {
             if (holder.btnReadNow.text == "Purchase Collection") {

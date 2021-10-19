@@ -23,8 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryMomentHoly"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".ui.activity.AboutBookLiturgiesActivity"></activity>
+        <activity android:name=".ui.activity.CollectionListActivity"></activity>
+        <activity android:name=".ui.activity.AboutBookLiturgiesActivity" />
         <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -247,6 +247,8 @@ class LoginActivity : AppCompatActivity() {
                         finish()
 
                     } else {
+                        progressCardView.visibility = View.GONE
+
                         Toast.makeText(
                             this@LoginActivity,
                             response.body()!!.message.toString(),
@@ -256,10 +258,14 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<LoginResponseVo>, t: Throwable) {
+                    progressCardView.visibility = View.GONE
+
                     Toast.makeText(this@LoginActivity, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } catch (exception: Exception) {
+            progressCardView.visibility = View.GONE
+
             exception.printStackTrace()
         }
     }

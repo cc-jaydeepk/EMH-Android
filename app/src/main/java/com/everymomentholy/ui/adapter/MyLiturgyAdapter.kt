@@ -5,17 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
+import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
 
 class MyLiturgyAdapter(
     var context: Context,
-   // var liturgyList: List<LiturgiesDataVo>,
-    var liturgyList: List<MyLiturgiesDataVo>,
+    // var liturgyList: List<LiturgiesDataVo>,
+    var liturgyList: List<GetLiturgiesDataVo>,
     var liturgyListClickListner: LiturgyLitstClickListner
 ) : RecyclerView.Adapter<MyLiturgyAdapter.ViewHolder>() {
 
@@ -23,6 +25,7 @@ class MyLiturgyAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgLiturgycoverImage: ImageView = view.findViewById(R.id.imgLiturgycoverImage)
         var txtLiturgiesTitle: TextView = view.findViewById(R.id.txtLiturgiesTitle)
+        var mainRelative: RelativeLayout = view.findViewById(R.id.mainRelative)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,15 +37,29 @@ class MyLiturgyAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val myLiturgies = liturgyList[position]
 
-        holder.txtLiturgiesTitle.text = myLiturgies.chapterTitle
+        if (myLiturgies.isVolume == "Yes") {
+            holder.txtLiturgiesTitle.text = myLiturgies.volumeTitle
+            Glide.with(context)
+                .load(myLiturgies.volumeCoverPageImage)
+                .into(holder.imgLiturgycoverImage)
+        } else {
+            holder.txtLiturgiesTitle.text = myLiturgies.bookTitle
+            Glide.with(context)
+                .load(myLiturgies.bookCoverPageImage)
+                .into(holder.imgLiturgycoverImage)
+        }
 
-        Glide.with(context)
-            .load(myLiturgies.chapterPageImage)
-            .into(holder.imgLiturgycoverImage)
+        holder.mainRelative.setOnClickListener() {
+            liturgyListClickListner.onMyLiturgiesListClick(position,myLiturgies.bookId)
+        }
 
     }
 
     override fun getItemCount(): Int {
         return liturgyList.size
+    }
+
+    fun setLiturgiesClick(clickListner: LiturgyLitstClickListner) {
+        this.liturgyListClickListner = clickListner
     }
 }

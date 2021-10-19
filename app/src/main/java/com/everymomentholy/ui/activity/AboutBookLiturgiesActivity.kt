@@ -232,17 +232,32 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
+                        var totalPriceCollection: Double = 0.0
 
+                        /*for (i in response.body()!!.response.data) {
+                            totalPriceCollection += i.bookAmount
+                        }*/
+
+                        var wholeCollection: CollectionDataVo = CollectionDataVo()
+                        if (liturgies.isVolume == "Yes") {
+                            wholeCollection.bookCoverPageImage = liturgies.volumeCoverPageImage
+                            wholeCollection.bookTitle = liturgies.volumeTitle
+                            wholeCollection.bookAmount = liturgies.volumeAmount
+                        } else {
+                            wholeCollection.bookCoverPageImage = liturgies.bookCoverPageImage
+                            wholeCollection.bookTitle = liturgies.bookTitle
+                            wholeCollection.bookAmount =
+                                liturgies.bookAmount
+                        }
+
+                        var arrCollectionList: ArrayList<CollectionDataVo> = ArrayList()
+                        arrCollectionList.add(wholeCollection)
+                        arrCollectionList.addAll(response.body()!!.response.data)
                         bottomSliderAdapter = BottomSliderCollectionAdapter(
                             this@AboutBookLiturgiesActivity,
-                            response.body()!!.response.data,
-
-                            )
+                            arrCollectionList
+                        )
                         showBottomSheetDialog()
-                        /*val layoutManager: RecyclerView.LayoutManager =
-                            LinearLayoutManager(this@AboutBookLiturgiesActivity)
-                        buttomRcv.layoutManager = layoutManager
-                        buttomRcv.adapter = bottomSliderAdapter*/
 
                     } else {
                         Toast.makeText(

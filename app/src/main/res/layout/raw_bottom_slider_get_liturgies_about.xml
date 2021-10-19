@@ -9,26 +9,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_4sdp"
         android:gravity="center">
 
         <ImageView
             android:id="@+id/imgFreeLiturgiescover"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
             android:src="@drawable/ic_fav_liturgy" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:orientation="vertical"
-            android:padding="@dimen/_5sdp">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtFreeLiturgiesTitle"
-                style="@style/liturgiesListTitleTextStyle"
-                android:text="Liturgies Name" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+
+                <TextView
+                    android:id="@+id/txtFreeLiturgiesTitle"
+                    style="@style/liturgiesListTitleTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Liturgies Name" />
+
+
+                <ImageView
+                    android:id="@+id/imageBook"
+                    android:layout_width="@dimen/getcollection_rightimg"
+                    android:layout_height="@dimen/getcollection_rightimg"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:src="@drawable/ic_book" />
+            </LinearLayout>
 
             <!--<TextView
                 android:id="@+id/txtFreeLiturgiesTitle"
@@ -44,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtLiturgiesTitle"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/buttomsheet_txt_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -52,7 +68,7 @@
                     android:id="@+id/txtLiturgiesPrice"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.4"
                     android:fontFamily="@font/lato_medium"
                     android:text="@string/free"
                     android:textColor="@color/loginbg"
@@ -60,17 +76,28 @@
 
                 <Button
                     android:id="@+id/btnReadNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtLiturgyName"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:backgroundTint="@color/loginbg"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/unlock_collection"
+                    android:textSize="@dimen/getcollection_btntxt" />
+                <!--<Button
+                    android:id="@+id/btnReadNow"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_weight="0.5"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:layout_weight="0.2"
                     android:fontFamily="@font/lato_medium"
-                    android:text="@string/read_now"
                     android:textAllCaps="true"
                     android:textColor="@color/loginbg"
-                    android:textSize="@dimen/_10ssp"
-                    app:strokeColor="@color/loginbg" />
+                    android:textSize="@dimen/_7ssp"
+                    app:strokeColor="@color/loginbg" />-->
 
             </LinearLayout>
 

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.ui.activity.AboutBookLiturgiesActivity
+import com.everymomentholy.ui.activity.CollectionListActivity
 
 
 class GetLiturgiesAdapter(
@@ -70,7 +71,7 @@ class GetLiturgiesAdapter(
 
         btnUnlock.setOnClickListener() {
             if (getLiturgies.isVolume == "Yes") {
-                val intent = Intent(context, AboutBookLiturgiesActivity::class.java)
+                val intent = Intent(context, CollectionListActivity::class.java)
                 intent.putExtra("liturgies", getLiturgies)
                 context.startActivity(intent)
             }

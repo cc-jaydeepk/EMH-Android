@@ -16,9 +16,7 @@ import com.folioreader.FolioReader
 
 class BottomSliderAdapter(
     var context: Context,
-    //var liturgyList: List<LiturgiesDataVo>,
     var liturgyList: List<MyLiturgiesDataVo>,
-    // var freeLiturgyListClickListner: FreeLiturgyLitstClickListner
 ) : RecyclerView.Adapter<BottomSliderAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -27,6 +25,7 @@ class BottomSliderAdapter(
         var imgFreeLiturgiescover = view.findViewById<ImageView>(R.id.imgFreeLiturgiescover)
         var txtfreeLiturgiesTitle = view.findViewById<TextView>(R.id.txtFreeLiturgiesTitle)
         var btnReadNow = view.findViewById<Button>(R.id.btnReadNow)
+        var txtFree = view.findViewById<TextView>(R.id.txt_free)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -54,6 +53,12 @@ class BottomSliderAdapter(
         holder.btnReadNow.setOnClickListener() {
             val folioReader = FolioReader.get()
             folioReader.openBook(freeLiturgies.chapterUrl)
+        }
+
+        if (freeLiturgies.isPurchased == "Yes") {
+            holder.txtFree.text = "Purchased"
+        } else {
+            holder.txtFree.text = "Free"
         }
 
     }
