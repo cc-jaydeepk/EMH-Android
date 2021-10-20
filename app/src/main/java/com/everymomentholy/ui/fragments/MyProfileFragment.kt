@@ -361,6 +361,7 @@ class MyProfileFragment : Fragment() {
 
         try {
             call.enqueue(object : Callback<GetUserProfileUpdateResponseVo> {
+                @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
                 override fun onResponse(
                     call: Call<GetUserProfileUpdateResponseVo>,
                     response: Response<GetUserProfileUpdateResponseVo>
@@ -369,9 +370,12 @@ class MyProfileFragment : Fragment() {
 
                         Utils.writeStringToSharedPref(
                             requireActivity(), Constants.USER_NAME,
-                            getUserProfileUpdateRequestVo.firstName
+                            getUserProfileUpdateRequestVo.firstName + getUserProfileUpdateRequestVo.lastName
                         )
-
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.NAME,
+                            getUserProfileUpdateRequestVo.firstName + getUserProfileUpdateRequestVo.lastName
+                        )
 
                         Utils.writeStringToSharedPref(
                             requireActivity(), Constants.USER_EMAIL,

@@ -44,7 +44,11 @@ class BottomSliderCollectionAdapter(
         if (position == 0) {
             holder.btnReadNow.text = "Unlock Volume"
         } else {
-            holder.btnReadNow.text = "Unlock Collection"
+            if (freeLiturgies.bookAmount == "0.0") {
+                holder.btnReadNow.text = "Read Now"
+            } else {
+                holder.btnReadNow.text = "Unlock Collection"
+            }
         }
         holder.txtfreeLiturgiesTitle.text = freeLiturgies.bookTitle
 

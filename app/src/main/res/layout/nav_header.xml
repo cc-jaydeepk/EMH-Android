@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/lato_regular"
-            android:text="Denisha Varagiya"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/navheader_name"
             android:textStyle="bold" />
@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/lato_light"
-            android:text="varagiyadm@gmail.com"
+            android:textColor="@color/black"
+            android:text=""
             android:textSize="@dimen/navheader_email" />
 
         <View

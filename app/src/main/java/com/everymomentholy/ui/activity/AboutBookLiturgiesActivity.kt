@@ -229,7 +229,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     private fun showBottomSheetForLiturgiesDialog() {
         val dialog = this?.let { BottomSheetDialog(it) }
-        val view = layoutInflater.inflate(R.layout.activity_buttom_slider, null)
+        val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
 
         val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
@@ -257,7 +257,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
     }
 
 
-    fun getCollectionList(volumeId: Int) {
+    private fun getCollectionList(volumeId: Int) {
         var collectionRequestVo: CollectionRequestVo = CollectionRequestVo()
         collectionRequestVo.volumeId = volumeId
         collectionRequestVo.deviceId = android_id
@@ -352,10 +352,10 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
                         var liturgiesList: ArrayList<MyLiturgiesDataVo> = ArrayList()
                         var liturgie: MyLiturgiesDataVo = MyLiturgiesDataVo()
-                        liturgie.bookId = liturgie.bookId
-                        liturgie.chapterPageImage = liturgie.chapterPageImage
-                        liturgie.price = liturgie.price
-                        liturgie.chapterTitle = liturgie.chapterTitle
+                        liturgie.bookId = liturgies.bookId
+                        liturgie.chapterPageImage = liturgies.bookCoverPageImage
+                        liturgie.price = liturgies.bookAmount
+                        liturgie.chapterTitle = liturgies.bookTitle
 
                         liturgiesList.add(liturgie)
                         liturgiesList.addAll(response.body()?.response?.data!!)

@@ -27,7 +27,7 @@ interface APIInterface {
     fun resetPassword(@Body resetPasswordRequestVo: ResetPasswordRequestVo): Call<ResetPasswordResponseVo>
 
     @GET(Constants.API_HOME_DAILY_LITURGY_QUOTE)
-    fun dailyLiturgyQuote(): Call<HomeDailyLiturgyResponseVo>
+    fun dailyLiturgyQuote(@Header("Authorization") token: String): Call<HomeDailyLiturgyResponseVo>
 
     @GET(Constants.API_HOME_GETSETTINGS)
     fun getSettings(): Call<HomegetSettingResponseVo>

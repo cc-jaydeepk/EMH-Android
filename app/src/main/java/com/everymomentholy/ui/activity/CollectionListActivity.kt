@@ -47,6 +47,7 @@ class CollectionListActivity : AppCompatActivity() {
         txtToolbarName = findViewById(R.id.txt_toolbar_name)
         ivToolbarNotification = findViewById(R.id.iv_toolbar_notification)
 
+        txtToolbarName.text = "Get Collection"
         ivToolbarNotification.visibility = View.GONE
         ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
 

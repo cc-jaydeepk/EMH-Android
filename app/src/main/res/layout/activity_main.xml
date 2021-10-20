@@ -30,6 +30,7 @@
         app:itemTextColor="@color/black"
         app:headerLayout="@layout/nav_header"
         app:itemTextAppearance="@style/NewFontStyle"
+        app:itemBackground="@android:color/transparent"
         app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

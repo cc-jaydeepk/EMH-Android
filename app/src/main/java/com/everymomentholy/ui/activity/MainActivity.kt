@@ -2,11 +2,11 @@ package com.everymomentholy.ui.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,7 +16,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -129,9 +128,9 @@ class MainActivity : AppCompatActivity() {
 
 
         iv_toolbar_notification.setOnClickListener {
-         /*   val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
-            startActivity(intent)
-*/
+            /*   val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
+               startActivity(intent)
+   */
             /*txt_toolbar_name.text = "Notifications"
             iv_toolbar_notification.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
@@ -250,10 +249,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_favoritesFragment -> {
                     // replaceFragment(FavoritesFragment(), "Favourites")
-                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                   // replaceFragment(FavoritesFragment(), "Favourites")
+                    // replaceFragment(FavoritesFragment(), "Favourites")
                     true
                 }
                 R.id.nav_getLiturgiesFragment -> {
@@ -268,15 +266,13 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_orderBookFragment -> {
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
-                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                   // replaceFragment(OrderBookFragment(), "Book Ordered")
+                    // replaceFragment(OrderBookFragment(), "Book Ordered")
                     true
                 }
                 R.id.nav_searchFragment -> {
                     // replaceFragment(SearchFragment(), "Search")
-                    false
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     navBottomView.visibility = View.VISIBLE
@@ -287,30 +283,27 @@ class MainActivity : AppCompatActivity() {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                  //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
+                    //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
                     //  replaceFragment(AboutUsFragment(), "About Us")
-                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                   // replaceFragment(AboutUsFragment(), "About Us")
+                    // replaceFragment(AboutUsFragment(), "About Us")
                     true
                 }
                 R.id.nav_FAQFragment -> {
                     // replaceFragment(FAQFragment(), "FAQ")
-                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                   // replaceFragment(FAQFragment(), "FAQ")
+                    // replaceFragment(FAQFragment(), "FAQ")
                     true
                 }
                 R.id.nav_conditionFragment -> {
                     //  replaceFragment(ConditionFragment(), "Terms & Condition")
-                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     //replaceFragment(ConditionFragment(), "Terms & Condition")
@@ -370,18 +363,18 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_favoritesFragment -> {
-                    toolbar.visibility = View.VISIBLE
+                    /*toolbar.visibility = View.VISIBLE
                     txt_toolbar_name.text = "Favorites"
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
-                       /* Toast.makeText(
+                       *//* Toast.makeText(
                             this@MainActivity,
                             "Search",
                             Toast.LENGTH_LONG
-                        ).show()*/
+                        ).show()*//*
                     }
-                    fragment = FavoritesFragment()
+                    fragment = FavoritesFragment()*/
                     //replaceFragment(fragment, "Favourites")
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -390,7 +383,7 @@ class MainActivity : AppCompatActivity() {
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
-                       /* Toast.makeText(
+                        /* Toast.makeText(
                             this@MainActivity,
                             "Search",
                             Toast.LENGTH_LONG

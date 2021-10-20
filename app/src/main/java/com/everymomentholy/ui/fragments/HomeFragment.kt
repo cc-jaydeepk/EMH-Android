@@ -30,6 +30,8 @@ import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
 import com.everymomentholy.api.response.HomegetSettingResponseVo
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,8 +70,8 @@ class HomeFragment : Fragment() {
         iv_toolbar_notification = view.findViewById(R.id.iv_toolbar_notification)
 
         iv_toolbar_notification.setOnClickListener {
-            val intent = Intent(requireActivity(), NotificationListActivity::class.java)
-            startActivity(intent)
+            /*val intent = Intent(requireActivity(), NotificationListActivity::class.java)
+            startActivity(intent)*/
         }
 
         iv_toolbar_drawer.setOnClickListener {
@@ -231,7 +233,11 @@ class HomeFragment : Fragment() {
     private fun dailyLiturgyQuote() {
 
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.dailyLiturgyQuote()
+        val call = request.dailyLiturgyQuote("bearer " + Utils.readStringFromSharedPref(
+            requireContext(),
+            Constants.SHARED_PREF_TOKEN,
+            ""
+        ))
 
         try {
             call.enqueue(object : Callback<HomeDailyLiturgyResponseVo> {

@@ -124,6 +124,8 @@
                     android:layout_marginLeft="@dimen/home_frg_txtmrg"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/home_frg_txtmrg"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:fontFamily="@font/lato_mediumitalic"
                     android:text="from &#34;For Those Flooded by Too Much Information&#34;"
                     android:textColor="@color/loginbg"

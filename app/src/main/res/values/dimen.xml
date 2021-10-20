@@ -56,7 +56,7 @@
     <dimen name="getliturgy_txtmargin">@dimen/_7sdp</dimen>
     <dimen name="getliturgy_btnlayout">@dimen/_13sdp</dimen>
     <dimen name="navheader_image">@dimen/_60sdp</dimen>
-    <dimen name="navheader_name">@dimen/_14ssp</dimen>
+    <dimen name="navheader_name">@dimen/_16ssp</dimen>
     <dimen name="navheader_email">@dimen/_12ssp</dimen>
     <dimen name="myprofile_img">@dimen/_96sdp</dimen>
     <dimen name="myprofile_margin">@dimen/_7sdp</dimen>
@@ -80,7 +80,7 @@
     <dimen name="getcollection_img">@dimen/_100sdp</dimen>
     <dimen name="getcollection_txtsize">@dimen/_18ssp</dimen>
     <dimen name="getcollection_txtmargin">@dimen/_22sdp</dimen>
-    <dimen name="getcollection_rightimg">@dimen/_30sdp</dimen>
+    <dimen name="getcollection_rightimg">@dimen/_20sdp</dimen>
     <dimen name="getcollection_txtprice">@dimen/_18ssp</dimen>
     <dimen name="getcollection_btntxt">@dimen/_9sdp</dimen>
     <dimen name="edittext_hint_size">@dimen/_12ssp</dimen>

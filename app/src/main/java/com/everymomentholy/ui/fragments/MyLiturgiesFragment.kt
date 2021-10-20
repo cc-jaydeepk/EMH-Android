@@ -230,12 +230,15 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                             noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
 
                         Log.e("free", freePurchasedLiturgies.size.toString())
-
-                        liturgyAdapter = MyLiturgyAdapter(
-                            context!!,
-                            freePurchasedLiturgies,
-                            this@MyLiturgiesFragment
-                        )
+                        try {
+                            liturgyAdapter = MyLiturgyAdapter(
+                                context!!,
+                                freePurchasedLiturgies,
+                                this@MyLiturgiesFragment
+                            )
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                         val layoutManager: RecyclerView.LayoutManager =
                             LinearLayoutManager(context)
                         recycler_liturgy.layoutManager = layoutManager

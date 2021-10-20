@@ -178,7 +178,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                         Utils.writeStringToSharedPref(
                             this@RegisterActivity, Constants.NAME,
-                            registrationRequestVo.firstName
+                            registrationRequestVo.firstName + registrationRequestVo.lastName
                         )
 
                         Utils.writeStringToSharedPref(
