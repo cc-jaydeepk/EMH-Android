@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.romandanylyk:pageindicatorview:1.0.2'
 
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.folioreader:folioreader:0.5.4'
+    implementation 'com.folioreader:folioreader:0.5.1'
 
     //imagePicker library
     implementation 'com.github.Drjacky:ImagePicker:1.8.4'
