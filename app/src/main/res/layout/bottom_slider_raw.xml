@@ -13,10 +13,7 @@
 
         <ImageView
             android:id="@+id/imgFreeLiturgiescover"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
-            android:layout_margin="@dimen/_4sdp"
-            android:padding="@dimen/_4sdp"
+            style="@style/liturgiesListImageStyle"
             android:src="@drawable/ic_fav_liturgy" />
 
         <LinearLayout

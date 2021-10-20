@@ -12,62 +12,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_medium"
             android:text="@string/sharetxt"
             android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
+            android:textSize="@dimen/_14ssp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/lato_medium"
             android:text="@string/sharetxt1"
             android:textColor="@color/black"
             android:textSize="@dimen/_18ssp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:text="@string/step1"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:text="@string/step2"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:text="@string/step3"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:text="@string/step4"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:text="@string/step5"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
 
     </LinearLayout>
 

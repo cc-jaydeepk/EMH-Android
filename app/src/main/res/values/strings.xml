@@ -75,6 +75,8 @@
     <string name="lastName_error">Please enter LastName.</string>
 
     <string name="share_title">Share Screenshot</string>
+    <string name="currently_available_to_all_users">Currently Available to All Users</string>
+    <string name="result">Result</string>
 
 
 </resources>

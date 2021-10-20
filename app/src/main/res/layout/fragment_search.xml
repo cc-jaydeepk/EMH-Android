@@ -14,12 +14,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_toLeftOf="@+id/imgSearch" />
+            android:layout_toLeftOf="@+id/imgSearch"
+            android:fontFamily="@font/lato_medium" />
 
         <ImageView
             android:id="@+id/imgSearch"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_10sdp"
@@ -31,11 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/edtSearch"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="Results"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/lato_black"
+            android:text="@string/result"
             android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_14ssp" />
 
         <TextView
             android:id="@+id/txtItemNo"
@@ -43,9 +44,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtResults"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:fontFamily="@font/lato_light"
             android:text="Show 227 matches"
-            android:textSize="@dimen/_14ssp" />
+            android:textSize="@dimen/_8ssp" />
 
         <View
             android:layout_width="match_parent"

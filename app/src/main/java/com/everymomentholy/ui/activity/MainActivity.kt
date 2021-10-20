@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var iv_toolbar_search: ImageView
     private lateinit var iv_toolbar_backImage: ImageView
     private lateinit var txt_toolbar_name: TextView
+    private lateinit var toolbar: Toolbar
 
     private lateinit var iv_drawer_profile_image: ImageView
     private lateinit var txt_drawer_UserName: TextView
@@ -78,12 +81,8 @@ class MainActivity : AppCompatActivity() {
             0
         )!!
 
-        var yourBool = intent.getBooleanExtra("boolean", false)
-        //val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        // val yourLocked: Boolean = prefs.getBoolean("locked", false)
-        // val profile: Boolean = prefs.getBoolean("myProfile", false)
 
-
+        toolbar = findViewById(R.id.toolbar)
         iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
         iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
         iv_toolbar_notification = findViewById(R.id.iv_toolbar_notification)
@@ -103,8 +102,9 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
         val navBottomView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
+        navBottomView.visibility = View.VISIBLE
 
-
+        toolbar.visibility = View.GONE
         var fragment1: Fragment? = null
         fragment1 = HomeFragment()
         addFragment(fragment1, "Every Moment Holy")
@@ -237,18 +237,28 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
+                    toolbar.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
                     replaceFragment(HomeFragment(), "Every Moment Holy")
                     true
                 }
                 R.id.nav_myLiturgiesFragment -> {
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
                     replaceFragment(MyLiturgiesFragment(), "My Liturgies")
                     true
                 }
                 R.id.nav_favoritesFragment -> {
                     // replaceFragment(FavoritesFragment(), "Favourites")
                     false
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                   // replaceFragment(FavoritesFragment(), "Favourites")
+                    true
                 }
                 R.id.nav_getLiturgiesFragment -> {
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     true
                 }
@@ -259,28 +269,55 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_orderBookFragment -> {
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
                     false
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                   // replaceFragment(OrderBookFragment(), "Book Ordered")
+                    true
                 }
                 R.id.nav_searchFragment -> {
                     // replaceFragment(SearchFragment(), "Search")
                     false
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
+                    //replaceFragment(SearchFragment(), "Search")
+                    true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
-                    replaceFragment(ShareLiturgiesFragment(), "Share")
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                  //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
                     //  replaceFragment(AboutUsFragment(), "About Us")
                     false
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                   // replaceFragment(AboutUsFragment(), "About Us")
+                    true
                 }
                 R.id.nav_FAQFragment -> {
                     // replaceFragment(FAQFragment(), "FAQ")
                     false
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                   // replaceFragment(FAQFragment(), "FAQ")
+                    true
                 }
                 R.id.nav_conditionFragment -> {
                     //  replaceFragment(ConditionFragment(), "Terms & Condition")
                     false
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    //replaceFragment(ConditionFragment(), "Terms & Condition")
+                    true
                 }
                 R.id.nav_myProfileFragment -> {
+                    toolbar.visibility = View.VISIBLE
                     txt_toolbar_name.text = "My Profile"
                     iv_toolbar_notification.visibility = View.GONE
                     navBottomView.visibility = View.GONE
@@ -305,7 +342,7 @@ class MainActivity : AppCompatActivity() {
             val fragment: Fragment
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
-
+                    toolbar.visibility = View.GONE
                     iv_toolbar_notification.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.GONE
                     iv_toolbar_notification.setImageResource(R.drawable.ic_notification);
@@ -316,9 +353,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_myLiturgiesFragment -> {
+                    toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    // iv_toolbar_notification.setImageResource(R.drawable.ic_searchimg);
                     iv_toolbar_search.setOnClickListener {
                         Toast.makeText(
                             this@MainActivity,
@@ -333,20 +370,32 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_favoritesFragment -> {
+                    toolbar.visibility = View.VISIBLE
                     txt_toolbar_name.text = "Favorites"
-                    iv_toolbar_notification.setImageResource(R.drawable.ic_searchimg);
-                    iv_toolbar_notification.setOnClickListener {
-                        Toast.makeText(
+                    iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    iv_toolbar_search.setOnClickListener {
+                       /* Toast.makeText(
                             this@MainActivity,
-                            "Favorites",
+                            "Search",
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
                     fragment = FavoritesFragment()
                     //replaceFragment(fragment, "Favourites")
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_getLiturgiesFragment -> {
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    iv_toolbar_search.setOnClickListener {
+                       /* Toast.makeText(
+                            this@MainActivity,
+                            "Search",
+                            Toast.LENGTH_LONG
+                        ).show()*/
+                    }
                     fragment = GetLiturgiesFragment()
                     replaceFragment(fragment, "Get Liturgies")
                     return@setOnNavigationItemSelectedListener true
@@ -507,8 +556,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun openDrawer() {
+        //  val drawer = findViewById<View>(R.id.drawerLayout) as DrawerLayout
+        drawerLayout.openDrawer(navView)
+    }
+
     private fun loadFragment(fragment: Fragment) {
-        txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.black));
+        // txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.black));
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.nav_host_fragment, fragment)
         //transaction.addToBackStack(null)
@@ -517,7 +571,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun AppCompatActivity.replaceFragment(fragment: Fragment, txtToolbarTitle: String) {
-        txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
+        //  txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
         txt_toolbar_name.text = txtToolbarTitle
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
@@ -528,7 +582,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addFragment(fragment: Fragment, txtToolbarTitle: String) {
-        txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
+        //  txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
         txt_toolbar_name.text = txtToolbarTitle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.nav_host_fragment, fragment)
@@ -543,7 +597,6 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this@MainActivity)
             .load(userImage)
             .into(iv_drawer_profile_image)
-
 
     }
 

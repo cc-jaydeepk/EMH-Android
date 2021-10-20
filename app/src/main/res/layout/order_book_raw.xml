@@ -28,8 +28,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Every Moment Holy, Vil 1 - Pocket Edition "
+                android:text="Every Moment Holy, Vol 1 - Pocket Edition "
                 android:textColor="@color/black"
+                android:fontFamily="@font/lato_semibold"
                 android:textSize="@dimen/orderbook_txtname" />
 
             <Button

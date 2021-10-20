@@ -88,7 +88,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         getBooks()
 
         ll_enroute_bottom_sheet.setOnClickListener {
-            // showBottomSheetDialog()
+            //showBottomSheetDialog()
         }
 
         return view
@@ -153,9 +153,9 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     }
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
-    private fun showBottomSheetDialog(filteredDataVo:ArrayList<MyLiturgiesDataVo>) {
+    private fun showBottomSheetDialog(filteredDataVo: ArrayList<MyLiturgiesDataVo>) {
         val dialog = context?.let { BottomSheetDialog(it) }
-        val view = layoutInflater.inflate(R.layout.activity_buttom_slider, null)
+        val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
 
         val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
@@ -173,7 +173,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         bottomSliderAdapter = BottomSliderAdapter(
             requireContext(),
             filteredDataVo,
-            )
+        )
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(context)
         buttomRcv.layoutManager = layoutManager

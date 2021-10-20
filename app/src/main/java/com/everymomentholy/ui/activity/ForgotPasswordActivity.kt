@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
@@ -22,6 +23,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var edtForgotEmail: EditText
     private lateinit var btnForgotPswSubmit: Button
+    private lateinit var btnForgotCancel: Button
+    private lateinit var iv_toolbar_backImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,12 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         edtForgotEmail = findViewById(R.id.edtForgotEmail)
         btnForgotPswSubmit = findViewById(R.id.btnForgotSubmit)
+        btnForgotCancel = findViewById(R.id.btnForgotCancel)
+        iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+
+        iv_toolbar_backImage.setOnClickListener {
+            onBackPressed()
+        }
 
         btnForgotPswSubmit.setOnClickListener {
 
@@ -46,6 +55,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 }
 
             }
+        }
+
+        btnForgotCancel.setOnClickListener {
+            val intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
     }
 

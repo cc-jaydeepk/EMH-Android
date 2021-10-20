@@ -66,13 +66,10 @@
 
                 <TextView
                     android:id="@+id/txtLiturgiesPrice"
+                    style="@style/freeTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:fontFamily="@font/lato_medium"
-                    android:text="@string/free"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/buttomsheet_freetxt_size" />
+                    android:layout_weight="0.4" />
 
                 <Button
                     android:id="@+id/btnReadNow"
@@ -82,6 +79,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:backgroundTint="@color/loginbg"
+                    android:fontFamily="@font/lato_medium"
                     android:padding="@dimen/_5sdp"
                     android:text="@string/unlock_collection"
                     android:textSize="@dimen/getcollection_btntxt" />

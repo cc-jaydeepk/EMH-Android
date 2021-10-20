@@ -9,16 +9,16 @@
 
         <ImageView
             android:id="@+id/iv_toolbar_drawer"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_width="@dimen/toolbar_drawer_imagesize"
+            android:layout_height="@dimen/toolbar_drawer_imagesize"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_6sdp"
             android:src="@drawable/drawer_image" />
 
         <ImageView
             android:id="@+id/iv_toolbar_backImage"
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="@dimen/_15sdp"
+            android:layout_width="@dimen/toolbar_drawer_imagesize"
+            android:layout_height="@dimen/toolbar_drawer_imagesize"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_6sdp"
             android:src="@drawable/ic_back"
@@ -32,12 +32,12 @@
             android:fontFamily="@font/lato_medium"
             android:text="@string/app_name"
             android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
+            android:textSize="@dimen/toolbar_text_size" />
 
         <ImageView
             android:id="@+id/iv_toolbar_notification"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/toolbar_nitificationimage_size"
+            android:layout_height="@dimen/toolbar_nitificationimage_size"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/_9sdp"
@@ -46,8 +46,8 @@
 
         <ImageView
             android:id="@+id/iv_toolbar_search"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/toolbar_nitificationimage_size"
+            android:layout_height="@dimen/toolbar_nitificationimage_size"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/_9sdp"
