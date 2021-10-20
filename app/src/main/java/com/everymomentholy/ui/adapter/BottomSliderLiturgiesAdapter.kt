@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.response.CollectionDataVo
+import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.ui.activity.ForgotPasswordActivity
 import com.everymomentholy.ui.activity.LiturgiesListActivity
 
-class BottomSliderCollectionAdapter(
+class BottomSliderLiturgiesAdapter(
     var context: Context,
-    var liturgyList: List<CollectionDataVo>,
-) : RecyclerView.Adapter<BottomSliderCollectionAdapter.MyViewHolder>() {
+    var liturgyList: List<MyLiturgiesDataVo>,
+) : RecyclerView.Adapter<BottomSliderLiturgiesAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -46,10 +47,10 @@ class BottomSliderCollectionAdapter(
         } else {
             holder.btnReadNow.text = "Unlock Collection"
         }
-        holder.txtfreeLiturgiesTitle.text = freeLiturgies.bookTitle
+        holder.txtfreeLiturgiesTitle.text = freeLiturgies.chapterTitle
 
         Glide.with(context)
-            .load(freeLiturgies.bookCoverPageImage)
+            .load(freeLiturgies.chapterPageImage)
             .into(holder.imgFreeLiturgiescover)
 
         /*  if (freeLiturgies.isPurchased == "Yes") {
@@ -63,17 +64,16 @@ class BottomSliderCollectionAdapter(
             }
         }
 
-        holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
+        holder.txtLiturgiesPrice.text = "$" + freeLiturgies.price
 
-        holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
+      /*  holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
 
-            if (position > 0) {
-                var intent = Intent(context, LiturgiesListActivity::class.java)
-                intent.putExtra("bookID", freeLiturgies.bookId)
-                intent.putExtra("collection", freeLiturgies)
-                context.startActivity(intent)
-            }
-        }
+            var intent = Intent(context, LiturgiesListActivity::class.java)
+            intent.putExtra("bookID", freeLiturgies.bookId)
+            intent.putExtra("collection", freeLiturgies)
+            context.startActivity(intent)
+
+        }*/
 
     }
 

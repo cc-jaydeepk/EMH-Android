@@ -2,57 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_5sdp">
+    android:layout_margin="@dimen/_5sdp"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/coverImage"
-            android:layout_width="@dimen/getcollection_img"
-            android:layout_height="@dimen/getcollection_img"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
             android:src="@drawable/ic_collection" />
 
-        <TextView
-            android:id="@+id/txtLiturgyName"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/imageBook"
-            android:layout_toRightOf="@+id/coverImage"
-            android:text="Liturgies of LABOR  &amp; VOCATION"
-            android:textColor="@color/black"
-            android:textSize="@dimen/getcollection_txtsize" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageBook"
-            android:layout_width="@dimen/getcollection_rightimg"
-            android:layout_height="@dimen/getcollection_rightimg"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:src="@drawable/ic_book" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtLiturgyName"
-            android:layout_marginTop="@dimen/getcollection_txtmargin"
-            android:layout_toRightOf="@+id/coverImage"
-            android:text="$ 19.30"
-            android:textColor="@color/loginbg"
-            android:textSize="@dimen/getcollection_txtprice" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtLiturgyName"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/getcollection_txtmargin"
-            android:backgroundTint="@color/loginbg"
-            android:padding="@dimen/_5sdp"
-            android:text="@string/unlock_collection"
-            android:textSize="@dimen/getcollection_btntxt" />
+                <TextView
+                    android:id="@+id/txtLiturgyName"
+                    style="@style/liturgiesListTitleTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Liturgies Name" />
+
+                <ImageView
+                    android:id="@+id/imageBook"
+                    android:layout_width="@dimen/getcollection_rightimg"
+                    android:layout_height="@dimen/getcollection_rightimg"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:src="@drawable/ic_book" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtLiturgiesTitle"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    android:fontFamily="@font/lato_medium"
+                    android:text="@string/free"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/buttomsheet_freetxt_size" />
+
+                <Button
+                    android:id="@+id/btnUnlock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtLiturgyName"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:backgroundTint="@color/loginbg"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Unlock"
+                    android:textSize="@dimen/getcollection_btntxt" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -61,6 +82,6 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:background="@android:color/black" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

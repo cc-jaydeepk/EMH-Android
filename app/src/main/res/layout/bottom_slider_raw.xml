@@ -13,8 +13,10 @@
 
         <ImageView
             android:id="@+id/imgFreeLiturgiescover"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_margin="@dimen/_4sdp"
+            android:padding="@dimen/_4sdp"
             android:src="@drawable/ic_fav_liturgy" />
 
         <LinearLayout
@@ -43,8 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtLiturgiesTitle"
-                android:layout_marginTop="@dimen/buttomsheet_txt_margin"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/buttomsheet_txt_margin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -52,34 +54,34 @@
                     android:id="@+id/txt_free"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
                     android:fontFamily="@font/lato_medium"
+                    android:gravity="center"
                     android:text="@string/free"
                     android:textColor="@color/loginbg"
-                    android:gravity="center"
-                    android:layout_weight="0.3"
                     android:textSize="@dimen/buttomsheet_freetxt_size" />
 
                 <ImageView
-                    android:layout_weight="0.3"
                     android:id="@+id/imgShare"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/buttomsheet_shareimg_size"
+                    android:layout_weight="0.3"
                     android:src="@drawable/homeshare" />
 
                 <ImageView
-                    android:layout_weight="0.3"
                     android:id="@+id/imgFavorite"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/buttomsheet_shareimg_size"
+                    android:layout_weight="0.3"
                     android:src="@drawable/ic_fevrite" />
 
                 <Button
                     android:id="@+id/btnReadNow"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_weight="1"
                     android:fontFamily="@font/lato_medium"
                     android:text="@string/read_now"
                     android:textAllCaps="true"
@@ -89,9 +91,16 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/mainRelative"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@android:color/black" />
 
 </LinearLayout>

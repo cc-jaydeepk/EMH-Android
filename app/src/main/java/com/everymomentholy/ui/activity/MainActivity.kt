@@ -129,9 +129,9 @@ class MainActivity : AppCompatActivity() {
 
 
         iv_toolbar_notification.setOnClickListener {
-            val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
+         /*   val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
             startActivity(intent)
-
+*/
             /*txt_toolbar_name.text = "Notifications"
             iv_toolbar_notification.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
@@ -245,40 +245,40 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_favoritesFragment -> {
-                    replaceFragment(FavoritesFragment(), "Favourites")
-                    true
+                    // replaceFragment(FavoritesFragment(), "Favourites")
+                    false
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     true
                 }
                 R.id.nav_featuredFragment -> {
-                    replaceFragment(FeaturedFragment(), "Featured")
-                    true
+                    //  replaceFragment(FeaturedFragment(), "Featured")
+                    false
                 }
                 R.id.nav_orderBookFragment -> {
-                    replaceFragment(OrderBookFragment(), "Book Ordered")
-                    true
+                    // replaceFragment(OrderBookFragment(), "Book Ordered")
+                    false
                 }
                 R.id.nav_searchFragment -> {
-                    replaceFragment(SearchFragment(), "Search")
-                    true
+                    // replaceFragment(SearchFragment(), "Search")
+                    false
                 }
                 R.id.nav_shareLiturgiesFragment -> {
                     replaceFragment(ShareLiturgiesFragment(), "Share")
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
-                    replaceFragment(AboutUsFragment(), "About Us")
-                    true
+                    //  replaceFragment(AboutUsFragment(), "About Us")
+                    false
                 }
                 R.id.nav_FAQFragment -> {
-                    replaceFragment(FAQFragment(), "FAQ")
-                    true
+                    // replaceFragment(FAQFragment(), "FAQ")
+                    false
                 }
                 R.id.nav_conditionFragment -> {
-                    replaceFragment(ConditionFragment(), "Terms & Condition")
-                    true
+                    //  replaceFragment(ConditionFragment(), "Terms & Condition")
+                    false
                 }
                 R.id.nav_myProfileFragment -> {
                     txt_toolbar_name.text = "My Profile"
@@ -343,7 +343,7 @@ class MainActivity : AppCompatActivity() {
                         ).show()
                     }
                     fragment = FavoritesFragment()
-                    replaceFragment(fragment, "Favourites")
+                    //replaceFragment(fragment, "Favourites")
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_getLiturgiesFragment -> {

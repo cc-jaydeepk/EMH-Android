@@ -86,18 +86,16 @@ class LoginActivity : AppCompatActivity() {
 
         btn_Login.setOnClickListener {
 
-            progressCardView.visibility = View.VISIBLE
-
             if (checkValidation()) {
 
                 if (Utils.isNetworkAvailable(this)) {
-
                     var loginRequestVo: LoginRequestVo = LoginRequestVo()
                     loginRequestVo.deviceId = android_id
                     loginRequestVo.email = edtLoginEmail.text.toString().trim()
                     loginRequestVo.password = edtLoginPassword.text.toString().trim()
                     //loginRequestVo.deviceType = "1"
                     loginRequestVo.deviceType = Constants.DEVICE_TYPE
+                    progressCardView.visibility = View.VISIBLE
                     login(loginRequestVo)
                 } else {
                     Toast.makeText(
@@ -242,7 +240,8 @@ class LoginActivity : AppCompatActivity() {
                         isUserLogin = true
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.putExtra("boolean", isUserLogin)
-                        intent.flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
 

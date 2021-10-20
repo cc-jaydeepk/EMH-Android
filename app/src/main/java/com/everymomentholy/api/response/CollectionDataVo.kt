@@ -1,6 +1,8 @@
 package com.everymomentholy.api.response
 
-class CollectionDataVo {
+import java.io.Serializable
+
+class CollectionDataVo :Serializable{
 
     var LiturgyAvailable: String = ""
 

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -13,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -109,6 +111,7 @@ class HomeFragment : Fragment() {
         return bitmap
     }
 
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     fun getMainDirectoryName(context: Context): File {
 
         val mainDir = File(
@@ -176,12 +179,15 @@ class HomeFragment : Fragment() {
                     if (response.body()?.statusCode == 1) {
 
                         // txtQuote.text = response.body()!!.response.parentLiturgy
-                        Glide
-                            .with(context!!)
-                            .load(response.body()!!.response.home_page_liturgy_image)
-                            .centerCrop()
-                            .into(imgHomeClock)
-
+                        try {
+                            Glide
+                                .with(context!!)
+                                .load(response.body()!!.response.home_page_liturgy_image)
+                                .centerCrop()
+                                .into(imgHomeClock)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
 
                     } else {
 
