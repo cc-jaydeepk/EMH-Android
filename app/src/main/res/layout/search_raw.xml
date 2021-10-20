@@ -13,8 +13,7 @@
 
         <ImageView
             android:id="@+id/imgFeatured"
-            android:layout_width="@dimen/fav_frag_img"
-            android:layout_height="@dimen/fav_frag_img"
+            style="@style/liturgiesListImageStyle"
             app:srcCompat="@drawable/ic_fav_liturgy" />
 
         <LinearLayout
@@ -22,43 +21,63 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="A Liturgies for"
+                 android:textColor="@color/black"
+                 android:textSize="@dimen/_18ssp" />-->
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="A Liturgies for"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_18ssp" />
+                style="@style/liturgiesListTitleTextStyle"
+                android:text="A Liturgies for" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_medium"
                 android:text="Domestic Days"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_16ssp" />
+                android:textSize="@dimen/fav_frag_freetxt" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_25sdp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Purchased"
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:fontFamily="@font/lato_medium"
+                    android:text="@string/free"
                     android:textColor="@color/loginbg"
-                    android:textSize="@dimen/_18ssp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/fav_frag_freetxt" />
 
-                <Button
+                <!--<Button
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/openbtnn_width"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/_5sdp"
+                    android:fontFamily="@font/lato_medium"
                     android:padding="@dimen/_5sdp"
                     android:text="Read Now"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/fav_frag_btn"
+                    app:strokeColor="@color/loginbg" />-->
+
+                <Button
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="@dimen/openbtnn_width"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/_13sdp"
+                    android:layout_marginRight="@dimen/_9sdp"
+                    android:fontFamily="@font/lato_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:text="Read Now"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/openbtnn_textsize"
                     app:strokeColor="@color/loginbg" />
 
             </RelativeLayout>

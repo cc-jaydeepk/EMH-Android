@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
@@ -23,6 +24,7 @@ class ContactUsActivity : AppCompatActivity() {
     private lateinit var edtEmailAddress: EditText
     private lateinit var edtMessage: EditText
     private lateinit var btnContactusSubmit: Button
+    private lateinit var iv_toolbar_backImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,11 @@ class ContactUsActivity : AppCompatActivity() {
         edtEmailAddress = findViewById(R.id.edtEmailAddress)
         edtMessage = findViewById(R.id.edtMessage)
         btnContactusSubmit = findViewById(R.id.btnContactusSubmit)
+        iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+
+        iv_toolbar_backImage.setOnClickListener {
+            onBackPressed()
+        }
 
         btnContactusSubmit.setOnClickListener {
 

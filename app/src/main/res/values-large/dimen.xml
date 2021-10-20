@@ -16,6 +16,7 @@
     <dimen name="rgste_margintop">@dimen/_15sdp</dimen>
     <dimen name="margin_10">@dimen/_10sdp</dimen>
     <dimen name="register_imgsize">@dimen/_150sdp</dimen>
+    <dimen name="option_imgsize">@dimen/_200sdp</dimen>
     <dimen name="view_hight">@dimen/_25sdp</dimen>
     <dimen name="register_checkbox_size">@dimen/_13sdp</dimen>
     <dimen name="login_button_padding">@dimen/_7sdp</dimen>
@@ -30,7 +31,7 @@
     <dimen name="home_frg_size">@dimen/_12ssp</dimen>
     <dimen name="home_frg_shareimg">@dimen/_25sdp</dimen>
     <dimen name="myliturgyimagsize">@dimen/_50sdp</dimen>
-    <dimen name="myliturgytxtsize">@dimen/_8ssp</dimen>
+    <dimen name="myliturgytxtsize">@dimen/_10ssp</dimen>
     <dimen name="viewmargin">@dimen/_1sdp</dimen>
     <dimen name="myliturgybtnmargin">@dimen/_10sdp</dimen>
     <dimen name="liturgitxtsize">@dimen/_10ssp</dimen>
@@ -45,8 +46,8 @@
     <dimen name="buttomsheet_shareimg_margin">@dimen/_50sdp</dimen>
     <dimen name="buttomsheet_margin">@dimen/_1sdp</dimen>
     <dimen name="buttomsheet_favmargin">@dimen/_12sdp</dimen>
-    <dimen name="getliturgy_img_size">@dimen/_140sdp</dimen>
-    <dimen name="getliturgy_txt_size">@dimen/_16ssp</dimen>
+    <dimen name="getliturgy_img_size">@dimen/_120sdp</dimen>
+    <dimen name="getliturgy_txt_size">@dimen/_14ssp</dimen>
     <dimen name="getliturgy_purchstxt_size">@dimen/_12ssp</dimen>
     <dimen name="getliturgy_margin">@dimen/_5sdp</dimen>
     <dimen name="getliturgy_btn_padding">@dimen/_7sdp</dimen>
@@ -56,7 +57,7 @@
     <dimen name="navheader_image">@dimen/_40sdp</dimen>
     <dimen name="navheader_name">@dimen/_10ssp</dimen>
     <dimen name="navheader_email">@dimen/_8ssp</dimen>
-    <dimen name="myprofile_img">@dimen/_45sdp</dimen>
+    <dimen name="myprofile_img">@dimen/_60sdp</dimen>
     <dimen name="myprofile_margin">@dimen/_10sdp</dimen>
     <dimen name="myprofile_txtname_size">@dimen/_14ssp</dimen>
     <dimen name="orderbook_imagesixe">@dimen/_65sdp</dimen>
@@ -68,7 +69,7 @@
     <dimen name="orderbook_btn_marginright">@dimen/_100sdp</dimen>
     <dimen name="orderbook_marginright">@dimen/_10sdp</dimen>
     <dimen name="orderbook_btn_size">@dimen/_30sdp</dimen>
-    <dimen name="fav_frag_img">@dimen/_70sdp</dimen>
+    <dimen name="fav_frag_img">@dimen/_60sdp</dimen>
     <dimen name="fav_frag_txt">@dimen/_12ssp</dimen>
     <dimen name="fav_frag_shareimg">@dimen/_15sdp</dimen>
     <dimen name="fav_frag_freetxt">@dimen/_12ssp</dimen>
@@ -79,5 +80,36 @@
     <dimen name="getcollection_rightimg">@dimen/_23sdp</dimen>
     <dimen name="getcollection_txtprice">@dimen/_12ssp</dimen>
     <dimen name="getcollection_btntxt">@dimen/_6sdp</dimen>
+    <dimen name="edittext_hint_size">@dimen/_10ssp</dimen>
+    <dimen name="forgot_textsize">@dimen/_10ssp</dimen>
+    <dimen name="toolbar_drawer_imagesize">@dimen/_10sdp</dimen>
+    <dimen name="toolbar_text_size">@dimen/_12ssp</dimen>
+    <dimen name="toolbar_nitificationimage_size">@dimen/_14sdp</dimen>
+    <dimen name="openbtnn_textsize">@dimen/_8ssp</dimen>
+    <dimen name="openbtnn_width">@dimen/_70sdp</dimen>
+    <dimen name="openbtnn_height">@dimen/_25sdp</dimen>
+    <dimen name="openbtnn_margintop">@dimen/_39sdp</dimen>
+    <dimen name="openbtnn_marginleft">@dimen/_65sdp</dimen>
+    <dimen name="getliturgy_about_btn">@dimen/_8sdp</dimen>
+    <dimen name="notification_next_arrow">@dimen/_21sdp</dimen>
+    <dimen name="notification_padding">@dimen/_2sdp</dimen>
+    <dimen name="notification_date_tetx">@dimen/_8ssp</dimen>
+    <dimen name="notification_detail_tetx">@dimen/_8ssp</dimen>
+    <dimen name="notification_desc_tetx">@dimen/_10ssp</dimen>
+    <dimen name="profile_image_hight">@dimen/_155sdp</dimen>
+    <dimen name="profile_historybtn">@dimen/_8sdp</dimen>
+    <dimen name="profile_historybtn_layout">@dimen/_45sdp</dimen>
+    <dimen name="profile_historybtn_margin">@dimen/_10sdp</dimen>
+    <dimen name="profile_edit_icon">@dimen/_15sdp</dimen>
+    <dimen name="profile_edit_iconmargin">@dimen/_20sdp</dimen>
+    <dimen name="dialog_main_text">@dimen/_14ssp</dimen>
+    <dimen name="dialog_small_text">@dimen/_10ssp</dimen>
+    <dimen name="dialog_accept_text">@dimen/_12ssp</dimen>
+    <dimen name="dialog_layout_hight">@dimen/_20sdp</dimen>
+    <dimen name="progressbar_layout_size">@dimen/_110sdp</dimen>
+    <dimen name="about_book_width">@dimen/_110sdp</dimen>
+    <dimen name="about_book_height">@dimen/_150sdp</dimen>
+    <dimen name="about_book_text">@dimen/_18ssp</dimen>
+    <dimen name="about_book_desctext">@dimen/_10ssp</dimen>
 
 </resources>

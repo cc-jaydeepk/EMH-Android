@@ -57,10 +57,11 @@
         android:layout_marginRight="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_60sdp"
         android:backgroundTint="@color/loginbg"
+        android:fontFamily="@font/lato_regular"
         android:padding="@dimen/_10sdp"
         android:text="Contact Us"
         android:textAllCaps="true"
-        android:textSize="@dimen/_14ssp" />
+        android:textSize="@dimen/_12sdp" />
 
 
 </RelativeLayout>

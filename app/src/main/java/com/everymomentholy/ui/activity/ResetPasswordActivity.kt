@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
@@ -23,6 +24,7 @@ class ResetPasswordActivity : AppCompatActivity() {
     private lateinit var edtResetConfirmPassword: EditText
     private lateinit var edtVerificationCode: EditText
     private lateinit var btnUpdatePassword: Button
+    private lateinit var iv_toolbar_backImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,11 @@ class ResetPasswordActivity : AppCompatActivity() {
         edtResetConfirmPassword = findViewById(R.id.edtResetConfirmPassword)
         edtVerificationCode = findViewById(R.id.edtVerificationCode)
         btnUpdatePassword = findViewById(R.id.btnUpdatePassword)
+        iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+
+        iv_toolbar_backImage.setOnClickListener {
+            onBackPressed()
+        }
 
         btnUpdatePassword.setOnClickListener {
 
@@ -120,7 +127,7 @@ class ResetPasswordActivity : AppCompatActivity() {
             isValid = false
         }
 
-        if(!newPassword.equals(confirmPassword)){
+        if (!newPassword.equals(confirmPassword)) {
             edtResetConfirmPassword.error =
                 resources.getString(R.string.reset_matchpassword_error)
             edtResetConfirmPassword.requestFocus()
@@ -134,5 +141,10 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
 
         return isValid
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }

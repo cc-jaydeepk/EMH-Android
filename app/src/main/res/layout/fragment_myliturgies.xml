@@ -16,8 +16,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/_2sdp"
         android:layout_marginRight="@dimen/_2sdp"
-        android:background="@color/white"
         android:orientation="vertical">
+
+
 
         <ImageView
             android:layout_width="@dimen/_20sdp"

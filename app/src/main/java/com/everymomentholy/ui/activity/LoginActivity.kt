@@ -114,77 +114,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUserProfile() {
-        var getUserProfileRequestVo: GetUserProfileRequestVo = GetUserProfileRequestVo()
-        getUserProfileRequestVo.deviceId = android_id
-        getUserProfileRequestVo.userId = prefeUserId
-
-        Log.e(
-            "token", Utils.readStringFromSharedPref(
-                this,
-                Constants.SHARED_PREF_TOKEN,
-                ""
-            ).toString()
-        )
-
-        val request = APIService.buildService(APIInterface::class.java)
-        val call =
-            request.getUserProfile(
-                getUserProfileRequestVo.userId, getUserProfileRequestVo.deviceId,
-                "bearer " + Utils.readStringFromSharedPref(
-                    this,
-                    Constants.SHARED_PREF_TOKEN,
-                    ""
-                )
-            )
-
-
-        try {
-            call.enqueue(object : Callback<GetUserProfileVo> {
-                override fun onResponse(
-                    call: Call<GetUserProfileVo>,
-                    response: Response<GetUserProfileVo>
-                ) {
-                    if (response.body()?.statusCode == 1) {
-
-                        Utils.writeStringToSharedPref(
-                            this@LoginActivity, Constants.USER_NAME,
-                            response.body()!!.response.firstName
-                        )
-
-                        Utils.writeStringToSharedPref(
-                            this@LoginActivity, Constants.USER_NAME,
-                            response.body()!!.response.email
-                        )
-
-                        Utils.writeStringToSharedPref(
-                            this@LoginActivity, Constants.PROFILE_PIC,
-                            response.body()!!.response.userProfilePic
-                        )
-
-                        /*Glide.with(this@LoginActivity)
-                            .load(response.body()!!.response.userProfilePic)
-                            .into(iv_drawer_profile_image)*/
-
-                    } else {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            response.body()!!.response.message,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<GetUserProfileVo>, t: Throwable) {
-                    Toast.makeText(this@LoginActivity, "${t.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-        }
-    }
-
     private fun login(loginRequestVo: LoginRequestVo) {
 
         val request = APIService.buildService(APIInterface::class.java)
@@ -242,7 +171,8 @@ class LoginActivity : AppCompatActivity() {
                         isUserLogin = true
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.putExtra("boolean", isUserLogin)
-                        intent.flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
 

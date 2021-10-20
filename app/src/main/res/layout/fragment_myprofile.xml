@@ -6,6 +6,36 @@
     android:layout_gravity="center"
     android:orientation="vertical">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/progressCardView"
+        android:layout_width="@dimen/progressbar_layout_size"
+        android:layout_height="@dimen/progressbar_layout_size"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_7sdp"
+        app:cardUseCompatPadding="true">
+
+        <ProgressBar
+            android:id="@+id/registerProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:gravity="center"
+            android:text="Loading"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp" />
+
+    </androidx.cardview.widget.CardView>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,37 +45,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/progressCardView"
-                android:layout_width="@dimen/_130sdp"
-                android:layout_height="@dimen/_130sdp"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="@dimen/_10sdp"
-                app:cardElevation="@dimen/_7sdp"
-                app:cardUseCompatPadding="true">
-
-                <ProgressBar
-                    android:id="@+id/registerProgressBar"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="@dimen/_15sdp"
-                    android:gravity="center"
-                    android:text="Loading"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15ssp" />
-
-            </androidx.cardview.widget.CardView>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -53,7 +52,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_210sdp"
+                    android:layout_height="@dimen/profile_image_hight"
                     android:background="@drawable/ic_profilebg"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
@@ -74,10 +73,10 @@
 
                     <ImageView
                         android:id="@+id/ivOpenGallery"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_25sdp"
-                        android:layout_marginStart="@dimen/_38sdp"
-                        android:layout_marginLeft="@dimen/_38sdp"
+                        android:layout_width="@dimen/profile_edit_icon"
+                        android:layout_height="@dimen/profile_edit_icon"
+                        android:layout_marginStart="@dimen/profile_edit_iconmargin"
+                        android:layout_marginLeft="@dimen/profile_edit_iconmargin"
                         android:layout_marginTop="-49dp"
                         android:src="@drawable/ic_edit_image"
                         android:visibility="gone" />
@@ -95,9 +94,9 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_70sdp"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_height="@dimen/profile_historybtn_layout"
+                        android:layout_marginLeft="@dimen/profile_historybtn_margin"
+                        android:layout_marginRight="@dimen/profile_historybtn_margin"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -106,7 +105,7 @@
                             android:id="@+id/ivOrderHistory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_margin="@dimen/profile_historybtn"
                             android:layout_weight="1"
                             android:src="@drawable/ic_orderhistory" />
 
@@ -114,7 +113,7 @@
                             android:id="@+id/ivChangePassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_margin="@dimen/profile_historybtn"
                             android:layout_weight="1"
                             android:src="@drawable/change_password" />
 
@@ -201,7 +200,7 @@
                             android:inputType="phone"
                             android:padding="@dimen/login_button_padding"
                             android:singleLine="true"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/edittext_hint_size" />
 
                     </RelativeLayout>
 

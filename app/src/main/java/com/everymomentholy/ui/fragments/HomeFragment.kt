@@ -12,9 +12,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.FileProvider
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.everymomentholy.BuildConfig
@@ -23,12 +25,13 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
 import com.everymomentholy.api.response.HomegetSettingResponseVo
+import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.NotificationListActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -40,8 +43,10 @@ class HomeFragment : Fragment() {
     private lateinit var txt_toolbar: TextView
     private lateinit var imgHomeClock: ImageView
     private lateinit var ivHomeShare: ImageView
-    private lateinit var rootLayout: NestedScrollView
+    private lateinit var rootLayout: RelativeLayout
     private lateinit var txtToolbar: RelativeLayout
+    private lateinit var iv_toolbar_drawer: ImageView
+    private lateinit var iv_toolbar_notification: ImageView
 
     lateinit var quotesText: String
     lateinit var cotedText: String
@@ -55,6 +60,19 @@ class HomeFragment : Fragment() {
 
         rootLayout = view.findViewById(R.id.rootLayout)
         txt_toolbar = view.findViewById(R.id.txt_toolbar)
+        //  (activity as MainActivity?)!!.initToolBar("Every Moment Holy")
+        iv_toolbar_drawer = view.findViewById(R.id.iv_toolbar_drawer)
+        iv_toolbar_notification = view.findViewById(R.id.iv_toolbar_notification)
+
+        iv_toolbar_notification.setOnClickListener {
+            val intent = Intent(requireActivity(), NotificationListActivity::class.java)
+            startActivity(intent)
+        }
+
+        iv_toolbar_drawer.setOnClickListener {
+            (activity as MainActivity?)?.openDrawer()
+        }
+
 
         txtTitle = view.findViewById(R.id.txtTitle)
         txtQuote = view.findViewById(R.id.txtQuote)
@@ -67,11 +85,15 @@ class HomeFragment : Fragment() {
         ivHomeShare.setOnClickListener {
 
             ivHomeShare.visibility = View.GONE
+            iv_toolbar_drawer.visibility = View.GONE
+            iv_toolbar_notification.visibility = View.GONE
 
             screenShotCapture()
 
             //After taking screenshot reset the button and view again
             ivHomeShare.setVisibility(View.VISIBLE)
+            iv_toolbar_drawer.setVisibility(View.VISIBLE)
+            iv_toolbar_notification.setVisibility(View.VISIBLE)
         }
 
         // dailyLiturgyQuote()
@@ -161,6 +183,7 @@ class HomeFragment : Fragment() {
         super.onResume()
         dailyLiturgyQuote()
         getSettings()
+
     }
 
     private fun getSettings() {
@@ -212,11 +235,15 @@ class HomeFragment : Fragment() {
 
                         txtQuote.text = response.body()!!.response.parentLiturgy
                         txtDailyQuote.text = response.body()!!.response.quote
-                        txtDate.text = response.body()!!.response.date
 
-                        quotesText = response.body()!!.response.quote
+
+                        //  quotesText = response.body()!!.response.quote
                         cotedText = response.body()!!.response.parentLiturgy
-                        Log.e("text", quotesText)
+                        // Log.e("text", quotesText)
+
+                        val validUrl = response.body()!!.response.date.split("-").first()
+                        Log.e("text", validUrl)
+                        txtDate.text = validUrl
 
                     } else {
 

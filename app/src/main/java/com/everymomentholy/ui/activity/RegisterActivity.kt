@@ -3,28 +3,40 @@ package com.everymomentholy.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 import com.everymomentholy.utils.SavaPreferences
 import com.hbb20.CountryCodePicker
 import android.provider.Settings
+import android.text.Editable
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.core.graphics.drawable.toBitmap
+import com.bumptech.glide.Glide
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetUserProfileRequestVo
+import com.everymomentholy.api.request.GetUserProfileUpdateRequestVo
+import com.everymomentholy.api.request.LoginRequestVo
 import com.everymomentholy.api.request.RegisterRequestVo
+import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
 import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.RegisterResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeListener {
 
@@ -84,14 +96,13 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         edtEmail = findViewById(R.id.edtEmail)
         edtPassword = findViewById(R.id.edtPassword)
         edtConfirmPsw = findViewById(R.id.edtConfirmPsw)
-        edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
+        // edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
         imgCheckbox = findViewById(R.id.imgCheckbox)
         imgCheckbox.setOnClickListener {
             isAcceptTerms = true
             imgCheckbox.setImageResource(R.drawable.ic_check_box);
         }
 
-        //getUserProfile()
 
         btnRedister = findViewById(R.id.btnRedister)
         btnRedister.setOnClickListener {
@@ -111,7 +122,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         registrationRequestVo.password = edtPassword.text.toString().trim()
                         registrationRequestVo.deviceType = "1"
                         registrationRequestVo.deviceId = android_id
-                        registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
+                        // registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
                         registration(registrationRequestVo)
                     } else {
                         isAcceptTerms = false
@@ -153,7 +164,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         )
 
                         Utils.writeStringToSharedPref(
-                            this@RegisterActivity, Constants.NAME,
+                            this@RegisterActivity, Constants.USER_NAME,
                             registrationRequestVo.firstName
                         )
 
@@ -161,7 +172,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             this@RegisterActivity, Constants.USER_EMAIL,
                             registrationRequestVo.email
                         )
-
 
                         /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
                         val myEdit = sharedPreferences.edit()
@@ -173,6 +183,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
 
                     } else {
+                        progressCardView.visibility = View.GONE
                         Log.e("Fail", response.body()!!.message.toString())
                         Toast.makeText(
                             this@RegisterActivity,
@@ -205,6 +216,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
+
         }
 
         builder.setView(dialogLayout)
@@ -228,7 +240,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val email = edtEmail.text.toString().trim()
         val password = edtPassword.text.toString().trim()
         val confirmPsw = edtConfirmPsw.text.toString().trim()
-        //val phoneNo = edtPhoneNumber.text.toString().trim()
 
         var isValid = true
 
@@ -277,9 +288,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             edtConfirmPsw.requestFocus()
             isValid = false
         }
-
-
-
         return isValid
     }
 }

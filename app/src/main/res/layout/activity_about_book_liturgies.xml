@@ -15,8 +15,8 @@
 
             <ImageView
                 android:id="@+id/ivAboutImage"
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_width="@dimen/about_book_width"
+                android:layout_height="@dimen/about_book_height"
                 android:layout_gravity="center" />
 
             <TextView
@@ -28,7 +28,7 @@
                 android:gravity="center"
                 android:text="Testing"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_22ssp" />
+                android:textSize="@dimen/about_book_text" />
 
             <TextView
                 android:id="@+id/txtAboutDescription"
@@ -37,7 +37,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/lato_medium"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/about_book_desctext" />
 
         </LinearLayout>
 

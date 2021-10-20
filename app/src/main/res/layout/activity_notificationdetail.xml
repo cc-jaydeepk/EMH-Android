@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_light"
             android:text="date"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/notification_detail_tetx" />
 
         <TextView
             android:id="@+id/txtDescription"
@@ -29,7 +29,7 @@
             android:fontFamily="@font/lato_semibold"
             android:text="description"
             android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
+            android:textSize="@dimen/notification_desc_tetx" />
 
     </LinearLayout>
 

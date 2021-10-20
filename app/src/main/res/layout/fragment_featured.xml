@@ -13,10 +13,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/lato_light"
             android:gravity="center"
-            android:text="Currently Available to All Users"
+            android:text="@string/currently_available_to_all_users"
             android:textColor="@color/white"
-            android:textSize="@dimen/_18ssp" />
+            android:textSize="@dimen/_16ssp" />
 
     </LinearLayout>
 

@@ -183,7 +183,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     private fun showBottomSheetDialog() {
         val dialog = this?.let { BottomSheetDialog(it) }
-        val view = layoutInflater.inflate(R.layout.activity_buttom_slider, null)
+        val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
 
         val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 

@@ -7,9 +7,14 @@
     android:orientation="vertical">
 
     <ImageView
+        android:layout_width="@dimen/option_imgsize"
+        android:layout_height="@dimen/option_imgsize"
+        android:src="@drawable/splashimage" />
+
+   <!-- <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_310sdp"
-        android:src="@drawable/splashimage" />
+        android:src="@drawable/splashimage" />-->
 
     <Button
         android:id="@+id/btnLogin"

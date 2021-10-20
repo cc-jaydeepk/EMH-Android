@@ -1,99 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical">
 
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txt_toolbar"
+        <!--<include
+            layout="@layout/toolbar_layout"
+            android:visibility="gone" />-->
+
+        <RelativeLayout
+            android:id="@+id/toolbar_relativ"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/lato_medium"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp"
-            android:visibility="gone" />
+            android:layout_height="?actionBarSize">
+
+            <ImageView
+                android:id="@+id/iv_toolbar_drawer"
+                android:layout_width="@dimen/toolbar_drawer_imagesize"
+                android:layout_height="@dimen/toolbar_drawer_imagesize"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:src="@drawable/drawer_image" />
+
+
+            <TextView
+                android:id="@+id/txt_toolbar_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/lato_medium"
+                android:text="@string/app_name"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/toolbar_text_size" />
+
+            <ImageView
+                android:id="@+id/iv_toolbar_notification"
+                android:layout_width="@dimen/toolbar_nitificationimage_size"
+                android:layout_height="@dimen/toolbar_nitificationimage_size"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_9sdp"
+                android:src="@drawable/ic_notification"
+                android:visibility="visible" />
+
+
+        </RelativeLayout>
 
         <LinearLayout
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar_relativ"
             android:orientation="vertical">
 
-
-            <ImageView
-                android:id="@+id/imgHomeClock"
-                android:layout_width="@dimen/home_img"
-                android:layout_height="@dimen/home_img" />
-
             <TextView
-                android:id="@+id/txtDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/liturgitxtmargin"
-                android:fontFamily="@font/lato_medium"
-                android:text="10 sep 2021"
-                android:textColor="@color/loginbg"
-                android:textSize="@dimen/liturgitxtsize" />
-
-            <TextView
-                android:id="@+id/txtTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5ssp"
-                android:fontFamily="@font/lato_semibold"
-                android:text="@string/daily_liturgy_quote"
-                android:textColor="@color/black"
-                android:textSize="@dimen/home_frg_liturgiesnm"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtDailyQuote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/home_frg_txtmrg"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/home_frg_txtmrg"
-                android:fontFamily="@font/lato_medium"
-                android:gravity="center"
-                android:text="&#34;Give us discernment to know when \n to simply \n shut off our screens and to sit \n quietly in your presence.&#34;"
-                android:textSize="@dimen/home_frg_dessize" />
-
-            <TextView
-                android:id="@+id/txtQuote"
+                android:id="@+id/txt_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/home_frg_txtmrg"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/home_frg_txtmrg"
-                android:fontFamily="@font/lato_mediumitalic"
-                android:text="from &#34;For Those Flooded by Too Much Information&#34;"
-                android:textColor="@color/loginbg"
-                android:textSize="@dimen/home_frg_size" />
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/lato_medium"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18ssp"
+                android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/ivHomeShare"
-                android:layout_width="@dimen/home_frg_shareimg"
-                android:layout_height="@dimen/home_frg_shareimg"
-                android:layout_marginTop="@dimen/_26sdp"
-                android:src="@drawable/homeshare"
-                app:tint="@color/loginbg" />
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:gravity="center"
+
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/imgHomeClock"
+                    android:layout_width="@dimen/home_img"
+                    android:layout_height="@dimen/home_img" />
+
+                <TextView
+                    android:id="@+id/txtDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/liturgitxtmargin"
+                    android:fontFamily="@font/lato_medium"
+                    android:text="10 sep 2021"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/liturgitxtsize" />
+
+                <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5ssp"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/daily_liturgy_quote"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/home_frg_liturgiesnm"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDailyQuote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_frg_txtmrg"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/home_frg_txtmrg"
+                    android:fontFamily="@font/lato_medium"
+                    android:gravity="center"
+                    android:text="&#34;Give us discernment to know when \n to simply \n shut off our screens and to sit \n quietly in your presence.&#34;"
+                    android:textSize="@dimen/home_frg_dessize" />
+
+                <TextView
+                    android:id="@+id/txtQuote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/home_frg_txtmrg"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/home_frg_txtmrg"
+                    android:fontFamily="@font/lato_mediumitalic"
+                    android:text="from &#34;For Those Flooded by Too Much Information&#34;"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/home_frg_size" />
+
+                <ImageView
+                    android:id="@+id/ivHomeShare"
+                    android:layout_width="@dimen/home_frg_shareimg"
+                    android:layout_height="@dimen/home_frg_shareimg"
+                    android:layout_marginTop="@dimen/_26sdp"
+                    android:src="@drawable/homeshare"
+                    app:tint="@color/loginbg" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </androidx.core.widget.NestedScrollView>

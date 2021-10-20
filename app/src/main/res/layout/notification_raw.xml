@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/_5sdp"
-    android:padding="@dimen/_5sdp">
+    android:padding="@dimen/notification_padding">
 
     <!--<TextView
         android:id="@+id/txtNotificationTitle"
@@ -18,8 +18,8 @@
         android:textStyle="bold" />-->
     <ImageView
         android:id="@+id/nextImage"
-        android:layout_width="@dimen/_28sdp"
-        android:layout_height="@dimen/_28sdp"
+        android:layout_width="@dimen/notification_next_arrow"
+        android:layout_height="@dimen/notification_next_arrow"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/_4sdp"
         android:src="@drawable/ic_next" />
@@ -39,7 +39,7 @@
         android:layout_marginLeft="@dimen/_7sdp"
         android:fontFamily="@font/lato_light"
         android:text="title"
-        android:textSize="@dimen/_11ssp" />
+        android:textSize="@dimen/notification_date_tetx" />
 
 
 </RelativeLayout>
