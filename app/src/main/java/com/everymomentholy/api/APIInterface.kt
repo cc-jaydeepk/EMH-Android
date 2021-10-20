@@ -14,6 +14,9 @@ interface APIInterface {
     @POST(Constants.API_REGISTRATION)
     fun userRegistration(@Body registrationRequestVo: RegisterRequestVo): Call<RegisterResponseVo>
 
+    @POST(Constants.API_REGISTRATION)
+    fun userRegistrationWithPhone(@Body registerWithoutPhoneRequestVo: RegisterWithoutPhoneRequestVo): Call<RegisterResponseVo>
+
     @POST(Constants.API_LOGIN)
     fun userLogin(@Body loginRequestVo: LoginRequestVo): Call<LoginResponseVo>
 
@@ -139,4 +142,10 @@ interface APIInterface {
         @Query("appUserId") appUserId: Int?
     ): Call<CollectionListResponseVo>
 
+    @GET(Constants.API_MY_LITURGIES_LIST)
+    fun getLiturgiesFromBookId(
+        @Query("appUserId") appUserId: Int?,
+        @Query("deviceId") deviceId: String?,
+        @Query("bookId") bookId: Int?
+    ): Call<MyLiturgiesResponseVo>
 }

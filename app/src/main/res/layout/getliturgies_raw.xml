@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,15 +16,32 @@
             android:layout_height="@dimen/getliturgy_img_size"
             android:src="@mipmap/ic_launcher" />
 
+        <com.rd.PageIndicatorView
+            android:id="@+id/pageIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:padding="@dimen/_5sdp"
+            app:piv_animationType="scale"
+            app:piv_dynamicCount="true"
+            app:piv_interactiveAnimation="true"
+            app:piv_selectedColor="@color/black"
+            app:piv_unselectedColor="#8F8C8C"
+            app:piv_viewPager="@id/viewPager" />
+
         <TextView
             android:id="@+id/txtLiturgyTitle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginTop="@dimen/getliturgy_txtmargin"
+            android:layout_marginRight="@dimen/_15sdp"
             android:fontFamily="@font/lato_medium"
             android:gravity="center"
-            android:text="Liturgies Name"
+            android:padding="@dimen/_5sdp"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="@dimen/getliturgy_txt_size" />
@@ -60,17 +77,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/_40sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/getliturgy_btnlayout"
             android:layout_marginRight="@dimen/getliturgy_btnlayout"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp">
 
             <Button
                 android:id="@+id/btnUnlock"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/loginbg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
@@ -81,12 +98,12 @@
                 android:text="Unlock"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="@dimen/getliturgy_btn_txtsize" />
+                android:textSize="@dimen/getliturgy_btn_txtsize"
+                app:strokeColor="@color/loginbg" />
 
             <Button
                 android:id="@+id/btnGetLiturgiesAbout"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="@color/loginbg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
@@ -96,7 +113,8 @@
                 android:text="@string/about"
                 android:textAllCaps="true"
                 android:textColor="@color/loginbg"
-                android:textSize="@dimen/getliturgy_btn_txtsize" />
+                android:textSize="@dimen/getliturgy_btn_txtsize"
+                app:strokeColor="@color/loginbg" />
 
         </LinearLayout>
 

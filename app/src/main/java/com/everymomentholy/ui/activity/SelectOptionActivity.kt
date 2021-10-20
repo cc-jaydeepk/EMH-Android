@@ -38,8 +38,8 @@ class SelectOptionActivity : AppCompatActivity() {
         txtSkip.setOnClickListener {
 
             // val intent = Intent(this@FirstActivity, HomeActivity::class.java)
-            val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
-            startActivity(intent)
+       /*     val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
+            startActivity(intent)*/
         }
     }
 }

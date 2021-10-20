@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.CollectionListActivity">
+    tools:context=".ui.activity.LiturgiesListActivity">
 
     <include layout="@layout/toolbar_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCollectionList"
+        android:id="@+id/rvLiturgiesList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
