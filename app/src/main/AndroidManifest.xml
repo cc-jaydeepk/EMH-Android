@@ -22,8 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryMomentHoly"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.CollectionListActivity"></activity>
+        android:usesCleartextTraffic="true"
+        android:name=".EMHApplication">
+
+        <activity android:name=".ui.activity.LiturgiesListActivity"></activity>
+        <activity android:name=".ui.activity.CollectionListActivity" />
         <activity android:name=".ui.activity.AboutBookLiturgiesActivity" />
         <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
@@ -44,8 +47,8 @@
         <activity android:name=".ui.activity.NotificationListActivity" />
         <activity android:name=".ui.activity.NotificationDetailActivity" />
         <activity android:name=".ui.activity.EditProfileActivity" />
-
-       <!-- <provider
+        <!--
+ <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
@@ -53,8 +56,8 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>-->
-
+        </provider>
+        -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.everymomentholy.ui.activity.MainActivity.provider"
@@ -64,7 +67,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>

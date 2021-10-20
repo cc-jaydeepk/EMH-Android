@@ -28,6 +28,9 @@ import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.folioreader.Config
+import com.folioreader.FolioReader
+import com.folioreader.util.AppUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -184,6 +187,15 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
 
     override fun onMyLiturgiesListClick(pos: Int, bookID: Int) {
+        /*var config = AppUtil.getSavedConfig(context);
+        if (config == null) {
+            //   config : Config ()
+        }
+        config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
+        val folioReader = FolioReader.get()
+        folioReader.setConfig(config, true)
+        var path = context?.getFilesDir()?.getAbsolutePath() + "/" + "the_first_hearthfire_of_the_season.epub"
+        folioReader.openBook(path)*/
         getMyLiturgiesList(bookID)
     }
 

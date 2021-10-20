@@ -129,9 +129,9 @@ class MainActivity : AppCompatActivity() {
 
 
         iv_toolbar_notification.setOnClickListener {
-            val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
+         /*   val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
             startActivity(intent)
-
+*/
             /*txt_toolbar_name.text = "Notifications"
             iv_toolbar_notification.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
@@ -249,9 +249,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_favoritesFragment -> {
+                    // replaceFragment(FavoritesFragment(), "Favourites")
+                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                    replaceFragment(FavoritesFragment(), "Favourites")
+                   // replaceFragment(FavoritesFragment(), "Favourites")
                     true
                 }
                 R.id.nav_getLiturgiesFragment -> {
@@ -261,58 +263,57 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_featuredFragment -> {
-                    toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
-                    iv_toolbar_search.setOnClickListener {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Search",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                    replaceFragment(FeaturedFragment(), "Featured Liturgies")
-                    true
+                    //  replaceFragment(FeaturedFragment(), "Featured")
+                    false
                 }
                 R.id.nav_orderBookFragment -> {
+                    // replaceFragment(OrderBookFragment(), "Book Ordered")
+                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                    replaceFragment(OrderBookFragment(), "Book Ordered")
+                   // replaceFragment(OrderBookFragment(), "Book Ordered")
                     true
                 }
                 R.id.nav_searchFragment -> {
+                    // replaceFragment(SearchFragment(), "Search")
+                    false
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     navBottomView.visibility = View.VISIBLE
-                    replaceFragment(SearchFragment(), "Search")
+                    //replaceFragment(SearchFragment(), "Search")
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
+                  //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
+                    //  replaceFragment(AboutUsFragment(), "About Us")
+                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    replaceFragment(AboutUsFragment(), "About Us")
+                   // replaceFragment(AboutUsFragment(), "About Us")
                     true
                 }
                 R.id.nav_FAQFragment -> {
+                    // replaceFragment(FAQFragment(), "FAQ")
+                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    replaceFragment(FAQFragment(), "FAQ")
+                   // replaceFragment(FAQFragment(), "FAQ")
                     true
                 }
                 R.id.nav_conditionFragment -> {
+                    //  replaceFragment(ConditionFragment(), "Terms & Condition")
+                    false
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                    replaceFragment(ConditionFragment(), "Terms & Condition")
+                    //replaceFragment(ConditionFragment(), "Terms & Condition")
                     true
                 }
                 R.id.nav_myProfileFragment -> {
@@ -374,14 +375,14 @@ class MainActivity : AppCompatActivity() {
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
-                        Toast.makeText(
+                       /* Toast.makeText(
                             this@MainActivity,
                             "Search",
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
                     fragment = FavoritesFragment()
-                    replaceFragment(fragment, "Favourites")
+                    //replaceFragment(fragment, "Favourites")
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_getLiturgiesFragment -> {
@@ -389,11 +390,11 @@ class MainActivity : AppCompatActivity() {
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
-                        Toast.makeText(
+                       /* Toast.makeText(
                             this@MainActivity,
                             "Search",
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
                     }
                     fragment = GetLiturgiesFragment()
                     replaceFragment(fragment, "Get Liturgies")
@@ -405,20 +406,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-
-    /*fun initToolBar(title: String?) {
-        toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        toolbar.title = title
-        setSupportActionBar(toolbar)
-        toolbar.setNavigationIcon(R.mipmap.ic_launcher_round)
-        toolbar.setNavigationOnClickListener {
-            Toast.makeText(
-                this@MainActivity,
-                "clicking the toolbar!",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }*/
 
     private fun showLogoutDialog() {
         val alertDialog = AlertDialog.Builder(

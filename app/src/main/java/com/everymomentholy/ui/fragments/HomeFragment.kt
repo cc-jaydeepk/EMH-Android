@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
@@ -16,6 +17,8 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -104,6 +107,7 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     private fun screenShotCapture() {
         var b: Bitmap = getBitmapFromView(rootLayout, Color.WHITE)
 
@@ -131,6 +135,7 @@ class HomeFragment : Fragment() {
         return bitmap
     }
 
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     fun getMainDirectoryName(context: Context): File {
 
         val mainDir = File(
@@ -199,12 +204,15 @@ class HomeFragment : Fragment() {
                     if (response.body()?.statusCode == 1) {
 
                         // txtQuote.text = response.body()!!.response.parentLiturgy
-                        Glide
-                            .with(context!!)
-                            .load(response.body()!!.response.home_page_liturgy_image)
-                            .centerCrop()
-                            .into(imgHomeClock)
-
+                        try {
+                            Glide
+                                .with(context!!)
+                                .load(response.body()!!.response.home_page_liturgy_image)
+                                .centerCrop()
+                                .into(imgHomeClock)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
 
                     } else {
 

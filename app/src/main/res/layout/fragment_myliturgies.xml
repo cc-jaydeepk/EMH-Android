@@ -16,16 +16,17 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/_2sdp"
         android:layout_marginRight="@dimen/_2sdp"
+        android:background="@color/white"
         android:orientation="vertical">
 
-
-
-        <ImageView
+       <!-- <ImageView
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_2sdp"
-            android:src="@drawable/slider_down_arrow" />
+            android:src="@drawable/slider_down_arrow" />-->
+
+        <include layout="@layout/curve_shap"/>
 
     </LinearLayout>
 

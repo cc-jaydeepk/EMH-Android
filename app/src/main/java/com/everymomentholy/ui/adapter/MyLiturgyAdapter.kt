@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -26,6 +27,7 @@ class MyLiturgyAdapter(
         var imgLiturgycoverImage: ImageView = view.findViewById(R.id.imgLiturgycoverImage)
         var txtLiturgiesTitle: TextView = view.findViewById(R.id.txtLiturgiesTitle)
         var mainRelative: RelativeLayout = view.findViewById(R.id.mainRelative)
+        var btnOpen: Button = view.findViewById(R.id.btnOpen)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,7 +52,11 @@ class MyLiturgyAdapter(
         }
 
         holder.mainRelative.setOnClickListener() {
-            liturgyListClickListner.onMyLiturgiesListClick(position,myLiturgies.bookId)
+            liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId)
+        }
+
+        holder.btnOpen.setOnClickListener() {
+            liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId)
         }
 
     }

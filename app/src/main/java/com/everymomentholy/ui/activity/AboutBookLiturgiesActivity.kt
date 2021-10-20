@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Html
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,10 +22,9 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.CollectionRequestVo
 import com.everymomentholy.api.request.GetLiturgiesRequestVo
+import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.response.*
-import com.everymomentholy.ui.adapter.BottomSliderAdapter
-import com.everymomentholy.ui.adapter.BottomSliderCollectionAdapter
-import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
+import com.everymomentholy.ui.adapter.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -39,8 +40,13 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
     lateinit var ivAboutImage: ImageView
     lateinit var llAboutBookBottomSheet: LinearLayout
     lateinit var bottomSliderAdapter: BottomSliderCollectionAdapter
+    lateinit var bottomSliderLiturgiesAdapter: BottomSliderLiturgiesAdapter
     var prefeUserId: Int = 0
     var android_id: String = ""
+    lateinit var ivToolbarNotification: ImageView
+    lateinit var txtToolbarName: TextView
+    lateinit var ivToolbarDrawer: ImageView
+
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +57,16 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         txtTitle = findViewById(R.id.txtTitle)
         ivAboutImage = findViewById(R.id.ivAboutImage)
         llAboutBookBottomSheet = findViewById(R.id.ll_about_book_bottom_sheet)
+        ivToolbarDrawer = findViewById(R.id.iv_toolbar_drawer)
+        txtToolbarName = findViewById(R.id.txt_toolbar_name)
+        ivToolbarNotification = findViewById(R.id.iv_toolbar_notification)
+
+        ivToolbarNotification.visibility = View.GONE
+        ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+
+        ivToolbarDrawer.setOnClickListener() {
+            onBackPressed()
+        }
 
         liturgies = intent.getSerializableExtra("liturgies") as GetLiturgiesDataVo
 
@@ -65,7 +81,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
             if (liturgies.isVolume == "Yes") {
                 getCollectionList(liturgies.volumeId)
             } else {
-
+                getMyLiturgiesList(liturgies.bookId)
             }
 
         }
@@ -210,6 +226,36 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         dialog?.show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    private fun showBottomSheetForLiturgiesDialog() {
+        val dialog = this?.let { BottomSheetDialog(it) }
+        val view = layoutInflater.inflate(R.layout.activity_buttom_slider, null)
+
+        val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
+
+        /*   val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
+               "MySharedPref",
+               MODE_PRIVATE
+           )
+
+           //prefeUserId = sharedPreferences.getInt("userId", 0)
+
+           bottomSliderAdapter = BottomSliderAdapter(
+               requireContext(),
+               freeLiturgies,
+               )*/
+
+        val layoutManager: RecyclerView.LayoutManager =
+            LinearLayoutManager(this)
+        buttomRcv.layoutManager = layoutManager
+        buttomRcv.adapter = bottomSliderLiturgiesAdapter
+
+
+        dialog?.setCancelable(true)
+        dialog?.setContentView(view)
+        dialog?.show()
+    }
+
 
     fun getCollectionList(volumeId: Int) {
         var collectionRequestVo: CollectionRequestVo = CollectionRequestVo()
@@ -278,6 +324,75 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
                 }
             })
         } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+    private fun getMyLiturgiesList(bookID: Int) {
+        var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
+        myLiturgiesRequestVo.appUserId = prefeUserId
+        myLiturgiesRequestVo.deviceId = android_id
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.getLiturgiesFromBookId(
+                myLiturgiesRequestVo.appUserId,
+                myLiturgiesRequestVo.deviceId,
+                bookID
+            )
+
+        try {
+            call.enqueue(object : Callback<MyLiturgiesResponseVo> {
+                @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+                override fun onResponse(
+                    call: Call<MyLiturgiesResponseVo>,
+                    response: Response<MyLiturgiesResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                        var liturgiesList: ArrayList<MyLiturgiesDataVo> = ArrayList()
+                        var liturgie: MyLiturgiesDataVo = MyLiturgiesDataVo()
+                        liturgie.bookId = liturgie.bookId
+                        liturgie.chapterPageImage = liturgie.chapterPageImage
+                        liturgie.price = liturgie.price
+                        liturgie.chapterTitle = liturgie.chapterTitle
+
+                        liturgiesList.add(liturgie)
+                        liturgiesList.addAll(response.body()?.response?.data!!)
+
+                        /*rvLiturgiesList.layoutManager =
+                            LinearLayoutManager(this@LiturgiesListActivity)
+                        getLiturgiesFromBookIDAdapter = GetLiturgiesFromBookIDAdapter(
+                            this@LiturgiesListActivity,
+                            liturgiesList
+                        )
+                        rvLiturgiesList.adapter = getLiturgiesFromBookIDAdapter*/
+                        bottomSliderLiturgiesAdapter = BottomSliderLiturgiesAdapter(
+                            this@AboutBookLiturgiesActivity,
+                            liturgiesList
+                        )
+                        showBottomSheetForLiturgiesDialog()
+
+                    } else {
+                        Toast.makeText(
+                            this@AboutBookLiturgiesActivity,
+                            response.body()!!.response.message.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                        Log.e("litu", response.body()!!.response.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
+                    Toast.makeText(
+                        this@AboutBookLiturgiesActivity,
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            })
+        } catch (exception: java.lang.Exception) {
             exception.printStackTrace()
         }
     }

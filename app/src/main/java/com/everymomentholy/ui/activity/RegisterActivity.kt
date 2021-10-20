@@ -2,6 +2,7 @@ package com.everymomentholy.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +11,13 @@ import com.everymomentholy.utils.SavaPreferences
 import com.hbb20.CountryCodePicker
 import android.provider.Settings
 import android.text.Editable
+import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.graphics.drawable.toBitmap
@@ -65,6 +68,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     lateinit var txt_toolbar_name: TextView
 
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -96,7 +100,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         edtEmail = findViewById(R.id.edtEmail)
         edtPassword = findViewById(R.id.edtPassword)
         edtConfirmPsw = findViewById(R.id.edtConfirmPsw)
-        // edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
+        edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
         imgCheckbox = findViewById(R.id.imgCheckbox)
         imgCheckbox.setOnClickListener {
             isAcceptTerms = true
@@ -114,16 +118,28 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                     if (isAcceptTerms) {
                         progressCardView.visibility = View.VISIBLE
+                        /*if (edtPhoneNumber.text.toString().trim() == "") {
+                            var registrationRequestVo: RegisterWithoutPhoneRequestVo =
+                                RegisterWithoutPhoneRequestVo()
+                            registrationRequestVo.firstName = edtFirstName.text.toString().trim()
+                            registrationRequestVo.lastName = edtLastName.text.toString().trim()
+                            registrationRequestVo.email = edtEmail.text.toString().trim()
+                            registrationRequestVo.password = edtPassword.text.toString().trim()
+                            registrationRequestVo.deviceType = "1"
+                            registrationRequestVo.deviceId = android_id
+                            registrationWithoutLogin(registrationRequestVo)
+                        } else {*/
                         var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
                         registrationRequestVo.firstName = edtFirstName.text.toString().trim()
                         registrationRequestVo.lastName = edtLastName.text.toString().trim()
                         registrationRequestVo.email = edtEmail.text.toString().trim()
-                        registrationRequestVo.countryCode = "+44"
+                        registrationRequestVo.countryCode = "44"
                         registrationRequestVo.password = edtPassword.text.toString().trim()
                         registrationRequestVo.deviceType = "1"
                         registrationRequestVo.deviceId = android_id
-                        // registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
+                        registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
                         registration(registrationRequestVo)
+                        /*}*/
                     } else {
                         isAcceptTerms = false
                         Toast.makeText(
@@ -149,6 +165,65 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     private fun registration(registrationRequestVo: RegisterRequestVo) {
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.userRegistration(registrationRequestVo)
+
+        try {
+            call.enqueue(object : Callback<RegisterResponseVo> {
+                override fun onResponse(
+                    call: Call<RegisterResponseVo>,
+                    response: Response<RegisterResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                        Utils.writeIntToSharedPref(
+                            this@RegisterActivity, Constants.PrefUserID,
+                            response.body()!!.userId
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.NAME,
+                            registrationRequestVo.firstName
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.USER_EMAIL,
+                            registrationRequestVo.email
+                        )
+
+
+                        /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+                        val myEdit = sharedPreferences.edit()
+                        myEdit.putInt("userId", response.body()!!.userId)
+                        myEdit.apply()*/
+
+                        progressCardView.visibility = View.GONE
+                        showDialog()
+
+
+                    } else {
+                        progressCardView.visibility = View.GONE
+                        Log.e("Fail", response.body()!!.message.toString())
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            response.body()!!.message.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<RegisterResponseVo>, t: Throwable) {
+                    progressCardView.visibility = View.GONE
+                    Toast.makeText(this@RegisterActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+
+    }
+
+    private fun registrationWithoutLogin(registrationRequestVo: RegisterWithoutPhoneRequestVo) {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.userRegistrationWithPhone(registrationRequestVo)
 
         try {
             call.enqueue(object : Callback<RegisterResponseVo> {
@@ -203,7 +278,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
     }
 
-
     private fun showDialog() {
 
         val builder = AlertDialog.Builder(this)
@@ -240,6 +314,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val email = edtEmail.text.toString().trim()
         val password = edtPassword.text.toString().trim()
         val confirmPsw = edtConfirmPsw.text.toString().trim()
+        //val phoneNo = edtPhoneNumber.text.toString().trim()
 
         var isValid = true
 
