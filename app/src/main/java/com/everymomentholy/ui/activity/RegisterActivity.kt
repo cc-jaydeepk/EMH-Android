@@ -63,6 +63,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     lateinit var iv_toolbar_backImage: ImageView
     lateinit var iv_toolbar_notification: ImageView
     lateinit var txt_toolbar_name: TextView
+    lateinit var ivRegiBack: ImageView
 
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -104,8 +105,13 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             imgCheckbox.setImageResource(R.drawable.ic_check_box);
         }
 
-
+        ivRegiBack = findViewById(R.id.ivRegiBack)
         btnRedister = findViewById(R.id.btnRedister)
+
+        ivRegiBack.setOnClickListener() {
+            onBackPressed()
+        }
+
         btnRedister.setOnClickListener {
 
 

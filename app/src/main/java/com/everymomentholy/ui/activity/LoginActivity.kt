@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var progressCardView: CardView
     var prefeUserId: Int = 0
     var isUserLogin: Boolean = false
-
+    private lateinit var ivLoginBack: ImageView
 
     /*companion object {
         var bOne: Boolean? = true
@@ -48,7 +48,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        ivLoginBack = findViewById(R.id.ivLoginBack)
 
+        ivLoginBack.setOnClickListener() {
+            onBackPressed()
+        }
 
         android_id = Settings.Secure.getString(
             applicationContext.contentResolver,

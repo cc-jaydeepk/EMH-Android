@@ -5,9 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivRegiBack"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_back" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/progressCardView"
@@ -122,6 +131,7 @@
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="@string/phone_number"
+                    android:inputType="phone"
                     android:padding="@dimen/login_button_padding"
                     android:singleLine="true" />
 
@@ -189,7 +199,7 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </ScrollView>

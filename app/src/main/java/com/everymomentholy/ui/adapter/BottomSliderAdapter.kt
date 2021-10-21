@@ -3,7 +3,6 @@ package com.everymomentholy.ui.adapter
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.downloader.OnCancelListener
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
@@ -24,7 +21,6 @@ import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
-import java.io.File
 
 
 class BottomSliderAdapter(
@@ -91,6 +87,7 @@ class BottomSliderAdapter(
                             if (config == null) {
                                 //   config : Config ()
                             }
+                            config?.setThemeColorRes(R.color.loginbg)
                             config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
                             folioReader.setConfig(config, true)
 

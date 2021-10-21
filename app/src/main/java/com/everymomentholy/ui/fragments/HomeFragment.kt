@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -17,7 +18,6 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -29,7 +29,6 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
 import com.everymomentholy.api.response.HomegetSettingResponseVo
 import com.everymomentholy.ui.activity.MainActivity
-import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
@@ -37,6 +36,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -56,6 +59,7 @@ class HomeFragment : Fragment() {
     lateinit var quotesText: String
     lateinit var cotedText: String
 
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -233,14 +237,18 @@ class HomeFragment : Fragment() {
     private fun dailyLiturgyQuote() {
 
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.dailyLiturgyQuote("bearer " + Utils.readStringFromSharedPref(
-            requireContext(),
-            Constants.SHARED_PREF_TOKEN,
-            ""
-        ))
+        val call = request.dailyLiturgyQuote(
+            "bearer " + Utils.readStringFromSharedPref(
+                requireContext(),
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
+        )
 
         try {
             call.enqueue(object : Callback<HomeDailyLiturgyResponseVo> {
+                @SuppressLint("SimpleDateFormat")
+                @RequiresApi(Build.VERSION_CODES.O)
                 override fun onResponse(
                     call: Call<HomeDailyLiturgyResponseVo>,
                     response: Response<HomeDailyLiturgyResponseVo>
@@ -254,10 +262,27 @@ class HomeFragment : Fragment() {
                         //  quotesText = response.body()!!.response.quote
                         cotedText = response.body()!!.response.parentLiturgy
                         // Log.e("text", quotesText)
+                        var format = SimpleDateFormat("d")
+                        val date: String = format.format(Date())
 
-                        val validUrl = response.body()!!.response.date.split("-").first()
-                        Log.e("text", validUrl)
-                        txtDate.text = validUrl
+                        //val validUrl = response.body()!!.response.date.split("-").first()
+                        val current = LocalDateTime.now()
+
+                        if (date.endsWith("1") && !date.endsWith("11"))
+                            format = SimpleDateFormat("d'st' MMM yyyy");
+                        else if (date.endsWith("2") && !date.endsWith("12"))
+                            format = SimpleDateFormat("d'nd' MMM yyyy");
+                        else if (date.endsWith("3") && !date.endsWith("13"))
+                            format = SimpleDateFormat("d'rd' MMM yyyy");
+                        else
+                            format = SimpleDateFormat("d'th' MMM yyyy");
+                        val yourDate = format.format(Date())
+                        val formatter = DateTimeFormatter.ofPattern("dd mm yyyy")
+                        var answer: String = current.format(formatter)
+                        Log.d("answer", answer)
+                        val validUrl = Date()
+                        Log.e("text", yourDate)
+                        txtDate.text = yourDate
 
                     } else {
 

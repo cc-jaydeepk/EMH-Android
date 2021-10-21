@@ -97,6 +97,7 @@ class GetLiturgiesFromBookIDAdapter(
                                 if (config == null) {
                                     //   config : Config ()
                                 }
+                                config?.setThemeColorRes(R.color.loginbg)
                                 config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
                                 folioReader.setConfig(config, true)
 

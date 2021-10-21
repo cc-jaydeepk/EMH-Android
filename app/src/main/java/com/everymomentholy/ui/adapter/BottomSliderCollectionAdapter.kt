@@ -2,6 +2,7 @@ package com.everymomentholy.ui.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ class BottomSliderCollectionAdapter(
         var txtLiturgiesPrice = view.findViewById<TextView>(R.id.txtLiturgiesPrice)
         var llBottomSliderGetLiturgiesAbout =
             view.findViewById<LinearLayout>(R.id.llBottomSliderGetLiturgiesAbout)
+        var imageBook = view.findViewById<ImageView>(R.id.imageBook)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -43,6 +45,7 @@ class BottomSliderCollectionAdapter(
 
         if (position == 0) {
             holder.btnReadNow.text = "Unlock Volume"
+            holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
         } else {
             if (freeLiturgies.bookAmount == "0.0") {
                 holder.btnReadNow.text = "Read Now"
