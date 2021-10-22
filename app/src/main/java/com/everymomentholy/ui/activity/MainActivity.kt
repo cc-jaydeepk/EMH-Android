@@ -249,8 +249,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_favoritesFragment -> {
                     // replaceFragment(FavoritesFragment(), "Favourites")
-                    toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                 /*   toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE*/
                     // replaceFragment(FavoritesFragment(), "Favourites")
                     true
                 }
@@ -266,46 +266,46 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_orderBookFragment -> {
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
-                    toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                    /*toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE*/
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
                     true
                 }
                 R.id.nav_searchFragment -> {
                     // replaceFragment(SearchFragment(), "Search")
-                    toolbar.visibility = View.VISIBLE
+                   /* toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE*/
                     //replaceFragment(SearchFragment(), "Search")
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
-                    toolbar.visibility = View.VISIBLE
+                   /* toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE*/
                     //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
                     //  replaceFragment(AboutUsFragment(), "About Us")
-                    toolbar.visibility = View.VISIBLE
+                   /* toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE*/
                     // replaceFragment(AboutUsFragment(), "About Us")
                     true
                 }
                 R.id.nav_FAQFragment -> {
                     // replaceFragment(FAQFragment(), "FAQ")
-                    toolbar.visibility = View.VISIBLE
+                 /*   toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE*/
                     // replaceFragment(FAQFragment(), "FAQ")
                     true
                 }
                 R.id.nav_conditionFragment -> {
                     //  replaceFragment(ConditionFragment(), "Terms & Condition")
-                    toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                  /*  toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE*/
                     //replaceFragment(ConditionFragment(), "Terms & Condition")
                     true
                 }

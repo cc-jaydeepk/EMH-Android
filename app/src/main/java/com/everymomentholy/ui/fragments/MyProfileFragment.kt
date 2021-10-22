@@ -36,6 +36,8 @@ import com.everymomentholy.ui.activity.ChangePasswordActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.github.drjacky.imagepicker.ImagePicker
+import com.hbb20.CountryCodePicker
+import com.yesterselga.countrypicker.CountryPicker
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -61,6 +63,8 @@ class MyProfileFragment : Fragment() {
     private lateinit var txtUseName: TextView
     private lateinit var freeText: TextView
     private lateinit var android_id: String
+    private lateinit var countryCodePicker: CountryCodePicker
+    private var selectedCode: String = "+91"
 
     private var profile_upload_ImageUri: Uri? = null
     private lateinit var file: File
@@ -96,8 +100,7 @@ class MyProfileFragment : Fragment() {
         edtUserPhoneNumber = view.findViewById(R.id.edtUserPhoneNumber)
         profile_image = view.findViewById(R.id.profile_image)
         ivOpenGallery = view.findViewById(R.id.ivOpenGallery)
-
-
+        countryCodePicker = view.findViewById(R.id.country_code_picker)
 
         ivOpenGallery.setOnClickListener {
             ImagePicker.with(this)
@@ -105,6 +108,9 @@ class MyProfileFragment : Fragment() {
                 .start()
         }
 
+        countryCodePicker.setOnCountryChangeListener() {
+            selectedCode = countryCodePicker.selectedCountryCode
+        }
 
 //        edtUserFirstName.setEnabled(false);
 //        edtUserLastName.setEnabled(false);
@@ -131,6 +137,7 @@ class MyProfileFragment : Fragment() {
             edtUserPhoneNumber.setEnabled(true)
             edtUserPhoneNumber.requestFocus()
 
+            countryCodePicker.isClickable = true
 
             /*val updateProfileFragment = UpdateProfileFragment()
             val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
@@ -302,7 +309,7 @@ class MyProfileFragment : Fragment() {
         getUserProfileUpdateRequestVo.lastName = edtUserLastName.text.toString().trim()
         getUserProfileUpdateRequestVo.email = edtUserEmail.text.toString().trim()
         getUserProfileUpdateRequestVo.mobileNo = edtUserPhoneNumber.text.toString().trim()
-        getUserProfileUpdateRequestVo.countryCode = "+44"
+        getUserProfileUpdateRequestVo.countryCode = selectedCode.toString()
 
         if (profile_upload_ImageUri != null) {
 
@@ -351,6 +358,7 @@ class MyProfileFragment : Fragment() {
                 getUserProfileUpdateRequestVo.lastName,
                 getUserProfileUpdateRequestVo.email,
                 getUserProfileUpdateRequestVo.countryCode,
+                getUserProfileUpdateRequestVo.mobileNo,
                 "bearer " + Utils.readStringFromSharedPref(
                     requireActivity(),
                     Constants.SHARED_PREF_TOKEN,

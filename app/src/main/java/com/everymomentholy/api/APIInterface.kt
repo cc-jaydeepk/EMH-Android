@@ -64,6 +64,7 @@ interface APIInterface {
         @Query("lastName") lastName: String?,
         @Query("email") email: String,
         @Query("countryCode") countryCode: String,
+        @Query("mobile") phoneno: String,
         // @Query("userProfilePic") userProfilePic: String,
         @Header("Authorization") token: String,
         @Part image: MultipartBody.Part?

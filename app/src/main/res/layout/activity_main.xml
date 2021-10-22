@@ -27,7 +27,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
+        app:itemTextColor="@drawable/drawer_select_text_change"
         app:headerLayout="@layout/nav_header"
         app:itemTextAppearance="@style/NewFontStyle"
         app:itemBackground="@android:color/transparent"

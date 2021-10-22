@@ -176,6 +176,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:focusable="false"
+                            android:clickable="false"
+                            android:contextClickable="false"
                             app:showFlag="false">
 
                         </com.hbb20.CountryCodePicker>
