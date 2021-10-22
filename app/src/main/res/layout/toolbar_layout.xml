@@ -42,7 +42,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/_9sdp"
             android:src="@drawable/ic_notification"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_toolbar_search"

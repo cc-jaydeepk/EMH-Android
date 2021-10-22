@@ -95,18 +95,19 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        adapter = GetLiturgiesAdapter(
-                            context!!,
-                            response.body()!!.response.data
-                        )
-                        /* val horizontalLayoutManagaer = LinearLayoutManager(
-                             context,
-                             LinearLayoutManager.HORIZONTAL,
-                             false
-                         )*/
-                        viewPager.setPadding(100, 0, 100, 0)
-                        viewPager.adapter = adapter;
-
+                        if (context != null) {
+                            adapter = GetLiturgiesAdapter(
+                                context!!,
+                                response.body()!!.response.data
+                            )
+                            /* val horizontalLayoutManagaer = LinearLayoutManager(
+                                 context,
+                                 LinearLayoutManager.HORIZONTAL,
+                                 false
+                             )*/
+                            viewPager.setPadding(100, 0, 100, 0)
+                            viewPager.adapter = adapter;
+                        }
 
                     } else {
                         Toast.makeText(

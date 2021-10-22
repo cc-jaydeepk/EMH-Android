@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var iv_drawer_profile_image: ImageView
     private lateinit var txt_drawer_UserName: TextView
     private lateinit var txt_drawer_email: TextView
+    private var currentFragment: String = ""
 
     private lateinit var android_id: String
     var prefeUserId: Int = 0
@@ -138,6 +139,7 @@ class MainActivity : AppCompatActivity() {
             var fragment: Fragment
             fragment = NotificationListFragment()
             replaceFragment(fragment, "Notification")*/
+            showUnderDevDialog()
         }
 
         iv_toolbar_backImage.setOnClickListener {
@@ -239,29 +241,34 @@ class MainActivity : AppCompatActivity() {
                     toolbar.visibility = View.GONE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(HomeFragment(), "Every Moment Holy")
+                    navBottomView.selectedItemId = R.id.nav_homeFragment
                     true
                 }
                 R.id.nav_myLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(MyLiturgiesFragment(), "My Liturgies")
+                    navBottomView.selectedItemId = R.id.nav_myLiturgiesFragment
                     true
                 }
                 R.id.nav_favoritesFragment -> {
                     // replaceFragment(FavoritesFragment(), "Favourites")
-                 /*   toolbar.visibility = View.VISIBLE
+                   /* toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE*/
+                    showUnderDevDialog()
                     // replaceFragment(FavoritesFragment(), "Favourites")
-                    true
+                    false
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+                    navBottomView.selectedItemId = R.id.nav_getLiturgiesFragment
                     true
                 }
                 R.id.nav_featuredFragment -> {
                     //  replaceFragment(FeaturedFragment(), "Featured")
+                    showUnderDevDialog()
                     false
                 }
                 R.id.nav_orderBookFragment -> {
@@ -269,6 +276,7 @@ class MainActivity : AppCompatActivity() {
                     /*toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE*/
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
+                    showUnderDevDialog()
                     true
                 }
                 R.id.nav_searchFragment -> {
@@ -277,6 +285,7 @@ class MainActivity : AppCompatActivity() {
                     iv_toolbar_notification.visibility = View.GONE
                     navBottomView.visibility = View.VISIBLE*/
                     //replaceFragment(SearchFragment(), "Search")
+                    showUnderDevDialog()
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
@@ -284,6 +293,7 @@ class MainActivity : AppCompatActivity() {
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE*/
                     //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
+                    showUnderDevDialog()
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
@@ -292,6 +302,7 @@ class MainActivity : AppCompatActivity() {
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE*/
                     // replaceFragment(AboutUsFragment(), "About Us")
+                    showUnderDevDialog()
                     true
                 }
                 R.id.nav_FAQFragment -> {
@@ -300,6 +311,7 @@ class MainActivity : AppCompatActivity() {
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE*/
                     // replaceFragment(FAQFragment(), "FAQ")
+                    showUnderDevDialog()
                     true
                 }
                 R.id.nav_conditionFragment -> {
@@ -307,6 +319,7 @@ class MainActivity : AppCompatActivity() {
                   /*  toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE*/
                     //replaceFragment(ConditionFragment(), "Terms & Condition")
+                    showUnderDevDialog()
                     true
                 }
                 R.id.nav_myProfileFragment -> {
@@ -337,28 +350,31 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_homeFragment -> {
                     toolbar.visibility = View.GONE
                     iv_toolbar_notification.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility = View.GONE
+                   // iv_toolbar_search.visibility = View.GONE
                     iv_toolbar_notification.setImageResource(R.drawable.ic_notification);
                     txt_toolbar_name.text = "Every Moment Holy"
                     fragment = HomeFragment()
                     loadFragment(fragment)
+                    navView.setCheckedItem(R.id.nav_homeFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
 
                 R.id.nav_myLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility = View.VISIBLE
+                   // iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
-                        Toast.makeText(
+                       /* Toast.makeText(
                             this@MainActivity,
                             "Search",
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
+                        showUnderDevDialog()
                     }
                     txt_toolbar_name.text = "My Liturgies"
                     fragment = MyLiturgiesFragment()
                     replaceFragment(fragment, "My Liturgies")
+                    navView.setCheckedItem(R.id.nav_myLiturgiesFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
 
@@ -376,11 +392,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     fragment = FavoritesFragment()*/
                     //replaceFragment(fragment, "Favourites")
-                    return@setOnNavigationItemSelectedListener true
+                   showUnderDevDialog()
+                   // return@setOnNavigationItemSelectedListener true
+                    return@setOnNavigationItemSelectedListener false
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility = View.VISIBLE
+                  //  iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
                         /* Toast.makeText(
@@ -388,9 +406,11 @@ class MainActivity : AppCompatActivity() {
                             "Search",
                             Toast.LENGTH_LONG
                         ).show()*/
+                        showUnderDevDialog()
                     }
                     fragment = GetLiturgiesFragment()
                     replaceFragment(fragment, "Get Liturgies")
+                    navView.setCheckedItem(R.id.nav_getLiturgiesFragment)
                     return@setOnNavigationItemSelectedListener true
                 }
 
@@ -398,6 +418,14 @@ class MainActivity : AppCompatActivity() {
             false
 
         }
+    }
+
+    private fun showUnderDevDialog()
+    {
+        AlertDialog.Builder(this)
+            .setMessage("This part is under Development.")
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+            }.show()
     }
 
     private fun showLogoutDialog() {
@@ -561,17 +589,21 @@ class MainActivity : AppCompatActivity() {
         //transaction.addToBackStack(null)
         transaction.disallowAddToBackStack()
         transaction.commit()
+        currentFragment = fragment.javaClass.name
     }
 
     fun AppCompatActivity.replaceFragment(fragment: Fragment, txtToolbarTitle: String) {
         //  txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
-        txt_toolbar_name.text = txtToolbarTitle
-        val fragmentManager = supportFragmentManager
-        val transaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.nav_host_fragment, fragment)
-        transaction.disallowAddToBackStack()
-        // transaction.addToBackStack(null)
-        transaction.commit()
+        if (currentFragment != fragment.javaClass.name) {
+            txt_toolbar_name.text = txtToolbarTitle
+            val fragmentManager = supportFragmentManager
+            val transaction = fragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_fragment, fragment)
+            transaction.disallowAddToBackStack()
+            // transaction.addToBackStack(null)
+            transaction.commit()
+            currentFragment = fragment.javaClass.name
+        }
     }
 
     private fun addFragment(fragment: Fragment, txtToolbarTitle: String) {
@@ -582,6 +614,7 @@ class MainActivity : AppCompatActivity() {
         //transaction.replace(R.id.nav_host_fragment, fragment)
         transaction.commit()
         drawerLayout.closeDrawers()
+        currentFragment = fragment.javaClass.name
     }
 
     override fun onResume() {

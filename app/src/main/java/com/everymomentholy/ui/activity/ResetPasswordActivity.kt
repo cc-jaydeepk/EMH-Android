@@ -118,6 +118,10 @@ class ResetPasswordActivity : AppCompatActivity() {
             edtResetNewPassword.error = resources.getString(R.string.reset_password_error)
             edtResetNewPassword.requestFocus()
             isValid = false
+        }else if (newPassword.length < 6) {
+            edtResetNewPassword.error = resources.getString(R.string.password_char_limit_error)
+            edtResetNewPassword.requestFocus()
+            isValid = false
         }
 
         if (confirmPassword.isEmpty()) {

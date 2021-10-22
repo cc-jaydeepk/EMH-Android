@@ -17,7 +17,7 @@
     <dimen name="register_imgsize">@dimen/_200sdp</dimen>
     <dimen name="option_imgsize">@dimen/_310sdp</dimen>
     <dimen name="view_hight">@dimen/_36sdp</dimen>
-    <dimen name="register_checkbox_size">@dimen/_15sdp</dimen>
+    <dimen name="register_checkbox_size">@dimen/_14sdp</dimen>
     <dimen name="login_button_padding">@dimen/_12sdp</dimen>
     <dimen name="login_button_txtsize">@dimen/_11ssp</dimen>
     <dimen name="button_margin">@dimen/_11sdp</dimen>

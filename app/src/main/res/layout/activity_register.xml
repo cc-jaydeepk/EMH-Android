@@ -162,30 +162,39 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginRight="@dimen/rgste_fstnm_marginleft">
 
-                <ImageView
+                <CheckBox
                     android:id="@+id/imgCheckbox"
-                    android:layout_width="@dimen/register_checkbox_size"
-                    android:layout_height="@dimen/register_checkbox_size"
-                    android:src="@drawable/ic_uncheckbox" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:backgroundTint="@color/loginbg"
+                    android:buttonTint="@color/loginbg"
+                    android:foregroundTint="@color/loginbg"
+                    android:fontFamily="@font/lato_medium"
+                    android:text="@string/i_have_read_and_agree_to_the"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/agreetxtsize"
+                     />
 
-                <TextView
+               <!-- <TextView
                     android:id="@+id/txtAgree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/imgCheckbox"
                     android:fontFamily="@font/lato_medium"
                     android:text="@string/i_have_read_and_agree_to_the"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/agreetxtsize" />
+                    android:textSize="@dimen/agreetxtsize" />-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_3sdp"
-                    android:layout_toRightOf="@+id/txtAgree"
+                    android:layout_toRightOf="@+id/imgCheckbox"
                     android:fontFamily="@font/lato_medium"
                     android:text="Privacy Policy"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/privacytxtsize" />
 

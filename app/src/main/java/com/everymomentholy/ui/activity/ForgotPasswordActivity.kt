@@ -3,11 +3,13 @@ package com.everymomentholy.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
@@ -25,6 +27,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private lateinit var btnForgotPswSubmit: Button
     private lateinit var btnForgotCancel: Button
     private lateinit var iv_toolbar_backImage: ImageView
+    lateinit var progressCardView: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         btnForgotPswSubmit = findViewById(R.id.btnForgotSubmit)
         btnForgotCancel = findViewById(R.id.btnForgotCancel)
         iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+        progressCardView = findViewById(R.id.progressCardView)
 
         iv_toolbar_backImage.setOnClickListener {
             onBackPressed()
@@ -43,9 +47,9 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
             if (checkValidation()) {
                 if (Utils.isNetworkAvailable(this)) {
-
+                    progressCardView.visibility = View.VISIBLE
+                    btnForgotPswSubmit.isEnabled = false
                     forgotPassword()
-
                 } else {
                     Toast.makeText(
                         this@ForgotPasswordActivity,
@@ -89,8 +93,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
                         val intent =
                             Intent(this@ForgotPasswordActivity, ResetPasswordActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                      /*  intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK*/
                         startActivity(intent)
 
                     } else {
@@ -100,15 +104,22 @@ class ForgotPasswordActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
+
+                    progressCardView.visibility = View.GONE
+                    btnForgotPswSubmit.isEnabled = true
                 }
 
                 override fun onFailure(call: Call<ForgotPasswordResponseVo>, t: Throwable) {
                     Toast.makeText(this@ForgotPasswordActivity, "${t.message}", Toast.LENGTH_SHORT)
                         .show()
+                    progressCardView.visibility = View.GONE
+                    btnForgotPswSubmit.isEnabled = true
                 }
             })
         } catch (exception: Exception) {
             exception.printStackTrace()
+            progressCardView.visibility = View.GONE
+            btnForgotPswSubmit.isEnabled = true
         }
     }
 

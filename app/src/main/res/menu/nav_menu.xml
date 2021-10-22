@@ -10,37 +10,37 @@
         <item
             android:id="@+id/nav_homeFragment"
             android:icon="@drawable/ic_home"
-            android:title="Home"></item>
+            android:title="Home" />
 
         <item
             android:id="@+id/nav_myLiturgiesFragment"
             android:icon="@drawable/ic_liturgies"
-            android:title="My Liturgies"></item>
+            android:title="My Liturgies" />
 
         <item
             android:id="@+id/nav_favoritesFragment"
             android:icon="@drawable/ic_fevrite"
-            android:title="Favorites"></item>
+            android:title="Favorites" />
 
         <item
             android:id="@+id/nav_getLiturgiesFragment"
             android:icon="@drawable/ic_pruchase_liturgy"
-            android:title="Get Liturgies"></item>
+            android:title="Get Liturgies" />
 
         <item
             android:id="@+id/nav_featuredFragment"
             android:icon="@drawable/ic_featured"
-            android:title="Featured Liturgies"></item>
+            android:title="Featured Liturgies" />
 
         <item
             android:id="@+id/nav_orderBookFragment"
             android:icon="@drawable/ic_buy_liturgies"
-            android:title="Order Book"></item>
+            android:title="Order Book" />
 
         <item
             android:id="@+id/nav_searchFragment"
             android:icon="@drawable/ic_searchimg"
-            android:title="Search"></item>
+            android:title="Search" />
 
     </group>
 
@@ -52,33 +52,33 @@
         <item
             android:id="@+id/nav_shareLiturgiesFragment"
             android:icon="@drawable/ic_shareimage"
-            android:title="How to Share Liturgies"></item>
+            android:title="How to Share Liturgies" />
 
         <item
             android:id="@+id/nav_aboutUsFragment"
             android:icon="@drawable/ic_about_us"
-            android:title="About Us"></item>
+            android:title="About Us" />
 
         <item
             android:id="@+id/nav_FAQFragment"
             android:icon="@drawable/ic_help"
-            android:title="FAQ"></item>
+            android:title="FAQ" />
 
         <item
             android:id="@+id/nav_conditionFragment"
             android:icon="@drawable/ic_terms_condition"
-            android:title="Terms &amp; Conditions"></item>
+            android:title="Terms &amp; Conditions" />
 
         <item
             android:id="@+id/nav_myProfileFragment"
             android:icon="@drawable/ic_myprofile"
-            android:title="My Profile"></item>
+            android:title="My Profile" />
 
 
         <item
             android:id="@+id/nav_logoutFragment"
             android:icon="@drawable/ic_logout"
-            android:title="Logout"></item>
+            android:title="Logout" />
 
     </group>
 

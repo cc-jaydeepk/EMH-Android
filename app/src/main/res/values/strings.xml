@@ -20,7 +20,7 @@
     <string name="confirm_password">Confirm Password <font color="#FF0000">*</font></string>
     <string name="daily_liturgy_quote">Daily Liturgy Quote</string>
     <string name="open">Open</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="registration_successful">Registration Successful</string>
     <string name="read_now">READ NOW</string>
     <string name="rabbit_room">Rabbit Room</string>
@@ -38,11 +38,11 @@
     <string name="step2">2. A small window will open displaying a link. This link is unique and will remain active foe 24 hours.</string>
     <string name="step3">3. Tap the &#34;Share Link&#34; button.</string>
     <string name="step4">4. Select your preferred means of sharing the link  (text message, Facebook, Instagram, etc.).</string>
-    <string name="step5">5. Anyone who recieves the link will be able to open the liturgy and read it until the link expires.</string>
-    <string name="new_passwors">New Passwors</string>
+    <string name="step5">5. Anyone who receives the link will be able to open the liturgy and read it until the link expires.</string>
+    <string name="new_passwors">New Passwords</string>
     <string name="unlock">Are you sure want to buy a book without register\login? Please be noted that if you have purchased the book without
     register\login, you will not be able access the same book in another device or platform.</string>
-    <string name="shareTxt">"&#34;This link will expire aftre 24 Hours. For more information see "&#34;How to Share Liturgies"&#34; in the app Menu"&#34; </string>
+    <string name="shareTxt">"&#34;This link will expire after 24 Hours. For more information see "&#34;How to Share Liturgies"&#34; in the app Menu"&#34; </string>
     <string name="cancel">Cancel</string>
     <string name="share_link">Share Link</string>
     <string name="navigation_drawer_open">Open</string>
@@ -51,6 +51,7 @@
     <string name="lastname_error">Please enter last name.</string>
 
     <string name="password_error">Please enter password</string>
+    <string name="password_char_limit_error">Please must contain at least 6 characters!</string>
     <string name="confirmpassword_error">Please enter confirm password</string>
     <string name="matchpassword_error">Password and confirm password do not match!</string>
     <string name="reset_matchpassword_error">Password and confirm password do not match!</string>
@@ -63,13 +64,13 @@
     <string name="verification_code">Verification Code <font color="#FF0000">*</font></string>
     <string name="update_password">Update Password</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="registred_e_mail_id">Registred E-mail ID</string>
+    <string name="registred_e_mail_id">Registered E-mail ID</string>
     <string name="reset_password_error">Please enter new password.</string>
     <string name="reset_confirmpassword_error">Please enter confirm password.</string>
     <string name="reset_verificationcode_error">Please enter verification code.</string>
     <string name="my_liturgy">My Liturgies</string>
     <string name="please_wait">Loading..</string>
-    <string name="registration_succesful">Registration Sucessful</string>
+    <string name="registration_succesful">Registration Successful</string>
 
     <string name="firstName_error">Please enter FirstName.</string>
     <string name="lastName_error">Please enter LastName.</string>

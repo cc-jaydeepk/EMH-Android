@@ -19,6 +19,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -76,6 +77,12 @@ class HomeFragment : Fragment() {
         iv_toolbar_notification.setOnClickListener {
             /*val intent = Intent(requireActivity(), NotificationListActivity::class.java)
             startActivity(intent)*/
+            if (context != null) {
+                AlertDialog.Builder(requireContext())
+                    .setMessage("This part is under Development.")
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                    }.show()
+            }
         }
 
         iv_toolbar_drawer.setOnClickListener {

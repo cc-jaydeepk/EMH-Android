@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     var prefeUserId: Int = 0
     private lateinit var txtForgot: TextView
 
-    private lateinit var imgCheckbox: ImageView
+    private lateinit var imgCheckbox: CheckBox
     private lateinit var registerProgressBar: ProgressBar
     var isAcceptTerms = false
     lateinit var progressCardView: CardView
@@ -100,9 +100,14 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         edtConfirmPsw = findViewById(R.id.edtConfirmPsw)
         edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
         imgCheckbox = findViewById(R.id.imgCheckbox)
-        imgCheckbox.setOnClickListener {
-            isAcceptTerms = true
-            imgCheckbox.setImageResource(R.drawable.ic_check_box);
+        /*  imgCheckbox.setOnClickListener {
+              isAcceptTerms = true
+              imgCheckbox.setImageResource(R.drawable.ic_check_box);
+          }*/
+
+        imgCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            isAcceptTerms = isChecked
         }
 
         ivRegiBack = findViewById(R.id.ivRegiBack)
@@ -337,9 +342,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             edtEmail.error = resources.getString(R.string.email_error)
             edtEmail.requestFocus()
             isValid = false
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edtEmail.error = resources.getString(R.string.valid_email_error)
             edtEmail.requestFocus()
             isValid = false
@@ -349,6 +352,10 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         if (password.isEmpty()) {
             edtPassword.error = resources.getString(R.string.password_error)
+            edtPassword.requestFocus()
+            isValid = false
+        } else if (password.length < 6) {
+            edtPassword.error = resources.getString(R.string.password_char_limit_error)
             edtPassword.requestFocus()
             isValid = false
         }
