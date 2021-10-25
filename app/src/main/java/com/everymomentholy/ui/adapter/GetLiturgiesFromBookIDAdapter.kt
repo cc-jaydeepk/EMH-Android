@@ -2,6 +2,7 @@ package com.everymomentholy.ui.adapter
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -31,7 +33,7 @@ class GetLiturgiesFromBookIDAdapter(
         var txtLiturgyName = view.findViewById<TextView>(R.id.txtLiturgyName)
         var coverImage = view.findViewById<ImageView>(R.id.coverImage)
         var txtPrice = view.findViewById<TextView>(R.id.txtPrice)
-        var btnUnlock = view.findViewById<Button>(R.id.btnUnlock)
+        var btnUnlock = view.findViewById<TextView>(R.id.btnUnlock)
         var imageBook = view.findViewById<ImageView>(R.id.imageBook)
 
     }
@@ -43,6 +45,7 @@ class GetLiturgiesFromBookIDAdapter(
         return GetLiturgiesFromBookIDAdapter.MyViewHolder(itemView)
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         if (position == 0) {
@@ -52,8 +55,18 @@ class GetLiturgiesFromBookIDAdapter(
             holder.imageBook.visibility = View.GONE
             if (liturgyList[position].isFree == "Yes") {
                 holder.btnUnlock.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now) );
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
             } else {
                 holder.btnUnlock.text = "Unlock"
+                holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
+                holder.btnUnlock.setTextColor(context.resources.getColor(R.color.white))
             }
         }
 

@@ -71,16 +71,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4" />
 
-                <Button
+                <TextView
                     android:id="@+id/btnReadNow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtLiturgyName"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="@dimen/_5sdp"
-                    android:backgroundTint="@color/loginbg"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_unlock"
                     android:fontFamily="@font/lato_medium"
                     android:padding="@dimen/_5sdp"
+                    android:textAllCaps="true"
                     android:text="@string/unlock_collection"
                     android:textSize="@dimen/getcollection_btntxt" />
                 <!--<Button
@@ -103,6 +105,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

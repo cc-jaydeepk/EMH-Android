@@ -3,6 +3,7 @@ package com.everymomentholy.ui.adapter
 import android.content.Context
 import android.content.Intent
 import android.media.Image
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
@@ -26,7 +28,7 @@ class BottomSliderCollectionAdapter(
 
         var imgFreeLiturgiescover = view.findViewById<ImageView>(R.id.imgFreeLiturgiescover)
         var txtfreeLiturgiesTitle = view.findViewById<TextView>(R.id.txtFreeLiturgiesTitle)
-        var btnReadNow = view.findViewById<Button>(R.id.btnReadNow)
+        var btnReadNow = view.findViewById<TextView>(R.id.btnReadNow)
         var txtLiturgiesPrice = view.findViewById<TextView>(R.id.txtLiturgiesPrice)
         var llBottomSliderGetLiturgiesAbout =
             view.findViewById<LinearLayout>(R.id.llBottomSliderGetLiturgiesAbout)
@@ -40,6 +42,7 @@ class BottomSliderCollectionAdapter(
         return MyViewHolder(itemView)
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val freeLiturgies = liturgyList[position]
 
@@ -47,8 +50,16 @@ class BottomSliderCollectionAdapter(
             holder.btnReadNow.text = "Unlock Volume"
             holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
         } else {
-            if (freeLiturgies.bookAmount == "0.0") {
+            if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00") {
                 holder.btnReadNow.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now) );
+                    holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
             } else {
                 holder.btnReadNow.text = "Unlock Collection"
             }
@@ -96,4 +107,5 @@ class BottomSliderCollectionAdapter(
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
     }
+
 }

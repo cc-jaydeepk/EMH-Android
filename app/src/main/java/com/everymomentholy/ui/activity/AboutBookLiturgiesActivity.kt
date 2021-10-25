@@ -68,6 +68,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        txtToolbarName.text = ""
         liturgies = intent.getSerializableExtra("liturgies") as GetLiturgiesDataVo
 
         if (liturgies.isVolume == "Yes") {

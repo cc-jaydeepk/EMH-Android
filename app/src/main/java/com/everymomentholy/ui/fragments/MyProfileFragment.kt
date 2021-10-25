@@ -63,7 +63,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var txtUseName: TextView
     private lateinit var freeText: TextView
     private lateinit var android_id: String
-    private lateinit var countryCodePicker: CountryCodePicker
+    private lateinit var countryCodePicker: com.hbb20.CountryCodePicker
     private var selectedCode: String = "+91"
 
     private var profile_upload_ImageUri: Uri? = null
@@ -138,7 +138,6 @@ class MyProfileFragment : Fragment() {
             edtUserPhoneNumber.requestFocus()
 
             countryCodePicker.isClickable = true
-
             /*val updateProfileFragment = UpdateProfileFragment()
             val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
             transaction.replace(R.id.nav_host_fragment, updateProfileFragment)

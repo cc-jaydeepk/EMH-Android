@@ -2,12 +2,14 @@ package com.everymomentholy.ui.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
@@ -31,14 +33,15 @@ class GetLiturgiesAdapter(
         return view == `object`
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view: View =
             LayoutInflater.from(context).inflate(R.layout.getliturgies_raw, container, false)
         var imgGetLiturge: ImageView = view.findViewById(R.id.imgGetLiturge)
         var txtLiturgyTitle: TextView = view.findViewById(R.id.txtLiturgyTitle)
         var txtLiturgyPrice: TextView = view.findViewById(R.id.txtLiturgyPrice)
-        var btnGetLiturgiesAbout: Button = view.findViewById(R.id.btnGetLiturgiesAbout)
-        var btnUnlock: Button = view.findViewById(R.id.btnUnlock)
+        var btnGetLiturgiesAbout: TextView = view.findViewById(R.id.btnGetLiturgiesAbout)
+        var btnUnlock: TextView = view.findViewById(R.id.btnUnlock)
 
 
         val getLiturgies = getLiturgiesList[position]
@@ -53,6 +56,17 @@ class GetLiturgiesAdapter(
                 .into(imgGetLiturge)
         } else {
 
+            if (getLiturgies.isFreeLiturgyAvailable == "Yes" || getLiturgies.isPurchased == "Yes") {
+                btnUnlock.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
+            }
             txtLiturgyTitle.text = getLiturgies.bookTitle
             txtLiturgyPrice.text = getLiturgies.bookAmount
 
