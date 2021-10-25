@@ -4,46 +4,34 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
-import com.everymomentholy.utils.SavaPreferences
 import com.hbb20.CountryCodePicker
 import android.provider.Settings
-import android.text.Editable
-import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
-import androidx.core.graphics.drawable.toBitmap
-import com.bumptech.glide.Glide
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.*
-import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
-import com.everymomentholy.api.response.GetUserProfileVo
+import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.api.response.RegisterResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeListener {
 
     private var ccp: CountryCodePicker? = null
     private var countryCode: String? = null
     private var countryName: String? = null
-    private lateinit var btnRedister: Button
+    private lateinit var btnRegister: Button
     private lateinit var edtFirstName: EditText
     private lateinit var edtLastName: EditText
     private lateinit var edtEmail: EditText
@@ -64,6 +52,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     lateinit var iv_toolbar_notification: ImageView
     lateinit var txt_toolbar_name: TextView
     lateinit var ivRegiBack: ImageView
+    lateinit var txt_privacy_policy: TextView
 
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -100,6 +89,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         edtConfirmPsw = findViewById(R.id.edtConfirmPsw)
         edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
         imgCheckbox = findViewById(R.id.imgCheckbox)
+        txt_privacy_policy= findViewById(R.id.tvPrivacyPolicy)
         /*  imgCheckbox.setOnClickListener {
               isAcceptTerms = true
               imgCheckbox.setImageResource(R.drawable.ic_check_box);
@@ -111,13 +101,17 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         }
 
         ivRegiBack = findViewById(R.id.ivRegiBack)
-        btnRedister = findViewById(R.id.btnRedister)
+        btnRegister = findViewById(R.id.btnRedister)
 
         ivRegiBack.setOnClickListener() {
             onBackPressed()
         }
 
-        btnRedister.setOnClickListener {
+        txt_privacy_policy.setOnClickListener {
+            val intent = Intent(this, PrivacyPolicyActivity::class.java)
+            startActivity(intent)
+        }
+        btnRegister.setOnClickListener {
 
 
             if (checkValidation()) {
@@ -126,6 +120,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                     if (isAcceptTerms) {
                         progressCardView.visibility = View.VISIBLE
+                        btnRegister.isEnabled = false
+
                         /*if (edtPhoneNumber.text.toString().trim() == "") {
                             var registrationRequestVo: RegisterWithoutPhoneRequestVo =
                                 RegisterWithoutPhoneRequestVo()
@@ -197,15 +193,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             registrationRequestVo.email
                         )
 
-
-                        /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-                        val myEdit = sharedPreferences.edit()
-                        myEdit.putInt("userId", response.body()!!.userId)
-                        myEdit.apply()*/
-
                         progressCardView.visibility = View.GONE
                         showDialog()
-
 
                     } else {
                         progressCardView.visibility = View.GONE
@@ -216,14 +205,17 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             Toast.LENGTH_LONG
                         ).show()
                     }
+
                 }
 
                 override fun onFailure(call: Call<RegisterResponseVo>, t: Throwable) {
                     progressCardView.visibility = View.GONE
+                    btnRegister.isEnabled = true
                     Toast.makeText(this@RegisterActivity, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } catch (exception: Exception) {
+            btnRegister.isEnabled = true
             exception.printStackTrace()
         }
 
@@ -294,10 +286,22 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         // val dialogLayout = inflater.inflate(R.layout.login_dialog, null)
         val txtOk = dialogLayout.findViewById<TextView>(R.id.txtOk)
         txtOk.setOnClickListener {
-            val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+
+            if (Utils.isNetworkAvailable(this)) {
+                var loginRequestVo: LoginRequestVo = LoginRequestVo()
+                loginRequestVo.deviceId = android_id
+                loginRequestVo.email = edtEmail.text.toString().trim()
+                loginRequestVo.password = edtPassword.text.toString().trim()
+                loginRequestVo.deviceType = Constants.DEVICE_TYPE
+                progressCardView.visibility = View.VISIBLE
+                login(loginRequestVo)
+            } else {
+                Toast.makeText(
+                    this@RegisterActivity,
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
 
         }
 
@@ -374,5 +378,78 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
             isValid = false
         }
         return isValid
+    }
+
+    private fun login(loginRequestVo: LoginRequestVo) {
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.userLogin(loginRequestVo)
+
+        try {
+            call.enqueue(object : Callback<LoginResponseVo> {
+                override fun onResponse(
+                    call: Call<LoginResponseVo>,
+                    response: Response<LoginResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                        Utils.writeIntToSharedPref(
+                            this@RegisterActivity, Constants.PrefUserID,
+                            response.body()!!.response.userId
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.USER_NAME,
+                            response.body()!!.response.firstName
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.USER_EMAIL,
+                            response.body()!!.response.email
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.PROFILE_PIC,
+                            response.body()!!.response.userProfilePic
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.SHARED_PREF_TOKEN,
+                            response.body()!!.response.token
+                        )
+
+                        Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), true)
+
+                        progressCardView.visibility = View.GONE
+
+                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                        intent.putExtra("boolean", true)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+
+                    } else {
+                        progressCardView.visibility = View.GONE
+
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            response.body()!!.message.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginResponseVo>, t: Throwable) {
+                    progressCardView.visibility = View.GONE
+
+                    Toast.makeText(this@RegisterActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } catch (exception: Exception) {
+            progressCardView.visibility = View.GONE
+
+            exception.printStackTrace()
+        }
     }
 }

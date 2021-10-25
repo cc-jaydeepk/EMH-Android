@@ -52,11 +52,17 @@ class MyLiturgyAdapter(
         }
 
         holder.mainRelative.setOnClickListener() {
-            liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId)
+            liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId, true)
         }
 
         holder.btnOpen.setOnClickListener() {
-            liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId)
+            liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId, false)
+        }
+
+        if (myLiturgies.isClicked) {
+            holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.app_gray))
+        } else {
+            holder.mainRelative.setBackgroundColor(context.resources.getColor(R.color.white))
         }
 
     }

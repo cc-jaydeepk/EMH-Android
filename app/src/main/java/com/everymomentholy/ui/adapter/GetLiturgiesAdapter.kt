@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
@@ -74,6 +75,13 @@ class GetLiturgiesAdapter(
                 val intent = Intent(context, CollectionListActivity::class.java)
                 intent.putExtra("liturgies", getLiturgies)
                 context.startActivity(intent)
+            }
+            else
+            {
+                AlertDialog.Builder(context)
+                    .setMessage("This part is under Development.")
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                    }.show()
             }
         }
         return view

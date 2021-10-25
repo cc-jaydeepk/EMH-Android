@@ -2,13 +2,14 @@ package com.everymomentholy.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-
-
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 
 class SavaPreferences(context: Context) {
     private val sharedPreference = context.getSharedPreferences("myPreference", 0)
 
+    @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
     fun putInt(key: String, value: Int) {
         sharedPreference.edit().putInt(key, value).apply()
     }
@@ -27,6 +28,7 @@ class SavaPreferences(context: Context) {
         editor.apply()
     }*/
 
+    @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
     private fun saveUserSettings() {
         //val userSettings: SharedPreferences = getSharedPreferences("userSettings", Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()

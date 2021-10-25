@@ -19,5 +19,6 @@ class GetLiturgiesDataVo : Serializable {
     var bookCoverPageImage: String = ""
     var bookTitle: String = ""
     var isFreeLiturgyAvailable: String = ""
+    var isClicked: Boolean = false
 
 }

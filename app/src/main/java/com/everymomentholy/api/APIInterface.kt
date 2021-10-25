@@ -149,4 +149,8 @@ interface APIInterface {
         @Query("deviceId") deviceId: String?,
         @Query("bookId") bookId: Int?
     ): Call<MyLiturgiesResponseVo>
+
+    @GET(Constants.API_PRIVACY_POLICY)
+    fun privacyPolicy(): Call<PrivacyPolicyResponseVo>
+
 }

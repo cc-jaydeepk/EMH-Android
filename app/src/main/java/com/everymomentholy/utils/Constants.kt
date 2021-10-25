@@ -26,6 +26,7 @@ class Constants {
         const val API_CONTACTUS = "contactUs"
         const val API_ABOUT_VOLUME = "aboutVolume"
         const val API_GET_BOOKS_BY_VOLUME = "getBooksByVolume"
+        const val API_PRIVACY_POLICY = "getStaticPages?slug=privacy-policy"
 
 
         const val DEVICE_TYPE = "1"

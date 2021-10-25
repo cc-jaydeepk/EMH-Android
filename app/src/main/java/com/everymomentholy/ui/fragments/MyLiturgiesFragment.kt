@@ -52,6 +52,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     //lateinit var freeLiturgies: ArrayList<LiturgiesDataVo>
     lateinit var freeLiturgies: ArrayList<MyLiturgiesDataVo>
     private lateinit var bottomSliderAdapter: BottomSliderAdapter
+    private var freePurchasedLiturgies = ArrayList<GetLiturgiesDataVo>()
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -88,14 +89,15 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         getBooks()
 
         ll_enroute_bottom_sheet.setOnClickListener {
-            //showBottomSheetDialog()
+            if (!freeLiturgies.isNullOrEmpty())
+                showBottomSheetDialog(freeLiturgies)
         }
 
         return view
     }
 
 
-    private fun getMyLiturgiesList(bookID: Int) {
+    private fun getMyLiturgiesList(bookID: Int, isAuto: Boolean = false) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
         myLiturgiesRequestVo.appUserId = prefeUserId
         myLiturgiesRequestVo.deviceId = android_id
@@ -121,7 +123,8 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
                         Log.e("free liturgies", freeLiturgies.size.toString())
 
-                        showBottomSheetDialog(freeLiturgies)
+                        if (!isAuto)
+                            showBottomSheetDialog(freeLiturgies)
                         /* liturgyAdapter = MyLiturgyAdapter(
                              context!!,
                              response.body()!!.response.data,
@@ -186,7 +189,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     }
 
 
-    override fun onMyLiturgiesListClick(pos: Int, bookID: Int) {
+    override fun onMyLiturgiesListClick(pos: Int, bookID: Int, isAuto: Boolean) {
         /*var config = AppUtil.getSavedConfig(context);
         if (config == null) {
             //   config : Config ()
@@ -196,7 +199,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         folioReader.setConfig(config, true)
         var path = context?.getFilesDir()?.getAbsolutePath() + "/" + "the_first_hearthfire_of_the_season.epub"
         folioReader.openBook(path)*/
-        getMyLiturgiesList(bookID)
+        freePurchasedLiturgies.forEach { f -> f.isClicked = false }
+        freePurchasedLiturgies[pos].isClicked = true
+        liturgyAdapter.notifyDataSetChanged()
+
+        getMyLiturgiesList(bookID, isAuto)
     }
 
     private fun getBooks() {
@@ -226,16 +233,25 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                         var noVolume =
                             response.body()!!.response.data.filter { it.isVolume == "No" } as ArrayList<GetLiturgiesDataVo>
 
-                        var freePurchasedLiturgies =
+                        if (!freePurchasedLiturgies.isNullOrEmpty())
+                            freePurchasedLiturgies.clear()
+
+                        freePurchasedLiturgies =
                             noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
 
                         Log.e("free", freePurchasedLiturgies.size.toString())
                         try {
-                            liturgyAdapter = MyLiturgyAdapter(
-                                context!!,
-                                freePurchasedLiturgies,
-                                this@MyLiturgiesFragment
-                            )
+
+                            if (freePurchasedLiturgies.isNotEmpty()) {
+                                freePurchasedLiturgies[0].isClicked = true
+                                liturgyAdapter = MyLiturgyAdapter(
+                                    context!!,
+                                    freePurchasedLiturgies,
+                                    this@MyLiturgiesFragment
+                                )
+                                getMyLiturgiesList(freePurchasedLiturgies[0].bookId, true)
+                            }
+
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
