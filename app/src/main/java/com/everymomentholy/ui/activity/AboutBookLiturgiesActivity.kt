@@ -8,10 +8,7 @@ import android.provider.Settings
 import android.text.Html
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -203,6 +200,12 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
 
         val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
+
+        val topCurveAnchor = view.findViewById<RelativeLayout>(R.id.topCurveAnchor)
+
+        topCurveAnchor.setOnClickListener {
+            dialog.dismiss()
+        }
 
         /*   val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
                "MySharedPref",

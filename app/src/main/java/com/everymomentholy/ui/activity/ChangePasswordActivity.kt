@@ -103,6 +103,7 @@ class ChangePasswordActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
 
+                        finish()
 
                     } else {
                         Toast.makeText(

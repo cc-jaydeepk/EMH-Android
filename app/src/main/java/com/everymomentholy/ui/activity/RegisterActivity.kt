@@ -305,6 +305,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
         }
 
+        builder.setCancelable(false)
         builder.setView(dialogLayout)
         builder.show()
 

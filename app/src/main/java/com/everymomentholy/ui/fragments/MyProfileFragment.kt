@@ -36,8 +36,6 @@ import com.everymomentholy.ui.activity.ChangePasswordActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.github.drjacky.imagepicker.ImagePicker
-import com.hbb20.CountryCodePicker
-import com.yesterselga.countrypicker.CountryPicker
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -65,6 +63,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var android_id: String
     private lateinit var countryCodePicker: com.hbb20.CountryCodePicker
     private var selectedCode: String = "+91"
+    private lateinit var shadowView: TextView
 
     private var profile_upload_ImageUri: Uri? = null
     private lateinit var file: File
@@ -101,6 +100,7 @@ class MyProfileFragment : Fragment() {
         profile_image = view.findViewById(R.id.profile_image)
         ivOpenGallery = view.findViewById(R.id.ivOpenGallery)
         countryCodePicker = view.findViewById(R.id.country_code_picker)
+        shadowView = view.findViewById(R.id.shadowView)
 
         ivOpenGallery.setOnClickListener {
             ImagePicker.with(this)
@@ -138,6 +138,8 @@ class MyProfileFragment : Fragment() {
             edtUserPhoneNumber.requestFocus()
 
             countryCodePicker.isClickable = true
+            countryCodePicker.isFocusableInTouchMode = true
+            shadowView.visibility = View.GONE
             /*val updateProfileFragment = UpdateProfileFragment()
             val transaction: FragmentTransaction = requireFragmentManager().beginTransaction()
             transaction.replace(R.id.nav_host_fragment, updateProfileFragment)
@@ -433,7 +435,7 @@ class MyProfileFragment : Fragment() {
                         txtUseName.text =
                             getUserProfileUpdateRequestVo.firstName + " " + getUserProfileUpdateRequestVo.lastName
 
-
+                        shadowView.visibility = View.VISIBLE
 
                         showAlert()
 

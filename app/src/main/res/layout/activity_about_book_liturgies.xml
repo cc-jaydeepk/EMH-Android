@@ -32,7 +32,6 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/lato_semibold"
                 android:gravity="center"
-                android:text="Testing"
                 android:textColor="@color/black"
                 android:textSize="@dimen/about_book_text" />
 
@@ -54,9 +53,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginLeft="@dimen/_2sdp"
         android:layout_marginRight="@dimen/_2sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@color/white"
         android:orientation="vertical">
 

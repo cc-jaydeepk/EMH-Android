@@ -175,11 +175,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:focusable="false"
-
-                            app:showFlag="false">
-
-                        </com.hbb20.CountryCodePicker>
+                            app:showFlag="false"/>
 
                         <View
                             android:layout_width="1dp"
@@ -202,6 +198,16 @@
                             android:padding="@dimen/login_button_padding"
                             android:singleLine="true"
                             android:textSize="@dimen/edittext_hint_size" />
+
+                        <TextView
+                            android:id="@+id/shadowView"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_centerInParent="true"
+                            android:focusableInTouchMode="true"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="@android:color/transparent" />
 
                     </RelativeLayout>
 

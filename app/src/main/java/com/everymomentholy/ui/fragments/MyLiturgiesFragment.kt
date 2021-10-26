@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -51,7 +52,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     var prefeUserId: Int = 0
 
     //lateinit var freeLiturgies: ArrayList<LiturgiesDataVo>
-    lateinit var freeLiturgies: ArrayList<MyLiturgiesDataVo>
+    private var freeLiturgies: ArrayList<MyLiturgiesDataVo> = arrayListOf()
     private lateinit var bottomSliderAdapter: BottomSliderAdapter
     private var freePurchasedLiturgies = ArrayList<GetLiturgiesDataVo>()
     lateinit var progressCardView: CardView
@@ -167,6 +168,12 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
         val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
+        val topCurveAnchor = view.findViewById<RelativeLayout>(R.id.topCurveAnchor)
+
+        topCurveAnchor.setOnClickListener {
+            dialog?.dismiss()
+        }
+
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID
@@ -254,18 +261,17 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                                     freePurchasedLiturgies,
                                     this@MyLiturgiesFragment
                                 )
+                                val layoutManager: RecyclerView.LayoutManager =
+                                    LinearLayoutManager(context)
+                                recycler_liturgy.layoutManager = layoutManager
+                                recycler_liturgy.adapter = liturgyAdapter
+                                liturgyAdapter.setLiturgiesClick(this@MyLiturgiesFragment)
                                 getMyLiturgiesList(freePurchasedLiturgies[0].bookId, true)
                             }
 
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
-                        val layoutManager: RecyclerView.LayoutManager =
-                            LinearLayoutManager(context)
-                        recycler_liturgy.layoutManager = layoutManager
-                        recycler_liturgy.adapter = liturgyAdapter
-                        liturgyAdapter.setLiturgiesClick(this@MyLiturgiesFragment)
-
 
                     } else {
                         Toast.makeText(
