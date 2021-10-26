@@ -1,7 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/progressCardView"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_130sdp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_7sdp"
+        app:cardUseCompatPadding="true">
+
+        <ProgressBar
+            android:id="@+id/registerProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:gravity="center"
+            android:text="Loading"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15ssp" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_liturgy"
@@ -19,14 +50,14 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-       <!-- <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_2sdp"
-            android:src="@drawable/slider_down_arrow" />-->
+        <!-- <ImageView
+             android:layout_width="@dimen/_20sdp"
+             android:layout_height="@dimen/_20sdp"
+             android:layout_gravity="center"
+             android:layout_marginTop="@dimen/_2sdp"
+             android:src="@drawable/slider_down_arrow" />-->
 
-        <include layout="@layout/curve_shap"/>
+        <include layout="@layout/curve_shap" />
 
     </LinearLayout>
 

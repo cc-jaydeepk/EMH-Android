@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -35,6 +36,7 @@ class BottomSliderAdapter(
         var txtfreeLiturgiesTitle = view.findViewById<TextView>(R.id.txtFreeLiturgiesTitle)
         var btnReadNow = view.findViewById<Button>(R.id.btnReadNow)
         var txtFree = view.findViewById<TextView>(R.id.txt_free)
+        var imgFavorite = view.findViewById<ImageView>(R.id.imgFavorite)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -54,10 +56,15 @@ class BottomSliderAdapter(
             .into(holder.imgFreeLiturgiescover)
 
         holder.imgShare.setOnClickListener {
-           /* val builder = AlertDialog.Builder(context)
-            val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)
-            builder.setView(view)
-            builder.show()*/
+            showUnderDevDialog()
+            /* val builder = AlertDialog.Builder(context)
+             val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)
+             builder.setView(view)
+             builder.show()*/
+        }
+
+        holder.imgFavorite.setOnClickListener() {
+            showUnderDevDialog()
         }
 
         holder.btnReadNow.setOnClickListener() {
@@ -133,5 +140,12 @@ class BottomSliderAdapter(
     override fun getItemCount(): Int {
         return liturgyList.size
 
+    }
+
+    private fun showUnderDevDialog() {
+        AlertDialog.Builder(context)
+            .setMessage("This part is under Development.")
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+            }.show()
     }
 }

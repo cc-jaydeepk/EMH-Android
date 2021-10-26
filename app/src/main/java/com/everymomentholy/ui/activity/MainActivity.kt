@@ -253,8 +253,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_favoritesFragment -> {
                     // replaceFragment(FavoritesFragment(), "Favourites")
-                   /* toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE*/
+                    /* toolbar.visibility = View.VISIBLE
+                     navBottomView.visibility = View.VISIBLE*/
                     showUnderDevDialog()
                     // replaceFragment(FavoritesFragment(), "Favourites")
                     false
@@ -281,43 +281,43 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_searchFragment -> {
                     // replaceFragment(SearchFragment(), "Search")
-                   /* toolbar.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
-                    navBottomView.visibility = View.VISIBLE*/
+                    /* toolbar.visibility = View.VISIBLE
+                     iv_toolbar_notification.visibility = View.GONE
+                     navBottomView.visibility = View.VISIBLE*/
                     //replaceFragment(SearchFragment(), "Search")
                     showUnderDevDialog()
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
-                   /* toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE*/
+                    /* toolbar.visibility = View.VISIBLE
+                     navBottomView.visibility = View.VISIBLE
+                     iv_toolbar_notification.visibility = View.GONE*/
                     //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
                     showUnderDevDialog()
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
                     //  replaceFragment(AboutUsFragment(), "About Us")
-                   /* toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE*/
+                    /* toolbar.visibility = View.VISIBLE
+                     navBottomView.visibility = View.VISIBLE
+                     iv_toolbar_notification.visibility = View.GONE*/
                     // replaceFragment(AboutUsFragment(), "About Us")
                     showUnderDevDialog()
                     true
                 }
                 R.id.nav_FAQFragment -> {
                     // replaceFragment(FAQFragment(), "FAQ")
-                 /*   toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE*/
+                    /*   toolbar.visibility = View.VISIBLE
+                       navBottomView.visibility = View.VISIBLE
+                       iv_toolbar_notification.visibility = View.GONE*/
                     // replaceFragment(FAQFragment(), "FAQ")
                     showUnderDevDialog()
                     true
                 }
                 R.id.nav_conditionFragment -> {
                     //  replaceFragment(ConditionFragment(), "Terms & Condition")
-                  /*  toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE*/
+                    /*  toolbar.visibility = View.VISIBLE
+                      navBottomView.visibility = View.VISIBLE*/
                     //replaceFragment(ConditionFragment(), "Terms & Condition")
                     showUnderDevDialog()
                     true
@@ -350,7 +350,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_homeFragment -> {
                     toolbar.visibility = View.GONE
                     iv_toolbar_notification.visibility = View.VISIBLE
-                   // iv_toolbar_search.visibility = View.GONE
+                    // iv_toolbar_search.visibility = View.GONE
                     iv_toolbar_notification.setImageResource(R.drawable.ic_notification);
                     txt_toolbar_name.text = "Every Moment Holy"
                     fragment = HomeFragment()
@@ -361,14 +361,14 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_myLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                   // iv_toolbar_search.visibility = View.VISIBLE
+                    // iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
-                       /* Toast.makeText(
-                            this@MainActivity,
-                            "Search",
-                            Toast.LENGTH_LONG
-                        ).show()*/
+                        /* Toast.makeText(
+                             this@MainActivity,
+                             "Search",
+                             Toast.LENGTH_LONG
+                         ).show()*/
                         showUnderDevDialog()
                     }
                     txt_toolbar_name.text = "My Liturgies"
@@ -392,13 +392,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     fragment = FavoritesFragment()*/
                     //replaceFragment(fragment, "Favourites")
-                   showUnderDevDialog()
-                   // return@setOnNavigationItemSelectedListener true
+                    showUnderDevDialog()
+                    // return@setOnNavigationItemSelectedListener true
                     return@setOnNavigationItemSelectedListener false
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                  //  iv_toolbar_search.visibility = View.VISIBLE
+                    //  iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
                         /* Toast.makeText(
@@ -418,10 +418,18 @@ class MainActivity : AppCompatActivity() {
             false
 
         }
+
+        iv_drawer_profile_image.setOnClickListener() {
+            toolbar.visibility = View.VISIBLE
+            txt_toolbar_name.text = "My Profile"
+            iv_toolbar_notification.visibility = View.GONE
+            navBottomView.visibility = View.GONE
+            replaceFragment(MyProfileFragment(), "My Profile")
+            drawerLayout.close()
+        }
     }
 
-    private fun showUnderDevDialog()
-    {
+    private fun showUnderDevDialog() {
         AlertDialog.Builder(this)
             .setMessage("This part is under Development.")
             .setPositiveButton(android.R.string.yes) { dialog, which ->

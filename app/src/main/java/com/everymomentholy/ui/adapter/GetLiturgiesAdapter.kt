@@ -44,6 +44,7 @@ class GetLiturgiesAdapter(
         var txtLiturgyPrice: TextView = view.findViewById(R.id.txtLiturgyPrice)
         var btnGetLiturgiesAbout: TextView = view.findViewById(R.id.btnGetLiturgiesAbout)
         var btnUnlock: TextView = view.findViewById(R.id.btnUnlock)
+        var txtDollar: TextView = view.findViewById(R.id.txtDollar)
 
 
         val getLiturgies = getLiturgiesList[position]
@@ -68,9 +69,12 @@ class GetLiturgiesAdapter(
                     btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
+                txtLiturgyPrice.text = "Free"
+                txtDollar.text = ""
+            } else {
+                txtLiturgyPrice.text = getLiturgies.bookAmount
             }
             txtLiturgyTitle.text = getLiturgies.bookTitle
-            txtLiturgyPrice.text = getLiturgies.bookAmount
 
             Glide.with(context)
                 .load(getLiturgies.bookCoverPageImage)

@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +54,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     lateinit var freeLiturgies: ArrayList<MyLiturgiesDataVo>
     private lateinit var bottomSliderAdapter: BottomSliderAdapter
     private var freePurchasedLiturgies = ArrayList<GetLiturgiesDataVo>()
+    lateinit var progressCardView: CardView
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -65,7 +67,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         recycler_liturgy = view.findViewById(R.id.recycler_liturgy)
         // txtUserId = view.findViewById(R.id.txtUserId)
         ll_enroute_bottom_sheet = view.findViewById(R.id.ll_enroute_bottom_sheet)
-
+        progressCardView = view.findViewById(R.id.progressCardView)
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID
@@ -114,7 +116,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                     response: Response<MyLiturgiesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        progressCardView.visibility = View.GONE
                         var byBookID =
                             response.body()!!.response.data.filter { it.bookId == bookID } as ArrayList<MyLiturgiesDataVo>
                         //freeLiturgies = response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<LiturgiesDataVo>
@@ -136,6 +138,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                          recycler_liturgy.adapter = liturgyAdapter
  */
                     } else {
+                        progressCardView.visibility = View.GONE
                         Toast.makeText(
                             requireActivity(),
                             response.body()!!.response.message.toString(),
@@ -146,11 +149,13 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 }
 
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
+                    progressCardView.visibility = View.GONE
                     Toast.makeText(requireActivity(), "${t.message}", Toast.LENGTH_SHORT)
                         .show()
                 }
             })
         } catch (exception: Exception) {
+            progressCardView.visibility = View.GONE
             exception.printStackTrace()
         }
     }
@@ -202,7 +207,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         freePurchasedLiturgies.forEach { f -> f.isClicked = false }
         freePurchasedLiturgies[pos].isClicked = true
         liturgyAdapter.notifyDataSetChanged()
-
+        progressCardView.visibility = View.VISIBLE
         getMyLiturgiesList(bookID, isAuto)
     }
 

@@ -54,9 +54,24 @@ class BottomSliderLiturgiesAdapter(
         val freeLiturgies = liturgyList[position]
 
         if (position == 0) {
-            holder.btnReadNow.text = "Unlock Collection"
+            if (freeLiturgies.price == "0.00") {
+                holder.txtLiturgiesPrice.text = "Free"
+                holder.btnReadNow.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
+            } else {
+                holder.btnReadNow.text = "Unlock Collection"
+                holder.txtLiturgiesPrice.text = "$" + freeLiturgies.price
+            }
         } else {
             if (freeLiturgies.price == "0.00") {
+                holder.txtLiturgiesPrice.text = "Free"
                 holder.btnReadNow.text = "Read Now"
                 var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -68,6 +83,7 @@ class BottomSliderLiturgiesAdapter(
                 }
             } else {
                 holder.btnReadNow.text = "Unlock"
+                holder.txtLiturgiesPrice.text = "$" + freeLiturgies.price
             }
         }
         holder.txtfreeLiturgiesTitle.text = freeLiturgies.chapterTitle
@@ -125,8 +141,6 @@ class BottomSliderLiturgiesAdapter(
                 Log.e("id", downloadId.toString())
             }
         }
-
-        holder.txtLiturgiesPrice.text = "$" + freeLiturgies.price
 
         /*  holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
 

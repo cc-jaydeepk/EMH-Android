@@ -53,6 +53,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/txtDollar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/getliturgy_txtmargin"

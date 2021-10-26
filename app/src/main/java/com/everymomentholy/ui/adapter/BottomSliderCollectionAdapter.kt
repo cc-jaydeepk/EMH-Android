@@ -49,19 +49,22 @@ class BottomSliderCollectionAdapter(
         if (position == 0) {
             holder.btnReadNow.text = "Unlock Volume"
             holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
+            holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
         } else {
             if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00") {
                 holder.btnReadNow.text = "Read Now"
                 var sdk = android.os.Build.VERSION.SDK_INT;
-                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now) );
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
                 } else {
                     holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
+                holder.txtLiturgiesPrice.text = "Free"
             } else {
                 holder.btnReadNow.text = "Unlock Collection"
+                holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
             }
         }
         holder.txtfreeLiturgiesTitle.text = freeLiturgies.bookTitle
@@ -80,8 +83,6 @@ class BottomSliderCollectionAdapter(
             if (holder.btnReadNow.text == "Purchase Collection") {
             }
         }
-
-        holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
 
         holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
 

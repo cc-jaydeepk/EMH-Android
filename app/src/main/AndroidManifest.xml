@@ -23,31 +23,86 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryMomentHoly"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.LiturgiesListDialogActivity"></activity>
-        <activity android:name=".ui.activity.PrivacyPolicyActivity" />
-        <activity android:name=".ui.activity.LiturgiesListActivity" />
-        <activity android:name=".ui.activity.CollectionListActivity" />
-        <activity android:name=".ui.activity.AboutBookLiturgiesActivity" />
-        <activity android:name=".ui.activity.SplashActivity">
+        android:usesCleartextTraffic="true"
+        tools:ignore="LockedOrientationActivity">
+        <activity
+            android:name=".ui.activity.LiturgiesListDialogActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.PrivacyPolicyActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.LiturgiesListActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.CollectionListActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.AboutBookLiturgiesActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SelectOptionActivity" />
-        <activity android:name=".ui.activity.RegisterActivity" />
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.ForgotPasswordActivity" />
-        <activity android:name=".ui.activity.ResetPasswordActivity" /> <!-- <activity android:name=".ui.activity.HomeActivity" /> -->
-        <activity android:name=".ui.activity.MainActivity" />
-        <activity android:name=".ui.activity.GetCollectionActivity" />
-        <activity android:name=".ui.activity.ChangePasswordActivity" />
-        <activity android:name=".ui.activity.ContactUsActivity" />
-        <activity android:name=".ui.activity.NotificationListActivity" />
-        <activity android:name=".ui.activity.NotificationDetailActivity" />
-        <activity android:name=".ui.activity.EditProfileActivity" />
+        <activity
+            android:name=".ui.activity.SelectOptionActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.ResetPasswordActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" /> <!-- <activity android:name=".ui.activity.HomeActivity" /> -->
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.GetCollectionActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.ChangePasswordActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.ContactUsActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.NotificationListActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.NotificationDetailActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".ui.activity.EditProfileActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
         <!--
  <provider
             android:name="androidx.core.content.FileProvider"
