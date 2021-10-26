@@ -51,7 +51,7 @@
     <string name="lastname_error">Please enter last name.</string>
 
     <string name="password_error">Please enter password</string>
-    <string name="password_char_limit_error">Please must contain at least 6 characters!</string>
+    <string name="password_char_limit_error">Password must contain at least 6 characters!</string>
     <string name="confirmpassword_error">Please enter confirm password</string>
     <string name="matchpassword_error">Password and confirm password do not match!</string>
     <string name="reset_matchpassword_error">Password and confirm password do not match!</string>

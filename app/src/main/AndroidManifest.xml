@@ -3,6 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.everymomentholy">
 
+    <uses-sdk
+        android:minSdkVersion="2"
+        android:targetSdkVersion="22"
+        tools:overrideLibrary="com.example.lib1, com.example.lib2" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".EMHApplication"
         android:allowBackup="true"
@@ -14,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryMomentHoly"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.activity.LiturgiesListDialogActivity"></activity>
         <activity android:name=".ui.activity.PrivacyPolicyActivity" />
         <activity android:name=".ui.activity.LiturgiesListActivity" />
         <activity android:name=".ui.activity.CollectionListActivity" />
@@ -58,15 +69,5 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-sdk
-        android:minSdkVersion="2"
-        android:targetSdkVersion="22"
-        tools:overrideLibrary="com.example.lib1, com.example.lib2" />
 
 </manifest>

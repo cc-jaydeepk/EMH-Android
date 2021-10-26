@@ -17,6 +17,8 @@ import com.everymomentholy.R
 import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.ui.activity.AboutBookLiturgiesActivity
 import com.everymomentholy.ui.activity.CollectionListActivity
+import com.everymomentholy.ui.activity.LiturgiesListActivity
+import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 
 
 class GetLiturgiesAdapter(
@@ -56,7 +58,7 @@ class GetLiturgiesAdapter(
                 .into(imgGetLiturge)
         } else {
 
-            if (getLiturgies.isFreeLiturgyAvailable == "Yes" || getLiturgies.isPurchased == "Yes") {
+            if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
                 btnUnlock.text = "Read Now"
                 var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -89,13 +91,17 @@ class GetLiturgiesAdapter(
                 val intent = Intent(context, CollectionListActivity::class.java)
                 intent.putExtra("liturgies", getLiturgies)
                 context.startActivity(intent)
-            }
-            else
-            {
-                AlertDialog.Builder(context)
-                    .setMessage("This part is under Development.")
-                    .setPositiveButton(android.R.string.yes) { dialog, which ->
-                    }.show()
+            } else {
+                if (btnUnlock.text == "Read Now") {
+                    val intent = Intent(context, LiturgiesListDialogActivity::class.java)
+                    intent.putExtra("liturgies", getLiturgies)
+                    context.startActivity(intent)
+                } else {
+                    AlertDialog.Builder(context)
+                        .setMessage("This part is under Development.")
+                        .setPositiveButton(android.R.string.yes) { dialog, which ->
+                        }.show()
+                }
             }
         }
         return view
