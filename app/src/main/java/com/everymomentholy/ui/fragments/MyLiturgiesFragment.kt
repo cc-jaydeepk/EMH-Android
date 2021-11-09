@@ -92,7 +92,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
         ll_enroute_bottom_sheet.setOnClickListener {
             if (!freeLiturgies.isNullOrEmpty())
-                showBottomSheetDialog(freeLiturgies)
+                showBottomSheetDialog(freeLiturgies, false)
         }
 
         return view
@@ -126,8 +126,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                         Log.e("free liturgies", freeLiturgies.size.toString())
 
                         if (freeLiturgies.size > 0) {
-                            if (!isAuto)
-                                showBottomSheetDialog(freeLiturgies)
+                            showBottomSheetDialog(freeLiturgies, isAuto)
                             /* liturgyAdapter = MyLiturgyAdapter(
                                  context!!,
                                  response.body()!!.response.data,
@@ -168,8 +167,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
-    private fun showBottomSheetDialog(filteredDataVo: ArrayList<MyLiturgiesDataVo>) {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun showBottomSheetDialog(
+        filteredDataVo: ArrayList<MyLiturgiesDataVo>,
+        isAuto: Boolean
+    ) {
 
         /*  val dialog = context?.let { BottomSheetDialog(it) }
           val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
@@ -182,8 +184,10 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         val ivSlideUp = view?.findViewById<ImageView>(R.id.ivSlideUp)
 
         val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-
+        if (!isAuto) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        bottomSheet.setZ(10.0F)
         //  bottomSheetBehavior.peekHeight = 340
         bottomSheetBehavior.peekHeight = 160
 

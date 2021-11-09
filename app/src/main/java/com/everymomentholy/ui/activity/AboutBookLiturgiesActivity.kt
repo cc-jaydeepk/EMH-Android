@@ -24,6 +24,7 @@ import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.adapter.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -94,6 +95,12 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
             contentResolver,
             Settings.Secure.ANDROID_ID
         )
+
+        if (liturgies.isVolume == "Yes") {
+            getCollectionList(liturgies.volumeId)
+        } else {
+            getMyLiturgiesList(liturgies.bookId)
+        }
     }
 
     fun getAboutBookLiturgies(bookId: Int) {
@@ -145,7 +152,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         }
     }
 
-    fun getAboutVolumn(volumnID: Int) {
+    private fun getAboutVolumn(volumnID: Int) {
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getAboutVolume(volumnID)
 
@@ -194,70 +201,94 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showBottomSheetDialog() {
-        val dialog = this?.let { BottomSheetDialog(it) }
-        val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
+        val buttomRcv = findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
-        val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
+        val topCurveAnchor = findViewById<ImageView>(R.id.topCurveAnchor)
+        var bottomSheet = findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        val ivSlideUp = findViewById<ImageView>(R.id.ivSlideUp)
 
-        val topCurveAnchor = view.findViewById<ImageView>(R.id.topCurveAnchor)
+        val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+        bottomSheet.setZ(10.0F)
+        //  bottomSheetBehavior.peekHeight = 340
+        bottomSheetBehavior.peekHeight = 160
 
-        topCurveAnchor.setOnClickListener {
-            dialog.dismiss()
-        }
+        bottomSheetBehavior.isHideable = false
 
-        /*   val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
-               "MySharedPref",
-               MODE_PRIVATE
-           )
+        bottomSheetBehavior.setBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
 
-           //prefeUserId = sharedPreferences.getInt("userId", 0)
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    //update my bottomsheet state.
+                    ivSlideUp?.setImageResource(R.drawable.ic_down_arrow)
 
-           bottomSliderAdapter = BottomSliderAdapter(
-               requireContext(),
-               freeLiturgies,
-               )*/
+                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    ivSlideUp?.setImageResource(R.drawable.slideup_arrow)
+                }
 
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+
+        android_id = Settings.Secure.getString(
+            applicationContext.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this)
         buttomRcv.layoutManager = layoutManager
         buttomRcv.adapter = bottomSliderAdapter
-
-
-        dialog?.setCancelable(true)
-        dialog?.setContentView(view)
-        dialog?.show()
     }
 
-    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showBottomSheetForLiturgiesDialog() {
-        val dialog = this?.let { BottomSheetDialog(it) }
-        val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
 
-        val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
+        val buttomRcv = findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
-        /*   val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
-               "MySharedPref",
-               MODE_PRIVATE
-           )
+        val topCurveAnchor = findViewById<ImageView>(R.id.topCurveAnchor)
+        var bottomSheet = findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        val ivSlideUp = findViewById<ImageView>(R.id.ivSlideUp)
 
-           //prefeUserId = sharedPreferences.getInt("userId", 0)
+        val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+        bottomSheet.setZ(10.0F)
+        //  bottomSheetBehavior.peekHeight = 340
+        bottomSheetBehavior.peekHeight = 160
 
-           bottomSliderAdapter = BottomSliderAdapter(
-               requireContext(),
-               freeLiturgies,
-               )*/
+        bottomSheetBehavior.isHideable = false
+
+        bottomSheetBehavior.setBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    //update my bottomsheet state.
+                    ivSlideUp?.setImageResource(R.drawable.ic_down_arrow)
+
+                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    ivSlideUp?.setImageResource(R.drawable.slideup_arrow)
+                }
+
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+
+        android_id = Settings.Secure.getString(
+            applicationContext.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
 
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this)
         buttomRcv.layoutManager = layoutManager
         buttomRcv.adapter = bottomSliderLiturgiesAdapter
-
-
-        dialog?.setCancelable(true)
-        dialog?.setContentView(view)
-        dialog?.show()
     }
 
 

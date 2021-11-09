@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -60,6 +60,7 @@
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@color/white"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageView
@@ -71,4 +72,6 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+    <include layout="@layout/activity_bottom_slider" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
