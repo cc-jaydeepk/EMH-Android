@@ -9,11 +9,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +31,7 @@ import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -126,18 +125,26 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
                         Log.e("free liturgies", freeLiturgies.size.toString())
 
-                        if (!isAuto)
-                            showBottomSheetDialog(freeLiturgies)
-                        /* liturgyAdapter = MyLiturgyAdapter(
-                             context!!,
-                             response.body()!!.response.data,
-                             this@MyLiturgiesFragment
-                         )
-                         val layoutManager: RecyclerView.LayoutManager =
-                             LinearLayoutManager(context)
-                         recycler_liturgy.layoutManager = layoutManager
-                         recycler_liturgy.adapter = liturgyAdapter
- */
+                        if (freeLiturgies.size > 0) {
+                            if (!isAuto)
+                                showBottomSheetDialog(freeLiturgies)
+                            /* liturgyAdapter = MyLiturgyAdapter(
+                                 context!!,
+                                 response.body()!!.response.data,
+                                 this@MyLiturgiesFragment
+                             )
+                             val layoutManager: RecyclerView.LayoutManager =
+                                 LinearLayoutManager(context)
+                             recycler_liturgy.layoutManager = layoutManager
+                             recycler_liturgy.adapter = liturgyAdapter
+     */
+                        } else {
+                            progressCardView.visibility = View.GONE
+                            AlertDialog.Builder(context!!)
+                                .setMessage("No data available.")
+                                .setPositiveButton(android.R.string.yes) { dialog, which ->
+                                }.show()
+                        }
                     } else {
                         progressCardView.visibility = View.GONE
                         Toast.makeText(
@@ -163,41 +170,59 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     private fun showBottomSheetDialog(filteredDataVo: ArrayList<MyLiturgiesDataVo>) {
-        val dialog = context?.let { BottomSheetDialog(it) }
-        val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
 
-        val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
+        /*  val dialog = context?.let { BottomSheetDialog(it) }
+          val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
 
-        val topCurveAnchor = view.findViewById<RelativeLayout>(R.id.topCurveAnchor)
+        */
+        val buttomRcv = view?.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
-        topCurveAnchor.setOnClickListener {
-            dialog?.dismiss()
-        }
+        val topCurveAnchor = view?.findViewById<ImageView>(R.id.topCurveAnchor)
+        var bottomSheet = view?.findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        val ivSlideUp = view?.findViewById<ImageView>(R.id.ivSlideUp)
+
+        val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+        //  bottomSheetBehavior.peekHeight = 340
+        bottomSheetBehavior.peekHeight = 160
+
+        bottomSheetBehavior.isHideable = false
+
+        bottomSheetBehavior.setBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    //update my bottomsheet state.
+                    ivSlideUp?.setImageResource(R.drawable.ic_down_arrow)
+
+                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    ivSlideUp?.setImageResource(R.drawable.slideup_arrow)
+                }
+
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
 
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID
         )
 
-        val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
-            "MySharedPref",
-            MODE_PRIVATE
-        )
-
-        prefeUserId = sharedPreferences.getInt("", 0)
         bottomSliderAdapter = BottomSliderAdapter(
             requireContext(),
             filteredDataVo,
         )
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(context)
-        buttomRcv.layoutManager = layoutManager
-        buttomRcv.adapter = bottomSliderAdapter
-
-
-        dialog?.setCancelable(true)
-        dialog?.setContentView(view)
-        dialog?.show()
+        if (buttomRcv != null) {
+            buttomRcv.layoutManager = layoutManager
+            buttomRcv.adapter = bottomSliderAdapter
+        }
     }
 
 
@@ -245,11 +270,17 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                         var noVolume =
                             response.body()!!.response.data.filter { it.isVolume == "No" } as ArrayList<GetLiturgiesDataVo>
 
+                        /*       if (!freePurchasedLiturgies.isNullOrEmpty())
+                                   freePurchasedLiturgies.clear()
+
+                               freePurchasedLiturgies =
+                                   noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
+       */
+
                         if (!freePurchasedLiturgies.isNullOrEmpty())
                             freePurchasedLiturgies.clear()
 
-                        freePurchasedLiturgies =
-                            noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
+                        freePurchasedLiturgies = noVolume
 
                         Log.e("free", freePurchasedLiturgies.size.toString())
                         try {

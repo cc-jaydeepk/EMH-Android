@@ -201,7 +201,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
         val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
-        val topCurveAnchor = view.findViewById<RelativeLayout>(R.id.topCurveAnchor)
+        val topCurveAnchor = view.findViewById<ImageView>(R.id.topCurveAnchor)
 
         topCurveAnchor.setOnClickListener {
             dialog.dismiss()

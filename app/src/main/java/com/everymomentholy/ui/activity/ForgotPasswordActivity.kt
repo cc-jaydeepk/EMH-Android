@@ -62,10 +62,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
 
         btnForgotCancel.setOnClickListener {
-            val intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
-            intent.flags =
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
             finish()
         }
     }
@@ -93,8 +89,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
                         val intent =
                             Intent(this@ForgotPasswordActivity, ResetPasswordActivity::class.java)
-                      /*  intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK*/
+                        /*  intent.flags =
+                              Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK*/
                         startActivity(intent)
 
                     } else {

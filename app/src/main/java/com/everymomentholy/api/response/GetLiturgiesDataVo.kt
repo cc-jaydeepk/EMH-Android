@@ -20,5 +20,6 @@ class GetLiturgiesDataVo : Serializable {
     var bookTitle: String = ""
     var isFreeLiturgyAvailable: String = ""
     var isClicked: Boolean = false
+    var isFree: String = ""
 
 }

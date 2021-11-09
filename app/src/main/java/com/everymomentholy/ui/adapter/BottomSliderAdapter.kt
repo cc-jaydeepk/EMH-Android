@@ -131,7 +131,7 @@ class BottomSliderAdapter(
 
         if (freeLiturgies.isPurchased == "Yes") {
             holder.txtFree.text = "Purchased"
-        } else {
+        } else if (freeLiturgies.isFree == "Yes") {
             holder.txtFree.text = "Free"
         }
 
