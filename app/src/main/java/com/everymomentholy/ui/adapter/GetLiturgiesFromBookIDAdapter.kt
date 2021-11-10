@@ -49,21 +49,60 @@ class GetLiturgiesFromBookIDAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         if (position == 0) {
-            holder.imageBook.visibility = View.VISIBLE
-            holder.btnUnlock.text = "Unlock Collection"
-        } else {
-            holder.imageBook.visibility = View.GONE
-            if (liturgyList[position].isFree == "Yes") {
+            if (liturgyList[position].isFree == "Yes" || liturgyList[position].price == "0.0" || liturgyList[position].price == "0.00") {
+                holder.imageBook.visibility = View.GONE
+                holder.txtPrice.text = "Free"
                 holder.btnUnlock.text = "Read Now"
                 var sdk = android.os.Build.VERSION.SDK_INT;
-                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now) );
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
+            } else if (liturgyList[position].isPurchased == "Yes") {
+                holder.imageBook.visibility = View.GONE
+                holder.txtPrice.text = "Purchased"
+                holder.btnUnlock.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 } else {
                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
             } else {
+                holder.imageBook.visibility = View.VISIBLE
+                holder.btnUnlock.text = "Unlock Collection"
+            }
+        } else {
+            holder.imageBook.visibility = View.GONE
+            if (liturgyList[position].isFree == "Yes") {
+                holder.txtPrice.text = "Free"
+                holder.btnUnlock.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
+            } else if (liturgyList[position].isPurchased == "Yes") {
+                holder.txtPrice.text = "Purchased"
+                holder.btnUnlock.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
+            } else {
+                holder.txtPrice.text = "$" + liturgyList[position].price
                 holder.btnUnlock.text = "Unlock"
                 holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
                 holder.btnUnlock.setTextColor(context.resources.getColor(R.color.white))
@@ -71,12 +110,6 @@ class GetLiturgiesFromBookIDAdapter(
         }
 
         holder.txtLiturgyName.text = liturgyList[position].chapterTitle
-
-        if (liturgyList[position].isFree == "Yes") {
-            holder.txtPrice.text = "Free"
-        } else {
-            holder.txtPrice.text = "$" + liturgyList[position].price
-        }
 
         Glide.with(context)
             .load(liturgyList[position].chapterPageImage)
@@ -94,7 +127,7 @@ class GetLiturgiesFromBookIDAdapter(
                     PRDownloader.download(
                         liturgyList[position].chapterUrl,
                         path,
-                        "test_" +  liturgyList[position].chapterId + ".epub"
+                        "test_" + liturgyList[position].chapterId + ".epub"
                     )
                         .build()
                         .setOnStartOrResumeListener { }
@@ -114,7 +147,7 @@ class GetLiturgiesFromBookIDAdapter(
                                 config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
                                 folioReader.setConfig(config, true)
 
-                                folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" +  liturgyList[position].chapterId + ".epub")
+                                folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + liturgyList[position].chapterId + ".epub")
                             }
 
                             override fun onError(error: com.downloader.Error?) {
@@ -129,5 +162,9 @@ class GetLiturgiesFromBookIDAdapter(
 
     override fun getItemCount(): Int {
         return liturgyList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return super.getItemId(position)
     }
 }

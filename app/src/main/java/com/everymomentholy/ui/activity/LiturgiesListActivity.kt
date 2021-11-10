@@ -108,7 +108,11 @@ class LiturgiesListActivity : AppCompatActivity() {
                         liturgie.price = collectionData.bookAmount
                         liturgie.chapterTitle = collectionData.bookTitle
 
-                        liturgiesList.add(liturgie)
+                        if (collectionData.isPurchased == "Yes" || collectionData.bookAmount == "0.00" || collectionData.bookAmount=="0.0") {
+
+                        } else {
+                            liturgiesList.add(liturgie)
+                        }
                         liturgiesList.addAll(response.body()?.response?.data!!)
 
                         rvLiturgiesList.layoutManager =

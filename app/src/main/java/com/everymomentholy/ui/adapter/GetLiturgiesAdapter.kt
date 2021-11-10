@@ -52,11 +52,19 @@ class GetLiturgiesAdapter(
         if (getLiturgies.isVolume == "Yes") {
 
             txtLiturgyTitle.text = getLiturgies.volumeTitle
-            txtLiturgyPrice.text = getLiturgies.volumeAmount
 
             Glide.with(context)
                 .load(getLiturgies.volumeCoverPageImage)
                 .into(imgGetLiturge)
+
+            if (getLiturgies.isPurchased == "Yes") {
+                txtLiturgyPrice.text = "Purchased"
+            } else if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00") {
+                txtLiturgyPrice.text = "Free"
+            } else {
+                txtLiturgyPrice.text = "$ " + getLiturgies.volumeAmount
+            }
+
         } else {
 
             if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
@@ -69,10 +77,14 @@ class GetLiturgiesAdapter(
                     btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
-                txtLiturgyPrice.text = "Free"
+                if (getLiturgies.isPurchased == "Yes") {
+                    txtLiturgyPrice.text = "Purchased"
+                } else {
+                    txtLiturgyPrice.text = "Free"
+                }
                 txtDollar.text = ""
             } else {
-                txtLiturgyPrice.text = getLiturgies.bookAmount
+                txtLiturgyPrice.text = "$ " + getLiturgies.bookAmount
             }
             txtLiturgyTitle.text = getLiturgies.bookTitle
 

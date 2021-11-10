@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,12 +17,11 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.response.GetLiturgiesDataVo
-import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.MyLiturgiesResponseVo
 import com.everymomentholy.ui.adapter.BottomSliderLiturgiesAdapter
-import com.everymomentholy.ui.adapter.GetLiturgiesFromBookIDAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,7 +36,7 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
     var prefeUserId: Int = 0
     lateinit var dialog : BottomSheetDialog
 
-    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_liturgies_list_dialog)
@@ -56,29 +58,58 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showBottomSheetDialog() {
-        dialog = this?.let { BottomSheetDialog(it) }
-        val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
+        val rvBottomSheet = findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
-        val buttomRcv = view.findViewById<RecyclerView>(R.id.buttomRecyclerView)
+        val topCurveAnchor = findViewById<ImageView>(R.id.topCurveAnchor)
+        var bottomSheet = findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        val ivSlideUp = findViewById<ImageView>(R.id.ivSlideUp)
 
+        val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        bottomSheet.z = 10.0F
+        //  bottomSheetBehavior.peekHeight = 340
+        bottomSheetBehavior.peekHeight = 160
+
+        bottomSheetBehavior.isHideable = false
+
+        bottomSheetBehavior.setBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    //update my bottomsheet state.
+                    ivSlideUp?.setImageResource(R.drawable.ic_down_arrow)
+
+                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    ivSlideUp?.setImageResource(R.drawable.slideup_arrow)
+                    onBackPressed()
+                }
+
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+
+        android_id = Settings.Secure.getString(
+            applicationContext.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this)
-        buttomRcv.layoutManager = layoutManager
-        buttomRcv.adapter = bottomSliderLiturgiesAdapter
+        rvBottomSheet.layoutManager = layoutManager
+        rvBottomSheet.adapter = bottomSliderLiturgiesAdapter
 
-        dialog?.setCancelable(true)
-        dialog?.setContentView(view)
-        dialog?.show()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        dialog.dismiss()
-        finish()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun getMyLiturgiesList(bookID: Int) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
         myLiturgiesRequestVo.appUserId = prefeUserId
@@ -94,14 +125,12 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
 
         try {
             call.enqueue(object : Callback<MyLiturgiesResponseVo> {
-                @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+
                 override fun onResponse(
                     call: Call<MyLiturgiesResponseVo>,
                     response: Response<MyLiturgiesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
-
                         bottomSliderLiturgiesAdapter = BottomSliderLiturgiesAdapter(
                             this@LiturgiesListDialogActivity,
                             response.body()?.response?.data!!

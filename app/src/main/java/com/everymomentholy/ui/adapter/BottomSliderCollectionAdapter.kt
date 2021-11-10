@@ -47,11 +47,47 @@ class BottomSliderCollectionAdapter(
         val freeLiturgies = liturgyList[position]
 
         if (position == 0) {
-            holder.btnReadNow.text = "Unlock Volume"
-            holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
-            holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
+            if (freeLiturgies.isPurchased == "Yes") {
+                if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased == "Yes") {
+                    holder.btnReadNow.text = "Read Now"
+                    var sdk = android.os.Build.VERSION.SDK_INT;
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                        holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                    } else {
+                        holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                        holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                    }
+                    if (freeLiturgies.isPurchased == "Yes") {
+                        holder.txtLiturgiesPrice.text = "Purchased"
+                    } else {
+                        holder.txtLiturgiesPrice.text = "Free"
+                    }
+                }
+            } else {
+                if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00") {
+                    holder.btnReadNow.text = "Read Now"
+                    var sdk = android.os.Build.VERSION.SDK_INT;
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                        holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                    } else {
+                        holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                        holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                    }
+                    if (freeLiturgies.isPurchased == "Yes") {
+                        holder.txtLiturgiesPrice.text = "Purchased"
+                    } else {
+                        holder.txtLiturgiesPrice.text = "Free"
+                    }
+                } else {
+                    holder.btnReadNow.text = "Unlock Volume"
+                    holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
+                    holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
+                }
+            }
         } else {
-            if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00") {
+            if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased == "Yes") {
                 holder.btnReadNow.text = "Read Now"
                 var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -61,7 +97,11 @@ class BottomSliderCollectionAdapter(
                     holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
-                holder.txtLiturgiesPrice.text = "Free"
+                if (freeLiturgies.isPurchased == "Yes") {
+                    holder.txtLiturgiesPrice.text = "Purchased"
+                } else {
+                    holder.txtLiturgiesPrice.text = "Free"
+                }
             } else {
                 holder.btnReadNow.text = "Unlock Collection"
                 holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
@@ -86,11 +126,21 @@ class BottomSliderCollectionAdapter(
 
         holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
 
-            if (position > 0) {
+            if (freeLiturgies.isPurchased == "Yes") {
+                //if (position > 0) {
                 var intent = Intent(context, LiturgiesListActivity::class.java)
                 intent.putExtra("bookID", freeLiturgies.bookId)
                 intent.putExtra("collection", freeLiturgies)
                 context.startActivity(intent)
+                //}
+            } else {
+                if (position == 0 && freeLiturgies.bookAmount == "0.00" || freeLiturgies.bookAmount == "0.0") {
+                    var intent = Intent(context, LiturgiesListActivity::class.java)
+                    intent.putExtra("bookID", freeLiturgies.bookId)
+                    intent.putExtra("collection", freeLiturgies)
+                    context.startActivity(intent)
+                }
+
             }
         }
 

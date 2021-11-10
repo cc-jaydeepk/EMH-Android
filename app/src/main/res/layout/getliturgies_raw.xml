@@ -59,6 +59,7 @@
                 android:layout_marginTop="@dimen/getliturgy_txtmargin"
                 android:fontFamily="@font/lato_bold"
                 android:text="$"
+                android:visibility="gone"
                 android:textColor="@color/loginbg"
                 android:textSize="@dimen/getliturgy_purchstxt_size" />
 

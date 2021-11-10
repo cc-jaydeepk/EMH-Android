@@ -62,6 +62,7 @@
                 android:layout_below="@+id/txtLiturgiesTitle"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:orientation="horizontal">
 
                 <TextView

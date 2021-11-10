@@ -1,6 +1,6 @@
 package com.everymomentholy.ui.activity
 
-import android.content.SharedPreferences
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,14 +17,12 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.CollectionRequestVo
-import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.adapter.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +43,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
     lateinit var ivToolbarDrawer: ImageView
 
 
-    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_book_liturgies)
@@ -203,7 +200,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showBottomSheetDialog() {
-        val buttomRcv = findViewById<RecyclerView>(R.id.buttomRecyclerView)
+        val rvBootmSheet = findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
         val topCurveAnchor = findViewById<ImageView>(R.id.topCurveAnchor)
         var bottomSheet = findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
@@ -241,8 +238,8 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         )
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this)
-        buttomRcv.layoutManager = layoutManager
-        buttomRcv.adapter = bottomSliderAdapter
+        rvBootmSheet.layoutManager = layoutManager
+        rvBootmSheet.adapter = bottomSliderAdapter
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -291,7 +288,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         buttomRcv.adapter = bottomSliderLiturgiesAdapter
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun getCollectionList(volumeId: Int) {
         var collectionRequestVo: CollectionRequestVo = CollectionRequestVo()
         collectionRequestVo.volumeId = volumeId
@@ -306,7 +303,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
         try {
             call.enqueue(object : Callback<CollectionListResponseVo> {
-                @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+
                 override fun onResponse(
                     call: Call<CollectionListResponseVo>,
                     response: Response<CollectionListResponseVo>
@@ -320,19 +317,22 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
                         }*/
 
                         var wholeCollection: CollectionDataVo = CollectionDataVo()
+                        var arrCollectionList: ArrayList<CollectionDataVo> = ArrayList()
                         if (liturgies.isVolume == "Yes") {
-                            wholeCollection.bookCoverPageImage = liturgies.volumeCoverPageImage
-                            wholeCollection.bookTitle = liturgies.volumeTitle
-                            wholeCollection.bookAmount = liturgies.volumeAmount
+                            if (liturgies.isPurchased == "Yes") {
+
+                            } else {
+                                wholeCollection.bookCoverPageImage = liturgies.volumeCoverPageImage
+                                wholeCollection.bookTitle = liturgies.volumeTitle
+                                wholeCollection.bookAmount = liturgies.volumeAmount
+                                arrCollectionList.add(wholeCollection)
+                            }
                         } else {
-                            wholeCollection.bookCoverPageImage = liturgies.bookCoverPageImage
+                            /*wholeCollection.bookCoverPageImage = liturgies.bookCoverPageImage
                             wholeCollection.bookTitle = liturgies.bookTitle
                             wholeCollection.bookAmount =
-                                liturgies.bookAmount
+                                liturgies.bookAmount*/
                         }
-
-                        var arrCollectionList: ArrayList<CollectionDataVo> = ArrayList()
-                        arrCollectionList.add(wholeCollection)
                         arrCollectionList.addAll(response.body()!!.response.data)
                         bottomSliderAdapter = BottomSliderCollectionAdapter(
                             this@AboutBookLiturgiesActivity,
@@ -378,6 +378,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
         try {
             call.enqueue(object : Callback<MyLiturgiesResponseVo> {
+                @SuppressLint("NewApi")
                 @RequiresApi(Build.VERSION_CODES.CUPCAKE)
                 override fun onResponse(
                     call: Call<MyLiturgiesResponseVo>,
@@ -392,7 +393,12 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
                         liturgie.price = liturgies.bookAmount
                         liturgie.chapterTitle = liturgies.bookTitle
 
-                        liturgiesList.add(liturgie)
+                        if (liturgies.isPurchased == "Yes" || liturgies.bookAmount == "0.00" || liturgies.bookAmount=="0.0") {
+
+                        } else {
+                            liturgiesList.add(liturgie)
+                        }
+                        // liturgiesList.add(liturgie)
                         liturgiesList.addAll(response.body()?.response?.data!!)
 
                         /*rvLiturgiesList.layoutManager =
