@@ -17,6 +17,7 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetFavoriteListRequestVo
 import com.everymomentholy.api.request.GetLiturgiesRequestVo
+import com.everymomentholy.api.response.GetFavoritesDataVo
 import com.everymomentholy.api.response.GetFavoritesResponseVo
 import com.everymomentholy.api.response.GetLiturgiesResponseVo
 import com.everymomentholy.ui.adapter.FavoriteAdapter
@@ -41,8 +42,6 @@ class FavoritesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
         favRecyclerView = view.findViewById(R.id.favRecyclerView)
         favRecyclerView.layoutManager = LinearLayoutManager(activity)
-        favRecyclerView.adapter = FavoriteAdapter()
-        adapter = FavoriteAdapter()
         getFavoriteLiturgiesList()
         return view
     }
@@ -61,7 +60,11 @@ class FavoritesFragment : Fragment() {
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getFavoriteList(
             Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1),
-            "bearer " + Utils.readStringFromSharedPref(requireContext(), Constants.SHARED_PREF_TOKEN, "")
+            "bearer " + Utils.readStringFromSharedPref(
+                requireContext(),
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
         )
 
         try {
@@ -71,7 +74,7 @@ class FavoritesFragment : Fragment() {
                     response: Response<GetFavoritesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        setAdapter(response.body()!!.response.data)
                     } else {
                         Toast.makeText(
                             requireActivity(),
@@ -90,4 +93,10 @@ class FavoritesFragment : Fragment() {
             exception.printStackTrace()
         }
     }
+
+    fun setAdapter(favLiturgiesData: List<GetFavoritesDataVo>) {
+        adapter = FavoriteAdapter(requireContext(), favLiturgiesData)
+        favRecyclerView.adapter = adapter
+    }
+
 }

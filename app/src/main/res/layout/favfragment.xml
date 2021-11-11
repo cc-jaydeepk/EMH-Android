@@ -28,11 +28,11 @@
         android:textSize="@dimen/_10ssp" />
 
     <TextView
-        android:id="@+id/txtLiturgyNm"
+        android:id="@+id/txtFavLiturgyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtLiturgy"
-        android:layout_toLeftOf="@+id/imgShareimag"
+        android:layout_toLeftOf="@+id/imgFavShareImg"
         android:layout_toRightOf="@+id/imgFavCover"
         android:fontFamily="@font/lato_semibold"
         android:text="A Liturgy for DayBreak"
@@ -40,7 +40,7 @@
         android:textSize="@dimen/fav_frag_txt" />
 
     <ImageView
-        android:id="@+id/imgShareimag"
+        android:id="@+id/imgFavShareImg"
         android:layout_width="@dimen/fav_frag_shareimg"
         android:layout_height="@dimen/fav_frag_shareimg"
         android:layout_alignParentTop="true"
@@ -68,7 +68,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtLiturgyNm"
+        android:layout_below="@+id/txtFavLiturgyName"
         android:layout_centerVertical="true"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_toRightOf="@+id/imgFavCover"
@@ -78,10 +78,11 @@
         android:textSize="@dimen/fav_frag_freetxt" />
 
     <Button
+        android:id="@+id/btn_fav_read_now"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="@dimen/openbtnn_width"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtLiturgyNm"
+        android:layout_below="@+id/txtFavLiturgyName"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/_1sdp"
         android:fontFamily="@font/lato_medium"
