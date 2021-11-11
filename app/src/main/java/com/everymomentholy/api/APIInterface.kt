@@ -153,4 +153,15 @@ interface APIInterface {
     @GET(Constants.API_PRIVACY_POLICY)
     fun privacyPolicy(): Call<PrivacyPolicyResponseVo>
 
+    @POST(Constants.API_SET_FAVORITE)
+    fun setFavorite(
+       @Body setFavouriteRequestVo: SetFavouriteRequestVo,
+       @Header("Authorization") token: String
+    ): Call<BaseResponseVo>
+
+    @GET(Constants.API_GET_FAVORITES_LIST)
+    fun getFavoriteList(
+        @Query("userId")userID : Int?,
+        @Header("Authorization") token: String
+    ): Call<GetFavoritesResponseVo>
 }

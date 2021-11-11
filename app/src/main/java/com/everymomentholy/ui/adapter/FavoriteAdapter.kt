@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 
-class FavoriteAdapter: RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
+class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
     var favLiturgyList: ArrayList<Fragment> = ArrayList()
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -15,7 +15,8 @@ class FavoriteAdapter: RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.favfragment, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.favfragment, parent, false)
         return FavoriteAdapter.MyViewHolder(itemView)
     }
 

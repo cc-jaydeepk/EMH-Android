@@ -57,12 +57,32 @@ class GetLiturgiesAdapter(
                 .load(getLiturgies.volumeCoverPageImage)
                 .into(imgGetLiturge)
 
-            if (getLiturgies.isPurchased == "Yes") {
+           /* if (getLiturgies.isPurchased == "Yes") {
                 txtLiturgyPrice.text = "Purchased"
             } else if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00") {
                 txtLiturgyPrice.text = "Free"
             } else {
                 txtLiturgyPrice.text = "$ " + getLiturgies.volumeAmount
+            }*/
+
+            if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
+                btnUnlock.text = "Read Now"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                } else {
+                    btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                    btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                }
+                if (getLiturgies.isPurchased == "Yes") {
+                    txtLiturgyPrice.text = "Purchased"
+                } else {
+                    txtLiturgyPrice.text = "Free"
+                }
+                txtDollar.text = ""
+            } else {
+                txtLiturgyPrice.text = "$ " + getLiturgies.bookAmount
             }
 
         } else {

@@ -252,12 +252,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_favoritesFragment -> {
+                    replaceFragment(FavoritesFragment(), "Favourites")
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.selectedItemId = R.id.nav_favoritesFragment
+                    //  showUnderDevDialog()
                     // replaceFragment(FavoritesFragment(), "Favourites")
-                    /* toolbar.visibility = View.VISIBLE
-                     navBottomView.visibility = View.VISIBLE*/
-                    showUnderDevDialog()
-                    // replaceFragment(FavoritesFragment(), "Favourites")
-                    false
+                    true
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
@@ -379,20 +380,20 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_favoritesFragment -> {
-                    /*toolbar.visibility = View.VISIBLE
+                    toolbar.visibility = View.VISIBLE
                     txt_toolbar_name.text = "Favorites"
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     iv_toolbar_search.setOnClickListener {
-                       *//* Toast.makeText(
+                        Toast.makeText(
                             this@MainActivity,
                             "Search",
                             Toast.LENGTH_LONG
-                        ).show()*//*
+                        ).show()
                     }
-                    fragment = FavoritesFragment()*/
-                    //replaceFragment(fragment, "Favourites")
-                    showUnderDevDialog()
+                    fragment = FavoritesFragment()
+                    replaceFragment(fragment, "Favourites")
+                   // showUnderDevDialog()
                     // return@setOnNavigationItemSelectedListener true
                     return@setOnNavigationItemSelectedListener false
                 }

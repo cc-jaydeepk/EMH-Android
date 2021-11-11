@@ -27,7 +27,9 @@ class Constants {
         const val API_ABOUT_VOLUME = "aboutVolume"
         const val API_GET_BOOKS_BY_VOLUME = "getBooksByVolume"
         const val API_PRIVACY_POLICY = "getStaticPages?slug=privacy-policy"
-
+        const val API_SET_FAVORITE = "setFavorite"
+        const val API_GET_FAVORITES_LIST = "getFavoritesList"
+        const val API_PRIVATE_SHARING = "privateSharing"
 
         const val DEVICE_TYPE = "1"
         const val SHARED_PREF_APP_SETTINGS_RESPONSE = "APP_SETTINGS_RESPONSE"
@@ -43,6 +45,7 @@ class Constants {
         const val PROFILE_PIC = "userProfilePic"
         const val PROFILE = "userProfilePic"
         const val DEFAULT_PROFILE_PIC = "userProfilePic"
+        const val SHARED_PREF_DEVICE_ID = "deviceID"
     }
 
 }

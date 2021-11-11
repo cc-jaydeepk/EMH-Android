@@ -2,6 +2,7 @@ package com.everymomentholy.ui.adapter
 
 import android.content.Context
 import android.content.ContextWrapper
+import android.media.Image
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,11 +20,22 @@ import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
+import com.everymomentholy.api.APIInterface
+import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.MyLiturgiesRequestVo
+import com.everymomentholy.api.request.SetFavouriteRequestVo
+import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.api.response.MyLiturgiesResponseVo
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 
 class BottomSliderAdapter(
     var context: Context,
@@ -56,15 +69,15 @@ class BottomSliderAdapter(
             .into(holder.imgFreeLiturgiescover)
 
         holder.imgShare.setOnClickListener {
-            showUnderDevDialog()
-            /* val builder = AlertDialog.Builder(context)
+            //showUnderDevDialog()
+             val builder = AlertDialog.Builder(context)
              val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)
              builder.setView(view)
-             builder.show()*/
+             builder.show()
         }
 
         holder.imgFavorite.setOnClickListener() {
-            showUnderDevDialog()
+            setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
         }
 
         holder.btnReadNow.setOnClickListener() {
@@ -100,25 +113,6 @@ class BottomSliderAdapter(
                             folioReader.setConfig(config, true)
 
                             folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgies.chapterId + ".epub")
-
-                            /*   var config = AppUtil.getSavedConfig(context);
-                               if (config == null) {
-                                   //   config : Config ()
-                               }
-                               config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)*/
-
-                            //folioReader.setConfig(config, true)
-
-                            /*folioReader.openBook(path + File.pathSeparator + "test" + ".epub")*/
-                            /*folioReader.openBook((Environment.getExternalStorageDirectory().absolutePath + "/mnt/sdcard/before_shopping.epub"))*/
-                            /* var path = context.getFilesDir()
-                                 .getAbsolutePath() + "/" + "the_first_hearthfire_of_the_season.epub"*/
-                            /* val folioReader = FolioReader.get()
-
-                             folioReader.openBook(path + File.pathSeparator + "test" + ".epub")
-                             //folioReader.openBook((Environment.getExternalStorageDirectory().absolutePath + "/before_shopping.epub"))
-                             folioReader.openBook(R.raw.those_who_covet_the_latest_technology)*/
-
                         }
 
                         override fun onError(error: com.downloader.Error?) {
@@ -135,6 +129,11 @@ class BottomSliderAdapter(
             holder.txtFree.text = "Free"
         }
 
+        if (freeLiturgies.isFavorite == "True") {
+            holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+        } else {
+            holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+        }
     }
 
     override fun getItemCount(): Int {
@@ -148,4 +147,67 @@ class BottomSliderAdapter(
             .setPositiveButton(android.R.string.yes) { dialog, which ->
             }.show()
     }
+
+    private fun setLiturgiesFavourite(
+        ivfav: ImageView,
+        liturgiesDataVo: MyLiturgiesDataVo,
+        position: Int
+    ) {
+
+        var setFavouriteRequestVo = SetFavouriteRequestVo()
+
+        setFavouriteRequestVo.userId = Utils.readIntData(context, Constants.PrefUserID, -1)
+        setFavouriteRequestVo.isFavorite = liturgiesDataVo.isFavorite != "True"
+        setFavouriteRequestVo.bookId = liturgiesDataVo.bookId
+        setFavouriteRequestVo.chapterId = liturgiesDataVo.chapterId
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.setFavorite(
+                setFavouriteRequestVo,
+                "bearer " + Utils.readStringFromSharedPref(context, Constants.SHARED_PREF_TOKEN, "")
+            )
+
+        try {
+            call.enqueue(object : Callback<BaseResponseVo> {
+                @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+                override fun onResponse(
+                    call: Call<BaseResponseVo>,
+                    response: Response<BaseResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        if (liturgiesDataVo.isFavorite == "True") {
+                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+                        } else {
+                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+                        }
+                        updateList(setFavouriteRequestVo.isFavorite, position)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            response.message().toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponseVo>, t: Throwable) {
+                    Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+    private fun updateList(favourite: Boolean, position: Int) {
+        if(favourite){
+            liturgyList[position].isFavorite = "True"
+        }else{
+            liturgyList[position].isFavorite = "False"
+        }
+        notifyDataSetChanged()
+    }
+
 }

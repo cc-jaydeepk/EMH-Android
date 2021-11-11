@@ -110,7 +110,9 @@ class CollectionListActivity : AppCompatActivity() {
                         }
 
                         var arrCollectionList: ArrayList<CollectionDataVo> = ArrayList()
-                        arrCollectionList.add(wholeCollection)
+                        if (liturgies.isPurchased != "Yes") {
+                            arrCollectionList.add(wholeCollection)
+                        }
                         arrCollectionList.addAll(response.body()!!.response.data)
                         bottomSliderAdapter = BottomSliderCollectionAdapter(
                             this@CollectionListActivity,
