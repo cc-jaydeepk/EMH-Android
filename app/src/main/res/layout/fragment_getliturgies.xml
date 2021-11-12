@@ -4,18 +4,134 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/white"
+    android:gravity="center"
     android:orientation="vertical">
 
-
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:overScrollMode="never" />
+        android:layout_height="0dp"
+        android:layout_weight="0.56"
+        android:orientation="vertical">
 
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.04"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/pageIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/_5sdp"
+            app:piv_animationType="scale"
+            app:piv_dynamicCount="true"
+            app:piv_interactiveAnimation="true"
+            app:piv_selectedColor="@color/black"
+            app:piv_unselectedColor="#8F8C8C"
+            app:piv_viewPager="@id/viewPager" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/viewPager"
+        android:layout_weight="0.21"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtLiturgyTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/getliturgy_txtmargin"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/getliturgy_txt_size" />
+
+        <TextView
+            android:id="@+id/txtDollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/getliturgy_txtmargin"
+            android:fontFamily="@font/lato_bold"
+            android:text="$"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/getliturgy_purchstxt_size"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtLiturgyPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_4sdp"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:text="@string/purchased"
+            android:textAllCaps="true"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/getliturgy_purchstxt_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/getliturgy_btnlayout"
+        android:layout_marginRight="@dimen/getliturgy_btnlayout"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:layout_weight="0.21"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/txtUnlock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_unlock"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
+            android:padding="@dimen/getliturgy_btn_padding"
+            android:text="Unlock"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/getliturgy_btn_txtsize" />
+
+        <TextView
+            android:id="@+id/txtGetLiturgiesAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_read_now"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
+            android:padding="@dimen/getliturgy_btn_padding"
+            android:text="@string/about"
+            android:textAllCaps="true"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/getliturgy_btn_txtsize" />
+
+    </LinearLayout>
 
 </LinearLayout>

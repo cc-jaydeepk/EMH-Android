@@ -47,7 +47,7 @@
     <dimen name="buttomsheet_margin">@dimen/_3sdp</dimen>
     <dimen name="buttomsheet_favmargin">@dimen/_12sdp</dimen>
     <dimen name="buttomsheet_layoutmargin">@dimen/_7sdp</dimen>
-    <dimen name="getliturgy_img_size">@dimen/_170sdp</dimen>
+    <dimen name="getliturgy_img_size">@dimen/_240sdp</dimen>
     <dimen name="getliturgy_txt_size">@dimen/_22ssp</dimen>
     <dimen name="getliturgy_purchstxt_size">@dimen/_18ssp</dimen>
     <dimen name="getliturgy_margin">@dimen/_7sdp</dimen>

@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Html
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,6 +23,7 @@ import com.everymomentholy.api.request.CollectionRequestVo
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.adapter.*
+import com.everymomentholy.ui.fragments.GetLiturgiesFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -27,7 +31,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AboutBookLiturgiesActivity : AppCompatActivity() {
+class AboutBookLiturgiesActivity : Fragment() {
 
     var liturgies: GetLiturgiesDataVo = GetLiturgiesDataVo()
     lateinit var txtAboutDescription: TextView
@@ -38,33 +42,35 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
     lateinit var bottomSliderLiturgiesAdapter: BottomSliderLiturgiesAdapter
     var prefeUserId: Int = 0
     var android_id: String = ""
-    lateinit var ivToolbarNotification: ImageView
-    lateinit var txtToolbarName: TextView
-    lateinit var ivToolbarDrawer: ImageView
+    lateinit var ivBack: ImageView
 
-
+    @SuppressLint("HardwareIds")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about_book_liturgies)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
 
-        txtAboutDescription = findViewById(R.id.txtAboutDescription)
-        txtTitle = findViewById(R.id.txtTitle)
-        ivAboutImage = findViewById(R.id.ivAboutImage)
-        llAboutBookBottomSheet = findViewById(R.id.ll_about_book_bottom_sheet)
-        ivToolbarDrawer = findViewById(R.id.iv_toolbar_drawer)
-        txtToolbarName = findViewById(R.id.txt_toolbar_name)
-        ivToolbarNotification = findViewById(R.id.iv_toolbar_notification)
+        val view = inflater.inflate(R.layout.activity_about_book_liturgies, container, false)
 
-        ivToolbarNotification.visibility = View.GONE
-        ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+        (activity as MainActivity).toolbar.visibility = View.GONE
 
-        ivToolbarDrawer.setOnClickListener() {
-            onBackPressed()
+        txtAboutDescription = view.findViewById(R.id.txtAboutDescription)
+        txtTitle = view.findViewById(R.id.txtTitle)
+        ivAboutImage = view.findViewById(R.id.ivAboutImage)
+        llAboutBookBottomSheet = view.findViewById(R.id.ll_about_book_bottom_sheet)
+        ivBack = view.findViewById(R.id.iv_back)
+
+        if (arguments != null) {
+            liturgies = requireArguments().getSerializable("liturgies") as GetLiturgiesDataVo
         }
 
-        txtToolbarName.text = ""
-        liturgies = intent.getSerializableExtra("liturgies") as GetLiturgiesDataVo
+        ivBack.setOnClickListener() {
+            (activity as MainActivity).toolbar.visibility = View.VISIBLE
+            (activity as MainActivity).replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+        }
 
         if (liturgies.isVolume == "Yes") {
             getAboutVolumn(liturgies.volumeId)
@@ -83,13 +89,13 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         }
 
         prefeUserId = Utils.readIntData(
-            this,
+            requireContext(),
             Constants.PrefUserID,
             0
         )!!
 
         android_id = Settings.Secure.getString(
-            contentResolver,
+            requireActivity().contentResolver,
             Settings.Secure.ANDROID_ID
         )
 
@@ -98,9 +104,11 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         } else {
             getMyLiturgiesList(liturgies.bookId)
         }
+
+        return view
     }
 
-    fun getAboutBookLiturgies(bookId: Int) {
+    private fun getAboutBookLiturgies(bookId: Int) {
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.aboutBook(bookId)
 
@@ -129,7 +137,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
                     } else {
                         Toast.makeText(
-                            this@AboutBookLiturgiesActivity,
+                            context!!,
                             response.body()!!.status.toString(),
                             Toast.LENGTH_LONG
                         ).show()
@@ -138,7 +146,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<AboutBookResponseVo>, t: Throwable) {
                     Toast.makeText(
-                        this@AboutBookLiturgiesActivity,
+                        context!!,
                         "${t.message}",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -178,7 +186,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
                     } else {
                         Toast.makeText(
-                            this@AboutBookLiturgiesActivity,
+                            context!!,
                             response.body()!!.status.toString(),
                             Toast.LENGTH_LONG
                         ).show()
@@ -187,7 +195,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<AboutVolumeResponseVo>, t: Throwable) {
                     Toast.makeText(
-                        this@AboutBookLiturgiesActivity,
+                        context!!,
                         "${t.message}",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -200,11 +208,11 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showBottomSheetDialog() {
-        val rvBootmSheet = findViewById<RecyclerView>(R.id.buttomRecyclerView)
+        val rvBootmSheet = view?.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
-        val topCurveAnchor = findViewById<ImageView>(R.id.topCurveAnchor)
-        var bottomSheet = findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
-        val ivSlideUp = findViewById<ImageView>(R.id.ivSlideUp)
+        val topCurveAnchor = view?.findViewById<ImageView>(R.id.topCurveAnchor)
+        var bottomSheet = view?.findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        val ivSlideUp = view?.findViewById<ImageView>(R.id.ivSlideUp)
 
         val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
         bottomSheet.setZ(10.0F)
@@ -233,23 +241,23 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         })
 
         android_id = Settings.Secure.getString(
-            applicationContext.contentResolver,
+            requireActivity().contentResolver,
             Settings.Secure.ANDROID_ID
         )
         val layoutManager: RecyclerView.LayoutManager =
-            LinearLayoutManager(this)
-        rvBootmSheet.layoutManager = layoutManager
+            LinearLayoutManager(context)
+        rvBootmSheet!!.layoutManager = layoutManager
         rvBootmSheet.adapter = bottomSliderAdapter
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showBottomSheetForLiturgiesDialog() {
 
-        val buttomRcv = findViewById<RecyclerView>(R.id.buttomRecyclerView)
+        val buttomRcv = view?.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
-        val topCurveAnchor = findViewById<ImageView>(R.id.topCurveAnchor)
-        var bottomSheet = findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
-        val ivSlideUp = findViewById<ImageView>(R.id.ivSlideUp)
+        val topCurveAnchor = view?.findViewById<ImageView>(R.id.topCurveAnchor)
+        var bottomSheet = view?.findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        val ivSlideUp = view?.findViewById<ImageView>(R.id.ivSlideUp)
 
         val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
         bottomSheet.setZ(10.0F)
@@ -278,13 +286,13 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
         })
 
         android_id = Settings.Secure.getString(
-            applicationContext.contentResolver,
+            requireActivity().contentResolver,
             Settings.Secure.ANDROID_ID
         )
 
         val layoutManager: RecyclerView.LayoutManager =
-            LinearLayoutManager(this)
-        buttomRcv.layoutManager = layoutManager
+            LinearLayoutManager(context)
+        buttomRcv!!.layoutManager = layoutManager
         buttomRcv.adapter = bottomSliderLiturgiesAdapter
     }
 
@@ -335,14 +343,14 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
                         }
                         arrCollectionList.addAll(response.body()!!.response.data)
                         bottomSliderAdapter = BottomSliderCollectionAdapter(
-                            this@AboutBookLiturgiesActivity,
+                            context!!,
                             arrCollectionList
                         )
                         showBottomSheetDialog()
 
                     } else {
                         Toast.makeText(
-                            this@AboutBookLiturgiesActivity,
+                            context!!,
                             response.body()!!.response.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
@@ -351,7 +359,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<CollectionListResponseVo>, t: Throwable) {
                     Toast.makeText(
-                        this@AboutBookLiturgiesActivity,
+                        context!!,
                         "${t.message}",
                         Toast.LENGTH_SHORT
                     )
@@ -393,7 +401,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
                         liturgie.price = liturgies.bookAmount
                         liturgie.chapterTitle = liturgies.bookTitle
 
-                        if (liturgies.isPurchased == "Yes" || liturgies.bookAmount == "0.00" || liturgies.bookAmount=="0.0") {
+                        if (liturgies.isPurchased == "Yes" || liturgies.bookAmount == "0.00" || liturgies.bookAmount == "0.0") {
 
                         } else {
                             liturgiesList.add(liturgie)
@@ -409,14 +417,14 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
                         )
                         rvLiturgiesList.adapter = getLiturgiesFromBookIDAdapter*/
                         bottomSliderLiturgiesAdapter = BottomSliderLiturgiesAdapter(
-                            this@AboutBookLiturgiesActivity,
+                            context!!,
                             liturgiesList
                         )
                         showBottomSheetForLiturgiesDialog()
 
                     } else {
                         Toast.makeText(
-                            this@AboutBookLiturgiesActivity,
+                            context!!,
                             response.body()!!.response.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
@@ -426,7 +434,7 @@ class AboutBookLiturgiesActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
                     Toast.makeText(
-                        this@AboutBookLiturgiesActivity,
+                        context!!,
                         "${t.message}",
                         Toast.LENGTH_SHORT
                     )

@@ -2,7 +2,6 @@ package com.everymomentholy.ui.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -37,7 +36,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -48,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var iv_toolbar_search: ImageView
     private lateinit var iv_toolbar_backImage: ImageView
     private lateinit var txt_toolbar_name: TextView
-    private lateinit var toolbar: Toolbar
+    public lateinit var toolbar: Toolbar
 
     private lateinit var iv_drawer_profile_image: ImageView
     private lateinit var txt_drawer_UserName: TextView
@@ -57,8 +55,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var android_id: String
     var prefeUserId: Int = 0
-
-
     var profileImage: String = ""
     var userImage: String = ""
 
@@ -107,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         toolbar.visibility = View.GONE
         var fragment1: Fragment? = null
         fragment1 = HomeFragment()
-        addFragment(fragment1, "Every Moment Holy")
+        addFragment(fragment1, "Every Moment Holy", null)
 
         getUserProfile()
 
@@ -393,9 +389,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     fragment = FavoritesFragment()
                     replaceFragment(fragment, "Favourites")
-                   // showUnderDevDialog()
+                    navView.setCheckedItem(R.id.nav_favoritesFragment)
+                    // showUnderDevDialog()
                     // return@setOnNavigationItemSelectedListener true
-                    return@setOnNavigationItemSelectedListener false
+                    return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
@@ -601,26 +598,32 @@ class MainActivity : AppCompatActivity() {
         currentFragment = fragment.javaClass.name
     }
 
-    fun AppCompatActivity.replaceFragment(fragment: Fragment, txtToolbarTitle: String) {
-        //  txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
+    fun replaceFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle? = null) {
         if (currentFragment != fragment.javaClass.name) {
             txt_toolbar_name.text = txtToolbarTitle
             val fragmentManager = supportFragmentManager
             val transaction = fragmentManager.beginTransaction()
             transaction.replace(R.id.nav_host_fragment, fragment)
             transaction.disallowAddToBackStack()
-            // transaction.addToBackStack(null)
+            if (arguments != null) {
+                fragment.arguments = arguments
+            }
             transaction.commit()
             currentFragment = fragment.javaClass.name
         }
     }
 
-    private fun addFragment(fragment: Fragment, txtToolbarTitle: String) {
+    fun addFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle?) {
         //  txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
         txt_toolbar_name.text = txtToolbarTitle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.nav_host_fragment, fragment)
-        //transaction.replace(R.id.nav_host_fragment, fragment)
+        if (fragment is AboutBookLiturgiesActivity) {
+            transaction.addToBackStack("yes")
+        }
+        if (arguments != null) {
+            fragment.arguments = arguments
+        }
         transaction.commit()
         drawerLayout.closeDrawers()
         currentFragment = fragment.javaClass.name

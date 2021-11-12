@@ -61,7 +61,7 @@
                     android:textSize="@dimen/buttomsheet_freetxt_size" />
 
                 <TextView
-                    android:id="@+id/btnUnlock"
+                    android:id="@+id/txtUnlock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtLiturgyName"

@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -17,7 +16,6 @@ import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
-import com.everymomentholy.api.response.CollectionDataVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.folioreader.Config
 import com.folioreader.FolioReader
@@ -33,7 +31,7 @@ class GetLiturgiesFromBookIDAdapter(
         var txtLiturgyName = view.findViewById<TextView>(R.id.txtLiturgyName)
         var coverImage = view.findViewById<ImageView>(R.id.coverImage)
         var txtPrice = view.findViewById<TextView>(R.id.txtPrice)
-        var btnUnlock = view.findViewById<TextView>(R.id.btnUnlock)
+        var btnUnlock = view.findViewById<TextView>(R.id.txtUnlock)
         var imageBook = view.findViewById<ImageView>(R.id.imageBook)
 
     }

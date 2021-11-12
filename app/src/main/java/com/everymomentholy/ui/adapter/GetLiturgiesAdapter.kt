@@ -6,7 +6,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -17,7 +16,6 @@ import com.everymomentholy.R
 import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.ui.activity.AboutBookLiturgiesActivity
 import com.everymomentholy.ui.activity.CollectionListActivity
-import com.everymomentholy.ui.activity.LiturgiesListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 
 
@@ -42,8 +40,8 @@ class GetLiturgiesAdapter(
         var imgGetLiturge: ImageView = view.findViewById(R.id.imgGetLiturge)
         var txtLiturgyTitle: TextView = view.findViewById(R.id.txtLiturgyTitle)
         var txtLiturgyPrice: TextView = view.findViewById(R.id.txtLiturgyPrice)
-        var btnGetLiturgiesAbout: TextView = view.findViewById(R.id.btnGetLiturgiesAbout)
-        var btnUnlock: TextView = view.findViewById(R.id.btnUnlock)
+        var btnGetLiturgiesAbout: TextView = view.findViewById(R.id.txtGetLiturgiesAbout)
+        var btnUnlock: TextView = view.findViewById(R.id.txtUnlock)
         var txtDollar: TextView = view.findViewById(R.id.txtDollar)
 
 
@@ -145,5 +143,9 @@ class GetLiturgiesAdapter(
 
     override fun destroyItem(collection: ViewGroup, position: Int, view: Any) {
         collection.removeView(view as View)
+    }
+
+    fun getLiturgiesData(): List<GetLiturgiesDataVo> {
+        return getLiturgiesList
     }
 }
