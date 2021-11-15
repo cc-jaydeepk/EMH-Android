@@ -1,20 +1,22 @@
 package com.everymomentholy.ui.adapter
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.media.Image
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -23,15 +25,18 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
+import com.everymomentholy.api.request.PrivateSharingRequestVo
 import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.MyLiturgiesResponseVo
+import com.everymomentholy.api.response.PrivateShareResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -67,14 +72,6 @@ class BottomSliderAdapter(
         Glide.with(context)
             .load(freeLiturgies.chapterPageImage)
             .into(holder.imgFreeLiturgiescover)
-
-        holder.imgShare.setOnClickListener {
-            //showUnderDevDialog()
-             val builder = AlertDialog.Builder(context)
-             val view: View = LayoutInflater.from(context).inflate(R.layout.share_dialog, null)
-             builder.setView(view)
-             builder.show()
-        }
 
         holder.imgFavorite.setOnClickListener() {
             setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
@@ -133,6 +130,10 @@ class BottomSliderAdapter(
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
         } else {
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+        }
+
+        holder.imgShare.setOnClickListener() {
+            privateShareLiturgy(freeLiturgies)
         }
     }
 
@@ -202,12 +203,90 @@ class BottomSliderAdapter(
     }
 
     private fun updateList(favourite: Boolean, position: Int) {
-        if(favourite){
+        if (favourite) {
             liturgyList[position].isFavorite = "True"
-        }else{
+        } else {
             liturgyList[position].isFavorite = "False"
         }
         notifyDataSetChanged()
     }
 
+    @SuppressLint("HardwareIds")
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    private fun privateShareLiturgy(liturgyDataVo: MyLiturgiesDataVo) {
+
+        var privateSharingRequest: PrivateSharingRequestVo = PrivateSharingRequestVo()
+        privateSharingRequest.deviceId = Settings.Secure.getString(
+            context.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        privateSharingRequest.userId =
+            Utils.readIntFromSharedPref(context, Constants.PrefUserID, -1)
+        privateSharingRequest.liturgyId = liturgyDataVo.chapterId
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.privateSharing(
+                privateSharingRequest,
+                "bearer " + Utils.readStringFromSharedPref(context, Constants.SHARED_PREF_TOKEN, "")
+            )
+
+        try {
+            call.enqueue(object : Callback<PrivateShareResponseVo> {
+                @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+                override fun onResponse(
+                    call: Call<PrivateShareResponseVo>,
+                    response: Response<PrivateShareResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                        val builder = AlertDialog.Builder(
+                            context
+                        )
+                        val inflater = (context as Activity).layoutInflater
+                        val view: View =
+                            inflater.inflate(R.layout.share_dialog, null)
+                        builder.setView(view)
+                        val bottom=builder.show()
+
+                        val edtShareDialogUrl =
+                            view.findViewById<View>(R.id.edt_share_dialog_url) as TextView
+
+                        val btnShareDialogShareLink =
+                            view.findViewById<View>(R.id.btn_share_dialog_share_link) as Button
+                        val btnShareDialogCancel =
+                            view.findViewById<View>(R.id.btn_share_dialog_cancel) as Button
+
+                        edtShareDialogUrl.text = response.body()!!.response
+                        bottom.setCanceledOnTouchOutside(false);
+                        btnShareDialogCancel.setOnClickListener() {
+                            bottom.dismiss()
+                        }
+
+                        btnShareDialogShareLink.setOnClickListener() {
+                            val intent = Intent()
+                            intent.action = Intent.ACTION_SEND
+                            intent.type = "text/plain"
+                            intent.putExtra(Intent.EXTRA_TEXT, response.body()!!.response)
+                            context.startActivity(Intent.createChooser(intent, "Share With"))
+                        }
+
+                    } else {
+                        Toast.makeText(
+                            context,
+                            response.message().toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PrivateShareResponseVo>, t: Throwable) {
+                    Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
 }

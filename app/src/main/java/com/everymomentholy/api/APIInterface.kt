@@ -164,4 +164,10 @@ interface APIInterface {
         @Query("userId")userID : Int?,
         @Header("Authorization") token: String
     ): Call<GetFavoritesResponseVo>
+
+    @POST(Constants.API_PRIVATE_SHARING)
+    fun privateSharing(
+        @Body privateSharingRequestVo: PrivateSharingRequestVo,
+        @Header("Authorization") token: String
+    ): Call<PrivateShareResponseVo>
 }

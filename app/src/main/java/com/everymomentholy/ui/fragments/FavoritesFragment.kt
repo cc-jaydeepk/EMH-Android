@@ -3,7 +3,6 @@ package com.everymomentholy.ui.fragments
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.request.GetFavoriteListRequestVo
-import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.response.GetFavoritesDataVo
 import com.everymomentholy.api.response.GetFavoritesResponseVo
-import com.everymomentholy.api.response.GetLiturgiesResponseVo
 import com.everymomentholy.ui.adapter.FavoriteAdapter
-import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
@@ -31,7 +26,7 @@ import retrofit2.Response
 class FavoritesFragment : Fragment() {
 
     private lateinit var favRecyclerView: RecyclerView
-    private var adapter: RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>? = null
+    private lateinit var adapter: FavoriteAdapter
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -49,14 +44,6 @@ class FavoritesFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     @SuppressLint("HardwareIds")
     private fun getFavoriteLiturgiesList() {
-        var getFavoriteListRequestVo: GetFavoriteListRequestVo = GetFavoriteListRequestVo()
-        getFavoriteListRequestVo.userId =
-            Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
-        getFavoriteListRequestVo.deviceId = Settings.Secure.getString(
-            requireContext().contentResolver,
-            Settings.Secure.ANDROID_ID
-        )
-
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getFavoriteList(
             Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1),
@@ -94,8 +81,11 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    fun setAdapter(favLiturgiesData: List<GetFavoritesDataVo>) {
+    fun setAdapter(favLiturgiesData: ArrayList<GetFavoritesDataVo>) {
         adapter = FavoriteAdapter(requireContext(), favLiturgiesData)
+        val layoutManager: RecyclerView.LayoutManager =
+            LinearLayoutManager(context)
+        favRecyclerView.layoutManager = layoutManager
         favRecyclerView.adapter = adapter
     }
 

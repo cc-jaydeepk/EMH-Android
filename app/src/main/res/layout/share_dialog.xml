@@ -41,7 +41,8 @@
             android:background="@drawable/bg_register_edt"
             android:orientation="vertical">
 
-            <EditText
+            <TextView
+                android:id="@+id/edt_share_dialog_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8sdp"
@@ -71,6 +72,7 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btn_share_dialog_cancel"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,6 +87,7 @@
                 app:strokeColor="@color/loginbg" />
 
             <Button
+                android:id="@+id/btn_share_dialog_share_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_7sdp"

@@ -6,7 +6,7 @@ class GetFavoritesDataVo {
     var chapterPageImage: String = ""
     var chapterTitle: String = ""
     var chapterUrl: String = ""
-    var isFavorite: Boolean = false
+    var isFavorite: String = ""
     var isFeatured: String = ""
     var isFree: String = ""
     var isPurchased: String = ""

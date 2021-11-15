@@ -110,7 +110,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
         try {
             call.enqueue(object : Callback<MyLiturgiesResponseVo> {
-                @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+                @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
                 override fun onResponse(
                     call: Call<MyLiturgiesResponseVo>,
                     response: Response<MyLiturgiesResponseVo>

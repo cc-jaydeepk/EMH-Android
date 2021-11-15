@@ -13,6 +13,7 @@
         app:srcCompat="@drawable/ic_fav_liturgy" />-->
 
     <ImageView
+        android:layout_centerVertical="true"
         android:id="@+id/imgFavCover"
         style="@style/liturgiesListImageStyle"
         app:srcCompat="@drawable/ic_fav_liturgy" />
@@ -35,8 +36,10 @@
         android:layout_toLeftOf="@+id/imgFavShareImg"
         android:layout_toRightOf="@+id/imgFavCover"
         android:fontFamily="@font/lato_semibold"
-        android:text="A Liturgy for DayBreak"
+        android:text="A Liturgy for DayBreak A Liturgy for DayBreak
+A Liturgy for DayBreak"
         android:textColor="@color/black"
+        android:maxLines="3"
         android:textSize="@dimen/fav_frag_txt" />
 
     <ImageView
@@ -66,10 +69,10 @@
         tools:ignore="VectorDrawableCompat" />
 
     <TextView
+        android:id="@+id/txt_fav_free"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtFavLiturgyName"
-        android:layout_centerVertical="true"
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_toRightOf="@+id/imgFavCover"
         android:fontFamily="@font/lato_medium"
@@ -84,10 +87,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtFavLiturgyName"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/_1sdp"
         android:fontFamily="@font/lato_medium"
         android:padding="@dimen/_3sdp"
         android:text="Read Now"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center"
         android:textColor="@color/loginbg"
         android:textSize="@dimen/openbtnn_textsize"
         app:strokeColor="@color/loginbg" />
@@ -95,7 +99,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/imgFavCover"
+        android:layout_below="@id/btn_fav_read_now"
         android:layout_marginTop="@dimen/viewmargin"
         android:background="@android:color/black" />
 </RelativeLayout>

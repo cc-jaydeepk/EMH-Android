@@ -1,6 +1,6 @@
 package com.everymomentholy.api.request
 
-class GetFavoriteListRequestVo {
+class PrivateSharingRequestVo {
 
     var userId: Int = -1
     var deviceId: String = ""
