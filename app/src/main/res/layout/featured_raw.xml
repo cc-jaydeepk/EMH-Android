@@ -34,7 +34,7 @@
 
 
         <ImageView
-            android:id="@+id/img_featuredshare"
+            android:id="@+id/img_featured_share"
             android:layout_width="@dimen/fav_frag_shareimg"
             android:layout_height="@dimen/fav_frag_shareimg"
             android:layout_below="@+id/txtFeaturedTitle"
@@ -43,13 +43,13 @@
             android:src="@drawable/ic_shareimage" />
 
         <ImageView
-            android:id="@+id/imgFeaturedfasv"
+            android:id="@+id/img_featured_fav"
             android:layout_width="@dimen/fav_frag_shareimg"
             android:layout_height="@dimen/fav_frag_shareimg"
             android:layout_below="@+id/txtFeaturedTitle"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_29sdp"
-            android:layout_toRightOf="@+id/img_featuredshare"
+            android:layout_toRightOf="@+id/img_featured_share"
             android:src="@drawable/ic_favorite" />
 
         <!--<Button
@@ -67,6 +67,7 @@
             app:strokeColor="@color/loginbg" />-->
 
         <Button
+            android:id="@+id/btn_featured_read_now"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="@dimen/openbtnn_width"
             android:layout_height="wrap_content"

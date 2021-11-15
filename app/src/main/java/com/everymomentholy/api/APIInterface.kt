@@ -155,13 +155,13 @@ interface APIInterface {
 
     @POST(Constants.API_SET_FAVORITE)
     fun setFavorite(
-       @Body setFavouriteRequestVo: SetFavouriteRequestVo,
-       @Header("Authorization") token: String
+        @Body setFavouriteRequestVo: SetFavouriteRequestVo,
+        @Header("Authorization") token: String
     ): Call<BaseResponseVo>
 
     @GET(Constants.API_GET_FAVORITES_LIST)
     fun getFavoriteList(
-        @Query("userId")userID : Int?,
+        @Query("userId") userID: Int?,
         @Header("Authorization") token: String
     ): Call<GetFavoritesResponseVo>
 
@@ -170,4 +170,11 @@ interface APIInterface {
         @Body privateSharingRequestVo: PrivateSharingRequestVo,
         @Header("Authorization") token: String
     ): Call<PrivateShareResponseVo>
+
+    @GET(Constants.API_MY_LITURGIES_LIST)
+    fun getFeaturedLiturgies(
+        @Query("appUserId") appUserId: Int?,
+        @Query("deviceId") deviceId: String?,
+        @Query("isFeatured") isFeatured: String?,
+    ):Call<MyLiturgiesResponseVo>
 }

@@ -264,17 +264,20 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_featuredFragment -> {
-                    //  replaceFragment(FeaturedFragment(), "Featured")
-                    showUnderDevDialog()
-                    false
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    replaceFragment(FeaturedFragment(), "Featured Liturgies")
+                    navBottomView.selectedItemId = R.id.nav_featuredFragment
+                    //showUnderDevDialog()
+                    true
                 }
                 R.id.nav_orderBookFragment -> {
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
-                    /*toolbar.visibility = View.VISIBLE
+                  /*  toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE*/
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
                     showUnderDevDialog()
-                    true
+                    false
                 }
                 R.id.nav_searchFragment -> {
                     // replaceFragment(SearchFragment(), "Search")
