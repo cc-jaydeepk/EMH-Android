@@ -14,9 +14,7 @@
         <ImageView
             android:id="@+id/imgLiturgycoverImage"
             style="@style/liturgiesListImageStyle"
-            android:layout_centerVertical="true"
             android:src="@drawable/ic_fav_liturgy" />
-
 
         <TextView
             android:id="@+id/txtLiturgiesTitle"
@@ -27,7 +25,6 @@
             android:layout_marginStart="@dimen/openbtnn_marginleft"
             android:layout_marginLeft="@dimen/openbtnn_marginleft"
             android:layout_marginTop="@dimen/_3sdp" />
-
 
         <Button
             android:id="@+id/btnOpen"
@@ -55,6 +52,5 @@
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:background="@android:color/black" />
-
 
 </RelativeLayout>

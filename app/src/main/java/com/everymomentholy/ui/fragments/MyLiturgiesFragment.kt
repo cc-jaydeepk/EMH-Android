@@ -56,7 +56,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     private var freePurchasedLiturgies = ArrayList<GetLiturgiesDataVo>()
     lateinit var progressCardView: CardView
 
-    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -173,14 +173,16 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         isAuto: Boolean
     ) {
 
-        /*  val dialog = context?.let { BottomSheetDialog(it) }
-          val view = layoutInflater.inflate(R.layout.activity_bottom_slider, null)
-
-        */
         val buttomRcv = view?.findViewById<RecyclerView>(R.id.buttomRecyclerView)
 
         val topCurveAnchor = view?.findViewById<ImageView>(R.id.topCurveAnchor)
-        var bottomSheet = view?.findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        lateinit var bottomSheet: RelativeLayout
+        try {
+            bottomSheet = view?.findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         val ivSlideUp = view?.findViewById<ImageView>(R.id.ivSlideUp)
 
         val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
@@ -231,15 +233,6 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
 
     override fun onMyLiturgiesListClick(pos: Int, bookID: Int, isAuto: Boolean) {
-        /*var config = AppUtil.getSavedConfig(context);
-        if (config == null) {
-            //   config : Config ()
-        }
-        config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
-        val folioReader = FolioReader.get()
-        folioReader.setConfig(config, true)
-        var path = context?.getFilesDir()?.getAbsolutePath() + "/" + "the_first_hearthfire_of_the_season.epub"
-        folioReader.openBook(path)*/
         freePurchasedLiturgies.forEach { f -> f.isClicked = false }
         freePurchasedLiturgies[pos].isClicked = true
         liturgyAdapter.notifyDataSetChanged()

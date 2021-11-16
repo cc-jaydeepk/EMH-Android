@@ -173,45 +173,6 @@ class MainActivity : AppCompatActivity() {
                     .load(profileImage)
                     .into(iv_drawer_profile_image)
 
-                /* profileImage = Utils.readStringFromSharedPref(
-                     this@MainActivity, Constants.DEFAULT_PROFILE_PIC,
-                     ""
-                 ).toString()
-                 iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))*/
-
-
-                /*if (yourBool) {
-
-                    Glide.with(this@MainActivity)
-                        .load(userImage)
-                        .into(iv_drawer_profile_image)
-                } else {
-                    isuserLogin = false
-                    profileImage = Utils.readStringFromSharedPref(
-                        this@MainActivity, Constants.PROFILE_PIC,
-                        ""
-                    ).toString()
-                    iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
-                }*/
-
-                /*profileImage = Utils.readStringFromSharedPref(
-                    this@MainActivity, Constants.PROFILE_PIC,
-                    ""
-                ).toString()
-                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))*/
-
-                /*profileImage = Utils.readStringFromSharedPref(
-                    this@MainActivity, Constants.PROFILE_PIC,
-                    ""
-                ).toString()
-                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))
-
-                profileImage = Utils.readStringFromSharedPref(
-                    this@MainActivity, Constants.DEFAULT_PROFILE_PIC,
-                    ""
-                ).toString()
-                iv_drawer_profile_image.setImageURI(Uri.parse(profileImage))*/
-
                 txt_drawer_UserName.text = Utils.readStringFromSharedPref(
                     this@MainActivity, Constants.USER_NAME,
                     ""
@@ -243,6 +204,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_myLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility=View.VISIBLE
                     replaceFragment(MyLiturgiesFragment(), "My Liturgies")
                     navBottomView.selectedItemId = R.id.nav_myLiturgiesFragment
                     true
@@ -250,6 +212,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_favoritesFragment -> {
                     replaceFragment(FavoritesFragment(), "Favourites")
                     toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility=View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     navBottomView.selectedItemId = R.id.nav_favoritesFragment
                     //  showUnderDevDialog()
@@ -258,6 +221,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility=View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     navBottomView.selectedItemId = R.id.nav_getLiturgiesFragment
@@ -265,6 +229,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_featuredFragment -> {
                     toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility=View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(FeaturedFragment(), "Featured Liturgies")
                     navBottomView.selectedItemId = R.id.nav_featuredFragment
@@ -332,11 +297,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_logoutFragment -> {
                     showLogoutDialog()
-
-                    /* Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), false);
-                     val intent = Intent(applicationContext, SelectOptionActivity::class.java)
-                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                     startActivity(intent)*/
                     true
                 }
                 else -> false
@@ -361,16 +321,8 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_myLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                    // iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    iv_toolbar_search.setOnClickListener {
-                        /* Toast.makeText(
-                             this@MainActivity,
-                             "Search",
-                             Toast.LENGTH_LONG
-                         ).show()*/
-                        showUnderDevDialog()
-                    }
                     txt_toolbar_name.text = "My Liturgies"
                     fragment = MyLiturgiesFragment()
                     replaceFragment(fragment, "My Liturgies")
@@ -383,13 +335,6 @@ class MainActivity : AppCompatActivity() {
                     txt_toolbar_name.text = "Favorites"
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    iv_toolbar_search.setOnClickListener {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Search",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
                     fragment = FavoritesFragment()
                     replaceFragment(fragment, "Favourites")
                     navView.setCheckedItem(R.id.nav_favoritesFragment)
@@ -399,16 +344,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                    //  iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    iv_toolbar_search.setOnClickListener {
-                        /* Toast.makeText(
-                            this@MainActivity,
-                            "Search",
-                            Toast.LENGTH_LONG
-                        ).show()*/
-                        showUnderDevDialog()
-                    }
                     fragment = GetLiturgiesFragment()
                     replaceFragment(fragment, "Get Liturgies")
                     navView.setCheckedItem(R.id.nav_getLiturgiesFragment)
@@ -427,6 +364,13 @@ class MainActivity : AppCompatActivity() {
             navBottomView.visibility = View.GONE
             replaceFragment(MyProfileFragment(), "My Profile")
             drawerLayout.close()
+        }
+
+        iv_toolbar_search.setOnClickListener {
+            toolbar.visibility = View.GONE
+            iv_toolbar_search.visibility=View.GONE
+            navBottomView.visibility = View.VISIBLE
+            replaceFragment(SearchFragment(), "Search")
         }
     }
 
