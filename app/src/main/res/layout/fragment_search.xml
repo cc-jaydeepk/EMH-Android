@@ -14,11 +14,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_toLeftOf="@+id/imgSearch"
+            android:layout_toLeftOf="@+id/ic_search"
             android:fontFamily="@font/lato_medium" />
 
         <ImageView
-            android:id="@+id/imgSearch"
+            android:id="@+id/ic_search"
             android:layout_width="@dimen/_18sdp"
             android:layout_height="@dimen/_18sdp"
             android:layout_alignParentRight="true"
@@ -39,20 +39,19 @@
             android:textSize="@dimen/_14ssp" />
 
         <TextView
-            android:id="@+id/txtItemNo"
+            android:id="@+id/txt_search_item_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtResults"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_7sdp"
             android:fontFamily="@font/lato_light"
-            android:text="Show 227 matches"
             android:textSize="@dimen/_8ssp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:layout_below="@+id/txtItemNo"
+            android:layout_below="@+id/txt_search_item_count"
             android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginBottom="@dimen/_18sdp"
             android:background="#ECE9E9" />

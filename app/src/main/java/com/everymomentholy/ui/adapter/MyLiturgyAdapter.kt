@@ -22,7 +22,6 @@ class MyLiturgyAdapter(
     var liturgyListClickListner: LiturgyLitstClickListner
 ) : RecyclerView.Adapter<MyLiturgyAdapter.ViewHolder>() {
 
-
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgLiturgycoverImage: ImageView = view.findViewById(R.id.imgLiturgycoverImage)
         var txtLiturgiesTitle: TextView = view.findViewById(R.id.txtLiturgiesTitle)

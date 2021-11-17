@@ -53,13 +53,6 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <!-- <ImageView
-             android:layout_width="@dimen/_20sdp"
-             android:layout_height="@dimen/_20sdp"
-             android:layout_gravity="center"
-             android:layout_marginTop="@dimen/_2sdp"
-             android:src="@drawable/slider_down_arrow" />-->
-
         <include layout="@layout/curve_shap"
             android:visibility="gone"/>
 

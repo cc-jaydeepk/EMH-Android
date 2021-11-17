@@ -176,5 +176,12 @@ interface APIInterface {
         @Query("appUserId") appUserId: Int?,
         @Query("deviceId") deviceId: String?,
         @Query("isFeatured") isFeatured: String?,
-    ):Call<MyLiturgiesResponseVo>
+    ): Call<MyLiturgiesResponseVo>
+
+    @GET(Constants.API_MY_LITURGIES_LIST)
+    fun searchLiturgies(
+        @Query("deviceId") deviceId: String?,
+        @Query("searchText") searchText: String,
+        @Query("appUserId") appUserId: Int?,
+    ): Call<MyLiturgiesResponseVo>
 }

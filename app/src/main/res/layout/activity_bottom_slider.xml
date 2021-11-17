@@ -71,22 +71,13 @@
     app:behavior_hideable="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-
-    <!--<ImageView
-        android:id="@+id/ivCurveImage"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/slideupimage"
-        app:tint="#F8F3F3" />-->
-
     <ImageView
         android:id="@+id/topCurveAnchor"
         android:layout_width="@dimen/_150sdp"
         android:layout_height="@dimen/_50sdp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/slideupimage"
-        app:tint="#FFFFFF" />
+        app:tint="#F8F3F3" />
 
 
     <ImageView
@@ -102,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivSlideUp"
-        android:background="#FFFFFF">
+        android:background="#F8F3F3">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/buttomRecyclerView"
@@ -110,19 +101,5 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
-
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:background="#F8F3F3">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/buttomRcv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>-->
-
 
 </RelativeLayout>
