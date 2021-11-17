@@ -77,7 +77,7 @@
         android:layout_height="@dimen/_50sdp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/slideupimage"
-        app:tint="#FFFFFF" />
+        app:tint="#F8F3F3" />
 
 
     <ImageView
@@ -93,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivSlideUp"
-        android:background="#FFFFFF">
+        android:background="#F8F3F3">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/buttomRecyclerView"

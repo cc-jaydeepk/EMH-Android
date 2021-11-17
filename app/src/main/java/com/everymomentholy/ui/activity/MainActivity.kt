@@ -228,12 +228,12 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_featuredFragment -> {
-                    toolbar.visibility = View.VISIBLE
+                    /*toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility=View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(FeaturedFragment(), "Featured Liturgies")
-                    navBottomView.selectedItemId = R.id.nav_featuredFragment
-                    //showUnderDevDialog()
+                    navBottomView.selectedItemId = R.id.nav_featuredFragment*/
+                    showUnderDevDialog()
                     true
                 }
                 R.id.nav_orderBookFragment -> {
@@ -367,10 +367,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         iv_toolbar_search.setOnClickListener {
-            toolbar.visibility = View.GONE
+            /*toolbar.visibility = View.GONE
             iv_toolbar_search.visibility=View.GONE
             navBottomView.visibility = View.VISIBLE
-            replaceFragment(SearchFragment(), "Search")
+            replaceFragment(SearchFragment(), "Search")*/
+            showUnderDevDialog()
         }
     }
 

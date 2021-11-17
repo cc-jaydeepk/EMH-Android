@@ -240,6 +240,10 @@ class AboutBookLiturgiesActivity : Fragment() {
             }
         })
 
+        topCurveAnchor?.setOnClickListener() {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
         android_id = Settings.Secure.getString(
             requireActivity().contentResolver,
             Settings.Secure.ANDROID_ID
@@ -284,6 +288,10 @@ class AboutBookLiturgiesActivity : Fragment() {
 
             }
         })
+
+        topCurveAnchor?.setOnClickListener() {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
 
         android_id = Settings.Secure.getString(
             requireActivity().contentResolver,

@@ -229,6 +229,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             buttomRcv.layoutManager = layoutManager
             buttomRcv.adapter = bottomSliderAdapter
         }
+
+        topCurveAnchor?.setOnClickListener(){
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
     }
 
 
