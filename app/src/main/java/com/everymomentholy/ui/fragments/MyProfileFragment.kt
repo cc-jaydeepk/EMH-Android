@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.media.Image
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +34,7 @@ import com.everymomentholy.api.request.GetUserProfileUpdateRequestVo
 import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
 import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.ui.activity.ChangePasswordActivity
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.github.drjacky.imagepicker.ImagePicker
@@ -64,6 +66,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var countryCodePicker: com.hbb20.CountryCodePicker
     private var selectedCode: String = "+91"
     private lateinit var shadowView: TextView
+    private lateinit var ivOrderHistory: ImageView
 
     private var profile_upload_ImageUri: Uri? = null
     private lateinit var file: File
@@ -101,6 +104,7 @@ class MyProfileFragment : Fragment() {
         ivOpenGallery = view.findViewById(R.id.ivOpenGallery)
         countryCodePicker = view.findViewById(R.id.country_code_picker)
         shadowView = view.findViewById(R.id.shadowView)
+        ivOrderHistory = view.findViewById(R.id.ivOrderHistory)
 
         ivOpenGallery.setOnClickListener {
             ImagePicker.with(this)
@@ -176,16 +180,15 @@ class MyProfileFragment : Fragment() {
             }
         }
 
+        /*  val bundle = this.arguments
+          if (bundle != null) {
+              val userName = bundle["name"].toString()
 
-        val bundle = this.arguments
-        if (bundle != null) {
-            val userName = bundle["name"].toString()
+              //freeText.text = userName.toString()
+              txtUseName.text = userName.toString()
 
-            //freeText.text = userName.toString()
-            txtUseName.text = userName.toString()
-
-        }
-
+          }
+  */
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID
@@ -207,6 +210,10 @@ class MyProfileFragment : Fragment() {
         ivChangePassword.setOnClickListener {
             val intent = Intent(activity, ChangePasswordActivity::class.java)
             startActivity(intent)
+        }
+
+        ivOrderHistory.setOnClickListener() {
+            (activity as MainActivity).showUnderDevDialog()
         }
 
         return view

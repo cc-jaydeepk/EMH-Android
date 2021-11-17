@@ -89,7 +89,6 @@ class HomeFragment : Fragment() {
             (activity as MainActivity?)?.openDrawer()
         }
 
-
         txtTitle = view.findViewById(R.id.txtTitle)
         txtQuote = view.findViewById(R.id.txtQuote)
         txtDailyQuote = view.findViewById(R.id.txtDailyQuote)

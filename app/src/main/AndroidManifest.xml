@@ -42,7 +42,7 @@
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".ui.activity.AboutBookLiturgiesActivity"
+            android:name=".ui.fragments.AboutBookLiturgiesFragment"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity

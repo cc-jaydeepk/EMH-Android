@@ -19,28 +19,30 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- <TextView
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:text="A Liturgies for"
-                 android:textColor="@color/black"
-                 android:textSize="@dimen/_18ssp" />-->
-
-            <TextView
-                android:id="@+id/txt_search_liturgy_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lato_medium"
-                android:maxLines="3"
-                android:textColor="@color/black"
-                android:textSize="@dimen/fav_frag_freetxt" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_search_liturgy_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_medium"
+                    android:minLines="2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fav_frag_freetxt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -54,33 +56,18 @@
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/fav_frag_freetxt" />
 
-                <!--<Button
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="@dimen/openbtnn_width"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:fontFamily="@font/lato_medium"
-                    android:padding="@dimen/_5sdp"
-                    android:text="Read Now"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/fav_frag_btn"
-                    app:strokeColor="@color/loginbg" />-->
-
                 <TextView
                     android:id="@+id/txt_search_liturgy_read_now"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtLiturgyName"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:textColor="@color/white"
+                    android:layout_gravity="center"
                     android:background="@drawable/bg_unlock"
                     android:fontFamily="@font/lato_medium"
                     android:padding="@dimen/_5sdp"
-                    android:textAllCaps="true"
                     android:text="@string/unlock_collection"
-                    android:textSize="@dimen/getcollection_btntxt"  />
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/getcollection_btntxt" />
 
             </LinearLayout>
 

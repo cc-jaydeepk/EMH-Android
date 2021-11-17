@@ -14,7 +14,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
@@ -22,7 +21,6 @@ import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.api.response.GetLiturgiesResponseVo
 import com.everymomentholy.interfaces.GetLiturgiesClickListner
-import com.everymomentholy.ui.activity.AboutBookLiturgiesActivity
 import com.everymomentholy.ui.activity.CollectionListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 import com.everymomentholy.ui.activity.MainActivity
@@ -166,7 +164,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     */
             val bundle = Bundle()
             bundle.putSerializable("liturgies", liturgyData)
-            var fragment: Fragment = AboutBookLiturgiesActivity()
+            var fragment: Fragment = AboutBookLiturgiesFragment()
             (activity as MainActivity).replaceFragment(fragment, "Get Liturgies", bundle)
 
         }
@@ -211,7 +209,10 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 }
                 txtDollar.text = ""
             } else {
-                txtLiturgyPrice.text = "$ " + liturgyData.bookAmount
+                txtLiturgyPrice.text = "$ " + liturgyData.volumeAmount
+                txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_unlock));
+                txtUnlock.setTextColor(context?.resources?.getColor(R.color.white)!!)
+                txtUnlock.text = "Unlock"
             }
 
         } else {
@@ -234,6 +235,9 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 txtDollar.text = ""
             } else {
                 txtLiturgyPrice.text = "$ " + liturgyData.bookAmount
+                txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_unlock));
+                txtUnlock.setTextColor(context?.resources?.getColor(R.color.white)!!)
+                txtUnlock.text = "Unlock"
             }
             txtLiturgyTitle.text = liturgyData.bookTitle
 

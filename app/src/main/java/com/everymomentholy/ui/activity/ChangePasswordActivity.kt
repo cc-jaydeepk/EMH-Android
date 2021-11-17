@@ -1,9 +1,11 @@
 package com.everymomentholy.ui.activity
 
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
@@ -30,6 +32,7 @@ class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var android_id: String
     var prefeUserId: Int = 0
 
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.change_password)

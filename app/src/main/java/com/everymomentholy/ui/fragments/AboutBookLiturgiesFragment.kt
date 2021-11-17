@@ -1,8 +1,7 @@
-package com.everymomentholy.ui.activity
+package com.everymomentholy.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Html
@@ -22,8 +21,8 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.CollectionRequestVo
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.response.*
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.adapter.*
-import com.everymomentholy.ui.fragments.GetLiturgiesFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -31,7 +30,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AboutBookLiturgiesActivity : Fragment() {
+class AboutBookLiturgiesFragment : Fragment() {
 
     var liturgies: GetLiturgiesDataVo = GetLiturgiesDataVo()
     lateinit var txtAboutDescription: TextView
@@ -120,7 +119,7 @@ class AboutBookLiturgiesActivity : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        Glide.with(this@AboutBookLiturgiesActivity)
+                        Glide.with(this@AboutBookLiturgiesFragment)
                             .load(response.body()!!.response.bookCoverPageImage)
                             .into(ivAboutImage)
                         txtTitle.text = response.body()!!.response.bookTitle
@@ -169,7 +168,7 @@ class AboutBookLiturgiesActivity : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        Glide.with(this@AboutBookLiturgiesActivity)
+                        Glide.with(this@AboutBookLiturgiesFragment)
                             .load(response.body()!!.response.volumeCoverPageImage)
                             .into(ivAboutImage)
                         txtTitle.text = response.body()!!.response.volumeTitle

@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/toolbar_layout"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -46,7 +48,8 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_7sdp"
             android:fontFamily="@font/lato_light"
-            android:textSize="@dimen/_8ssp" />
+            android:textColor="#8F8D8D"
+            android:textSize="@dimen/_9ssp" />
 
         <View
             android:layout_width="match_parent"

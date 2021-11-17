@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_myLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility=View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
                     replaceFragment(MyLiturgiesFragment(), "My Liturgies")
                     navBottomView.selectedItemId = R.id.nav_myLiturgiesFragment
                     true
@@ -212,7 +212,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_favoritesFragment -> {
                     replaceFragment(FavoritesFragment(), "Favourites")
                     toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility=View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     navBottomView.selectedItemId = R.id.nav_favoritesFragment
                     //  showUnderDevDialog()
@@ -221,7 +221,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility=View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     navBottomView.selectedItemId = R.id.nav_getLiturgiesFragment
@@ -238,8 +238,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_orderBookFragment -> {
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
-                  /*  toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE*/
+                    /*  toolbar.visibility = View.VISIBLE
+                      navBottomView.visibility = View.VISIBLE*/
                     // replaceFragment(OrderBookFragment(), "Book Ordered")
                     showUnderDevDialog()
                     false
@@ -342,6 +342,7 @@ class MainActivity : AppCompatActivity() {
                     // return@setOnNavigationItemSelectedListener true
                     return@setOnNavigationItemSelectedListener true
                 }
+
                 R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
@@ -367,15 +368,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         iv_toolbar_search.setOnClickListener {
-            /*toolbar.visibility = View.GONE
+            toolbar.visibility = View.GONE
             iv_toolbar_search.visibility=View.GONE
             navBottomView.visibility = View.VISIBLE
-            replaceFragment(SearchFragment(), "Search")*/
-            showUnderDevDialog()
+            replaceFragment(SearchFragment(), "Search")
+            //showUnderDevDialog()
         }
     }
 
-    private fun showUnderDevDialog() {
+    fun showUnderDevDialog() {
         AlertDialog.Builder(this)
             .setMessage("This part is under Development.")
             .setPositiveButton(android.R.string.yes) { dialog, which ->
@@ -551,7 +552,10 @@ class MainActivity : AppCompatActivity() {
             txt_toolbar_name.text = txtToolbarTitle
             val fragmentManager = supportFragmentManager
             val transaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.nav_host_fragment, fragment)
+            if (fragment is AboutBookLiturgiesFragment)
+                transaction.replace(R.id.nav_host_fragment, fragment, "aboutFrag")
+            else
+                transaction.replace(R.id.nav_host_fragment, fragment)
             transaction.disallowAddToBackStack()
             if (arguments != null) {
                 fragment.arguments = arguments
@@ -566,7 +570,7 @@ class MainActivity : AppCompatActivity() {
         txt_toolbar_name.text = txtToolbarTitle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.nav_host_fragment, fragment)
-        if (fragment is AboutBookLiturgiesActivity) {
+        if (fragment is AboutBookLiturgiesFragment) {
             transaction.addToBackStack("yes")
         }
         if (arguments != null) {
@@ -584,6 +588,19 @@ class MainActivity : AppCompatActivity() {
             .load(userImage)
             .into(iv_drawer_profile_image)
 
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager != null) {
+            val fragment: AboutBookLiturgiesFragment? =
+                supportFragmentManager.findFragmentByTag("aboutFrag") as AboutBookLiturgiesFragment?
+            if (fragment != null && fragment is AboutBookLiturgiesFragment) {
+                toolbar.visibility = View.VISIBLE
+                replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+            } else {
+                super.onBackPressed()
+            }
+        }
     }
 
 }

@@ -14,7 +14,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.response.GetLiturgiesDataVo
-import com.everymomentholy.ui.activity.AboutBookLiturgiesActivity
+import com.everymomentholy.ui.fragments.AboutBookLiturgiesFragment
 import com.everymomentholy.ui.activity.CollectionListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 
@@ -103,6 +103,10 @@ class GetLiturgiesAdapter(
                 txtDollar.text = ""
             } else {
                 txtLiturgyPrice.text = "$ " + getLiturgies.bookAmount
+                btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
+                btnUnlock.setTextColor(context.resources.getColor(R.color.white))
+                btnUnlock.text = "Unlock"
+
             }
             txtLiturgyTitle.text = getLiturgies.bookTitle
 
@@ -115,7 +119,7 @@ class GetLiturgiesAdapter(
 
 
         btnGetLiturgiesAbout.setOnClickListener() {
-            val intent = Intent(context, AboutBookLiturgiesActivity::class.java)
+            val intent = Intent(context, AboutBookLiturgiesFragment::class.java)
             intent.putExtra("liturgies", getLiturgies)
             context.startActivity(intent)
         }

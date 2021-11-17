@@ -2,6 +2,7 @@ package com.everymomentholy.ui.activity
 
 import android.os.Bundle
 import android.webkit.WebView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
@@ -15,12 +16,18 @@ import retrofit2.Response
 class PrivacyPolicyActivity : AppCompatActivity() {
 
     private lateinit var policyWebView: WebView
+    private lateinit var ivToolbarBackImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy_policy)
 
         policyWebView = findViewById(R.id.policyWebView)
+        ivToolbarBackImage=findViewById(R.id.iv_toolbar_backImage)
+
+        ivToolbarBackImage.setOnClickListener(){
+            onBackPressed()
+        }
 
         loadPolicy()
     }

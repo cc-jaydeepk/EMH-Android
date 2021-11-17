@@ -25,6 +25,7 @@ import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.request.SearchLiturgiesRequestVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.MyLiturgiesResponseVo
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.adapter.SearchAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -40,6 +41,7 @@ class SearchFragment : Fragment() {
     private lateinit var edtSearch: EditText
     private lateinit var icSearch: ImageView
     private lateinit var txtSearchItemCount: TextView
+    private lateinit var ivToolbarDrawer: ImageView
     private var adapter: RecyclerView.Adapter<SearchAdapter.MyViewHolder>? = null
 
     override fun onCreateView(
@@ -53,9 +55,17 @@ class SearchFragment : Fragment() {
         edtSearch = view.findViewById(R.id.edtSearch)
         icSearch = view.findViewById(R.id.ic_search)
         txtSearchItemCount = view.findViewById(R.id.txt_search_item_count)
+        ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
 
         icSearch.setOnClickListener() {
             getSearchLiturgies()
+        }
+
+        ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+
+        ivToolbarDrawer.setOnClickListener() {
+            /*(activity as MainActivity).toolbar.visibility = View.VISIBLE
+            (activity as MainActivity).replaceFragment(GetLiturgiesFragment(), "Get Liturgies")*/
         }
 
         return view
