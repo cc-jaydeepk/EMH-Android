@@ -1,13 +1,12 @@
 package com.everymomentholy.ui.activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.everymomentholy.R
@@ -25,7 +24,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var edtForgotEmail: EditText
     private lateinit var btnForgotPswSubmit: Button
-    private lateinit var btnForgotCancel: Button
+    private lateinit var btnForgotCancel: TextView
     private lateinit var iv_toolbar_backImage: ImageView
     lateinit var progressCardView: CardView
 
@@ -119,18 +118,29 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     private fun checkValidation(): Boolean {
 
         val email = edtForgotEmail.text.toString().trim()
         var isValid = true
 
-        if (email.isEmpty()) {
+        /*if (email.isEmpty()) {
             edtForgotEmail.error = resources.getString(R.string.email_error)
             edtForgotEmail.requestFocus()
             isValid = false
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtForgotEmail.error = resources.getString(R.string.valid_email_error)
+            edtForgotEmail.requestFocus()
+            isValid = false
+        }*/
+
+        if (email.isEmpty()) {
+            edtForgotEmail.error = resources.getString(R.string.email_error)
+            edtForgotEmail.requestFocus()
+            isValid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edtForgotEmail.error = resources.getString(R.string.valid_email_error)
             edtForgotEmail.requestFocus()
             isValid = false

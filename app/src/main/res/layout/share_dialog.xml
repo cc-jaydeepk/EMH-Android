@@ -20,24 +20,24 @@
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_7sdp"
+            android:fontFamily="@font/lato_semibold"
             android:gravity="center"
             android:text="@string/app_full_name"
             android:textColor="@color/loginbg"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/_16ssp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/_7sdp"
-            android:background="#DAD5D5" />
+            android:background="#B3B0B0" />
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_12sdp"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_25sdp"
             android:background="@drawable/bg_register_edt"
             android:orientation="vertical">
 
@@ -47,16 +47,45 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8sdp"
                 android:background="@null"
-                android:padding="@dimen/_25sdp" />
+                android:fontFamily="@font/lato_medium"
+                android:padding="@dimen/_15sdp"
+                android:text="dbfhbufvhhdhduhdsdfdfghjmjm"
+                android:textColor="@color/black" />
+
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:background="@drawable/bg_register_edt"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/edt_share_dialog_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@null"
+                android:fontFamily="@font/lato_medium"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_20sdp"
+                android:text="dbfhbufvhhdhduhdsdfdfghjmjm"
+                android:textColor="@color/black" />
 
         </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_7sdp"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_7sdp"
+            android:fontFamily="@font/lato_medium"
             android:gravity="center"
             android:text="&#34;This link will expire aftre 24 Hours. For more information see &#34;How to Share Liturgies&#34; in the app Menu&#34;"
             android:textColor="@color/loginbg"
@@ -71,34 +100,66 @@
             android:layout_marginBottom="@dimen/_7sdp"
             android:orientation="horizontal">
 
-            <Button
+            <!--<Button
                 android:id="@+id/btn_share_dialog_cancel"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_7sdp"
                 android:layout_weight="1"
+                android:fontFamily="@font/lato_medium"
                 android:padding="@dimen/_10sdp"
                 android:text="@string/cancel"
                 android:textAllCaps="true"
                 android:textColor="@color/loginbg"
                 android:textSize="@dimen/_12sdp"
                 android:textStyle="bold"
-                app:strokeColor="@color/loginbg" />
+                app:strokeColor="@color/loginbg" />-->
 
-            <Button
+            <TextView
+                android:id="@+id/btn_share_dialog_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_read_now"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/_12ssp" />
+
+            <!--<Button
                 android:id="@+id/btn_share_dialog_share_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_7sdp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/loginbg"
+                android:fontFamily="@font/lato_medium"
                 android:padding="@dimen/_10sdp"
                 android:text="@string/share_link"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp"
-                android:textStyle="bold" />
+                android:textStyle="bold" />-->
+
+            <TextView
+                android:id="@+id/btn_share_dialog_share_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_unlock"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/share_link"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
 
         </LinearLayout>
 

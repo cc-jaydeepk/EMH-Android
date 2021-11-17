@@ -118,13 +118,13 @@ class ResetPasswordActivity : AppCompatActivity() {
             edtResetNewPassword.error = resources.getString(R.string.reset_password_error)
             edtResetNewPassword.requestFocus()
             isValid = false
-        }else if (newPassword.length < 6) {
+        } else if (newPassword.length < 6) {
             edtResetNewPassword.error = resources.getString(R.string.password_char_limit_error)
             edtResetNewPassword.requestFocus()
             isValid = false
         }
 
-        if (confirmPassword.isEmpty()) {
+        /*if (confirmPassword.isEmpty()) {
             edtResetConfirmPassword.error =
                 resources.getString(R.string.reset_confirmpassword_error)
             edtResetConfirmPassword.requestFocus()
@@ -134,6 +134,17 @@ class ResetPasswordActivity : AppCompatActivity() {
         if (!newPassword.equals(confirmPassword)) {
             edtResetConfirmPassword.error =
                 resources.getString(R.string.reset_matchpassword_error)
+            edtResetConfirmPassword.requestFocus()
+            isValid = false
+        }*/
+
+        if (confirmPassword.isEmpty()) {
+            edtResetConfirmPassword.error = resources.getString(R.string.confirmpassword_error)
+            edtResetConfirmPassword.requestFocus()
+            isValid = false
+
+        } else if (!newPassword.equals(confirmPassword)) {
+            edtResetConfirmPassword.error = resources.getString(R.string.matchpassword_error)
             edtResetConfirmPassword.requestFocus()
             isValid = false
         }

@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:fontFamily="@font/lato_medium"
+                android:fontFamily="@font/lato_mediumitalic"
                 android:text="Every Moment Holy"
                 android:textColor="@color/loginbg"
                 android:textSize="@dimen/toolbar_text_size" />
@@ -122,12 +122,12 @@
                     android:id="@+id/txtQuote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/home_frg_txtmrg"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/home_frg_txtmrg"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:fontFamily="@font/lato_mediumitalic"
+                    android:gravity="center"
                     android:text="from &#34;For Those Flooded by Too Much Information&#34;"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/home_frg_size" />

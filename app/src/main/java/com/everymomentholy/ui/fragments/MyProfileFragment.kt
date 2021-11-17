@@ -546,13 +546,13 @@ class MyProfileFragment : Fragment() {
         }
 
         if (firstName.isEmpty()) {
-            edtUserFirstName.error = resources.getString(R.string.email_error)
+            edtUserFirstName.error = resources.getString(R.string.firstname_error)
             edtUserFirstName.requestFocus()
             isValid = false
         }
 
         if (lastName.isEmpty()) {
-            edtUserLastName.error = resources.getString(R.string.email_error)
+            edtUserLastName.error = resources.getString(R.string.lastname_error)
             edtUserLastName.requestFocus()
             isValid = false
         }

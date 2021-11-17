@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
 
@@ -40,93 +40,116 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
+            android:id="@+id/toolbarBack"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+
 
             <ImageView
-                android:id="@+id/ivLoginBack"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:id="@+id/ivRegiBack"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
                 android:layout_margin="@dimen/_10sdp"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_back" />
 
-            <ImageView
-                android:layout_width="@dimen/register_imgsize"
-                android:layout_height="@dimen/register_imgsize"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:gravity="center"
-                android:src="@drawable/login_topimg" />
-
-            <TextView
-                style="@style/bigTextStyle"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/rgstr_img_margin"
-                android:text="@string/login_to_continue" />
-
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/rgstr_img_margin"
-                android:text="@string/login_to_continue"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/rgstr_txtsize" />-->
-
-            <EditText
-                android:id="@+id/edtLoginEmail"
-                style="@style/edtStyle"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/rgste_fstnm_margintop"
-                android:background="@drawable/bg_register_edt"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/edtLoginPassword"
-                style="@style/edtStyle"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/rgste_fstnm_margintop"
-                android:background="@drawable/bg_register_edt"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/txtForgotPsw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:fontFamily="@font/lato_regular"
-                android:gravity="right"
-                android:text="@string/forgot_password"
-                android:textColor="@color/black"
-                android:textSize="@dimen/forgot_textsize" />
-
-            <!--<Button
-                android:id="@+id/btn_Login"
-                style="@style/edtStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/button_margin"
-                android:backgroundTint="@color/loginbg"
-                android:text="@string/login"
-                android:textColor="@color/white"
-                android:textSize="@dimen/login_button_txtsize" />-->
-
-            <Button
-                android:id="@+id/btn_Login"
-                style="@style/registerButtonStyle"
-                android:layout_marginTop="@dimen/button_margin"
-                android:text="@string/login" />
-
-
         </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_below="@+id/toolbarBack"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- <ImageView
+                     android:id="@+id/ivLoginBack"
+                     android:layout_width="@dimen/_40sdp"
+                     android:layout_height="@dimen/_40sdp"
+                     android:layout_margin="@dimen/_10sdp"
+                     android:padding="@dimen/_10sdp"
+                     android:src="@drawable/ic_back" />-->
+
+                <ImageView
+                    android:layout_width="@dimen/register_imgsize"
+                    android:layout_height="@dimen/register_imgsize"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:src="@drawable/login_topimg" />
+
+                <TextView
+                    style="@style/bigTextStyle"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_70sdp"
+                    android:text="@string/login_to_continue" />
+
+                <!--<TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rgstr_img_margin"
+                    android:text="@string/login_to_continue"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/rgstr_txtsize" />-->
+
+                <EditText
+                    android:id="@+id/edtLoginEmail"
+                    style="@style/edtStyle"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/rgste_fstnm_margintop"
+                    android:background="@drawable/bg_register_edt"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/edtLoginPassword"
+                    style="@style/edtStyle"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/editText_margintop"
+                    android:background="@drawable/bg_register_edt"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/txtForgotPsw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="right"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/forgot_textsize" />
+
+                <!--<Button
+                    android:id="@+id/btn_Login"
+                    style="@style/edtStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/button_margin"
+                    android:backgroundTint="@color/loginbg"
+                    android:text="@string/login"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/login_button_txtsize" />-->
+
+                <Button
+                    android:id="@+id/btn_Login"
+                    style="@style/registerButtonStyle"
+                    android:layout_marginTop="@dimen/button_margin"
+                    android:text="@string/login" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
     </RelativeLayout>
-</ScrollView>
+
+</RelativeLayout>

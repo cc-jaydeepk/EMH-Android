@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
- <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/progressCardView"
@@ -36,191 +35,201 @@
 
     </androidx.cardview.widget.CardView>
 
-
-    <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
     <LinearLayout
+        android:id="@+id/toolbarBack"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
 
         <ImageView
             android:id="@+id/ivRegiBack"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
             android:layout_margin="@dimen/_10sdp"
-            android:padding="@dimen/_10sdp"
+            android:padding="@dimen/_4sdp"
             android:src="@drawable/ic_back" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-
-            <ImageView
-                android:layout_width="@dimen/register_imgsize"
-                android:layout_height="@dimen/register_imgsize"
-                android:src="@drawable/login_topimg" />
-
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/rgstr_img_margin"
-                android:fontFamily="@font/lato_medium"
-                android:text="@string/register_to_continue"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="@dimen/rgstr_txtsize" />-->
-            <TextView
-                style="@style/bigTextStyle"
-                android:layout_marginTop="@dimen/rgstr_img_margin"
-                android:text="@string/register_to_continue" />
-
-            <EditText
-                android:id="@+id/edtFirstName"
-                style="@style/edtStyle"
-                android:layout_marginTop="@dimen/rgste_margintop"
-                android:background="@drawable/bg_register_edt"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:hint="@string/first_name" />
-
-            <EditText
-                android:id="@+id/edtLastName"
-                style="@style/edtStyle"
-                android:layout_marginTop="@dimen/rgste_fstnm_margintop"
-                android:background="@drawable/bg_register_edt"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:hint="@string/last_name" />
-
-            <EditText
-                android:id="@+id/edtEmail"
-                style="@style/edtStyle"
-                android:layout_marginTop="@dimen/rgste_fstnm_margintop"
-                android:background="@drawable/bg_register_edt"
-                android:hint="@string/email"
-                android:singleLine="true" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/rgste_fstnm_marginleft"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginRight="@dimen/rgste_fstnm_marginleft"
-                android:background="@drawable/bg_register_edt">
-
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/country_code_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:showFlag="false">
-
-                </com.hbb20.CountryCodePicker>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="@dimen/view_hight"
-                    android:layout_toRightOf="@id/country_code_picker"
-                    android:background="@color/black" />
-
-                <EditText
-                    android:id="@+id/edtPhoneNumber"
-                    style="@style/edtStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_toRightOf="@+id/country_code_picker"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:hint="@string/phone_number"
-                    android:inputType="phone"
-                    android:padding="@dimen/login_button_padding"
-                    android:singleLine="true" />
-
-            </RelativeLayout>
-
-            <EditText
-                android:id="@+id/edtPassword"
-                style="@style/edtStyle"
-                android:layout_marginTop="@dimen/rgste_fstnm_margintop"
-                android:background="@drawable/bg_register_edt"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/edtConfirmPsw"
-                style="@style/edtStyle"
-                android:layout_marginTop="@dimen/rgste_fstnm_margintop"
-                android:background="@drawable/bg_register_edt"
-                android:hint="@string/confirm_password"
-                android:inputType="textPassword"
-                android:singleLine="true" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/rgste_fstnm_marginleft"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginRight="@dimen/rgste_fstnm_marginleft">
-
-                <CheckBox
-                    android:id="@+id/imgCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:backgroundTint="@color/loginbg"
-                    android:buttonTint="@color/loginbg"
-                    android:foregroundTint="@color/loginbg"
-                    android:fontFamily="@font/lato_medium"
-                    android:text="@string/i_have_read_and_agree_to_the"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/agreetxtsize"
-                     />
-
-               <!-- <TextView
-                    android:id="@+id/txtAgree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/imgCheckbox"
-                    android:fontFamily="@font/lato_medium"
-                    android:text="@string/i_have_read_and_agree_to_the"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/agreetxtsize" />-->
-
-                <TextView
-                    android:id="@+id/tvPrivacyPolicy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_3sdp"
-                    android:layout_toRightOf="@+id/imgCheckbox"
-                    android:fontFamily="@font/lato_medium"
-                    android:text="Privacy Policy"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/privacytxtsize" />
-
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/btnRedister"
-                style="@style/registerButtonStyle"
-                android:layout_marginTop="@dimen/margin_10"
-                android:text="@string/register" />
-
-        </LinearLayout>
 
     </LinearLayout>
 
-</ScrollView>
-    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbarBack">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="@dimen/register_imgsize"
+                    android:layout_height="@dimen/register_imgsize"
+                    android:src="@drawable/login_topimg" />
+
+                <!--<TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rgstr_img_margin"
+                    android:fontFamily="@font/lato_medium"
+                    android:text="@string/register_to_continue"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/rgstr_txtsize" />-->
+                <TextView
+                    style="@style/bigTextStyle"
+                    android:layout_marginTop="@dimen/rgstr_img_margin"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:text="@string/register_to_continue" />
+
+                <EditText
+                    android:id="@+id/edtFirstName"
+                    style="@style/edtStyle"
+                    android:layout_marginTop="@dimen/rgste_margintop"
+                    android:background="@drawable/bg_register_edt"
+                    android:hint="@string/first_name"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/edtLastName"
+                    style="@style/edtStyle"
+                    android:layout_marginTop="@dimen/editText_margintop"
+                    android:background="@drawable/bg_register_edt"
+                    android:hint="@string/last_name"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    style="@style/edtStyle"
+                    android:layout_marginTop="@dimen/editText_margintop"
+                    android:background="@drawable/bg_register_edt"
+                    android:hint="@string/email"
+                    android:singleLine="true" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/rgste_fstnm_marginleft"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/rgste_fstnm_marginleft"
+                    android:background="@drawable/bg_register_edt">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/country_code_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:showFlag="false">
+
+                    </com.hbb20.CountryCodePicker>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/view_hight"
+                        android:layout_toRightOf="@id/country_code_picker"
+                        android:background="@color/black" />
+
+                    <EditText
+                        android:id="@+id/edtPhoneNumber"
+                        style="@style/edtStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_toRightOf="@+id/country_code_picker"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/phone_number"
+                        android:inputType="phone"
+                        android:padding="@dimen/login_button_padding"
+                        android:singleLine="true" />
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/edtPassword"
+                    style="@style/edtStyle"
+                    android:layout_marginTop="@dimen/editText_margintop"
+                    android:background="@drawable/bg_register_edt"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/edtConfirmPsw"
+                    style="@style/edtStyle"
+                    android:layout_marginTop="@dimen/editText_margintop"
+                    android:background="@drawable/bg_register_edt"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/rgste_fstnm_marginleft"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/rgste_fstnm_marginleft">
+
+                    <CheckBox
+                        android:id="@+id/imgCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:backgroundTint="@color/loginbg"
+                        android:buttonTint="@color/loginbg"
+                        android:fontFamily="@font/lato_medium"
+                        android:foregroundTint="@color/loginbg"
+                        android:text="@string/i_have_read_and_agree_to_the"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/agreetxtsize" />
+
+                    <!-- <TextView
+                         android:id="@+id/txtAgree"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_centerVertical="true"
+                         android:layout_toRightOf="@+id/imgCheckbox"
+                         android:fontFamily="@font/lato_medium"
+                         android:text="@string/i_have_read_and_agree_to_the"
+                         android:textColor="@color/black"
+                         android:textSize="@dimen/agreetxtsize" />-->
+
+                    <TextView
+                        android:id="@+id/tvPrivacyPolicy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:layout_toRightOf="@+id/imgCheckbox"
+                        android:fontFamily="@font/lato_medium"
+                        android:text="Privacy Policy"
+                        android:textColor="@color/loginbg"
+                        android:textSize="@dimen/privacytxtsize" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btnRedister"
+                    style="@style/registerButtonStyle"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/_30sdp"
+                    android:text="@string/register" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>

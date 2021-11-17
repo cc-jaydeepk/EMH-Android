@@ -2,17 +2,17 @@
 <resources>
     <dimen name="login_margin">@dimen/_28sdp</dimen>
     <dimen name="login_margintop">@dimen/_45sdp</dimen>
-    <dimen name="register_margintop">@dimen/_6sdp</dimen>
+    <dimen name="register_margintop">@dimen/_11sdp</dimen>
     <dimen name="registerp_padding">@dimen/_12sdp</dimen>
     <dimen name="skip_margin">@dimen/_10sdp</dimen>
     <dimen name="skip_txtsize">@dimen/_12ssp</dimen>
-    <dimen name="rgstr_img_margin">@dimen/_10sdp</dimen>
+    <dimen name="rgstr_img_margin">@dimen/_17sdp</dimen>
     <dimen name="rgstr_txtsize">@dimen/_22ssp</dimen>
     <dimen name="rgste_fstnm_margin">@dimen/_10sdp</dimen>
     <dimen name="rgste_fstnm_marginleft">@dimen/_20sdp</dimen>
     <dimen name="rgste_fstnm_padding">@dimen/_10sdp</dimen>
-    <dimen name="rgste_fstnm_margintop">@dimen/_9sdp</dimen>
-    <dimen name="rgste_margintop">@dimen/_15sdp</dimen>
+    <dimen name="rgste_fstnm_margintop">@dimen/_17sdp</dimen>
+    <dimen name="rgste_margintop">@dimen/_10sdp</dimen>
     <dimen name="margin_10">@dimen/_10sdp</dimen>
     <dimen name="register_imgsize">@dimen/_200sdp</dimen>
     <dimen name="option_imgsize">@dimen/_310sdp</dimen>
@@ -20,7 +20,7 @@
     <dimen name="register_checkbox_size">@dimen/_14sdp</dimen>
     <dimen name="login_button_padding">@dimen/_12sdp</dimen>
     <dimen name="login_button_txtsize">@dimen/_11ssp</dimen>
-    <dimen name="button_margin">@dimen/_11sdp</dimen>
+    <dimen name="button_margin">@dimen/_15sdp</dimen>
     <dimen name="agreetxtsize">@dimen/_12ssp</dimen>
     <dimen name="privacytxtsize">@dimen/_13ssp</dimen>
     <dimen name="countrycodepadding">@dimen/_10sdp</dimen>
@@ -56,7 +56,7 @@
     <dimen name="getliturgy_txtmargin">@dimen/_7sdp</dimen>
     <dimen name="getliturgy_btnlayout">@dimen/_13sdp</dimen>
     <dimen name="navheader_image">@dimen/_60sdp</dimen>
-    <dimen name="navheader_name">@dimen/_16ssp</dimen>
+    <dimen name="navheader_name">@dimen/_18ssp</dimen>
     <dimen name="navheader_email">@dimen/_12ssp</dimen>
     <dimen name="myprofile_img">@dimen/_96sdp</dimen>
     <dimen name="myprofile_margin">@dimen/_7sdp</dimen>
@@ -114,6 +114,7 @@
     <dimen name="about_book_height">@dimen/_200sdp</dimen>
     <dimen name="about_book_text">@dimen/_22ssp</dimen>
     <dimen name="about_book_desctext">@dimen/_14ssp</dimen>
+    <dimen name="editText_margintop">@dimen/_10sdp</dimen>
 
 
 </resources>

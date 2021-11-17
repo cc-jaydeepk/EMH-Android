@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        ivLoginBack = findViewById(R.id.ivLoginBack)
+        ivLoginBack = findViewById(R.id.ivRegiBack)
 
         ivLoginBack.setOnClickListener() {
             onBackPressed()
@@ -136,8 +136,9 @@ class LoginActivity : AppCompatActivity() {
 
                         Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.USER_NAME,
-                            response.body()!!.response.firstName
+                            response.body()!!.response.firstName +" "+ response.body()!!.response.lastName
                         )
+
 
                         Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.USER_EMAIL,
@@ -209,13 +210,23 @@ class LoginActivity : AppCompatActivity() {
         val password = edtLoginPassword.text.toString().trim()
         var isValid = true
 
-        if (email.isEmpty()) {
+        /*if (email.isEmpty()) {
             edtLoginEmail.error = resources.getString(R.string.email_error)
             edtLoginEmail.requestFocus()
             isValid = false
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtLoginEmail.error = resources.getString(R.string.valid_email_error)
+            edtLoginEmail.requestFocus()
+            isValid = false
+        }*/
+
+        if (email.isEmpty()) {
+            edtLoginEmail.error = resources.getString(R.string.email_error)
+            edtLoginEmail.requestFocus()
+            isValid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edtLoginEmail.error = resources.getString(R.string.valid_email_error)
             edtLoginEmail.requestFocus()
             isValid = false

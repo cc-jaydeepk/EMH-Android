@@ -89,7 +89,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         edtConfirmPsw = findViewById(R.id.edtConfirmPsw)
         edtPhoneNumber = findViewById(R.id.edtPhoneNumber)
         imgCheckbox = findViewById(R.id.imgCheckbox)
-        txt_privacy_policy= findViewById(R.id.tvPrivacyPolicy)
+        txt_privacy_policy = findViewById(R.id.tvPrivacyPolicy)
         /*  imgCheckbox.setOnClickListener {
               isAcceptTerms = true
               imgCheckbox.setImageResource(R.drawable.ic_check_box);
@@ -187,6 +187,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             this@RegisterActivity, Constants.NAME,
                             registrationRequestVo.firstName + registrationRequestVo.lastName
                         )
+
+                       // Log.e("lastName", registrationRequestVo.lastName)
 
                         Utils.writeStringToSharedPref(
                             this@RegisterActivity, Constants.USER_EMAIL,

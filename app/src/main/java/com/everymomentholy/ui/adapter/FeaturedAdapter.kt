@@ -171,15 +171,15 @@ class FeaturedAdapter(
                         val view: View =
                             inflater.inflate(R.layout.share_dialog, null)
                         builder.setView(view)
-                        val bottom=builder.show()
+                        val bottom = builder.show()
 
                         val edtShareDialogUrl =
                             view.findViewById<View>(R.id.edt_share_dialog_url) as TextView
 
                         val btnShareDialogShareLink =
-                            view.findViewById<View>(R.id.btn_share_dialog_share_link) as Button
+                            view.findViewById<View>(R.id.btn_share_dialog_share_link) as TextView
                         val btnShareDialogCancel =
-                            view.findViewById<View>(R.id.btn_share_dialog_cancel) as Button
+                            view.findViewById<View>(R.id.btn_share_dialog_cancel) as TextView
 
                         edtShareDialogUrl.text = response.body()!!.response
                         bottom.setCanceledOnTouchOutside(false);
