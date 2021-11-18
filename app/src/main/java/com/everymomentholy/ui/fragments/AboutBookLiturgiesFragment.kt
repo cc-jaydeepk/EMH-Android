@@ -226,10 +226,10 @@ class AboutBookLiturgiesFragment : Fragment() {
 
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                     //update my bottomsheet state.
-                    ivSlideUp?.setImageResource(R.drawable.ic_down_arrow)
+                    ivSlideUp?.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_down_arrow))
 
                 } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    ivSlideUp?.setImageResource(R.drawable.slideup_arrow)
+                    ivSlideUp?.setImageDrawable(requireContext().resources.getDrawable(R.drawable.slideup_arrow))
                 }
 
             }
@@ -239,8 +239,13 @@ class AboutBookLiturgiesFragment : Fragment() {
             }
         })
 
-        topCurveAnchor?.setOnClickListener() {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        ivSlideUp?.setOnClickListener() {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+
         }
 
         android_id = Settings.Secure.getString(
@@ -296,6 +301,15 @@ class AboutBookLiturgiesFragment : Fragment() {
             requireActivity().contentResolver,
             Settings.Secure.ANDROID_ID
         )
+
+        ivSlideUp?.setOnClickListener() {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+
+        }
 
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(context)

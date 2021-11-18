@@ -48,6 +48,12 @@ class Constants {
         const val PROFILE = "userProfilePic"
         const val DEFAULT_PROFILE_PIC = "userProfilePic"
         const val SHARED_PREF_DEVICE_ID = "deviceID"
+
+        const val SEARCH_FROM_MY_LITURGY = 1
+        const val SEARCH_FROM_FAVORITES = 2
+        const val SEARCH_FROM_GET_LITURGY = 3
+        const val SEARCH_FROM_FEATURED_LITURGY = 4
+         var CURRENT_FRAGMENT = 0
     }
 
 }

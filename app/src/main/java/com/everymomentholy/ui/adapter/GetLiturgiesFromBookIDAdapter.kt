@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,7 @@ class GetLiturgiesFromBookIDAdapter(
         var txtPrice = view.findViewById<TextView>(R.id.txtPrice)
         var btnUnlock = view.findViewById<TextView>(R.id.txtUnlock)
         var imageBook = view.findViewById<ImageView>(R.id.imageBook)
+        var llCollectionRaw = view.findViewById<LinearLayout>(R.id.ll_collection_raw)
 
     }
 
@@ -74,6 +76,7 @@ class GetLiturgiesFromBookIDAdapter(
             } else {
                 holder.imageBook.visibility = View.VISIBLE
                 holder.btnUnlock.text = "Unlock Collection"
+                holder.txtPrice.text = "$" + liturgyList[position].price
             }
         } else {
             holder.imageBook.visibility = View.GONE
@@ -114,6 +117,50 @@ class GetLiturgiesFromBookIDAdapter(
             .into(holder.coverImage)
 
         holder.btnUnlock.setOnClickListener() {
+            if (holder.btnUnlock.text == "Read Now") {
+                val cw = ContextWrapper(context)
+                val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
+                if (!directory.exists()) {
+                    directory.mkdir()
+                }
+                var path = context?.filesDir?.absolutePath
+                val downloadId =
+                    PRDownloader.download(
+                        liturgyList[position].chapterUrl,
+                        path,
+                        "test_" + liturgyList[position].chapterId + ".epub"
+                    )
+                        .build()
+                        .setOnStartOrResumeListener { }
+                        .setOnPauseListener { }
+                        .setOnCancelListener { }
+                        .setOnProgressListener { }
+                        .start(object : OnDownloadListener {
+                            override fun onDownloadComplete() {
+                                Log.e("complete", "complete")
+                                val folioReader = FolioReader.get()
+
+                                var config = AppUtil.getSavedConfig(context);
+                                if (config == null) {
+                                    //   config : Config ()
+                                }
+                                config?.setThemeColorRes(R.color.loginbg)
+                                config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
+                                folioReader.setConfig(config, true)
+
+                                folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + liturgyList[position].chapterId + ".epub")
+                            }
+
+                            override fun onError(error: com.downloader.Error?) {
+
+                            }
+                        })
+                Log.e("id", downloadId.toString())
+
+            }
+        }
+
+        holder.llCollectionRaw.setOnClickListener(){
             if (holder.btnUnlock.text == "Read Now") {
                 val cw = ContextWrapper(context)
                 val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)

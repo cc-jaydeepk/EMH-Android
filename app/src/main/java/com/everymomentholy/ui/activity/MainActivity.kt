@@ -205,16 +205,18 @@ class MainActivity : AppCompatActivity() {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_MY_LITURGY
                     replaceFragment(MyLiturgiesFragment(), "My Liturgies")
                     navBottomView.selectedItemId = R.id.nav_myLiturgiesFragment
                     true
                 }
                 R.id.nav_favoritesFragment -> {
-                    replaceFragment(FavoritesFragment(), "Favourites")
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     navBottomView.selectedItemId = R.id.nav_favoritesFragment
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
+                    replaceFragment(FavoritesFragment(), "Favourites")
                     //  showUnderDevDialog()
                     // replaceFragment(FavoritesFragment(), "Favourites")
                     true
@@ -223,17 +225,19 @@ class MainActivity : AppCompatActivity() {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     navBottomView.selectedItemId = R.id.nav_getLiturgiesFragment
                     true
                 }
                 R.id.nav_featuredFragment -> {
-                    /*toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility=View.VISIBLE
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FEATURED_LITURGY
                     replaceFragment(FeaturedFragment(), "Featured Liturgies")
-                    navBottomView.selectedItemId = R.id.nav_featuredFragment*/
-                    showUnderDevDialog()
+                    navBottomView.selectedItemId = R.id.nav_featuredFragment
+                    //showUnderDevDialog()
                     true
                 }
                 R.id.nav_orderBookFragment -> {
@@ -246,11 +250,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_searchFragment -> {
                     // replaceFragment(SearchFragment(), "Search")
-                    /* toolbar.visibility = View.VISIBLE
-                     iv_toolbar_notification.visibility = View.GONE
-                     navBottomView.visibility = View.VISIBLE*/
-                    //replaceFragment(SearchFragment(), "Search")
-                    showUnderDevDialog()
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
+                    replaceFragment(SearchFragment(), "Search")
+                    //showUnderDevDialog()
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
@@ -325,6 +329,7 @@ class MainActivity : AppCompatActivity() {
                     iv_toolbar_notification.visibility = View.GONE
                     txt_toolbar_name.text = "My Liturgies"
                     fragment = MyLiturgiesFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_MY_LITURGY
                     replaceFragment(fragment, "My Liturgies")
                     navView.setCheckedItem(R.id.nav_myLiturgiesFragment)
                     return@setOnNavigationItemSelectedListener true
@@ -337,6 +342,7 @@ class MainActivity : AppCompatActivity() {
                     iv_toolbar_notification.visibility = View.GONE
                     fragment = FavoritesFragment()
                     replaceFragment(fragment, "Favourites")
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
                     navView.setCheckedItem(R.id.nav_favoritesFragment)
                     // showUnderDevDialog()
                     // return@setOnNavigationItemSelectedListener true
@@ -348,6 +354,7 @@ class MainActivity : AppCompatActivity() {
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     fragment = GetLiturgiesFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
                     replaceFragment(fragment, "Get Liturgies")
                     navView.setCheckedItem(R.id.nav_getLiturgiesFragment)
                     return@setOnNavigationItemSelectedListener true
@@ -369,7 +376,7 @@ class MainActivity : AppCompatActivity() {
 
         iv_toolbar_search.setOnClickListener {
             toolbar.visibility = View.GONE
-            iv_toolbar_search.visibility=View.GONE
+            iv_toolbar_search.visibility = View.GONE
             navBottomView.visibility = View.VISIBLE
             replaceFragment(SearchFragment(), "Search")
             //showUnderDevDialog()
@@ -553,7 +560,9 @@ class MainActivity : AppCompatActivity() {
             val fragmentManager = supportFragmentManager
             val transaction = fragmentManager.beginTransaction()
             if (fragment is AboutBookLiturgiesFragment)
-                transaction.replace(R.id.nav_host_fragment, fragment, "aboutFrag")
+                transaction.replace(R.id.nav_host_fragment, fragment)
+            else if (fragment is SearchFragment)
+                transaction.replace(R.id.nav_host_fragment, fragment, "searchFrag")
             else
                 transaction.replace(R.id.nav_host_fragment, fragment)
             transaction.disallowAddToBackStack()
@@ -592,11 +601,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (supportFragmentManager != null) {
-            val fragment: AboutBookLiturgiesFragment? =
-                supportFragmentManager.findFragmentByTag("aboutFrag") as AboutBookLiturgiesFragment?
-            if (fragment != null && fragment is AboutBookLiturgiesFragment) {
+            val fragment: Fragment? =
+                supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            if (fragment is AboutBookLiturgiesFragment) {
                 toolbar.visibility = View.VISIBLE
                 replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+            } else if (fragment is SearchFragment) {
+                when (Constants.CURRENT_FRAGMENT) {
+                    Constants.SEARCH_FROM_MY_LITURGY -> {
+                        toolbar.visibility = View.VISIBLE
+                        replaceFragment(MyLiturgiesFragment(), "My Liturgies")
+                    }
+                    Constants.SEARCH_FROM_FAVORITES -> {
+                        toolbar.visibility = View.VISIBLE
+                        replaceFragment(FavoritesFragment(), "Favourites")
+                    }
+                    Constants.SEARCH_FROM_GET_LITURGY -> {
+                        toolbar.visibility = View.VISIBLE
+                        replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+                    }
+                    Constants.SEARCH_FROM_FEATURED_LITURGY -> {
+                        toolbar.visibility = View.VISIBLE
+                        replaceFragment(FeaturedFragment(), "Featured Liturgies")
+                    }
+                }
             } else {
                 super.onBackPressed()
             }

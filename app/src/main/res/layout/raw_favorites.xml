@@ -13,9 +13,9 @@
         app:srcCompat="@drawable/ic_fav_liturgy" />-->
 
     <ImageView
-        android:layout_centerVertical="true"
         android:id="@+id/imgFavCover"
         style="@style/liturgiesListImageStyle"
+        android:layout_centerVertical="true"
         app:srcCompat="@drawable/ic_fav_liturgy" />
 
     <TextView
@@ -36,10 +36,10 @@
         android:layout_toLeftOf="@+id/imgFavShareImg"
         android:layout_toRightOf="@+id/imgFavCover"
         android:fontFamily="@font/lato_semibold"
+        android:maxLines="3"
         android:text="A Liturgy for DayBreak A Liturgy for DayBreak
 A Liturgy for DayBreak"
         android:textColor="@color/black"
-        android:maxLines="3"
         android:textSize="@dimen/fav_frag_txt" />
 
     <ImageView
@@ -87,11 +87,11 @@ A Liturgy for DayBreak"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtFavLiturgyName"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:fontFamily="@font/lato_medium"
+        android:gravity="center"
         android:padding="@dimen/_3sdp"
         android:text="Read Now"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:gravity="center"
         android:textColor="@color/loginbg"
         android:textSize="@dimen/openbtnn_textsize"
         app:strokeColor="@color/loginbg" />

@@ -56,28 +56,7 @@ class BottomSliderLiturgiesAdapter(
         val freeLiturgies = liturgyList[position]
 
         holder.imageBook.visibility = View.GONE
-/*
-        if (position == 0) {
-            if (freeLiturgies.price == "0.00" || freeLiturgies.isPurchased == "Yes") {
-                if (freeLiturgies.isPurchased == "Yes") {
-                    holder.txtLiturgiesPrice.text = "Purchased"
-                } else {
-                    holder.txtLiturgiesPrice.text = "Free"
-                }
-                holder.btnReadNow.text = "Read Now"
-                var sdk = android.os.Build.VERSION.SDK_INT;
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
-                } else {
-                    holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
-                }
-            } else {
-                holder.btnReadNow.text = "Unlock"
-                holder.txtLiturgiesPrice.text = "$" + freeLiturgies.price
-            }
-        } else {*/
+
         if (freeLiturgies.price == "0.00" || freeLiturgies.isPurchased == "Yes") {
             if (freeLiturgies.isPurchased == "Yes") {
                 holder.txtLiturgiesPrice.text = "Purchased"
@@ -114,55 +93,17 @@ class BottomSliderLiturgiesAdapter(
         holder.btnReadNow.setOnClickListener() {
             if (holder.btnReadNow.text == "Purchase Collection") {
             } else if (holder.btnReadNow.text == "Read Now") {
-                val cw = ContextWrapper(context)
-                val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
-                if (!directory.exists()) {
-                    directory.mkdir()
-                }
-                var path = context?.filesDir?.absolutePath
-                val downloadId =
-                    PRDownloader.download(
-                        freeLiturgies.chapterUrl,
-                        path,
-                        "test_" + freeLiturgies.chapterId + ".epub"
-                    )
-                        .build()
-                        .setOnStartOrResumeListener { }
-                        .setOnPauseListener { }
-                        .setOnCancelListener { }
-                        .setOnProgressListener { }
-                        .start(object : OnDownloadListener {
-                            override fun onDownloadComplete() {
-                                Log.e("complete", "complete")
-                                val folioReader = FolioReader.get()
-
-                                var config = AppUtil.getSavedConfig(context);
-                                if (config == null) {
-                                    //   config : Config ()
-                                }
-                                config?.setThemeColorRes(R.color.loginbg)
-                                config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
-                                folioReader.setConfig(config, true)
-
-                                folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgies.chapterId + ".epub")
-                            }
-
-                            override fun onError(error: com.downloader.Error?) {
-
-                            }
-                        })
-                Log.e("id", downloadId.toString())
+                readBook(freeLiturgies)
             }
         }
 
-        /*  holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
+        holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
+            if (holder.btnReadNow.text == "Purchase Collection") {
+            } else if (holder.btnReadNow.text == "Read Now") {
+                readBook(freeLiturgies)
+            }
 
-              var intent = Intent(context, LiturgiesListActivity::class.java)
-              intent.putExtra("bookID", freeLiturgies.bookId)
-              intent.putExtra("collection", freeLiturgies)
-              context.startActivity(intent)
-
-          }*/
+        }
 
     }
 
@@ -177,5 +118,46 @@ class BottomSliderLiturgiesAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
+    }
+
+    private fun readBook(freeLiturgies: MyLiturgiesDataVo) {
+        val cw = ContextWrapper(context)
+        val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
+        if (!directory.exists()) {
+            directory.mkdir()
+        }
+        var path = context?.filesDir?.absolutePath
+        val downloadId =
+            PRDownloader.download(
+                freeLiturgies.chapterUrl,
+                path,
+                "test_" + freeLiturgies.chapterId + ".epub"
+            )
+                .build()
+                .setOnStartOrResumeListener { }
+                .setOnPauseListener { }
+                .setOnCancelListener { }
+                .setOnProgressListener { }
+                .start(object : OnDownloadListener {
+                    override fun onDownloadComplete() {
+                        Log.e("complete", "complete")
+                        val folioReader = FolioReader.get()
+
+                        var config = AppUtil.getSavedConfig(context);
+                        if (config == null) {
+                            //   config : Config ()
+                        }
+                        config?.setThemeColorRes(R.color.loginbg)
+                        config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
+                        folioReader.setConfig(config, true)
+
+                        folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgies.chapterId + ".epub")
+                    }
+
+                    override fun onError(error: com.downloader.Error?) {
+
+                    }
+                })
+        Log.e("id", downloadId.toString())
     }
 }

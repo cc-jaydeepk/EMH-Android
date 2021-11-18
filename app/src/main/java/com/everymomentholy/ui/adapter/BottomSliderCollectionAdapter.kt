@@ -121,6 +121,18 @@ class BottomSliderCollectionAdapter(
 
         holder.btnReadNow.setOnClickListener() {
             if (holder.btnReadNow.text == "Purchase Collection") {
+
+            } else {
+                if (freeLiturgies.isPurchased == "Yes") {
+                    //if (position > 0) {
+                    transferToLiturgyList(freeLiturgies)
+                    //}
+                } else {
+                    if (position == 0 && freeLiturgies.bookAmount == "0.00" || freeLiturgies.bookAmount == "0.0") {
+                        transferToLiturgyList(freeLiturgies)
+                    }
+
+                }
             }
         }
 
@@ -128,17 +140,13 @@ class BottomSliderCollectionAdapter(
 
             if (freeLiturgies.isPurchased == "Yes") {
                 //if (position > 0) {
-                var intent = Intent(context, LiturgiesListActivity::class.java)
-                intent.putExtra("bookID", freeLiturgies.bookId)
-                intent.putExtra("collection", freeLiturgies)
-                context.startActivity(intent)
+                transferToLiturgyList(freeLiturgies)
                 //}
             } else {
                 if (position == 0 && freeLiturgies.bookAmount == "0.00" || freeLiturgies.bookAmount == "0.0") {
-                    var intent = Intent(context, LiturgiesListActivity::class.java)
-                    intent.putExtra("bookID", freeLiturgies.bookId)
-                    intent.putExtra("collection", freeLiturgies)
-                    context.startActivity(intent)
+                    transferToLiturgyList(freeLiturgies)
+                } else {
+                    transferToLiturgyList(freeLiturgies)
                 }
 
             }
@@ -157,6 +165,13 @@ class BottomSliderCollectionAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
+    }
+
+    private fun transferToLiturgyList(freeLiturgies: CollectionDataVo) {
+        var intent = Intent(context, LiturgiesListActivity::class.java)
+        intent.putExtra("bookID", freeLiturgies.bookId)
+        intent.putExtra("collection", freeLiturgies)
+        context.startActivity(intent)
     }
 
 }

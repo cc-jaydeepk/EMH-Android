@@ -230,10 +230,14 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             buttomRcv.adapter = bottomSliderAdapter
         }
 
-        topCurveAnchor?.setOnClickListener(){
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
+        ivSlideUp?.setOnClickListener() {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
 
+        }
     }
 
 

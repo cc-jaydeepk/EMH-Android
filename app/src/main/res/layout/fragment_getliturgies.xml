@@ -58,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/getliturgy_txtmargin"
             android:layout_marginRight="@dimen/_15sdp"
             android:fontFamily="@font/lato_medium"
             android:gravity="center"

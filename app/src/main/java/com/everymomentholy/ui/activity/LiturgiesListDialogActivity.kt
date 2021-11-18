@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,12 +35,17 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
     lateinit var bottomSliderLiturgiesAdapter: BottomSliderLiturgiesAdapter
     private lateinit var android_id: String
     var prefeUserId: Int = 0
-    lateinit var dialog : BottomSheetDialog
+    lateinit var dialog: BottomSheetDialog
+    lateinit var txtLiturgyListDialogTitle: TextView
+    lateinit var ivLiturgyListDialogBack: ImageView
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_liturgies_list_dialog)
+
+        txtLiturgyListDialogTitle = findViewById(R.id.txt_liturgy_list_dialog_title)
+        ivLiturgyListDialogBack = findViewById(R.id.iv_liturgy_list_dialog_back)
 
         liturgiesData = intent.getSerializableExtra("liturgies") as GetLiturgiesDataVo
 
@@ -53,6 +59,14 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
             Constants.PrefUserID,
             0
         )!!
+
+        if (liturgiesData != null) {
+            txtLiturgyListDialogTitle.text = liturgiesData.bookTitle
+        }
+
+        ivLiturgyListDialogBack.setOnClickListener() {
+            onBackPressed()
+        }
 
         getMyLiturgiesList(liturgiesData.bookId)
     }
@@ -98,6 +112,17 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
             applicationContext.contentResolver,
             Settings.Secure.ANDROID_ID
         )
+
+        ivSlideUp?.setOnClickListener() {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                onBackPressed()
+            }
+
+        }
+
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(this)
         rvBottomSheet.layoutManager = layoutManager
@@ -148,7 +173,11 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
-                    Toast.makeText(this@LiturgiesListDialogActivity, "${t.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        this@LiturgiesListDialogActivity,
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             })
