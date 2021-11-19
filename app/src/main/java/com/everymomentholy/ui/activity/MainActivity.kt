@@ -30,6 +30,7 @@ import com.everymomentholy.api.response.LogoutResponseVo
 import com.everymomentholy.ui.fragments.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.folioreader.FolioReader
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
@@ -42,9 +43,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actionBarToggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
     private lateinit var iv_toolbar_drawer: ImageView
-    private lateinit var iv_toolbar_notification: ImageView
-    private lateinit var iv_toolbar_search: ImageView
-    private lateinit var iv_toolbar_backImage: ImageView
+    lateinit var iv_toolbar_notification: ImageView
+    lateinit var iv_toolbar_search: ImageView
+    lateinit var iv_toolbar_backImage: ImageView
     private lateinit var txt_toolbar_name: TextView
     public lateinit var toolbar: Toolbar
 
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
     var prefeUserId: Int = 0
     var profileImage: String = ""
     var userImage: String = ""
+
+    lateinit var ivToolbarDrawer: ImageView
 
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -85,7 +88,7 @@ class MainActivity : AppCompatActivity() {
         iv_toolbar_search = findViewById(R.id.iv_toolbar_search)
 
         txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
-
+        ivToolbarDrawer = findViewById(R.id.iv_toolbar_drawer)
 
         val mNavigationView = findViewById<NavigationView>(R.id.nav_view)
         val headerView = mNavigationView.getHeaderView(0)
@@ -106,6 +109,8 @@ class MainActivity : AppCompatActivity() {
         addFragment(fragment1, "Every Moment Holy", null)
 
         getUserProfile()
+        /*val folioReader = FolioReader.get()
+        folioReader.openBook(R.raw.test_18)*/
 
         /* txt_drawer_UserName.text = Utils.readStringFromSharedPref(
              this@MainActivity, Constants.NAME,
@@ -255,6 +260,8 @@ class MainActivity : AppCompatActivity() {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     navBottomView.visibility = View.VISIBLE
+                    ivToolbarDrawer.visibility = View.GONE
+                    iv_toolbar_backImage.visibility = View.VISIBLE
                     replaceFragment(SearchFragment(), "Search")
                     //showUnderDevDialog()
                     true
@@ -377,9 +384,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         iv_toolbar_search.setOnClickListener {
-            toolbar.visibility = View.GONE
+            toolbar.visibility = View.VISIBLE
             iv_toolbar_search.visibility = View.GONE
             navBottomView.visibility = View.VISIBLE
+            ivToolbarDrawer.visibility = View.GONE
+            iv_toolbar_backImage.visibility = View.VISIBLE
             replaceFragment(SearchFragment(), "Search")
             //showUnderDevDialog()
         }
@@ -576,7 +585,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun addFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle?) {
+    private fun addFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle?) {
         //  txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
         txt_toolbar_name.text = txtToolbarTitle
         val transaction = supportFragmentManager.beginTransaction()
@@ -612,18 +621,26 @@ class MainActivity : AppCompatActivity() {
                 when (Constants.CURRENT_FRAGMENT) {
                     Constants.SEARCH_FROM_MY_LITURGY -> {
                         toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
                         replaceFragment(MyLiturgiesFragment(), "My Liturgies")
                     }
                     Constants.SEARCH_FROM_FAVORITES -> {
                         toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
                         replaceFragment(FavoritesFragment(), "Favourites")
                     }
                     Constants.SEARCH_FROM_GET_LITURGY -> {
                         toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
                         replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     }
                     Constants.SEARCH_FROM_FEATURED_LITURGY -> {
                         toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
                         replaceFragment(FeaturedFragment(), "Featured Liturgies")
                     }
                 }

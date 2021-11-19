@@ -180,15 +180,6 @@ class MyProfileFragment : Fragment() {
             }
         }
 
-        /*  val bundle = this.arguments
-          if (bundle != null) {
-              val userName = bundle["name"].toString()
-
-              //freeText.text = userName.toString()
-              txtUseName.text = userName.toString()
-
-          }
-  */
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID
@@ -308,7 +299,6 @@ class MyProfileFragment : Fragment() {
 
     private fun getUserProfileUpdate() {
 
-
         var getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo =
             GetUserProfileUpdateRequestVo()
         getUserProfileUpdateRequestVo.deviceId = android_id
@@ -353,9 +343,7 @@ class MyProfileFragment : Fragment() {
                 requestFile
             )
 
-
         }
-
 
         val request = APIService.buildService(APIInterface::class.java)
         val call =
@@ -410,17 +398,6 @@ class MyProfileFragment : Fragment() {
                             )
                         }
 
-                        val prefs =
-                            PreferenceManager.getDefaultSharedPreferences(requireActivity())
-                        val statusLocked = prefs.edit().putBoolean("myProfile", true).apply()
-
-                        /* val preferences = PreferenceManager.getDefaultSharedPreferences(requireActivity())
-                         val editor = preferences.edit()
-                         editor.putString("image", java.lang.String.valueOf(profile_upload_ImageUri))
-                         editor.commit()*/
-
-                        //  Log.e("image", profile_upload_ImageUri.toString())
-
                         val bundle = Bundle()
                         bundle.putString("name", getUserProfileUpdateRequestVo.firstName)
                         //bundle.putParcelable("BitmapImage", bitmapImage);
@@ -445,17 +422,6 @@ class MyProfileFragment : Fragment() {
                         shadowView.visibility = View.VISIBLE
 
                         showAlert()
-
-
-                        /*val myProfileFragment = MyProfileFragment()
-                        val transaction: FragmentTransaction = fragmentManager!!.beginTransaction()
-                        transaction.replace(R.id.nav_host_fragment, myProfileFragment)
-                            .addToBackStack(null)
-                        transaction.commit()
-
-                        myProfileFragment.setArguments(bundle)*/
-
-                        // showSuccesDialog()
 
                     } else {
                         Toast.makeText(
@@ -525,18 +491,6 @@ class MyProfileFragment : Fragment() {
         }
         show.setCanceledOnTouchOutside(false);
 
-    }
-
-
-    private fun getRealPathFromURI(contentUri: Uri): String? {
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val loader = CursorLoader(requireActivity(), contentUri, proj, null, null, null)
-        val cursor: Cursor = loader.loadInBackground()!!
-        val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        cursor.moveToFirst()
-        val result: String = cursor.getString(column_index)
-        cursor.close()
-        return result
     }
 
     private fun checkValidation(): Boolean {

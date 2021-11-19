@@ -459,7 +459,7 @@ class AboutBookLiturgiesFragment : Fragment() {
 
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
                     Toast.makeText(
-                        context!!,
+                        requireContext(),
                         "${t.message}",
                         Toast.LENGTH_SHORT
                     )

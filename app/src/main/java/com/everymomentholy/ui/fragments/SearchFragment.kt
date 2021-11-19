@@ -5,6 +5,8 @@ import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,8 +43,8 @@ class SearchFragment : Fragment() {
     private lateinit var edtSearch: EditText
     private lateinit var icSearch: ImageView
     private lateinit var txtSearchItemCount: TextView
-    private lateinit var ivToolbarDrawer: ImageView
     private var adapter: RecyclerView.Adapter<SearchAdapter.MyViewHolder>? = null
+    private var arrSearchedData: ArrayList<MyLiturgiesDataVo> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,18 +57,39 @@ class SearchFragment : Fragment() {
         edtSearch = view.findViewById(R.id.edtSearch)
         icSearch = view.findViewById(R.id.ic_search)
         txtSearchItemCount = view.findViewById(R.id.txt_search_item_count)
-        ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
+        //ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
 
         icSearch.setOnClickListener() {
             getSearchLiturgies()
         }
 
-        ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+        //ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
 
-        ivToolbarDrawer.setOnClickListener() {
-            /*(activity as MainActivity).toolbar.visibility = View.VISIBLE
-            (activity as MainActivity).replaceFragment(GetLiturgiesFragment(), "Get Liturgies")*/
-        }
+        edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0!!.length >= 3) {
+                    getSearchLiturgies()
+                } else {
+                    if (arrSearchedData.isNotEmpty()) {
+                        arrSearchedData.clear()
+                        recyclerviewSearch.layoutManager = LinearLayoutManager(activity)
+                        adapter = SearchAdapter(
+                            requireContext(),
+                            arrSearchedData
+                        )
+                        recyclerviewSearch.adapter = adapter
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+        })
 
         return view
     }
@@ -97,12 +120,15 @@ class SearchFragment : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        txtSearchItemCount.text = "Show " + response.body()!!.response.data.size.toString() + " matches"
+                        txtSearchItemCount.text =
+                            "Show " + response.body()!!.response.data.size.toString() + " matches"
+
+                        arrSearchedData = response.body()!!.response.data
 
                         recyclerviewSearch.layoutManager = LinearLayoutManager(activity)
                         adapter = SearchAdapter(
                             requireContext(),
-                            response.body()!!.response.data
+                            arrSearchedData
                         )
                         recyclerviewSearch.adapter = adapter
                     }
@@ -116,5 +142,11 @@ class SearchFragment : Fragment() {
         } catch (exception: Exception) {
             exception.printStackTrace()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).ivToolbarDrawer.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_backImage.visibility = View.GONE
     }
 }

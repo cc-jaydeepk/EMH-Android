@@ -2,16 +2,24 @@ package com.everymomentholy.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ContextWrapper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.downloader.OnDownloadListener
+import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.folioreader.Config
+import com.folioreader.FolioReader
+import com.folioreader.util.AppUtil
 
 class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLiturgiesDataVo>) :
     RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
@@ -73,9 +81,56 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                 holder.txtSearchLiturgyFree.text = "$" + myLiturgiesDataVo.price
             }
         }
+
+        holder.txtSearchLiturgyReadNow.setOnClickListener() {
+            if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Read Now") {
+                readBook(myLiturgiesDataVo)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return searchedLiturgies.size
+    }
+
+    private fun readBook(freeLiturgies: MyLiturgiesDataVo) {
+        val cw = ContextWrapper(context)
+        val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
+        if (!directory.exists()) {
+            directory.mkdir()
+        }
+        var path = context?.filesDir?.absolutePath
+        val downloadId =
+            PRDownloader.download(
+                freeLiturgies.chapterUrl,
+                path,
+                "test_" + freeLiturgies.chapterId + ".epub"
+            )
+                .build()
+                .setOnStartOrResumeListener { }
+                .setOnPauseListener { }
+                .setOnCancelListener { }
+                .setOnProgressListener { }
+                .start(object : OnDownloadListener {
+                    override fun onDownloadComplete() {
+                        Log.e("complete", "complete")
+                        val folioReader = FolioReader.get()
+
+                        var config = AppUtil.getSavedConfig(context);
+                        if (config == null) {
+                            //   config : Config ()
+                        }
+                        config?.setThemeColorRes(R.color.loginbg)
+                        config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
+                        folioReader.setConfig(config, true)
+
+                        folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgies.chapterId + ".epub")
+                    }
+
+                    override fun onError(error: com.downloader.Error?) {
+
+                    }
+                })
+        Log.e("id", downloadId.toString())
     }
 }

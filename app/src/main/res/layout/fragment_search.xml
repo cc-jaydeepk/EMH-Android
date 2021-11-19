@@ -4,20 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_layout" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <!--<EditText
-            android:id="@+id/edtSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_toLeftOf="@+id/ic_search"
-            android:fontFamily="@font/lato_medium" />-->
 
         <EditText
             android:id="@+id/edtSearch"
@@ -25,13 +14,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_toLeftOf="@+id/ic_search"
             android:fontFamily="@font/lato_medium" />
 
         <ImageView
             android:id="@+id/ic_search"
-            android:layout_width="@dimen/search_icon_size"
-            android:layout_height="@dimen/search_icon_size"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_10sdp"
