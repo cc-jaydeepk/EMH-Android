@@ -9,19 +9,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="@dimen/bottom_sheet_padding">
 
         <ImageView
             android:id="@+id/imgFreeLiturgiescover"
             style="@style/liturgiesListImageStyle"
             android:src="@drawable/ic_fav_liturgy" />
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/bottom_sheet_text_margintop"
             android:orientation="vertical"
-            android:padding="@dimen/_5sdp">
+            android:padding="@dimen/bottom_sheet_textpadding">
 
             <TextView
                 android:id="@+id/txtFreeLiturgiesTitle"
@@ -72,6 +75,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/buttomsheet_shareimg_size"
                     android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/_3sdp"
                     android:layout_weight="0.15"
                     android:gravity="center"
                     android:src="@drawable/ic_fevrite" />
@@ -84,10 +88,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_weight="0.5"
                     android:fontFamily="@font/lato_medium"
+                    android:padding="@dimen/bottom_sheet_readnow_btn_padding"
                     android:text="@string/read_now"
                     android:textAllCaps="true"
                     android:textColor="@color/loginbg"
-                    android:textSize="@dimen/_8ssp"
+                    android:textSize="@dimen/bottom_sheet_btnreadnow_txtsize"
                     app:strokeColor="@color/loginbg" />
 
             </LinearLayout>

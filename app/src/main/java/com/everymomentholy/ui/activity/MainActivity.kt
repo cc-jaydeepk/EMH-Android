@@ -107,10 +107,10 @@ class MainActivity : AppCompatActivity() {
 
         getUserProfile()
 
-        txt_drawer_UserName.text = Utils.readStringFromSharedPref(
-            this@MainActivity, Constants.NAME,
-            ""
-        ).toString()
+        /* txt_drawer_UserName.text = Utils.readStringFromSharedPref(
+             this@MainActivity, Constants.NAME,
+             ""
+         ).toString()*/
 
         txt_drawer_email.text = Utils.readStringFromSharedPref(
             this@MainActivity, Constants.USER_EMAIL,
@@ -173,10 +173,12 @@ class MainActivity : AppCompatActivity() {
                     .load(profileImage)
                     .into(iv_drawer_profile_image)
 
+
                 txt_drawer_UserName.text = Utils.readStringFromSharedPref(
                     this@MainActivity, Constants.USER_NAME,
                     ""
                 ).toString()
+
 
 
                 txt_drawer_email.text = Utils.readStringFromSharedPref(
@@ -412,7 +414,7 @@ class MainActivity : AppCompatActivity() {
         alertButtonCancel.setOnClickListener {
             show.dismiss()
         }
-        show.setCanceledOnTouchOutside(false);
+        show.setCanceledOnTouchOutside(false)
     }
 
     private fun logoutUser(logoutRequestVo: LogoutRequestVo) {

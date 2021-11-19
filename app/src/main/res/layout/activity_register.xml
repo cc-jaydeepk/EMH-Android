@@ -7,8 +7,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/progressCardView"
-        android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_130sdp"
+        android:layout_width="@dimen/progress_dialod_cardsize"
+        android:layout_height="@dimen/progress_dialod_cardsize"
         android:layout_centerInParent="true"
         android:visibility="gone"
         app:cardBackgroundColor="@color/white"
@@ -21,17 +21,19 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/progressbar_margin_bottom" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/progress_margin_bottom"
+            android:fontFamily="@font/lato_medium"
             android:gravity="center"
             android:text="Loading"
             android:textColor="@color/black"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/progress_loading_textsize" />
 
     </androidx.cardview.widget.CardView>
 
@@ -43,10 +45,10 @@
 
         <ImageView
             android:id="@+id/ivRegiBack"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_margin="@dimen/_10sdp"
-            android:padding="@dimen/_4sdp"
+            android:layout_width="@dimen/back_icon_size"
+            android:layout_height="@dimen/back_icon_size"
+            android:layout_margin="@dimen/back_icon_margin"
+            android:padding="@dimen/back_icon_padding"
             android:src="@drawable/ic_back" />
 
     </LinearLayout>

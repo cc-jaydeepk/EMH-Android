@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/progressCardView"
-        android:layout_width="@dimen/progressbar_layout_size"
-        android:layout_height="@dimen/progressbar_layout_size"
+        android:layout_width="@dimen/progress_dialod_cardsize"
+        android:layout_height="@dimen/progress_dialod_cardsize"
         android:layout_centerInParent="true"
         android:visibility="gone"
         app:cardBackgroundColor="@color/white"
@@ -23,17 +23,19 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/progressbar_margin_bottom" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/progress_margin_bottom"
+            android:fontFamily="@font/lato_medium"
             android:gravity="center"
             android:text="Loading"
             android:textColor="@color/black"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/progress_loading_textsize" />
 
     </androidx.cardview.widget.CardView>
 
@@ -147,7 +149,7 @@
                     <EditText
                         android:id="@+id/edtUserLastName"
                         style="@style/edtStyle"
-                        android:layout_marginTop="@dimen/rgste_margintop"
+                        android:layout_marginTop="@dimen/editText_margintop"
                         android:background="@drawable/bg_register_edt"
                         android:enabled="false"
                         android:hint="Last name"
@@ -156,7 +158,7 @@
                     <EditText
                         android:id="@+id/edtUserEmail"
                         style="@style/edtStyle"
-                        android:layout_marginTop="@dimen/rgste_margintop"
+                        android:layout_marginTop="@dimen/editText_margintop"
                         android:background="@drawable/bg_register_edt"
                         android:enabled="false"
                         android:hint="Email"
@@ -167,7 +169,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/rgste_fstnm_marginleft"
-                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/editText_margintop"
                         android:layout_marginRight="@dimen/rgste_fstnm_marginleft"
                         android:background="@drawable/bg_register_edt">
 
@@ -176,7 +178,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            app:showFlag="false"/>
+                            app:showFlag="false" />
 
                         <View
                             android:layout_width="1dp"
@@ -205,10 +207,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_30sdp"
                             android:layout_centerInParent="true"
-                            android:focusableInTouchMode="true"
-                            android:focusable="true"
+                            android:background="@android:color/transparent"
                             android:clickable="true"
-                            android:background="@android:color/transparent" />
+                            android:focusable="true"
+                            android:focusableInTouchMode="true" />
 
                     </RelativeLayout>
 

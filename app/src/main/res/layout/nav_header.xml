@@ -27,6 +27,7 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:fontFamily="@font/lato_semibold"
             android:text=""
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="@dimen/navheader_name" />
 

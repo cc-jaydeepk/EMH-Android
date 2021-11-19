@@ -190,8 +190,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         bottomSheet.setZ(10.0F)
-        //  bottomSheetBehavior.peekHeight = 340
-        bottomSheetBehavior.peekHeight = 160
+        // bottomSheetBehavior.peekHeight = 80
+        bottomSheetBehavior.setPeekHeight(
+            requireActivity().getResources().getDimension(R.dimen.bottom_sheet_hight)
+                .toInt()
+        );
 
         bottomSheetBehavior.isHideable = false
 

@@ -1,8 +1,10 @@
 package com.everymomentholy.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -11,6 +13,7 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.ChangePasswordRequestVo
+import com.everymomentholy.api.request.LoginRequestVo
 import com.everymomentholy.api.response.ChangePasswordResponseVo
 import com.everymomentholy.api.response.LogoutResponseVo
 import com.everymomentholy.utils.Constants
@@ -70,13 +73,36 @@ class ChangePasswordActivity : AppCompatActivity() {
 
         btnSubmitPassword.setOnClickListener {
 
-            var changePasswordRequestVo: ChangePasswordRequestVo = ChangePasswordRequestVo()
+            if (checkValidation()) {
+
+                if (Utils.isNetworkAvailable(this)) {
+
+                    var changePasswordRequestVo: ChangePasswordRequestVo = ChangePasswordRequestVo()
+                    changePasswordRequestVo.userId = prefeUserId
+                    changePasswordRequestVo.deviceId = android_id
+                    changePasswordRequestVo.oldPassword = edtOldPassword.text.toString().trim()
+                    changePasswordRequestVo.newPassword = edtNewpPassword.text.toString().trim()
+                    changePasswordRequestVo.confirmPassword = edtConformPsw.text.toString().trim()
+                    changePassword(changePasswordRequestVo)
+
+                } else {
+                    Toast.makeText(
+                        this,
+                        resources.getString(R.string.check_internet),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+
+            }
+
+            /*var changePasswordRequestVo: ChangePasswordRequestVo = ChangePasswordRequestVo()
             changePasswordRequestVo.userId = prefeUserId
             changePasswordRequestVo.deviceId = android_id
             changePasswordRequestVo.oldPassword = edtOldPassword.text.toString().trim()
             changePasswordRequestVo.newPassword = edtNewpPassword.text.toString().trim()
             changePasswordRequestVo.confirmPassword = edtConformPsw.text.toString().trim()
-            changePassword(changePasswordRequestVo)
+            changePassword(changePasswordRequestVo)*/
 
         }
     }
@@ -125,5 +151,51 @@ class ChangePasswordActivity : AppCompatActivity() {
         } catch (exception: Exception) {
             exception.printStackTrace()
         }
+    }
+
+    @SuppressLint("NewApi")
+    private fun checkValidation(): Boolean {
+
+        val oldPassword = edtOldPassword.text.toString().trim()
+        val newPassword = edtNewpPassword.text.toString().trim()
+        val confirmPassword = edtConformPsw.text.toString().trim()
+        var isValid = true
+
+
+        if (oldPassword.isEmpty()) {
+            edtOldPassword.error = resources.getString(R.string.old_password_error)
+            edtOldPassword.requestFocus()
+            isValid = false
+        }
+
+        if (newPassword.isEmpty()) {
+            edtNewpPassword.error = resources.getString(R.string.new_password_error)
+            edtNewpPassword.requestFocus()
+            isValid = false
+        } else if (newPassword.length < 6) {
+            edtNewpPassword.error = resources.getString(R.string.newpassword_char_limit_error)
+            edtNewpPassword.requestFocus()
+            isValid = false
+        }
+
+        if (confirmPassword.isEmpty()) {
+            edtConformPsw.error = resources.getString(R.string.confirmpassword_error)
+            edtConformPsw.requestFocus()
+            isValid = false
+        } else if (!newPassword.equals(confirmPassword)) {
+            edtConformPsw.error = resources.getString(R.string.newmatchpassword_error)
+            edtConformPsw.requestFocus()
+            isValid = false
+        }
+
+
+        /*if (confirmPsw.isEmpty()) {
+            edtConfirmPsw.error = resources.getString(R.string.confirmpassword_error)
+            edtConfirmPsw.requestFocus()
+            isValid = false
+
+        }*/
+
+        return isValid
     }
 }

@@ -2,16 +2,16 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/progressCardView"
-        android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_130sdp"
+        android:layout_width="@dimen/progress_dialod_cardsize"
+        android:layout_height="@dimen/progress_dialod_cardsize"
         android:layout_centerInParent="true"
-        android:visibility="gone"
         android:layout_gravity="center"
+        android:visibility="gone"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="@dimen/_7sdp"
@@ -22,28 +22,29 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/progressbar_margin_bottom" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/progress_margin_bottom"
+            android:fontFamily="@font/lato_medium"
             android:gravity="center"
             android:text="Loading"
             android:textColor="@color/black"
-            android:textSize="@dimen/_15ssp" />
+            android:textSize="@dimen/progress_loading_textsize" />
 
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_above="@+id/ll_enroute_bottom_sheet" />
+        android:layout_above="@+id/ll_enroute_bottom_sheet"
+        android:visibility="gone" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_enroute_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,10 +52,12 @@
         android:layout_marginLeft="@dimen/_2sdp"
         android:layout_marginRight="@dimen/_2sdp"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
-        <include layout="@layout/curve_shap"
-            android:visibility="gone"/>
+        <include
+            layout="@layout/curve_shap"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -62,7 +65,7 @@
         android:id="@+id/recycler_liturgy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/_10sdp" />
+        android:layout_margin="@dimen/myliturgy_rv_margin" />
 
     <include layout="@layout/activity_bottom_slider" />
 

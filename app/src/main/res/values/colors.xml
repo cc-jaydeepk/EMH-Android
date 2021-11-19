@@ -13,4 +13,6 @@
 
     <color name="dialogOkTxt">#51A8ED</color>
     <color name="dialogCancelTxt">#F44336</color>
+    <color name="gray">#8F8D8D</color>
+    <color name="light_gray">#ECE9E9</color>
 </resources>

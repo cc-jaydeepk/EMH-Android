@@ -11,10 +11,15 @@
         android:layout_margin="@dimen/_4sdp"
         android:gravity="center">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/imgFreeLiturgiescover"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
+            android:src="@drawable/ic_fav_liturgy" />-->
+
+        <ImageView
+            android:id="@+id/imgFreeLiturgiescover"
+            style="@style/liturgiesListImageStyle"
             android:src="@drawable/ic_fav_liturgy" />
 
         <LinearLayout

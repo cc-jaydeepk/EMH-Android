@@ -216,7 +216,11 @@ class AboutBookLiturgiesFragment : Fragment() {
         val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
         bottomSheet.setZ(10.0F)
         //  bottomSheetBehavior.peekHeight = 340
-        bottomSheetBehavior.peekHeight = 160
+       // bottomSheetBehavior.peekHeight = 160
+        bottomSheetBehavior.setPeekHeight(
+            requireActivity().getResources().getDimension(R.dimen.bottom_sheet_hight)
+                .toInt()
+        );
 
         bottomSheetBehavior.isHideable = false
 

@@ -38,6 +38,7 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -272,7 +273,8 @@ class HomeFragment : Fragment() {
                         val date: String = format.format(Date())
 
                         //val validUrl = response.body()!!.response.date.split("-").first()
-                        val current = LocalDateTime.now()
+                      //  val current = LocalDateTime.now()
+                        val current = Calendar.getInstance().getTime()
 
                         if (date.endsWith("1") && !date.endsWith("11"))
                             format = SimpleDateFormat("d'st' MMM yyyy");
@@ -283,8 +285,8 @@ class HomeFragment : Fragment() {
                         else
                             format = SimpleDateFormat("d'th' MMM yyyy");
                         val yourDate = format.format(Date())
-                        val formatter = DateTimeFormatter.ofPattern("dd mm yyyy")
-                        var answer: String = current.format(formatter)
+                        val formatter = SimpleDateFormat("dd mm yyyy")
+                        var answer: String = formatter.format(current)
                         Log.d("answer", answer)
                         val validUrl = Date()
                         Log.e("text", yourDate)

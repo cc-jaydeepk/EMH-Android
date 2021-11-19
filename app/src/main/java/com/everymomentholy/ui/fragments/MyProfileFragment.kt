@@ -386,12 +386,12 @@ class MyProfileFragment : Fragment() {
 
                         Utils.writeStringToSharedPref(
                             requireActivity(), Constants.USER_NAME,
-                            getUserProfileUpdateRequestVo.firstName + getUserProfileUpdateRequestVo.lastName
+                            getUserProfileUpdateRequestVo.firstName + " " + getUserProfileUpdateRequestVo.lastName
                         )
-                        Utils.writeStringToSharedPref(
+                       /* Utils.writeStringToSharedPref(
                             requireActivity(), Constants.NAME,
                             getUserProfileUpdateRequestVo.firstName + getUserProfileUpdateRequestVo.lastName
-                        )
+                        )*/
 
                         Utils.writeStringToSharedPref(
                             requireActivity(), Constants.USER_EMAIL,

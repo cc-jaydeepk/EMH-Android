@@ -3,5 +3,7 @@
     android:shape="rectangle">
     <solid android:color="@color/white" />
     <corners android:radius="@dimen/_3sdp"/>
-    <stroke android:width="5px" android:color="@color/loginbg" />
+    <stroke
+        android:width="@dimen/bg_read_now_border"
+        android:color="@color/loginbg" />
 </shape>

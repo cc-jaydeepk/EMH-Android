@@ -403,7 +403,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                         Utils.writeStringToSharedPref(
                             this@RegisterActivity, Constants.USER_NAME,
-                            response.body()!!.response.firstName
+                            response.body()!!.response.firstName + " " + response.body()!!.response.lastName
                         )
 
                         Utils.writeStringToSharedPref(
