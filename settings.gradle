@@ -1,2 +1,3 @@
 include ':app'
+include ':folioreader'
 rootProject.name = "Every Moment Holy"

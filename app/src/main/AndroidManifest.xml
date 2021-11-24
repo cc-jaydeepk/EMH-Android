@@ -4,7 +4,6 @@
     package="com.everymomentholy">
 
     <uses-sdk
-        android:minSdkVersion="2"
         android:targetSdkVersion="22"
         tools:overrideLibrary="com.example.lib1, com.example.lib2" />
 
@@ -24,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryMomentHoly"
         android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup"
         tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".ui.activity.LiturgiesListDialogActivity"

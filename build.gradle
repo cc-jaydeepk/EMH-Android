@@ -4,14 +4,14 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.4"
-
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -19,10 +19,29 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
         google()
         jcenter()
         maven { url "https://jitpack.io" }
     }
+}
+
+ext {
+    FOLIOREADER_SDK_VERSION = '0.5.1'
+    R2_STREAMER_KOTLIN_VERSION = '1.0.3-5'
+    R2_SHARED_KOTLIN_VERSION = '1.0.3-2'
+
+    VERSION_NAME = "1.0"
+    VERSION_CODE = 1
+
+    ANDROID_MIN_SDK = 21
+    ANDROID_COMPILE_SDK_VERSION = 31
+    ANDROID_TARGET_SDK_VERSION = 30
+    ANDROID_LIB_VERSION = '30.0.3'
+
+    CONSTRAINT_LAYOUT_VERSION = "2.1.1"
+
+    JACKSON_VERSION = '2.8.6'
 }
 
 task clean(type: Delete) {
