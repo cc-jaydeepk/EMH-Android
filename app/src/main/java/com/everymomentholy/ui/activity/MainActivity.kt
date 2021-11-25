@@ -267,37 +267,37 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
-                    /* toolbar.visibility = View.VISIBLE
-                     navBottomView.visibility = View.VISIBLE
-                     iv_toolbar_notification.visibility = View.GONE*/
-                    //  replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
-                    showUnderDevDialog()
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
+                    // showUnderDevDialog()
                     true
                 }
                 R.id.nav_aboutUsFragment -> {
-                    //  replaceFragment(AboutUsFragment(), "About Us")
-                    /* toolbar.visibility = View.VISIBLE
-                     navBottomView.visibility = View.VISIBLE
-                     iv_toolbar_notification.visibility = View.GONE*/
                     // replaceFragment(AboutUsFragment(), "About Us")
-                    showUnderDevDialog()
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    replaceFragment(AboutUsFragment(), "About Us")
+                    // showUnderDevDialog()
                     true
                 }
                 R.id.nav_FAQFragment -> {
                     // replaceFragment(FAQFragment(), "FAQ")
-                    /*   toolbar.visibility = View.VISIBLE
-                       navBottomView.visibility = View.VISIBLE
-                       iv_toolbar_notification.visibility = View.GONE*/
-                    // replaceFragment(FAQFragment(), "FAQ")
-                    showUnderDevDialog()
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    replaceFragment(FAQFragment(), "FAQ")
+                    //showUnderDevDialog()
                     true
                 }
                 R.id.nav_conditionFragment -> {
                     //  replaceFragment(ConditionFragment(), "Terms & Condition")
-                    /*  toolbar.visibility = View.VISIBLE
-                      navBottomView.visibility = View.VISIBLE*/
-                    //replaceFragment(ConditionFragment(), "Terms & Condition")
-                    showUnderDevDialog()
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    replaceFragment(ConditionFragment(), "Terms & Condition")
+                    //showUnderDevDialog()
                     true
                 }
                 R.id.nav_myProfileFragment -> {

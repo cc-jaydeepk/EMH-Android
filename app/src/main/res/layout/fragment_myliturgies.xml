@@ -65,7 +65,10 @@
         android:id="@+id/recycler_liturgy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/myliturgy_rv_margin" />
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_7sdp"
+        android:layout_marginBottom="@dimen/_23sdp" />
 
     <include layout="@layout/activity_bottom_slider" />
 

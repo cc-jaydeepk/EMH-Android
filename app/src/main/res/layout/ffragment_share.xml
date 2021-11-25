@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+
+    <WebView
+        android:id="@+id/howToshareWebview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:layout_margin="@dimen/_7sdp"
+        android:layout_height="match_parent" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/lato_medium"
-            android:text="@string/sharetxt"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/lato_medium"
-            android:text="@string/sharetxt1"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
-
-
-    </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>

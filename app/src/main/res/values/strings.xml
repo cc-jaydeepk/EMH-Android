@@ -13,7 +13,7 @@
     <string name="login">Login</string>
     <string name="i_have_read_and_agree_to_the">I have read and agree to the</string>
     <string name="close">Close</string>
-    <string name="your_name">Your Name</string>
+    <string name="your_name">YOUR NAME</string>
     <string name="submit">Submit</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="old_password">Old Password <font color="#FF0000">*</font></string>
@@ -71,6 +71,9 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="registred_e_mail_id">Registered E-mail ID</string>
     <string name="reset_password_error">Please enter new password.</string>
+    <string name="contactus_name_error">Please enter your name.</string>
+    <string name="contactus_message_error">Please enter your message.</string>
+    <string name="contactus_email_error">Please enter your email.</string>
     <string name="reset_confirmpassword_error">Please enter confirm password.</string>
     <string name="reset_verificationcode_error">Please enter verification code.</string>
     <string name="my_liturgy">My Liturgies</string>
@@ -83,6 +86,17 @@
     <string name="share_title">Share Screenshot</string>
     <string name="currently_available_to_all_users">Currently Available to All Users</string>
     <string name="result">Result</string>
+
+    <string name="sample_string">"some test line 1 <br/> some test line 2"</string>
+    <string name="sample_string1">Hello&lt;br /&gt;World!</string>
+
+    <string name="nice_html">
+<![CDATA[
+<p><span style=\"font-family:Verdana,Geneva,sans-serif\">We hope this app will make these liturgies readily available to anyone who needs them, including small groups who would like to read a liturgy together even though some in the&nbsp;group may not own the app. </span></p>"&lt;$1&gt;"<p><span style=\"font-family:Verdana,Geneva,sans-serif\">In order to share a liturgy with others, follow the steps below.</span></p>"&lt;$1&gt;"<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>1.</strong>&nbsp;Tap the &quot;Share&quot; icon on the liturgy you wish to share.</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>2.</strong> A small window will open displaying a link. This link is unique and will remain active for 24 hours.</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>3.</strong> Tap the &quot;Share Link&quot; button.</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>4. </strong>Select your preferred means of sharing the link (text message, Facebook, Instagram, etc.).</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>5.</strong> Anyone who recieves the link will be able to open the liturgy and read it until the link expires.</span></p>
+]]>
+</string>
+    <string name="your_e_mail_address">YOUR E-MAIL ADDRESS</string>
+    <string name="your_message">YOUR MESSAGE</string>
 
 
 </resources>

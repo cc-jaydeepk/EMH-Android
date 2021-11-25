@@ -146,13 +146,14 @@
     <dimen name="search_layout_margin">@dimen/_5sdp</dimen>
     <dimen name="bottom_sheet_text_margintop">@dimen/_5sdp</dimen>
     <dimen name="bottom_sheet_readnow_btn_padding">@dimen/_1sdp</dimen>
-    <dimen name="bottom_sheet_hight">@dimen/_51sdp</dimen>
+    <dimen name="bottom_sheet_hight">@dimen/_42sdp</dimen>
     <dimen name="myliturgy_rv_margin">@dimen/_7sdp</dimen>
     <dimen name="myliturgy_view_margin_left">@dimen/_10sdp</dimen>
     <dimen name="myliturgy_mainlayout_margin">@dimen/_5sdp</dimen>
     <dimen name="fav_liturgy_margintop">@dimen/_2sdp</dimen>
     <dimen name="fav_liturgy_purchased_text_margintop">@dimen/_15sdp</dimen>
     <dimen name="getliturgy_aboutbook_image_margintop">@dimen/_20sdp</dimen>
+    <dimen name="contactus_edittext_margintop">@dimen/_30sdp</dimen>
 
 
 </resources>

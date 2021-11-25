@@ -2,9 +2,9 @@ package com.everymomentholy.api.response
 
 class TermsConditionResponseVo {
 
-    var status: Boolean = true
+    var status : Boolean = true
 
-    var statusCode: Int = 1
+    var statusCode : Int = 1
 
-    var response: ResponseVo = ResponseVo()
+    var response : TermsConditionVo = TermsConditionVo()
 }

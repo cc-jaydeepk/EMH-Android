@@ -21,7 +21,10 @@ class Constants {
         const val API_LOGOUT = "logout"
         const val API_CHANGEPASSWORD = "changePassword"
         const val API_ABOUTUS = "getStaticPages?slug=about-us"
-        const val API_TERMSCONDITION = "getStaticPages?slug=terms-conditions"
+        const val API_FAQ = "getStaticPages?slug=faq"
+        const val API_FEATUREDLITURGYMESSAGE = "getStaticPages?slug=featured-liturgy-message"
+        const val API_TERMS_CONDITION = "getStaticPages?slug=terms-conditions"
+        const val API_SHARELITURGIES = "getStaticPages?slug=share-liturgy"
         const val API_ABOUT_BOOK = "aboutBook"
         const val API_CONTACTUS = "contactUs"
         const val API_ABOUT_VOLUME = "aboutVolume"
@@ -53,7 +56,7 @@ class Constants {
         const val SEARCH_FROM_FAVORITES = 2
         const val SEARCH_FROM_GET_LITURGY = 3
         const val SEARCH_FROM_FEATURED_LITURGY = 4
-         var CURRENT_FRAGMENT = 0
+        var CURRENT_FRAGMENT = 0
     }
 
 }

@@ -1,17 +1,22 @@
 package com.everymomentholy.ui.fragments
 
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
+import android.webkit.WebView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.response.AboutUsResponseVO
+import com.everymomentholy.api.response.FaqResponseVo
 import com.everymomentholy.api.response.TermsConditionResponseVo
+import com.everymomentholy.ui.activity.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,18 +24,24 @@ import retrofit2.Response
 class ConditionFragment : Fragment() {
 
     private lateinit var txtTermsCondition: TextView
+    private lateinit var termsConditionWebView: WebView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_condition, container, false)
+        (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
         txtTermsCondition = view.findViewById(R.id.txtTermsCondition)
+        termsConditionWebView = view.findViewById(R.id.termsConditionWebView)
+        val webSettings: WebSettings = termsConditionWebView.getSettings()
+        webSettings.javaScriptEnabled = true
         termsCondition()
         return view
     }
 
     private fun termsCondition() {
+
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.termsCondition()
 
@@ -41,15 +52,29 @@ class ConditionFragment : Fragment() {
                     response: Response<TermsConditionResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
+                        /*textFaq.setText(
+                            Html.fromHtml("<p>Coming Soon</p>")
+                        );*/
 
-                        //txtTermsCondition.text = response.body()!!.response.termsDescription
+                        var description = response.body()!!.response.description
+                        // txtTermsCondition.text = description
+
+                        txtTermsCondition.text = Html.fromHtml(description)
+
+                        //  Log.e("terms", response.body()!!.response.description)
+
+                        termsConditionWebView.loadData(
+                            description,
+                            "text/html",
+                            "UTF-8"
+                        )
 
                     } else {
-                        /*Toast.makeText(
+                        Toast.makeText(
                             context,
-                            response.body()!!.response.message.toString(),
+                            response.body()!!.response.messsge,
                             Toast.LENGTH_LONG
-                        ).show()*/
+                        ).show()
                     }
                 }
 
@@ -61,4 +86,5 @@ class ConditionFragment : Fragment() {
             exception.printStackTrace()
         }
     }
+
 }

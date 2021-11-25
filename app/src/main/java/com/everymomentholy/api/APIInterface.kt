@@ -122,8 +122,14 @@ interface APIInterface {
     @GET(Constants.API_ABOUTUS)
     fun aboutUs(): Call<AboutUsResponseVO>
 
-    @GET(Constants.API_TERMSCONDITION)
+    @GET(Constants.API_FAQ)
+    fun frequentlyAsked(): Call<FaqResponseVo>
+
+    @GET(Constants.API_TERMS_CONDITION)
     fun termsCondition(): Call<TermsConditionResponseVo>
+
+    @GET(Constants.API_SHARELITURGIES)
+    fun shareLiturgies(): Call<ShareLiturgiesResponseVo>
 
     @POST(Constants.API_CONTACTUS)
     fun contactUs(@Body contactUsRequestVo: ContactUsRequestVo): Call<ContectUsResponseVo>

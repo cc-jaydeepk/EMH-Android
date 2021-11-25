@@ -151,6 +151,7 @@
     <dimen name="fav_liturgy_margintop">@dimen/_4sdp</dimen>
     <dimen name="fav_liturgy_purchased_text_margintop">@dimen/_13sdp</dimen>
     <dimen name="getliturgy_aboutbook_image_margintop">@dimen/_8sdp</dimen>
+    <dimen name="contactus_edittext_margintop">@dimen/_30sdp</dimen>
 
 
 </resources>

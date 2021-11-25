@@ -194,7 +194,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         bottomSheetBehavior.setPeekHeight(
             requireActivity().getResources().getDimension(R.dimen.bottom_sheet_hight)
                 .toInt()
-        );
+        )
 
         bottomSheetBehavior.isHideable = false
 

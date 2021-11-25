@@ -70,37 +70,39 @@
     app:behavior_hideable="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/topCurveAnchor"
         android:layout_width="@dimen/slider_image_width"
         android:layout_height="@dimen/slider_image_height"
         android:layout_centerHorizontal="true"
         android:src="@drawable/slideupimage"
-        app:tint="#F8F3F3" />
-
-    <!-- <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-
-         <View
-             android:layout_width="match_parent"
-             android:layout_height="8dp"
-             android:background="@drawable/top_shadow_gradient" />
-     </LinearLayout>-->
-
-
-    <!--<View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@drawable/top_shadow_gradient" />-->
+        app:tint="#F8F3F3" />-->
 
     <ImageView
+        android:id="@+id/topCurveAnchor"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/slideupimage"
+        app:tint="#F8F3F3" />
+
+
+    <!--<ImageView
         android:id="@+id/ivSlideUp"
         android:layout_width="@dimen/bottom_slider_image_size"
         android:layout_height="@dimen/bottom_slider_image_size"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_20sdp"
+        android:src="@drawable/slideup_arrow" />-->
+
+    <ImageView
+        android:id="@+id/ivSlideUp"
+        android:layout_width="@dimen/_17sdp"
+        android:layout_height="@dimen/_17sdp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_17sdp"
         android:src="@drawable/slideup_arrow" />
 
     <RelativeLayout

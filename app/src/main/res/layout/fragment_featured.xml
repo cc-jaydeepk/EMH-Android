@@ -10,12 +10,12 @@
         android:background="@color/loginbg">
 
         <TextView
+            android:id="@+id/txtAvaliableLiturgy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/lato_light"
             android:gravity="center"
-            android:text="@string/currently_available_to_all_users"
             android:textColor="@color/white"
             android:textSize="@dimen/_16ssp" />
 
@@ -24,6 +24,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvFeatured"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_5sdp" />
 
 </LinearLayout>

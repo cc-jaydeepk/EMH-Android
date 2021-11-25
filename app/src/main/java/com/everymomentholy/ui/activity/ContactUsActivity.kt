@@ -1,16 +1,17 @@
 package com.everymomentholy.ui.activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.util.Patterns
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.ContactUsRequestVo
+import com.everymomentholy.api.request.ResetPasswordRequestVo
 import com.everymomentholy.api.response.ContectUsResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -24,7 +25,8 @@ class ContactUsActivity : AppCompatActivity() {
     private lateinit var edtEmailAddress: EditText
     private lateinit var edtMessage: EditText
     private lateinit var btnContactusSubmit: Button
-    private lateinit var iv_toolbar_backImage: ImageView
+    private lateinit var iv_toolbar_drawer: ImageView
+    private lateinit var txt_toolbar_name: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +36,40 @@ class ContactUsActivity : AppCompatActivity() {
         edtEmailAddress = findViewById(R.id.edtEmailAddress)
         edtMessage = findViewById(R.id.edtMessage)
         btnContactusSubmit = findViewById(R.id.btnContactusSubmit)
-        iv_toolbar_backImage = findViewById(R.id.iv_toolbar_backImage)
+        txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
+        txt_toolbar_name.text = "Contact Us"
 
-        iv_toolbar_backImage.setOnClickListener {
+
+        iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
+        iv_toolbar_drawer.setImageResource(R.drawable.ic_back)
+        iv_toolbar_drawer.setOnClickListener {
             onBackPressed()
         }
 
         btnContactusSubmit.setOnClickListener {
 
-            var contactUsRequestVo: ContactUsRequestVo = ContactUsRequestVo()
-            contactUsRequestVo.userName = edtYourName.text.toString().trim()
-            contactUsRequestVo.email = edtEmailAddress.text.toString().trim()
-            contactUsRequestVo.message = edtMessage.text.toString().trim()
 
-            contactUs(contactUsRequestVo)
+            if (checkValidation()) {
+
+                if (Utils.isNetworkAvailable(this)) {
+
+                    var contactUsRequestVo: ContactUsRequestVo = ContactUsRequestVo()
+                    contactUsRequestVo.userName = edtYourName.text.toString().trim()
+                    contactUsRequestVo.email = edtEmailAddress.text.toString().trim()
+                    contactUsRequestVo.message = edtMessage.text.toString().trim()
+
+                    contactUs(contactUsRequestVo)
+
+                } else {
+                    Toast.makeText(
+                        this@ContactUsActivity,
+                        resources.getString(R.string.check_internet),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+
+            }
         }
     }
 
@@ -86,5 +108,38 @@ class ContactUsActivity : AppCompatActivity() {
         } catch (exception: Exception) {
             exception.printStackTrace()
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.FROYO)
+    private fun checkValidation(): Boolean {
+
+        val yourName = edtYourName.text.toString().trim()
+        val yourEmail = edtEmailAddress.text.toString().trim()
+        val yourMessage = edtMessage.text.toString().trim()
+        var isValid = true
+
+        if (yourName.isEmpty()) {
+            edtYourName.error = resources.getString(R.string.contactus_name_error)
+            edtYourName.requestFocus()
+            isValid = false
+        }
+
+        if (yourEmail.isEmpty()) {
+            edtEmailAddress.error = resources.getString(R.string.contactus_email_error)
+            edtEmailAddress.requestFocus()
+            isValid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(yourEmail).matches()) {
+            edtEmailAddress.error = resources.getString(R.string.valid_email_error)
+            edtEmailAddress.requestFocus()
+            isValid = false
+        }
+
+        if (yourMessage.isEmpty()) {
+            edtMessage.error = resources.getString(R.string.contactus_message_error)
+            edtMessage.requestFocus()
+            isValid = false
+        }
+
+        return isValid
     }
 }
