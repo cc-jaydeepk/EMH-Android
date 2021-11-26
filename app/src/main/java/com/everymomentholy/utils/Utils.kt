@@ -4,8 +4,21 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import com.everymomentholy.R
+import com.everymomentholy.api.APIInterface
+import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.SetFavouriteRequestVo
+import com.everymomentholy.api.response.BaseResponseVo
+import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.utils.SharedPreference.Companion.getPreferences
+import com.folioreader.ui.folio.activity.FolioActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 
 class Utils {
 
@@ -168,5 +181,6 @@ class Utils {
                 defaultValue
             ) else ""
         }
+
     }
 }

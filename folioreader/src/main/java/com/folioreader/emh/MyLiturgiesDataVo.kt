@@ -1,4 +1,4 @@
-package com.everymomentholy.api.response
+package com.folioreader.emh
 
 import java.io.Serializable
 

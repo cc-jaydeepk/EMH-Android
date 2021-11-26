@@ -53,11 +53,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import kotlin.jvm.JvmStatic;
 
 import com.folioreader.Config;
 import com.folioreader.Constants;
 import com.folioreader.FolioReader;
 import com.folioreader.R;
+import com.folioreader.emh.EMHUtils;
+import com.folioreader.emh.MyLiturgiesDataVo;
 import com.folioreader.model.HighlightImpl;
 import com.folioreader.model.ReadPosition;
 import com.folioreader.model.event.MediaOverlayPlayPauseEvent;
@@ -105,6 +108,7 @@ public class FolioActivity
     private static final String BUNDLE_DISTRACTION_FREE_MODE = "BUNDLE_DISTRACTION_FREE_MODE";
     public static final String EXTRA_SEARCH_ITEM = "EXTRA_SEARCH_ITEM";
     public static final String ACTION_SEARCH_CLEAR = "ACTION_SEARCH_CLEAR";
+    public static final String EXTRA_LITURGY_DATA = "EXTRA_LITURGY_DATA";
 
     public enum EpubSourceType {
         RAW,
@@ -119,7 +123,7 @@ public class FolioActivity
     private ActionBar actionBar;
     private FolioAppBarLayout appBarLayout;
     private Toolbar toolbar;
-    private boolean distractionFreeMode;
+    private boolean distractionFreeMode = false;
     private Handler handler;
 
     private int currentChapterIndex;
@@ -147,6 +151,9 @@ public class FolioActivity
     private float density;
     private Boolean topActivity;
     private int taskImportance;
+    private MyLiturgiesDataVo myLiturgiesDataVo;
+
+    private static Menu menu;
 
     private enum RequestCode {
         CONTENT_HIGHLIGHT(77),
@@ -266,6 +273,7 @@ public class FolioActivity
         }
 
         mBookId = getIntent().getStringExtra(FolioReader.INTENT_BOOK_ID);
+        myLiturgiesDataVo = (MyLiturgiesDataVo) getIntent().getSerializableExtra(EXTRA_LITURGY_DATA);
         mEpubSourceType = (EpubSourceType)
                 getIntent().getExtras().getSerializable(FolioActivity.INTENT_EPUB_SOURCE_TYPE);
         if (mEpubSourceType.equals(EpubSourceType.RAW)) {
@@ -347,16 +355,21 @@ public class FolioActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
 
         Config config = AppUtil.getSavedConfig(getApplicationContext());
         assert config != null;
-       // UiUtil.setColorIntToDrawable(config.getThemeColor(), menu.findItem(R.id.itemSearch).getIcon());
+        // UiUtil.setColorIntToDrawable(config.getThemeColor(), menu.findItem(R.id.itemSearch).getIcon());
         UiUtil.setColorIntToDrawable(config.getThemeColor(), menu.findItem(R.id.itemConfig).getIcon());
         UiUtil.setColorIntToDrawable(config.getThemeColor(), menu.findItem(R.id.itemTts).getIcon());
 
         if (!config.isShowTts())
             menu.findItem(R.id.itemTts).setVisible(false);
 
+        if(myLiturgiesDataVo!= null && myLiturgiesDataVo.isFavorite().equals("True"))
+        {
+            menu.getItem(4).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favourite_fill));
+        }
         return true;
     }
 
@@ -368,7 +381,7 @@ public class FolioActivity
 
         if (itemId == android.R.id.home) {
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> drawer");
-          //  startContentHighlightActivity();
+            //  startContentHighlightActivity();
             finish();
             return true;
 
@@ -391,6 +404,14 @@ public class FolioActivity
         } else if (itemId == R.id.itemTts) {
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.getTitle());
             showMediaController();
+            return true;
+        } else if (itemId == R.id.itemShare) {
+            Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.getTitle());
+            EMHUtils.Companion.privateShareLiturgy(FolioActivity.this, myLiturgiesDataVo);
+            return true;
+        } else if (itemId == R.id.itemFavorite) {
+            Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.getTitle());
+            EMHUtils.Companion.setLiturgiesFavourite(FolioActivity.this, myLiturgiesDataVo);
             return true;
         }
 
@@ -1087,5 +1108,13 @@ public class FolioActivity
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
+    @JvmStatic
+    public static void markFavorite(boolean isFav, Context context) {
+        if (isFav) {
+            menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favourite_fill));
+        } else {
+            menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite));
+        }
+    }
 
 }

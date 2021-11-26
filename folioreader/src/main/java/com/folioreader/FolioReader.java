@@ -6,8 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
+import com.folioreader.emh.MyLiturgiesDataVo;
 import com.folioreader.model.HighLight;
 import com.folioreader.model.HighlightImpl;
 import com.folioreader.model.ReadPosition;
@@ -18,7 +17,11 @@ import com.folioreader.ui.folio.activity.FolioActivity;
 import com.folioreader.util.OnHighlightListener;
 import com.folioreader.util.ReadPositionListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * Created by avez raj on 9/13/2017.
@@ -36,6 +39,8 @@ public class FolioReader {
     private ReadPositionListener readPositionListener;
     private OnClosedListener onClosedListener;
     private ReadPosition readPosition;
+    private MyLiturgiesDataVo myLiturgiesDataVo;
+
     public static final String ACTION_SAVE_READ_POSITION = "com.folioreader.action.SAVE_READ_POSITION";
     public static final String ACTION_CLOSE_FOLIOREADER = "com.folioreader.action.CLOSE_FOLIOREADER";
     public static final String ACTION_FOLIOREADER_CLOSED = "com.folioreader.action.FOLIOREADER_CLOSED";
@@ -113,8 +118,21 @@ public class FolioReader {
                 new IntentFilter(ACTION_FOLIOREADER_CLOSED));
     }
 
+    public void setMyLiturgiesDataVo(MyLiturgiesDataVo myLiturgiesDataVo)
+    {
+        this.myLiturgiesDataVo = myLiturgiesDataVo;
+    }
+
     public FolioReader openBook(String assetOrSdcardPath) {
         Intent intent = getIntentFromUrl(assetOrSdcardPath, 0);
+        intent.putExtra(FolioActivity.EXTRA_LITURGY_DATA, myLiturgiesDataVo);
+        context.startActivity(intent);
+        return singleton;
+    }
+
+    public FolioReader openBook(@NotNull String assetOrSdcardPath,@NotNull MyLiturgiesDataVo myLiturgiesDataVo) {
+        Intent intent = getIntentFromUrl(assetOrSdcardPath, 0);
+        intent.putExtra(FolioActivity.EXTRA_LITURGY_DATA, myLiturgiesDataVo);
         context.startActivity(intent);
         return singleton;
     }

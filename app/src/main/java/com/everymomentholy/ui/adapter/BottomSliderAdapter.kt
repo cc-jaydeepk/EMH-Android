@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.media.Image
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
@@ -16,7 +15,6 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -24,19 +22,16 @@ import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.request.PrivateSharingRequestVo
 import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
-import com.everymomentholy.api.response.MyLiturgiesResponseVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,12 +60,12 @@ class BottomSliderAdapter(
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val freeLiturgies = liturgyList[position]
+        val freeLiturgy = liturgyList[position]
 
-        holder.txtfreeLiturgiesTitle.text = freeLiturgies.chapterTitle
+        holder.txtfreeLiturgiesTitle.text = freeLiturgy.chapterTitle
 
         Glide.with(context)
-            .load(freeLiturgies.chapterPageImage)
+            .load(freeLiturgy.chapterPageImage)
             .into(holder.imgFreeLiturgiescover)
 
         holder.imgFavorite.setOnClickListener() {
@@ -86,9 +81,9 @@ class BottomSliderAdapter(
             var path = context?.filesDir?.absolutePath
             val downloadId =
                 PRDownloader.download(
-                    freeLiturgies.chapterUrl,
+                    freeLiturgy.chapterUrl,
                     path,
-                    "test_" + freeLiturgies.chapterId + ".epub"
+                    "test_" + freeLiturgy.chapterId + ".epub"
                 )
                     .build()
                     .setOnStartOrResumeListener { }
@@ -109,7 +104,13 @@ class BottomSliderAdapter(
                             config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
                             folioReader.setConfig(config, true)
 
-                            folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgies.chapterId + ".epub")
+                            val myLiturgyVo: com.folioreader.emh.MyLiturgiesDataVo = com.folioreader.emh.MyLiturgiesDataVo()
+                            myLiturgyVo.userId = Utils.readIntData(context, Constants.PrefUserID, -1)
+                            myLiturgyVo.token = "bearer " + Utils.readStringFromSharedPref(context, Constants.SHARED_PREF_TOKEN, "")
+                            myLiturgyVo.bookId = freeLiturgy.bookId
+                            myLiturgyVo.chapterId = freeLiturgy.chapterId
+                            myLiturgyVo.isFavorite = freeLiturgy.isFavorite
+                            folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub", myLiturgyVo)
                         }
 
                         override fun onError(error: com.downloader.Error?) {
@@ -120,20 +121,20 @@ class BottomSliderAdapter(
 
         }
 
-        if (freeLiturgies.isPurchased == "Yes") {
+        if (freeLiturgy.isPurchased == "Yes") {
             holder.txtFree.text = "Purchased"
-        } else if (freeLiturgies.isFree == "Yes") {
+        } else if (freeLiturgy.isFree == "Yes") {
             holder.txtFree.text = "Free"
         }
 
-        if (freeLiturgies.isFavorite == "True") {
+        if (freeLiturgy.isFavorite == "True") {
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
         } else {
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
         }
 
         holder.imgShare.setOnClickListener() {
-            privateShareLiturgy(freeLiturgies)
+            privateShareLiturgy(freeLiturgy)
         }
     }
 

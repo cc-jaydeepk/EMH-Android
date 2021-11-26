@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_dialog"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:gravity="center"
+            android:text="Every Moment Holy"
+            android:textColor="@color/app_green"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="#B3B0B0" />
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:background="@drawable/bg_register_edt"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/edt_share_dialog_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="9dp"
+                android:background="@null"
+                android:fontFamily="@font/lato_medium"
+                android:padding="@dimen/_15sdp"
+                android:text="dbfhbufvhhdhduhdsdfdfghjmjm"
+                android:textColor="@color/black" />
+
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginRight="26dp"
+            android:background="@drawable/bg_register_edt"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/edt_share_dialog_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="9dp"
+                android:background="@null"
+                android:fontFamily="@font/lato_medium"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:paddingBottom="20dp"
+                android:text="dbfhbufvhhdhduhdsdfdfghjmjm"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
+            android:text="&#34;This link will expire aftre 24 Hours. For more information see &#34;How to Share Liturgies&#34; in the app Menu&#34;"
+            android:textColor="@color/app_green"
+            android:textSize="10sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <!--<Button
+                android:id="@+id/btn_share_dialog_cancel"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/lato_medium"
+                android:padding="11dp"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/loginbg"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                app:strokeColor="@color/loginbg" />-->
+
+            <TextView
+                android:id="@+id/btn_share_dialog_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_read_now"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="9dp"
+                android:text="@string/Cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/app_green"
+                android:textSize="12sp" />
+
+            <!--<Button
+                android:id="@+id/btn_share_dialog_share_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/loginbg"
+                android:fontFamily="@font/lato_medium"
+                android:padding="11dp"
+                android:text="@string/share_link"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />-->
+
+            <TextView
+                android:id="@+id/btn_share_dialog_share_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_unlock"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="9dp"
+                android:text="Share Link"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

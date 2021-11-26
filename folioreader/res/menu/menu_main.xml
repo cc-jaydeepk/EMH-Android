@@ -16,14 +16,28 @@
         android:id="@+id/itemConfig"
         android:icon="@drawable/icon_font"
         android:title="@string/menu_item_config"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         tools:showAsAction="always" />
 
     <item
         android:id="@+id/itemTts"
         android:icon="@drawable/man_speech_icon"
         android:title="@string/menu_item_tts"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
+        tools:showAsAction="always" />
+
+    <item
+        android:id="@+id/itemShare"
+        android:icon="@drawable/ic_homeshare"
+        android:title="@string/menu_item_share"
+        app:showAsAction="always"
+        tools:showAsAction="always" />
+
+    <item
+        android:id="@+id/itemFavorite"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/menu_item_favorite"
+        app:showAsAction="always"
         tools:showAsAction="always" />
 
 </menu>

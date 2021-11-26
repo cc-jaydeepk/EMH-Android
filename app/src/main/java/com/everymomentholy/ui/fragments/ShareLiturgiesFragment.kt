@@ -1,7 +1,6 @@
 package com.everymomentholy.ui.fragments
 
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.ShareLiturgiesResponseVo
 import com.everymomentholy.ui.activity.MainActivity
-import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,10 +27,10 @@ class ShareLiturgiesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.ffragment_share, container, false)
+        val view = inflater.inflate(R.layout.fragment_share_how, container, false)
         (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
-        howToshareWebview = view.findViewById(R.id.howToshareWebview)
-        val webSettings: WebSettings = howToshareWebview.getSettings()
+        howToshareWebview = view.findViewById(R.id.how_to_share)
+        val webSettings: WebSettings = howToshareWebview.settings
         webSettings.javaScriptEnabled = true
         shareLiturgies()
         return view
