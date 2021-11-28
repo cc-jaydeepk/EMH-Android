@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -30,12 +31,12 @@ import com.everymomentholy.api.response.LogoutResponseVo
 import com.everymomentholy.ui.fragments.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import com.folioreader.FolioReader
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity() {
     var userImage: String = ""
 
     lateinit var ivToolbarDrawer: ImageView
-
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,26 +108,24 @@ class MainActivity : AppCompatActivity() {
         fragment1 = HomeFragment()
         addFragment(fragment1, "Every Moment Holy", null)
 
-        getUserProfile()
-        /*val folioReader = FolioReader.get()
-        folioReader.openBook(R.raw.test_18)*/
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            getUserProfile()
 
-        /* txt_drawer_UserName.text = Utils.readStringFromSharedPref(
-             this@MainActivity, Constants.NAME,
-             ""
-         ).toString()*/
+            txt_drawer_email.text = Utils.readStringFromSharedPref(
+                this@MainActivity, Constants.USER_EMAIL,
+                ""
+            ).toString()
 
-        txt_drawer_email.text = Utils.readStringFromSharedPref(
-            this@MainActivity, Constants.USER_EMAIL,
-            ""
-        ).toString()
+            userImage = Utils.readStringFromSharedPref(
+                this@MainActivity, Constants.PROFILE_PIC,
+                ""
+            ).toString()
 
-        userImage = Utils.readStringFromSharedPref(
-            this@MainActivity, Constants.PROFILE_PIC,
-            ""
-        ).toString()
-        //iv_drawer_profile_image.setImageURI(Uri.parse(userImage))
-
+        } else {
+            txt_drawer_email.text = ""
+            val nav_Menu: Menu = navView.getMenu()
+            nav_Menu.findItem(R.id.nav_logoutFragment).setTitle("Login")
+        }
 
         iv_toolbar_notification.setOnClickListener {
             /*   val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
@@ -147,11 +145,9 @@ class MainActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-
         iv_toolbar_drawer.setOnClickListener {
             drawerLayout.openDrawer(navView)
         }
-
 
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
@@ -169,27 +165,29 @@ class MainActivity : AppCompatActivity() {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
 
-                profileImage = Utils.readStringFromSharedPref(
-                    this@MainActivity, Constants.PROFILE_PIC,
-                    ""
-                ).toString()
+                if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                    profileImage = Utils.readStringFromSharedPref(
+                        this@MainActivity, Constants.PROFILE_PIC,
+                        ""
+                    ).toString()
 
-                Glide.with(this@MainActivity)
-                    .load(profileImage)
-                    .into(iv_drawer_profile_image)
-
-
-                txt_drawer_UserName.text = Utils.readStringFromSharedPref(
-                    this@MainActivity, Constants.USER_NAME,
-                    ""
-                ).toString()
+                    Glide.with(this@MainActivity)
+                        .load(profileImage)
+                        .into(iv_drawer_profile_image)
 
 
+                    txt_drawer_UserName.text = Utils.readStringFromSharedPref(
+                        this@MainActivity, Constants.USER_NAME,
+                        ""
+                    ).toString()
 
-                txt_drawer_email.text = Utils.readStringFromSharedPref(
-                    this@MainActivity, Constants.USER_EMAIL,
-                    ""
-                ).toString()
+
+
+                    txt_drawer_email.text = Utils.readStringFromSharedPref(
+                        this@MainActivity, Constants.USER_EMAIL,
+                        ""
+                    ).toString()
+                }
                 invalidateOptionsMenu()
             }
         }
@@ -218,12 +216,16 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_favoritesFragment -> {
-                    toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
-                    navBottomView.selectedItemId = R.id.nav_favoritesFragment
-                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
-                    replaceFragment(FavoritesFragment(), "Favourites")
+                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                        toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        navBottomView.visibility = View.VISIBLE
+                        navBottomView.selectedItemId = R.id.nav_favoritesFragment
+                        Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
+                        replaceFragment(FavoritesFragment(), "Favourites")
+                    } else {
+                        showLoginDialog()
+                    }
                     //  showUnderDevDialog()
                     // replaceFragment(FavoritesFragment(), "Favourites")
                     true
@@ -248,11 +250,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_orderBookFragment -> {
-                    // replaceFragment(OrderBookFragment(), "Book Ordered")
-                    /*  toolbar.visibility = View.VISIBLE
-                      navBottomView.visibility = View.VISIBLE*/
-                    // replaceFragment(OrderBookFragment(), "Book Ordered")
-                    showUnderDevDialog()
+                    replaceFragment(OrderBookFragment(), "Order Books")
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.GONE
+                    //replaceFragment(OrderBookFragment(), "Book Ordered")
+                    //showUnderDevDialog()
                     false
                 }
                 R.id.nav_searchFragment -> {
@@ -260,6 +262,7 @@ class MainActivity : AppCompatActivity() {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
                     navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
                     ivToolbarDrawer.visibility = View.GONE
                     iv_toolbar_backImage.visibility = View.VISIBLE
                     replaceFragment(SearchFragment(), "Search")
@@ -301,15 +304,27 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_myProfileFragment -> {
-                    toolbar.visibility = View.VISIBLE
-                    txt_toolbar_name.text = "My Profile"
-                    iv_toolbar_notification.visibility = View.GONE
-                    navBottomView.visibility = View.GONE
-                    replaceFragment(MyProfileFragment(), "My Profile")
+                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                        toolbar.visibility = View.VISIBLE
+                        txt_toolbar_name.text = "My Profile"
+                        iv_toolbar_notification.visibility = View.GONE
+                        navBottomView.visibility = View.GONE
+                        replaceFragment(MyProfileFragment(), "My Profile")
+                    } else {
+                        showLoginDialog()
+                    }
                     true
                 }
                 R.id.nav_logoutFragment -> {
-                    showLogoutDialog()
+                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                        showLogoutDialog()
+                    } else {
+                        val intent = Intent(this@MainActivity, SelectOptionActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    }
                     true
                 }
                 else -> false
@@ -345,14 +360,18 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_favoritesFragment -> {
-                    toolbar.visibility = View.VISIBLE
-                    txt_toolbar_name.text = "Favorites"
-                    iv_toolbar_search.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
-                    fragment = FavoritesFragment()
-                    replaceFragment(fragment, "Favourites")
-                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
-                    navView.setCheckedItem(R.id.nav_favoritesFragment)
+                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                        toolbar.visibility = View.VISIBLE
+                        txt_toolbar_name.text = "Favorites"
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
+                        fragment = FavoritesFragment()
+                        replaceFragment(fragment, "Favourites")
+                        Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
+                        navView.setCheckedItem(R.id.nav_favoritesFragment)
+                    } else {
+                        showLoginDialog()
+                    }
                     // showUnderDevDialog()
                     // return@setOnNavigationItemSelectedListener true
                     return@setOnNavigationItemSelectedListener true
@@ -604,9 +623,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // getUserProfile()
-        Glide.with(this@MainActivity)
-            .load(userImage)
-            .into(iv_drawer_profile_image)
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            Glide.with(this@MainActivity)
+                .load(userImage)
+                .into(iv_drawer_profile_image)
+        }
 
     }
 
@@ -648,6 +669,30 @@ class MainActivity : AppCompatActivity() {
                 super.onBackPressed()
             }
         }
+    }
+
+    private fun showLoginDialog() {
+        val alertDialog = AlertDialog.Builder(
+            this
+        )
+        val inflater = (this as Activity).layoutInflater
+        val alertView: View = inflater.inflate(R.layout.login_dialog, null)
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertCancel = alertView.findViewById<View>(R.id.txtLoginCancel) as TextView
+        val alertOk = alertView.findViewById<View>(R.id.txtLoginOk) as TextView
+
+
+        alertOk.setOnClickListener {
+            show.dismiss()
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        alertCancel.setOnClickListener {
+            show.dismiss()
+        }
+        show.setCanceledOnTouchOutside(false)
     }
 
 }

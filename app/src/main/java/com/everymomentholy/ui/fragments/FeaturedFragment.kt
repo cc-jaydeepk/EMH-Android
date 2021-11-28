@@ -86,8 +86,13 @@ class FeaturedFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     private fun getFeaturedList() {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        myLiturgiesRequestVo.appUserId =
-            Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
+
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            myLiturgiesRequestVo.appUserId =
+                Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
+        } else {
+            myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        }
         myLiturgiesRequestVo.deviceId = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID

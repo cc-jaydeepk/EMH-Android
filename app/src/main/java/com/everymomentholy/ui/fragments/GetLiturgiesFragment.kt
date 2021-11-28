@@ -105,18 +105,23 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
     private fun getBooks() {
         var getLiturgiesRequestVo: GetLiturgiesRequestVo = GetLiturgiesRequestVo()
-        getLiturgiesRequestVo.appUserId = prefeUserId
         getLiturgiesRequestVo.deviceId = android_id
-
-        val request = APIService.buildService(APIInterface::class.java)
-        val call = request.getBooks(
-            getLiturgiesRequestVo.appUserId,
-            getLiturgiesRequestVo.deviceId,
-            "bearer " + Utils.readStringFromSharedPref(
+        var token = ""
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            token = "bearer " + Utils.readStringFromSharedPref(
                 requireContext(),
                 Constants.SHARED_PREF_TOKEN,
                 ""
             )
+            getLiturgiesRequestVo.appUserId = prefeUserId
+        } else {
+            getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        }
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.getBooks(
+            getLiturgiesRequestVo.appUserId,
+            getLiturgiesRequestVo.deviceId,
+            token
         )
 
         try {
@@ -246,7 +251,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
     override fun onResume() {
         super.onResume()
-       // (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        // (activity as MainActivity).toolbar.visibility = View.VISIBLE
     }
 
 

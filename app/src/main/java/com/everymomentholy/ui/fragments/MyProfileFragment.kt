@@ -35,6 +35,8 @@ import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
 import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.ui.activity.ChangePasswordActivity
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.NotificationDetailActivity
+import com.everymomentholy.ui.activity.OrderHistoryActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.github.drjacky.imagepicker.ImagePicker
@@ -204,7 +206,8 @@ class MyProfileFragment : Fragment() {
         }
 
         ivOrderHistory.setOnClickListener() {
-            (activity as MainActivity).showUnderDevDialog()
+            val intent = Intent(context, OrderHistoryActivity::class.java)
+            startActivity(intent)
         }
 
         return view

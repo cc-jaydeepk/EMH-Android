@@ -9,13 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.util.Util
 import com.everymomentholy.R
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.SharedPreference
 import com.everymomentholy.utils.Utils
 
 class SplashActivity : AppCompatActivity() {
 
     lateinit var handler: Handler
-   // var hasLoggedIn: Boolean = false
+    // var hasLoggedIn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +50,8 @@ class SplashActivity : AppCompatActivity() {
             val sharedPref: SharedPreferences =
                 getSharedPreferences(Constants.SHARED_PREF_NAME, 0)
             // boolean hasLoggedIn = sharedpreference.getBoolean("hasLoggedIn, false)
-            val  hasLoggedIn = sharedPref.getBoolean("hasLoggedIn", false)
-            if (Utils.readUserIdBooleanFromSharedPref(this)) {
+            val hasLoggedIn = sharedPref.getBoolean("hasLoggedIn", false)
+            if (Utils.readIntFromSharedPref(this, Constants.PrefUserID, -1) > 0) {
                 val intent = Intent(this@SplashActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()

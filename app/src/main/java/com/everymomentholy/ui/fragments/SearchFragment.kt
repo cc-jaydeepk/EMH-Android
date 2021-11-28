@@ -103,12 +103,20 @@ class SearchFragment : Fragment() {
             Settings.Secure.ANDROID_ID
         )
 
+        var userID = -1
+
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            userID = Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
+        } else {
+            userID = Constants.SKIP_LOGIN_USER_ID
+        }
+
         val request = APIService.buildService(APIInterface::class.java)
         val call =
             request.searchLiturgies(
                 searchLiturgiesRequestVo.deviceId,
                 searchLiturgiesRequestVo.searchText,
-                Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
+                userID
             )
 
         try {

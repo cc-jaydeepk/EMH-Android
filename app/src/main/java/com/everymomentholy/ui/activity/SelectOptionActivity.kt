@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.everymomentholy.R
+import com.everymomentholy.utils.Constants
 
 class SelectOptionActivity : AppCompatActivity() {
 
@@ -28,6 +29,7 @@ class SelectOptionActivity : AppCompatActivity() {
 
         btnLogin = findViewById(R.id.btnLogin)
         btnLogin.setOnClickListener {
+            Constants.USER_LOGIN_STATUS = Constants.LOGIN
             val intent = Intent(this@SelectOptionActivity, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -35,13 +37,19 @@ class SelectOptionActivity : AppCompatActivity() {
         txtSkip = findViewById(R.id.txtSkip)
         txtSkip.setOnClickListener {
 
-            AlertDialog.Builder(this)
+            Constants.USER_LOGIN_STATUS = Constants.SKIP_LOGIN
+            val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            /*AlertDialog.Builder(this)
                 .setMessage("This part is under Development.")
                 .setPositiveButton(android.R.string.yes) { dialog, which ->
-                }.show()
+                }.show()*/
             // val intent = Intent(this@FirstActivity, HomeActivity::class.java)
-       /*     val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
-            startActivity(intent)*/
+            /*     val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
+                 startActivity(intent)*/
         }
     }
 }

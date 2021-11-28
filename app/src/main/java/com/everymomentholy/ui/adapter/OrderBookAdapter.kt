@@ -1,17 +1,32 @@
 package com.everymomentholy.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.everymomentholy.R
+import com.everymomentholy.api.response.BookStoreDataVo
+import com.everymomentholy.api.response.OrderHistoryVo
 
-class OrderBookAdapter : RecyclerView.Adapter<OrderBookAdapter.MyViewHolder>() {
+class OrderBookAdapter(
+    var context: Context,
+    var bookStoreList: List<BookStoreDataVo>,
+) : RecyclerView.Adapter<OrderBookAdapter.MyViewHolder>() {
 
     var orderBookList: ArrayList<Fragment> = ArrayList()
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        var ivOrderbook = view.findViewById<ImageView>(R.id.iv_orderbook)
+        var txtOrderBookTitle = view.findViewById<TextView>(R.id.txt_order_book_title)
+        var btnOrderBbookRabbitRoom = view.findViewById<Button>(R.id.btn_order_book_rabbit_room)
+        var btnOrderBbookAmazon = view.findViewById<Button>(R.id.btn_order_book_amazon)
 
     }
 
@@ -23,10 +38,18 @@ class OrderBookAdapter : RecyclerView.Adapter<OrderBookAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
+        var bookStore = bookStoreList[position]
+
+        holder.txtOrderBookTitle.text = bookStore.bookTitle
+
+        Glide.with(context)
+            .load(bookStore.bookCoverPageImage)
+            .into(holder.ivOrderbook)
+
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return bookStoreList.size
         //return liturgiesList.size
     }
 }

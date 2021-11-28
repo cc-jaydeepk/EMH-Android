@@ -137,7 +137,11 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun getMyLiturgiesList(bookID: Int) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        myLiturgiesRequestVo.appUserId = prefeUserId
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            myLiturgiesRequestVo.appUserId = prefeUserId
+        } else {
+            myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        }
         myLiturgiesRequestVo.deviceId = android_id
 
         val request = APIService.buildService(APIInterface::class.java)

@@ -81,7 +81,11 @@ class LiturgiesListActivity : AppCompatActivity() {
 
     private fun getMyLiturgiesList(bookID: Int) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        myLiturgiesRequestVo.appUserId = prefeUserId
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            myLiturgiesRequestVo.appUserId = prefeUserId
+        } else {
+            myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        }
         myLiturgiesRequestVo.deviceId = android_id
 
         val request = APIService.buildService(APIInterface::class.java)
@@ -108,7 +112,7 @@ class LiturgiesListActivity : AppCompatActivity() {
                         liturgie.price = collectionData.bookAmount
                         liturgie.chapterTitle = collectionData.bookTitle
 
-                        if (collectionData.isPurchased == "Yes" || collectionData.bookAmount == "0.00" || collectionData.bookAmount=="0.0") {
+                        if (collectionData.isPurchased == "Yes" || collectionData.bookAmount == "0.00" || collectionData.bookAmount == "0.0") {
 
                         } else {
                             liturgiesList.add(liturgie)

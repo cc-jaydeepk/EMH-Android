@@ -190,4 +190,17 @@ interface APIInterface {
         @Query("searchText") searchText: String,
         @Query("appUserId") appUserId: Int?,
     ): Call<MyLiturgiesResponseVo>
+
+    @GET(Constants.API_GET_ORDER_HISTORY)
+    fun getOrderHistory(
+        @Query("userId") userID: Int,
+        @Query("deviceId") deviceId: String,
+        @Header("Authorization") token: String
+    ): Call<OrderHistoryResponseVo>
+
+    @GET(Constants.API_GET_BOOK_STORE)
+    fun getBookStore(): Call<BookStoreResponseVo>
+
+    @GET(Constants.API_GET_BOOKS)
+    fun getBooksWithOutLogin(): Call<GetLiturgiesResponseVo>
 }

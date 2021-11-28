@@ -21,6 +21,9 @@ import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +50,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        FirebaseApp.initializeApp(this)
 
         ivLoginBack = findViewById(R.id.ivRegiBack)
 
@@ -128,6 +133,29 @@ class LoginActivity : AppCompatActivity() {
                     response: Response<LoginResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
+
+                        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                            OnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                Log.w(
+                                    "token exception",
+                                    "Fetching FCM registration token failed",
+                                    task.exception
+                                )
+                                return@OnCompleteListener
+                            }
+
+                            // Get new FCM registration token
+                            val token = task.result
+                            Utils.writeStringToSharedPref(
+                                this@LoginActivity,
+                                Constants.SHARED_PREF_FIREBASE_INSTANCE_ID,
+                                token
+                            )
+//                        Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+                            Log.e("token", token.toString())
+                        })
+
 
                         Utils.writeIntToSharedPref(
                             this@LoginActivity, Constants.PrefUserID,

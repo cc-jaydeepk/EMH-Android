@@ -216,7 +216,7 @@ class AboutBookLiturgiesFragment : Fragment() {
         val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
         bottomSheet.setZ(10.0F)
         //  bottomSheetBehavior.peekHeight = 340
-       // bottomSheetBehavior.peekHeight = 160
+        // bottomSheetBehavior.peekHeight = 160
         bottomSheetBehavior.setPeekHeight(
             requireActivity().getResources().getDimension(R.dimen.bottom_sheet_hight)
                 .toInt()
@@ -327,6 +327,10 @@ class AboutBookLiturgiesFragment : Fragment() {
         collectionRequestVo.volumeId = volumeId
         collectionRequestVo.deviceId = android_id
 
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            prefeUserId = Constants.SKIP_LOGIN_USER_ID
+        }
+
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getCollectionList(
             collectionRequestVo.deviceId,
@@ -398,7 +402,11 @@ class AboutBookLiturgiesFragment : Fragment() {
 
     private fun getMyLiturgiesList(bookID: Int) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        myLiturgiesRequestVo.appUserId = prefeUserId
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            myLiturgiesRequestVo.appUserId = prefeUserId
+        } else {
+            myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        }
         myLiturgiesRequestVo.deviceId = android_id
 
         val request = APIService.buildService(APIInterface::class.java)

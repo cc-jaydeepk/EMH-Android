@@ -1,7 +1,5 @@
 package com.everymomentholy.ui.fragments
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -24,13 +22,9 @@ import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.response.*
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
 import com.everymomentholy.ui.adapter.BottomSliderAdapter
-import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import com.folioreader.Config
-import com.folioreader.FolioReader
-import com.folioreader.util.AppUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
@@ -73,12 +67,6 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             Settings.Secure.ANDROID_ID
         )
 
-        val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
-            "MySharedPref",
-            MODE_PRIVATE
-        )
-
-        //prefeUserId = sharedPreferences.getInt("userId", 0)
         prefeUserId = Utils.readIntData(
             requireActivity(),
             Constants.PrefUserID,
@@ -101,7 +89,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
     private fun getMyLiturgiesList(bookID: Int, isAuto: Boolean = false) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        myLiturgiesRequestVo.appUserId = prefeUserId
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            myLiturgiesRequestVo.appUserId = prefeUserId
+        } else {
+            myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        }
         myLiturgiesRequestVo.deviceId = android_id
 
         val request = APIService.buildService(APIInterface::class.java)
@@ -127,16 +119,6 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
                         if (freeLiturgies.size > 0) {
                             showBottomSheetDialog(freeLiturgies, isAuto)
-                            /* liturgyAdapter = MyLiturgyAdapter(
-                                 context!!,
-                                 response.body()!!.response.data,
-                                 this@MyLiturgiesFragment
-                             )
-                             val layoutManager: RecyclerView.LayoutManager =
-                                 LinearLayoutManager(context)
-                             recycler_liturgy.layoutManager = layoutManager
-                             recycler_liturgy.adapter = liturgyAdapter
-     */
                         } else {
                             progressCardView.visibility = View.GONE
                             AlertDialog.Builder(context!!)
@@ -254,19 +236,25 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
     private fun getBooks() {
         var getLiturgiesRequestVo: GetLiturgiesRequestVo = GetLiturgiesRequestVo()
-        getLiturgiesRequestVo.appUserId = prefeUserId
-        getLiturgiesRequestVo.deviceId = android_id
-
-        val request = APIService.buildService(APIInterface::class.java)
-        val call = request.getBooks(
-            getLiturgiesRequestVo.appUserId,
-            getLiturgiesRequestVo.deviceId,
-            "bearer " + Utils.readStringFromSharedPref(
+        var token = ""
+        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            getLiturgiesRequestVo.appUserId = prefeUserId
+            getLiturgiesRequestVo.deviceId = android_id
+            token = "bearer " + Utils.readStringFromSharedPref(
                 requireContext(),
                 Constants.SHARED_PREF_TOKEN,
                 ""
             )
+        } else {
+            getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+            getLiturgiesRequestVo.deviceId = android_id
+        }
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.getBooks(
+            getLiturgiesRequestVo.appUserId,
+            getLiturgiesRequestVo.deviceId, token
         )
+
 
         try {
             call.enqueue(object : Callback<GetLiturgiesResponseVo> {
@@ -285,11 +273,13 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                                freePurchasedLiturgies =
                                    noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
        */
+                        var freeAvailableLiturgies =
+                            noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
 
                         if (!freePurchasedLiturgies.isNullOrEmpty())
                             freePurchasedLiturgies.clear()
 
-                        freePurchasedLiturgies = noVolume
+                        freePurchasedLiturgies = freeAvailableLiturgies
 
                         Log.e("free", freePurchasedLiturgies.size.toString())
                         try {

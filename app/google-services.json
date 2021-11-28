@@ -1,0 +1,487 @@
+{
+  "project_info": {
+    "project_number": "210630931820",
+    "firebase_url": "https://api-project-210630931820.firebaseio.com",
+    "project_id": "api-project-210630931820",
+    "storage_bucket": "api-project-210630931820.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:25c03713d3433657c2af49",
+        "android_client_info": {
+          "package_name": "com.actor.Castpro.live"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:3a0665ef0b9a3209c2af49",
+        "android_client_info": {
+          "package_name": "com.castpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-v1u1ghes6f4r9dls0jfkhr9iejvm98uv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.castpro",
+            "certificate_hash": "db3e41e6f5ab61359b2078117899e5fc460661ce"
+          }
+        },
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:455942f4269982cc",
+        "android_client_info": {
+          "package_name": "com.crofti.stonk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:6a199e287f290004c2af49",
+        "android_client_info": {
+          "package_name": "com.director.Castpro.live"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:91a6fe13d51781dcc2af49",
+        "android_client_info": {
+          "package_name": "com.director.castpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:2806e205a283f6cec2af49",
+        "android_client_info": {
+          "package_name": "com.everymomentholy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:d94607266902630ec2af49",
+        "android_client_info": {
+          "package_name": "com.example.mortrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:983490a8b8986339c2af49",
+        "android_client_info": {
+          "package_name": "com.myrelay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:31b060d48477a041c2af49",
+        "android_client_info": {
+          "package_name": "com.parceldirect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:0f9503eb471d9f8e",
+        "android_client_info": {
+          "package_name": "com.realbakers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:916fa0ff8643a069",
+        "android_client_info": {
+          "package_name": "com.realbakers1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:ebc7461c00c8a282c2af49",
+        "android_client_info": {
+          "package_name": "com.sd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:165bb00412c449c2c2af49",
+        "android_client_info": {
+          "package_name": "com.walkingtrail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -33,6 +33,8 @@ class Constants {
         const val API_SET_FAVORITE = "setFavorite"
         const val API_GET_FAVORITES_LIST = "getFavoritesList"
         const val API_PRIVATE_SHARING = "privateSharing"
+        const val API_GET_ORDER_HISTORY = "getOrderHistory"
+        const val API_GET_BOOK_STORE = "getBookStore"
 
         const val DEVICE_TYPE = "1"
         const val SHARED_PREF_APP_SETTINGS_RESPONSE = "APP_SETTINGS_RESPONSE"
@@ -51,12 +53,22 @@ class Constants {
         const val PROFILE = "userProfilePic"
         const val DEFAULT_PROFILE_PIC = "userProfilePic"
         const val SHARED_PREF_DEVICE_ID = "deviceID"
+        const val SHARED_PREF_FIREBASE_INSTANCE_ID = "firebase_instance_id"
 
         const val SEARCH_FROM_MY_LITURGY = 1
         const val SEARCH_FROM_FAVORITES = 2
         const val SEARCH_FROM_GET_LITURGY = 3
         const val SEARCH_FROM_FEATURED_LITURGY = 4
         var CURRENT_FRAGMENT = 0
+        var USER_LOGIN_STATUS = 0
+        const val SKIP_LOGIN = 1
+        const val LOGIN = 2
+        const val SKIP_LOGIN_USER_ID = 5
+
+        // push notification constants
+        const val CHANNEL_ID = "EMH"
+        const val CHANNEL_NAME = "EMH Notification"
+        const val CHANNEL_DESCRIPTION = "EMH"
     }
 
 }

@@ -75,6 +75,10 @@ class CollectionListActivity : AppCompatActivity() {
         collectionRequestVo.volumeId = volumeId
         collectionRequestVo.deviceId = android_id
 
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            prefeUserId = Constants.SKIP_LOGIN_USER_ID
+        }
+
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getCollectionList(
             collectionRequestVo.deviceId,
