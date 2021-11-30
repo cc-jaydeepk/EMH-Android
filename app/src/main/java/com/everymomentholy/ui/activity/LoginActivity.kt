@@ -134,27 +134,29 @@ class LoginActivity : AppCompatActivity() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
+                        Constants.USER_LOGIN_STATUS = Constants.LOGIN
+
                         FirebaseMessaging.getInstance().token.addOnCompleteListener(
                             OnCompleteListener { task ->
-                            if (!task.isSuccessful) {
-                                Log.w(
-                                    "token exception",
-                                    "Fetching FCM registration token failed",
-                                    task.exception
-                                )
-                                return@OnCompleteListener
-                            }
+                                if (!task.isSuccessful) {
+                                    Log.w(
+                                        "token exception",
+                                        "Fetching FCM registration token failed",
+                                        task.exception
+                                    )
+                                    return@OnCompleteListener
+                                }
 
-                            // Get new FCM registration token
-                            val token = task.result
-                            Utils.writeStringToSharedPref(
-                                this@LoginActivity,
-                                Constants.SHARED_PREF_FIREBASE_INSTANCE_ID,
-                                token
-                            )
+                                // Get new FCM registration token
+                                val token = task.result
+                                Utils.writeStringToSharedPref(
+                                    this@LoginActivity,
+                                    Constants.SHARED_PREF_FIREBASE_INSTANCE_ID,
+                                    token
+                                )
 //                        Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-                            Log.e("token", token.toString())
-                        })
+                                Log.e("token", token.toString())
+                            })
 
 
                         Utils.writeIntToSharedPref(
@@ -164,7 +166,7 @@ class LoginActivity : AppCompatActivity() {
 
                         Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.USER_NAME,
-                            response.body()!!.response.firstName +" "+ response.body()!!.response.lastName
+                            response.body()!!.response.firstName + " " + response.body()!!.response.lastName
                         )
 
 

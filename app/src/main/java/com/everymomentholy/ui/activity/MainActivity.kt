@@ -108,7 +108,12 @@ class MainActivity : AppCompatActivity() {
         fragment1 = HomeFragment()
         addFragment(fragment1, "Every Moment Holy", null)
 
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            txt_drawer_email.text = ""
+            val nav_Menu: Menu = navView.getMenu()
+            nav_Menu.findItem(R.id.nav_logoutFragment).setTitle("Login")
+
+        } else {
             getUserProfile()
 
             txt_drawer_email.text = Utils.readStringFromSharedPref(
@@ -121,10 +126,6 @@ class MainActivity : AppCompatActivity() {
                 ""
             ).toString()
 
-        } else {
-            txt_drawer_email.text = ""
-            val nav_Menu: Menu = navView.getMenu()
-            nav_Menu.findItem(R.id.nav_logoutFragment).setTitle("Login")
         }
 
         iv_toolbar_notification.setOnClickListener {
@@ -316,14 +317,14 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_logoutFragment -> {
-                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
-                        showLogoutDialog()
-                    } else {
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         val intent = Intent(this@MainActivity, SelectOptionActivity::class.java)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
+                    } else {
+                        showLogoutDialog()
                     }
                     true
                 }
@@ -394,12 +395,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         iv_drawer_profile_image.setOnClickListener() {
-            toolbar.visibility = View.VISIBLE
-            txt_toolbar_name.text = "My Profile"
-            iv_toolbar_notification.visibility = View.GONE
-            navBottomView.visibility = View.GONE
-            replaceFragment(MyProfileFragment(), "My Profile")
-            drawerLayout.close()
+            if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                toolbar.visibility = View.VISIBLE
+                txt_toolbar_name.text = "My Profile"
+                iv_toolbar_notification.visibility = View.GONE
+                navBottomView.visibility = View.GONE
+                replaceFragment(MyProfileFragment(), "My Profile")
+                drawerLayout.close()
+            } else {
+                showLoginDialog()
+            }
         }
 
         iv_toolbar_search.setOnClickListener {

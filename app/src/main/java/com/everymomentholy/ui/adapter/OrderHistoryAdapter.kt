@@ -40,7 +40,7 @@ class OrderHistoryAdapter(
         var orderHistoryData = orderHistoryList[position]
 
         holder.txtOrderHistoryDateTime.text = orderHistoryData.orderDate
-        holder.txtOrderHistoryPrice.text = orderHistoryData.price
+        holder.txtOrderHistoryPrice.text = "$" + orderHistoryData.price
         holder.txtOrderHistoryTitle.text = orderHistoryData.title
         holder.txtOrderHistoryOrderID.text = orderHistoryData.displayOrderId
         Glide.with(context)

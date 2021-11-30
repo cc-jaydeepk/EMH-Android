@@ -14,7 +14,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:fontFamily="@font/lato_semibold"
+            android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/iv_order_history"
@@ -35,6 +37,7 @@
             android:layout_height="@dimen/_90sdp" />
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -44,13 +47,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:minLines="3" />
+                android:fontFamily="@font/lato_semibold"
+                android:minLines="2"
+                android:textColor="@color/black" />
 
             <LinearLayout
-                android:gravity="center"
-                android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -58,14 +63,19 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/txt_order_history_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:singleLine="true" />
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="right"
+                    android:singleLine="true"
+                    android:text="hdejhasj"
+                    android:textColor="@color/red" />
             </LinearLayout>
 
         </LinearLayout>
