@@ -98,7 +98,15 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
         })
 
-        getBooks()
+        if (Utils.isNetworkAvailable(requireContext())) {
+            getBooks()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
         return view
     }

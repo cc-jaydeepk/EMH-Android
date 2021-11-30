@@ -47,9 +47,16 @@ class FeaturedFragment : Fragment() {
         txtAvaliableLiturgy = view.findViewById(R.id.txtAvaliableLiturgy)
         (activity as MainActivity).iv_toolbar_notification.visibility = View.GONE
 
-        featuredLiturgyMessage()
-
-        getFeaturedList()
+        if (Utils.isNetworkAvailable(requireContext())) {
+            featuredLiturgyMessage()
+            getFeaturedList()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
         return view
     }
 

@@ -15,6 +15,7 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.AboutUsResponseVO
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +38,15 @@ class AboutUsFragment : Fragment() {
         val webSettings: WebSettings = webView.getSettings()
         webSettings.javaScriptEnabled = true
 
-        aboutUs()
+        if (Utils.isNetworkAvailable(requireContext())) {
+            aboutUs()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
         return view
     }
 

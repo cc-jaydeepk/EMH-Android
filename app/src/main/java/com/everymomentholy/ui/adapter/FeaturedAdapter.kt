@@ -116,11 +116,27 @@ class FeaturedAdapter(
         }
 
         holder.imgFeaturedShare.setOnClickListener() {
-            privateShareLiturgy(featuredLiturgyData)
+            if (Utils.isNetworkAvailable(context)) {
+                privateShareLiturgy(featuredLiturgyData)
+            } else {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         holder.imgFeaturedFav.setOnClickListener() {
-            setLiturgiesFavourite(holder.imgFeaturedFav, featuredLiturgyData, position)
+            if (Utils.isNetworkAvailable(context)) {
+                setLiturgiesFavourite(holder.imgFeaturedFav, featuredLiturgyData, position)
+            } else {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         if (featuredLiturgyData.isFavorite == "True") {

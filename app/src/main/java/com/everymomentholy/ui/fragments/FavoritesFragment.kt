@@ -37,7 +37,16 @@ class FavoritesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
         favRecyclerView = view.findViewById(R.id.favRecyclerView)
         favRecyclerView.layoutManager = LinearLayoutManager(activity)
-        getFavoriteLiturgiesList()
+
+        if (Utils.isNetworkAvailable(requireContext())) {
+            getFavoriteLiturgiesList()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
         return view
     }
 

@@ -121,18 +121,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                     if (isAcceptTerms) {
                         progressCardView.visibility = View.VISIBLE
                         btnRegister.isEnabled = false
-
-                        /*if (edtPhoneNumber.text.toString().trim() == "") {
-                            var registrationRequestVo: RegisterWithoutPhoneRequestVo =
-                                RegisterWithoutPhoneRequestVo()
-                            registrationRequestVo.firstName = edtFirstName.text.toString().trim()
-                            registrationRequestVo.lastName = edtLastName.text.toString().trim()
-                            registrationRequestVo.email = edtEmail.text.toString().trim()
-                            registrationRequestVo.password = edtPassword.text.toString().trim()
-                            registrationRequestVo.deviceType = "1"
-                            registrationRequestVo.deviceId = android_id
-                            registrationWithoutLogin(registrationRequestVo)
-                        } else {*/
                         var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
                         registrationRequestVo.firstName = edtFirstName.text.toString().trim()
                         registrationRequestVo.lastName = edtLastName.text.toString().trim()
@@ -143,7 +131,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         registrationRequestVo.deviceId = android_id
                         registrationRequestVo.phoneNo = edtPhoneNumber.text.toString().trim()
                         registration(registrationRequestVo)
-                        /*}*/
                     } else {
                         isAcceptTerms = false
                         Toast.makeText(
@@ -188,7 +175,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             registrationRequestVo.firstName + registrationRequestVo.lastName
                         )
 
-                       // Log.e("lastName", registrationRequestVo.lastName)
+                        // Log.e("lastName", registrationRequestVo.lastName)
 
                         Utils.writeStringToSharedPref(
                             this@RegisterActivity, Constants.USER_EMAIL,

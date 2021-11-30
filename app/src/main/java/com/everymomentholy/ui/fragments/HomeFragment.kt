@@ -199,8 +199,16 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        dailyLiturgyQuote()
-        getSettings()
+        if (Utils.isNetworkAvailable(requireContext())) {
+            dailyLiturgyQuote()
+            getSettings()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
     }
 
@@ -273,7 +281,7 @@ class HomeFragment : Fragment() {
                         val date: String = format.format(Date())
 
                         //val validUrl = response.body()!!.response.date.split("-").first()
-                      //  val current = LocalDateTime.now()
+                        //  val current = LocalDateTime.now()
                         val current = Calendar.getInstance().getTime()
 
                         if (date.endsWith("1") && !date.endsWith("11"))

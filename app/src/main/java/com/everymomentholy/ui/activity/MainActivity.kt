@@ -114,24 +114,21 @@ class MainActivity : AppCompatActivity() {
             nav_Menu.findItem(R.id.nav_logoutFragment).setTitle("Login")
 
         } else {
-            getUserProfile()
-
-            txt_drawer_email.text = Utils.readStringFromSharedPref(
-                this@MainActivity, Constants.USER_EMAIL,
-                ""
-            ).toString()
-
-            userImage = Utils.readStringFromSharedPref(
-                this@MainActivity, Constants.PROFILE_PIC,
-                ""
-            ).toString()
+            if (Utils.isNetworkAvailable(this)) {
+                getUserProfile()
+            } else {
+                Toast.makeText(
+                    this@MainActivity,
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
 
         }
 
         iv_toolbar_notification.setOnClickListener {
-            /*   val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
-               startActivity(intent)
-   */
+            val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
+            startActivity(intent)
             /*txt_toolbar_name.text = "Notifications"
             iv_toolbar_notification.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
@@ -139,7 +136,7 @@ class MainActivity : AppCompatActivity() {
             var fragment: Fragment
             fragment = NotificationListFragment()
             replaceFragment(fragment, "Notification")*/
-            showUnderDevDialog()
+            // showUnderDevDialog()
         }
 
         iv_toolbar_backImage.setOnClickListener {
@@ -217,15 +214,15 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_favoritesFragment -> {
-                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                        showLoginDialog()
+                    } else {
                         toolbar.visibility = View.VISIBLE
                         iv_toolbar_search.visibility = View.VISIBLE
                         navBottomView.visibility = View.VISIBLE
                         navBottomView.selectedItemId = R.id.nav_favoritesFragment
                         Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
                         replaceFragment(FavoritesFragment(), "Favourites")
-                    } else {
-                        showLoginDialog()
                     }
                     //  showUnderDevDialog()
                     // replaceFragment(FavoritesFragment(), "Favourites")
@@ -305,14 +302,14 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_myProfileFragment -> {
-                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                        showLoginDialog()
+                    } else {
                         toolbar.visibility = View.VISIBLE
                         txt_toolbar_name.text = "My Profile"
                         iv_toolbar_notification.visibility = View.GONE
                         navBottomView.visibility = View.GONE
                         replaceFragment(MyProfileFragment(), "My Profile")
-                    } else {
-                        showLoginDialog()
                     }
                     true
                 }
@@ -361,7 +358,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_favoritesFragment -> {
-                    if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                        showLoginDialog()
+                    } else {
                         toolbar.visibility = View.VISIBLE
                         txt_toolbar_name.text = "Favorites"
                         iv_toolbar_search.visibility = View.VISIBLE
@@ -370,8 +369,6 @@ class MainActivity : AppCompatActivity() {
                         replaceFragment(fragment, "Favourites")
                         Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
                         navView.setCheckedItem(R.id.nav_favoritesFragment)
-                    } else {
-                        showLoginDialog()
                     }
                     // showUnderDevDialog()
                     // return@setOnNavigationItemSelectedListener true
@@ -395,15 +392,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         iv_drawer_profile_image.setOnClickListener() {
-            if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                showLoginDialog()
+            } else {
                 toolbar.visibility = View.VISIBLE
                 txt_toolbar_name.text = "My Profile"
                 iv_toolbar_notification.visibility = View.GONE
                 navBottomView.visibility = View.GONE
                 replaceFragment(MyProfileFragment(), "My Profile")
                 drawerLayout.close()
-            } else {
-                showLoginDialog()
             }
         }
 
@@ -441,7 +438,15 @@ class MainActivity : AppCompatActivity() {
             //show.dismiss()
             var logoutRequestVo: LogoutRequestVo = LogoutRequestVo()
             logoutRequestVo.userId = prefeUserId
-            logoutUser(logoutRequestVo)
+            if (Utils.isNetworkAvailable(this)) {
+                logoutUser(logoutRequestVo)
+            } else {
+                Toast.makeText(
+                    this@MainActivity,
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         alertButtonCancel.setOnClickListener {
@@ -555,12 +560,16 @@ class MainActivity : AppCompatActivity() {
                             .load(response.body()!!.response.userProfilePic)
                             .into(iv_drawer_profile_image)
 
+                        txt_drawer_email.text = response.body()!!.response.email
+
+                        userImage = response.body()!!.response.userProfilePic
+
                     } else {
-                        /*Toast.makeText(
+                        Toast.makeText(
                             this@MainActivity,
                             response.body()!!.response.message,
                             Toast.LENGTH_LONG
-                        ).show()*/
+                        ).show()
                     }
                 }
 

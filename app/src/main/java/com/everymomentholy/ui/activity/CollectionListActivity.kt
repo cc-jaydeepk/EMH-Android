@@ -67,7 +67,15 @@ class CollectionListActivity : AppCompatActivity() {
         )
         liturgies = intent.getSerializableExtra("liturgies") as GetLiturgiesDataVo
 
-        getCollectionList(liturgies.volumeId)
+        if (Utils.isNetworkAvailable(this)) {
+            getCollectionList(liturgies.volumeId)
+        } else {
+            Toast.makeText(
+                this@CollectionListActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun getCollectionList(volumeId: Int) {

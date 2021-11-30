@@ -69,7 +69,15 @@ class BottomSliderAdapter(
             .into(holder.imgFreeLiturgiescover)
 
         holder.imgFavorite.setOnClickListener() {
-            setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
+            if (Utils.isNetworkAvailable(context)) {
+                setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
+            } else {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         holder.btnReadNow.setOnClickListener() {
@@ -104,13 +112,22 @@ class BottomSliderAdapter(
                             config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
                             folioReader.setConfig(config, true)
 
-                            val myLiturgyVo: com.folioreader.emh.MyLiturgiesDataVo = com.folioreader.emh.MyLiturgiesDataVo()
-                            myLiturgyVo.userId = Utils.readIntData(context, Constants.PrefUserID, -1)
-                            myLiturgyVo.token = "bearer " + Utils.readStringFromSharedPref(context, Constants.SHARED_PREF_TOKEN, "")
+                            val myLiturgyVo: com.folioreader.emh.MyLiturgiesDataVo =
+                                com.folioreader.emh.MyLiturgiesDataVo()
+                            myLiturgyVo.userId =
+                                Utils.readIntData(context, Constants.PrefUserID, -1)
+                            myLiturgyVo.token = "bearer " + Utils.readStringFromSharedPref(
+                                context,
+                                Constants.SHARED_PREF_TOKEN,
+                                ""
+                            )
                             myLiturgyVo.bookId = freeLiturgy.bookId
                             myLiturgyVo.chapterId = freeLiturgy.chapterId
                             myLiturgyVo.isFavorite = freeLiturgy.isFavorite
-                            folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub", myLiturgyVo)
+                            folioReader.openBook(
+                                context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
+                                myLiturgyVo
+                            )
                         }
 
                         override fun onError(error: com.downloader.Error?) {
@@ -134,7 +151,15 @@ class BottomSliderAdapter(
         }
 
         holder.imgShare.setOnClickListener() {
-            privateShareLiturgy(freeLiturgy)
+            if (Utils.isNetworkAvailable(context)) {
+                privateShareLiturgy(freeLiturgy)
+            } else {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

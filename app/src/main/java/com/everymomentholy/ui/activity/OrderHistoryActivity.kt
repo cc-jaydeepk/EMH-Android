@@ -37,7 +37,15 @@ class OrderHistoryActivity : AppCompatActivity() {
 
         rvOrderHistory = findViewById(R.id.rv_order_history)
 
-        getOrderHistoryList()
+        if (Utils.isNetworkAvailable(this)) {
+            getOrderHistoryList()
+        } else {
+            Toast.makeText(
+                this@OrderHistoryActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)

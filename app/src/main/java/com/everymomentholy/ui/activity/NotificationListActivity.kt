@@ -18,6 +18,7 @@ import com.everymomentholy.api.response.NotificationDataVo
 import com.everymomentholy.api.response.NotificationResponseVo
 import com.everymomentholy.interfaces.NotificationListClickListner
 import com.everymomentholy.ui.adapter.NotificationListAdapter
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,17 +54,15 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
             onBackPressed()
         }
 
-
-        getNotificationList()
-
-        /*val fragment: Fragment = NotificationListFragment()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.nav_host_notification, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()*/
-
-
+        if (Utils.isNetworkAvailable(this)) {
+            getNotificationList()
+        } else {
+            Toast.makeText(
+                this@NotificationListActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun getNotificationList() {
@@ -77,20 +76,7 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
                     response: Response<NotificationResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
-                        // setAdapter(this@NotificationListActivity, response.body()!!)
                         setAdapter(this@NotificationListActivity, response.body()!!)
-                        /* notificationAdapter = NotificationListAdapter(
-                             context,
-                             response.body()!!.response.data,
-                             this@NotificationListActivity
-                         )
-                         val layoutManager: RecyclerView.LayoutManager =
-                             LinearLayoutManager(this@NotificationListActivity)
-                         rcvNotificationList.layoutManager = layoutManager
-                         // attach adapter to the recycler view
-                         rcvNotificationList.adapter = notificationAdapter*/
-
                     } else {
                         Toast.makeText(
                             this@NotificationListActivity,

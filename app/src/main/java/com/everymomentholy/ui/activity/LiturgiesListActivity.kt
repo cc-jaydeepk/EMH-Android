@@ -75,7 +75,15 @@ class LiturgiesListActivity : AppCompatActivity() {
         var bookId = intent.getIntExtra("bookID", 0)
         collectionData = intent.getSerializableExtra("collection") as CollectionDataVo
 
-        getMyLiturgiesList(bookId)
+        if (Utils.isNetworkAvailable(this)) {
+            getMyLiturgiesList(bookId)
+        } else {
+            Toast.makeText(
+                this@LiturgiesListActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
     }
 

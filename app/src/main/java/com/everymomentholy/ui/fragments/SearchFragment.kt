@@ -60,7 +60,15 @@ class SearchFragment : Fragment() {
         //ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
 
         icSearch.setOnClickListener() {
-            getSearchLiturgies()
+            if (Utils.isNetworkAvailable(requireContext())) {
+                getSearchLiturgies()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         //ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
@@ -72,7 +80,15 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0!!.length >= 3) {
-                    getSearchLiturgies()
+                    if (Utils.isNetworkAvailable(requireContext())) {
+                        getSearchLiturgies()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            resources.getString(R.string.check_internet),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 } else {
                     if (arrSearchedData.isNotEmpty()) {
                         arrSearchedData.clear()

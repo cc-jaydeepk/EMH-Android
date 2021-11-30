@@ -76,7 +76,15 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         Log.e("log", prefeUserId.toString())
 
         //getMyLiturgiesList()
-        getBooks()
+        if (Utils.isNetworkAvailable(requireContext())) {
+            getBooks()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
         ll_enroute_bottom_sheet.setOnClickListener {
             if (!freeLiturgies.isNullOrEmpty())
@@ -231,7 +239,15 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         freePurchasedLiturgies[pos].isClicked = true
         liturgyAdapter.notifyDataSetChanged()
         progressCardView.visibility = View.VISIBLE
-        getMyLiturgiesList(bookID, isAuto)
+        if (Utils.isNetworkAvailable(requireContext())) {
+            getMyLiturgiesList(bookID, isAuto)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun getBooks() {

@@ -72,17 +72,49 @@ class AboutBookLiturgiesFragment : Fragment() {
         }
 
         if (liturgies.isVolume == "Yes") {
-            getAboutVolumn(liturgies.volumeId)
+            if (Utils.isNetworkAvailable(requireContext())) {
+                getAboutVolumn(liturgies.volumeId)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         } else {
-            getAboutBookLiturgies(liturgies.bookId)
+            if (Utils.isNetworkAvailable(requireContext())) {
+                getAboutBookLiturgies(liturgies.bookId)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
         txtTitle.text = liturgies.volumeTitle
 
         llAboutBookBottomSheet.setOnClickListener {
             if (liturgies.isVolume == "Yes") {
-                getCollectionList(liturgies.volumeId)
+                if (Utils.isNetworkAvailable(requireContext())) {
+                    getCollectionList(liturgies.volumeId)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.check_internet),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             } else {
-                getMyLiturgiesList(liturgies.bookId)
+                if (Utils.isNetworkAvailable(requireContext())) {
+                    getMyLiturgiesList(liturgies.bookId)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.check_internet),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
 
         }
@@ -99,9 +131,25 @@ class AboutBookLiturgiesFragment : Fragment() {
         )
 
         if (liturgies.isVolume == "Yes") {
-            getCollectionList(liturgies.volumeId)
+            if (Utils.isNetworkAvailable(requireContext())) {
+                getCollectionList(liturgies.volumeId)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         } else {
-            getMyLiturgiesList(liturgies.bookId)
+            if (Utils.isNetworkAvailable(requireContext())) {
+                getMyLiturgiesList(liturgies.bookId)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         return view

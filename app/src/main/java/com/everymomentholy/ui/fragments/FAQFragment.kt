@@ -19,6 +19,7 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.FaqResponseVo
 import com.everymomentholy.ui.activity.ContactUsActivity
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +41,15 @@ class FAQFragment : Fragment() {
         faqWebview = view.findViewById(R.id.faqWebview)
         val webSettings: WebSettings = faqWebview.getSettings()
         webSettings.javaScriptEnabled = true
-        frequentlyAsked()
+        if (Utils.isNetworkAvailable(requireContext())) {
+            frequentlyAsked()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
         val content = SpannableString("Frequently Asked Questions")
         content.setSpan(UnderlineSpan(), 0, content.length, 0)
         textFaq.setText(content)

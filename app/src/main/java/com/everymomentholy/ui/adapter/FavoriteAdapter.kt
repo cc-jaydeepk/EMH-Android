@@ -69,7 +69,15 @@ class FavoriteAdapter(
             .into(holder.imgFavCover)
 
         holder.imgFavorite.setOnClickListener() {
-            setLiturgiesFavourite(holder.imgFavorite, favLiturgiesList[position], position)
+            if (Utils.isNetworkAvailable(context)) {
+                setLiturgiesFavourite(holder.imgFavorite, favLiturgiesList[position], position)
+            } else {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         holder.btnFavReadNow.setOnClickListener() {
@@ -123,8 +131,16 @@ class FavoriteAdapter(
             holder.txtFavFree.text = "Featured"
         }
 
-        holder.imgFavShareImg.setOnClickListener(){
-            privateShareLiturgy(favLiturgiesList[position])
+        holder.imgFavShareImg.setOnClickListener() {
+            if (Utils.isNetworkAvailable(context)) {
+                privateShareLiturgy(favLiturgiesList[position])
+            } else {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
     }
@@ -233,7 +249,7 @@ class FavoriteAdapter(
                         val view: View =
                             inflater.inflate(R.layout.share_dialog, null)
                         builder.setView(view)
-                        val bottom=builder.show()
+                        val bottom = builder.show()
 
                         val edtShareDialogUrl =
                             view.findViewById<View>(R.id.edt_share_dialog_url) as TextView

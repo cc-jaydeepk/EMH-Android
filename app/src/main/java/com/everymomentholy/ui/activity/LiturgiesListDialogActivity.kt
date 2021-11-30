@@ -68,7 +68,15 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        getMyLiturgiesList(liturgiesData.bookId)
+        if (Utils.isNetworkAvailable(this)) {
+            getMyLiturgiesList(liturgiesData.bookId)
+        } else {
+            Toast.makeText(
+                this@LiturgiesListDialogActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
 

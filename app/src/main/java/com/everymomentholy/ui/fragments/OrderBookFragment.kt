@@ -15,6 +15,7 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.BookStoreResponseVo
 import com.everymomentholy.api.response.BookStoreVo
 import com.everymomentholy.ui.adapter.OrderBookAdapter
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,11 +35,20 @@ class OrderBookFragment : Fragment() {
         /* rvOrderBook.layoutManager = LinearLayoutManager(activity)
          rvOrderBook.adapter = OrderBookAdapter()
          adapter = OrderBookAdapter()*/
-        orderBooks()
+
+        if (Utils.isNetworkAvailable(requireContext())) {
+            orderBooks()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
         return view
     }
 
-    fun orderBooks() {
+    private fun orderBooks() {
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getBookStore()
 
