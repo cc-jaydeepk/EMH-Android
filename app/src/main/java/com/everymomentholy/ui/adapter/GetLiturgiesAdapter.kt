@@ -17,6 +17,8 @@ import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.ui.fragments.AboutBookLiturgiesFragment
 import com.everymomentholy.ui.activity.CollectionListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.Utils
 
 
 class GetLiturgiesAdapter(
@@ -55,13 +57,13 @@ class GetLiturgiesAdapter(
                 .load(getLiturgies.volumeCoverPageImage)
                 .into(imgGetLiturge)
 
-           /* if (getLiturgies.isPurchased == "Yes") {
-                txtLiturgyPrice.text = "Purchased"
-            } else if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00") {
-                txtLiturgyPrice.text = "Free"
-            } else {
-                txtLiturgyPrice.text = "$ " + getLiturgies.volumeAmount
-            }*/
+            /* if (getLiturgies.isPurchased == "Yes") {
+                 txtLiturgyPrice.text = "Purchased"
+             } else if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00") {
+                 txtLiturgyPrice.text = "Free"
+             } else {
+                 txtLiturgyPrice.text = "$ " + getLiturgies.volumeAmount
+             }*/
 
             if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
                 btnUnlock.text = "Read Now"
@@ -135,10 +137,13 @@ class GetLiturgiesAdapter(
                     intent.putExtra("liturgies", getLiturgies)
                     context.startActivity(intent)
                 } else {
-                    AlertDialog.Builder(context)
-                        .setMessage("This part is under Development.")
-                        .setPositiveButton(android.R.string.yes) { dialog, which ->
-                        }.show()
+                    /*  AlertDialog.Builder(context)
+                          .setMessage("This part is under Development.")
+                          .setPositiveButton(android.R.string.yes) { dialog, which ->
+                          }.show()*/
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                        Utils.showDialogForUnlockWithoutLogin(context)
+                    }
                 }
             }
         }

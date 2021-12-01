@@ -39,7 +39,6 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/orderbook_margin"
                 android:layout_marginRight="@dimen/orderbook_btn_marginright"
                 android:drawableLeft="@drawable/ic_rabbit_room"
                 android:padding="@dimen/orderbook_btnpadding"
@@ -53,7 +52,6 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/orderbook_margintop"
                 android:layout_marginRight="@dimen/orderbook_btn_marginright"
                 android:drawableLeft="@drawable/ic_amazone_icon"
                 android:padding="@dimen/orderbook_btnpadding"
@@ -70,7 +68,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:background="#C3C0C0" />
 

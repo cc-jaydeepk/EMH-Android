@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context=".ui.activity.OrderHistoryActivity">
 
+    <include layout="@layout/toolbar_layout" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_order_history"
         android:layout_width="match_parent"

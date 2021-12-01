@@ -83,14 +83,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /* if (Utils.getLoggedStatus(applicationContext)) {
-             val intent = Intent(applicationContext, MainActivity::class.java)
-             startActivity(intent)
-         } else {
-            // val intent = Intent(applicationContext, LoginActivity::class.java)
-             startActivity(intent)
-         }*/
-
         btn_Login.setOnClickListener {
 
             if (checkValidation()) {

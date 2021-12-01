@@ -450,10 +450,10 @@ class AboutBookLiturgiesFragment : Fragment() {
 
     private fun getMyLiturgiesList(bookID: Int) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
-            myLiturgiesRequestVo.appUserId = prefeUserId
-        } else {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
             myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        } else {
+            myLiturgiesRequestVo.appUserId = prefeUserId
         }
         myLiturgiesRequestVo.deviceId = android_id
 

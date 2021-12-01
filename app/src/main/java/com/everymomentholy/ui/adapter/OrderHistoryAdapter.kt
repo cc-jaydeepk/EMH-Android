@@ -1,6 +1,7 @@
 package com.everymomentholy.ui.adapter
 
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,18 @@ class OrderHistoryAdapter(
         Glide.with(context)
             .load(orderHistoryData.coverPageImage)
             .into(holder.ivOrderHistoryCover)
+
+        when (orderHistoryData.purchaseType) {
+            "Volume" -> {
+                holder.ivOrderHistory.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
+            }
+            "Book" -> {
+                holder.ivOrderHistory.setImageDrawable(context.resources.getDrawable(R.drawable.ic_book))
+            }
+            "Liturgy" -> {
+                holder.ivOrderHistory.setImageDrawable(context.resources.getDrawable(R.drawable.ic_liturgy_order_history))
+            }
+        }
 
     }
 

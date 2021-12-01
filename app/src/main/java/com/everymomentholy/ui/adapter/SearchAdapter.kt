@@ -62,7 +62,7 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                 holder.txtSearchLiturgyReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
             }
         } else {
-            holder.txtSearchLiturgyReadNow.text = "Unlock"
+            holder.txtSearchLiturgyReadNow.text = "Buy Now"
             holder.txtSearchLiturgyReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
             holder.txtSearchLiturgyReadNow.setTextColor(context.resources.getColor(R.color.white))
         }

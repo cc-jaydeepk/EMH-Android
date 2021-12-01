@@ -10,7 +10,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
@@ -46,7 +45,7 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
 
     private fun getNotificationList() {
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.notificationList()
+        val call = request.notificationListWithoutLogin()
 
         try {
             call.enqueue(object : Callback<NotificationResponseVo> {

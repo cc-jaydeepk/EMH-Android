@@ -5,6 +5,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import com.everymomentholy.R
+import com.everymomentholy.api.APIInterface
+import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.SetFavouriteRequestVo
+import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.utils.SharedPreference.Companion.getPreferences
 import com.folioreader.FolioReader
@@ -192,6 +199,14 @@ class Utils {
                 context?.filesDir?.absolutePath + "/" + "test_" + myLiturgiesDataVo.chapterId + ".epub",
                 myLiturgyVo
             )
+        }
+
+        fun showDialogForUnlockWithoutLogin(context: Context) {
+            AlertDialog.Builder(context)
+                .setMessage("This part is under Development.")
+                .setPositiveButton(android.R.string.yes) { dialog, which ->
+                }.setNegativeButton(android.R.string.no) { dialog, which ->
+                }.setNeutralButton(android.R.string.ok) { dialog, which -> }.show()
         }
     }
 }

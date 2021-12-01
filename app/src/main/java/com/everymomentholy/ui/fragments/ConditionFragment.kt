@@ -17,6 +17,7 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.FaqResponseVo
 import com.everymomentholy.api.response.TermsConditionResponseVo
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +37,15 @@ class ConditionFragment : Fragment() {
         termsConditionWebView = view.findViewById(R.id.termsConditionWebView)
         val webSettings: WebSettings = termsConditionWebView.getSettings()
         webSettings.javaScriptEnabled = true
-        termsCondition()
+        if (Utils.isNetworkAvailable(requireContext())) {
+            termsCondition()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
         return view
     }
 

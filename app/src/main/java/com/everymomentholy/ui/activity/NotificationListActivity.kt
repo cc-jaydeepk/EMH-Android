@@ -18,6 +18,7 @@ import com.everymomentholy.api.response.NotificationDataVo
 import com.everymomentholy.api.response.NotificationResponseVo
 import com.everymomentholy.interfaces.NotificationListClickListner
 import com.everymomentholy.ui.adapter.NotificationListAdapter
+import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,7 +56,11 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
         }
 
         if (Utils.isNetworkAvailable(this)) {
-            getNotificationList()
+            if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                getNotificationListWithoutLogin()
+            } else {
+                getNotificationList()
+            }
         } else {
             Toast.makeText(
                 this@NotificationListActivity,
@@ -65,9 +70,9 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
         }
     }
 
-    private fun getNotificationList() {
+    private fun getNotificationListWithoutLogin() {
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.notificationList()
+        val call = request.notificationListWithoutLogin()
 
         try {
             call.enqueue(object : Callback<NotificationResponseVo> {
@@ -119,5 +124,49 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
         intent.putExtra("date", dataVo.createdAt)
         intent.putExtra("message", dataVo.message)
         startActivity(intent)
+    }
+
+    private fun getNotificationList() {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.getNotification(
+            Utils.readIntFromSharedPref(
+                this@NotificationListActivity,
+                Constants.PrefUserID,
+                -1
+            ), "bearer " + Utils.readStringFromSharedPref(
+                this,
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
+        )
+
+        try {
+            call.enqueue(object : Callback<NotificationResponseVo> {
+                override fun onResponse(
+                    call: Call<NotificationResponseVo>,
+                    response: Response<NotificationResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        setAdapter(this@NotificationListActivity, response.body()!!)
+                    } else {
+                        Toast.makeText(
+                            this@NotificationListActivity,
+                            response.body()!!.response.msg.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<NotificationResponseVo>, t: Throwable) {
+                    Toast.makeText(
+                        this@NotificationListActivity,
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
     }
 }

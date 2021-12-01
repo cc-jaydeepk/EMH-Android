@@ -65,8 +65,8 @@
     <dimen name="orderbook_layoutmargin">@dimen/_10sdp</dimen>
     <dimen name="orderbook_txtname">@dimen/_14ssp</dimen>
     <dimen name="orderbook_btnhihht">@dimen/_150sdp</dimen>
-    <dimen name="orderbook_btnpadding">@dimen/_5sdp</dimen>
-    <dimen name="orderbook_btn_txtsixe">@dimen/_10ssp</dimen>
+    <dimen name="orderbook_btnpadding">@dimen/_2sdp</dimen>
+    <dimen name="orderbook_btn_txtsixe">@dimen/_8ssp</dimen>
     <dimen name="orderbook_btn_marginright">@dimen/_50sdp</dimen>
     <dimen name="orderbook_marginright">@dimen/_13sdp</dimen>
     <dimen name="orderbook_margin">@dimen/_10sdp</dimen>

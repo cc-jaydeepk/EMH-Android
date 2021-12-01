@@ -5,7 +5,10 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +32,9 @@ class OrderHistoryActivity : AppCompatActivity() {
     private lateinit var rvOrderHistory: RecyclerView
     private lateinit var orderHistoryAdapter: OrderHistoryAdapter
     private lateinit var linearLayout: LinearLayout
+    private lateinit var txtToolbarName: TextView
+    private lateinit var ivToolbarBackImage: ImageView
+    private lateinit var ivToolbarDrawer: ImageView
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +42,9 @@ class OrderHistoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order_history)
 
         rvOrderHistory = findViewById(R.id.rv_order_history)
+        ivToolbarDrawer = findViewById(R.id.iv_toolbar_drawer)
+        ivToolbarBackImage = findViewById(R.id.iv_toolbar_backImage)
+        txtToolbarName = findViewById(R.id.txt_toolbar_name)
 
         if (Utils.isNetworkAvailable(this)) {
             getOrderHistoryList()
@@ -45,6 +54,14 @@ class OrderHistoryActivity : AppCompatActivity() {
                 resources.getString(R.string.check_internet),
                 Toast.LENGTH_LONG
             ).show()
+        }
+
+        txtToolbarName.text = "Order History"
+        ivToolbarBackImage.visibility = View.VISIBLE
+        ivToolbarDrawer.visibility = View.GONE
+
+        ivToolbarBackImage.setOnClickListener() {
+            onBackPressed()
         }
     }
 
@@ -57,11 +74,11 @@ class OrderHistoryActivity : AppCompatActivity() {
             Settings.Secure.ANDROID_ID
         )
 
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            orderHistoryRequestVo.userId = Constants.SKIP_LOGIN_USER_ID
+        } else {
             orderHistoryRequestVo.userId =
                 Utils.readIntFromSharedPref(this, Constants.PrefUserID, -1)
-        } else {
-            orderHistoryRequestVo.userId = Constants.SKIP_LOGIN_USER_ID
         }
 
         val request = APIService.buildService(APIInterface::class.java)

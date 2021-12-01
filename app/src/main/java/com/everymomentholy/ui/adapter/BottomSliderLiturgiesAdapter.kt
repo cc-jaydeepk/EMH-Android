@@ -19,6 +19,10 @@ import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.utils.Utils
+import com.everymomentholy.ui.activity.ForgotPasswordActivity
+import com.everymomentholy.ui.activity.LiturgiesListActivity
+import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.utils.Constants
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
@@ -87,6 +91,13 @@ class BottomSliderLiturgiesAdapter(
 
         holder.btnReadNow.setOnClickListener() {
             if (holder.btnReadNow.text == "Purchase Collection") {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                }
+            } else if (holder.btnReadNow.text == "Unlock") {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                }
             } else if (holder.btnReadNow.text == "Read Now") {
                 readBook(freeLiturgies)
             }

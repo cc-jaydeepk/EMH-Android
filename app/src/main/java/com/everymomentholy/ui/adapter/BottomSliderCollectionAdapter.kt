@@ -18,6 +18,9 @@ import com.everymomentholy.R
 import com.everymomentholy.api.response.CollectionDataVo
 import com.everymomentholy.ui.activity.ForgotPasswordActivity
 import com.everymomentholy.ui.activity.LiturgiesListActivity
+import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.Utils
 
 class BottomSliderCollectionAdapter(
     var context: Context,
@@ -121,8 +124,18 @@ class BottomSliderCollectionAdapter(
 
         holder.btnReadNow.setOnClickListener() {
             if (holder.btnReadNow.text == "Purchase Collection") {
-
-            } else {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                }
+            } else if (holder.btnReadNow.text == "Unlock Volume") {
+               /* if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                }*/
+            } /*else if (holder.btnReadNow.text == "Unlock Collection") {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                }
+            }*/ else {
                 if (freeLiturgies.isPurchased == "Yes") {
                     //if (position > 0) {
                     transferToLiturgyList(freeLiturgies)
@@ -131,7 +144,6 @@ class BottomSliderCollectionAdapter(
                     if (position == 0 && freeLiturgies.bookAmount == "0.00" || freeLiturgies.bookAmount == "0.0") {
                         transferToLiturgyList(freeLiturgies)
                     }
-
                 }
             }
         }

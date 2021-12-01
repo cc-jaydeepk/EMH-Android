@@ -4,7 +4,6 @@ import com.everymomentholy.api.request.*
 import com.everymomentholy.api.response.*
 import com.everymomentholy.utils.Constants
 import okhttp3.MultipartBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -32,8 +31,8 @@ interface APIInterface {
     @GET(Constants.API_HOME_GETSETTINGS)
     fun getSettings(): Call<HomegetSettingResponseVo>
 
-    @GET(Constants.API_HOME_NOTIFICATIONLIST)
-    fun notificationList(): Call<NotificationResponseVo>
+    @GET(Constants.API_HOME_NOTIFICATIONLIST_WITHOUT_LOGIN)
+    fun notificationListWithoutLogin(): Call<NotificationResponseVo>
 
     @GET(Constants.API_MY_LITURGIES_LIST)
     fun getLiturgies(
@@ -203,4 +202,10 @@ interface APIInterface {
 
     @GET(Constants.API_GET_BOOKS)
     fun getBooksWithOutLogin(): Call<GetLiturgiesResponseVo>
+
+    @GET(Constants.API_USER_NOTIFICATIONS)
+    fun getNotification(
+        @Query("userId") userID: Int,
+        @Header("Authorization") token: String
+    ): Call<NotificationResponseVo>
 }

@@ -250,7 +250,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_orderBookFragment -> {
                     replaceFragment(OrderBookFragment(), "Order Books")
                     toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.GONE
+                    navBottomView.selectedItemId = R.id.nav_orderBookFragment
                     //replaceFragment(OrderBookFragment(), "Book Ordered")
                     //showUnderDevDialog()
                     false
@@ -556,6 +556,11 @@ class MainActivity : AppCompatActivity() {
                             response.body()!!.response.userProfilePic
                         )
 
+                        txt_drawer_UserName.text = Utils.readStringFromSharedPref(
+                            this@MainActivity, Constants.USER_NAME,
+                            ""
+                        ).toString()
+
                         Glide.with(this@MainActivity)
                             .load(response.body()!!.response.userProfilePic)
                             .into(iv_drawer_profile_image)
@@ -709,4 +714,11 @@ class MainActivity : AppCompatActivity() {
         show.setCanceledOnTouchOutside(false)
     }
 
+    fun showDialogForUnlockWithoutLogin() {
+        AlertDialog.Builder(this)
+            .setMessage("This part is under Development.")
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+            }.setNegativeButton(android.R.string.no) { dialog, which ->
+            }.setNeutralButton(android.R.string.ok) { dialog, which -> }.show()
+    }
 }

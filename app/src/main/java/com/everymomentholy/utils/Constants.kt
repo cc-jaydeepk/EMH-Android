@@ -13,7 +13,7 @@ class Constants {
         const val API_RESET_PASSWORD = "updatePassword"
         const val API_HOME_DAILY_LITURGY_QUOTE = "dailyLiturgyQuote"
         const val API_HOME_GETSETTINGS = "getSettings"
-        const val API_HOME_NOTIFICATIONLIST = "notificationList"
+        const val API_HOME_NOTIFICATIONLIST_WITHOUT_LOGIN = "notificationList"
         const val API_MY_LITURGIES_LIST = "getLiturgies"
         const val API_GET_BOOKS = "getBooks"
         const val API_GET_USER_PROFILE = "getUserProfile/{userid}"
@@ -35,6 +35,7 @@ class Constants {
         const val API_PRIVATE_SHARING = "privateSharing"
         const val API_GET_ORDER_HISTORY = "getOrderHistory"
         const val API_GET_BOOK_STORE = "getBookStore"
+        const val API_USER_NOTIFICATIONS = "userNotifications"
 
         const val DEVICE_TYPE = "1"
         const val SHARED_PREF_APP_SETTINGS_RESPONSE = "APP_SETTINGS_RESPONSE"

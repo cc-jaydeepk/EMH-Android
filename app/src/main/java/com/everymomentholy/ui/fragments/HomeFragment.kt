@@ -31,6 +31,7 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
 import com.everymomentholy.api.response.HomegetSettingResponseVo
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.Dispatchers
@@ -79,52 +80,14 @@ class HomeFragment : Fragment() {
         iv_toolbar_notification = view.findViewById(R.id.iv_toolbar_notification)
 
         iv_toolbar_notification.setOnClickListener {
-            /*val intent = Intent(requireActivity(), NotificationListActivity::class.java)
-            startActivity(intent)*/
-              if (context != null) {
-                  AlertDialog.Builder(requireContext())
-                      .setMessage("This part is under Development.")
-                      .setPositiveButton(android.R.string.yes) { dialog, which ->
-                      }.show()
-              }
-
-           /* val purchasesUpdatedListener =
-                PurchasesUpdatedListener { billingResult, purchases ->
-                    // To be implemented in a later section.
-                }
-
-            var billingClient = BillingClient.newBuilder(requireContext())
-                .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
-                .build()
-
-            billingClient.startConnection(object : BillingClientStateListener {
-                override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                        // The BillingClient is ready. You can query purchases here.
-                        suspend {
-                            Log.e("billing emh", "inside suspend")
-                            querySkuDetails(billingClient)
-                        }
-
-                        *//*suspend {
-                            val flowParams = BillingFlowParams.newBuilder()
-                                .setSkuDetails(querySkuDetails(billingClient))
-                                .build()
-                            val responseCode = billingClient.launchBillingFlow(
-                                context as MainActivity,
-                                flowParams
-                            ).responseCode
-                        }*//*
-                    }
-                }
-
-                override fun onBillingServiceDisconnected() {
-                    // Try to restart the connection on the next request to
-                    // Google Play by calling the startConnection() method.
-                }
-            })*/
-
+            val intent = Intent(requireActivity(), NotificationListActivity::class.java)
+            startActivity(intent)
+          /*  if (context != null) {
+                AlertDialog.Builder(requireContext())
+                    .setMessage("This part is under Development.")
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                    }.show()
+            }*/
         }
 
         iv_toolbar_drawer.setOnClickListener {

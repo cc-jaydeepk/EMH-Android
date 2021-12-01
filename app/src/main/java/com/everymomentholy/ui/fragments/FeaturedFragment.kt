@@ -94,11 +94,11 @@ class FeaturedFragment : Fragment() {
     private fun getFeaturedList() {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
 
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        } else {
             myLiturgiesRequestVo.appUserId =
                 Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
-        } else {
-            myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
         }
         myLiturgiesRequestVo.deviceId = Settings.Secure.getString(
             requireContext().contentResolver,

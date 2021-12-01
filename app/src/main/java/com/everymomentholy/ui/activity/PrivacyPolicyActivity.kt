@@ -9,6 +9,7 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.PrivacyPolicyResponseVo
+import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,17 +24,24 @@ class PrivacyPolicyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_privacy_policy)
 
         policyWebView = findViewById(R.id.policyWebView)
-        ivToolbarBackImage=findViewById(R.id.iv_toolbar_backImage)
+        ivToolbarBackImage = findViewById(R.id.iv_toolbar_backImage)
 
-        ivToolbarBackImage.setOnClickListener(){
+        ivToolbarBackImage.setOnClickListener() {
             onBackPressed()
         }
 
-        loadPolicy()
+        if (Utils.isNetworkAvailable(this)) {
+            loadPolicy()
+        } else {
+            Toast.makeText(
+                this@PrivacyPolicyActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
-    private fun loadPolicy()
-    {
+    private fun loadPolicy() {
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.privacyPolicy()
 
@@ -46,7 +54,11 @@ class PrivacyPolicyActivity : AppCompatActivity() {
                     if (response.body()?.statusCode == 1) {
 
                         policyWebView.getSettings().setJavaScriptEnabled(true);
-                        policyWebView.loadData(response.body()?.response!!.description, "text/html; charset=utf-8", "UTF-8");
+                        policyWebView.loadData(
+                            response.body()?.response!!.description,
+                            "text/html; charset=utf-8",
+                            "UTF-8"
+                        );
 
                     } else {
                         Toast.makeText(

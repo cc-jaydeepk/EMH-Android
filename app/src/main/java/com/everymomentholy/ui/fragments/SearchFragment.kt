@@ -121,10 +121,10 @@ class SearchFragment : Fragment() {
 
         var userID = -1
 
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
-            userID = Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
-        } else {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
             userID = Constants.SKIP_LOGIN_USER_ID
+        } else {
+            userID = Utils.readIntFromSharedPref(requireContext(), Constants.PrefUserID, -1)
         }
 
         val request = APIService.buildService(APIInterface::class.java)

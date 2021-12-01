@@ -97,10 +97,10 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
     private fun getMyLiturgiesList(bookID: Int, isAuto: Boolean = false) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
-            myLiturgiesRequestVo.appUserId = prefeUserId
-        } else {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
             myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        } else {
+            myLiturgiesRequestVo.appUserId = prefeUserId
         }
         myLiturgiesRequestVo.deviceId = android_id
 
@@ -253,7 +253,10 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
     private fun getBooks() {
         var getLiturgiesRequestVo: GetLiturgiesRequestVo = GetLiturgiesRequestVo()
         var token = ""
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+            getLiturgiesRequestVo.deviceId = android_id
+        } else {
             getLiturgiesRequestVo.appUserId = prefeUserId
             getLiturgiesRequestVo.deviceId = android_id
             token = "bearer " + Utils.readStringFromSharedPref(
@@ -261,9 +264,6 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 Constants.SHARED_PREF_TOKEN,
                 ""
             )
-        } else {
-            getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
-            getLiturgiesRequestVo.deviceId = android_id
         }
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getBooks(

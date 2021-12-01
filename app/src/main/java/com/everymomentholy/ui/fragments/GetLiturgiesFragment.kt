@@ -115,15 +115,15 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         var getLiturgiesRequestVo: GetLiturgiesRequestVo = GetLiturgiesRequestVo()
         getLiturgiesRequestVo.deviceId = android_id
         var token = ""
-        if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+        } else {
             token = "bearer " + Utils.readStringFromSharedPref(
                 requireContext(),
                 Constants.SHARED_PREF_TOKEN,
                 ""
             )
             getLiturgiesRequestVo.appUserId = prefeUserId
-        } else {
-            getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
         }
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getBooks(
@@ -193,10 +193,13 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     intent.putExtra("liturgies", liturgyData)
                     context?.startActivity(intent)
                 } else {
-                    AlertDialog.Builder(requireContext())
-                        .setMessage("This part is under Development.")
-                        .setPositiveButton(android.R.string.yes) { dialog, which ->
-                        }.show()
+                    /* AlertDialog.Builder(requireContext())
+                         .setMessage("This part is under Development.")
+                         .setPositiveButton(android.R.string.yes) { dialog, which ->
+                         }.show()*/
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                        Utils.showDialogForUnlockWithoutLogin(requireContext())
+                    }
                 }
             }
         }
