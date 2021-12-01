@@ -153,7 +153,7 @@ public class FolioActivity
     private int taskImportance;
     private MyLiturgiesDataVo myLiturgiesDataVo;
 
-    private static Menu menu;
+    private Menu menu;
 
     private enum RequestCode {
         CONTENT_HIGHLIGHT(77),
@@ -1108,8 +1108,8 @@ public class FolioActivity
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
-    @JvmStatic
-    public static void markFavorite(boolean isFav, Context context) {
+    public void markFavorite(boolean isFav, Context context) {
+        // menu item index for favorite is 4
         if (isFav) {
             menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favourite_fill));
         } else {

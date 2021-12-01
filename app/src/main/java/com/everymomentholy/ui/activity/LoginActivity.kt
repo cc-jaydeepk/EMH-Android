@@ -15,9 +15,7 @@ import androidx.cardview.widget.CardView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.request.GetUserProfileRequestVo
 import com.everymomentholy.api.request.LoginRequestVo
-import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.LoginResponseVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -98,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
             if (checkValidation()) {
 
                 if (Utils.isNetworkAvailable(this)) {
+
                     var loginRequestVo: LoginRequestVo = LoginRequestVo()
                     loginRequestVo.deviceId = android_id
                     loginRequestVo.email = edtLoginEmail.text.toString().trim()
@@ -105,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
                     //loginRequestVo.deviceType = "1"
                     loginRequestVo.deviceType = Constants.DEVICE_TYPE
                     progressCardView.visibility = View.VISIBLE
-                    login(loginRequestVo)
+                    getFirebaseToken(loginRequestVo)
                 } else {
                     Toast.makeText(
                         this@LoginActivity,
@@ -113,11 +112,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
-
             }
-
-
         }
     }
 
@@ -135,29 +130,6 @@ class LoginActivity : AppCompatActivity() {
                     if (response.body()?.statusCode == 1) {
 
                         Constants.USER_LOGIN_STATUS = Constants.LOGIN
-
-                        FirebaseMessaging.getInstance().token.addOnCompleteListener(
-                            OnCompleteListener { task ->
-                                if (!task.isSuccessful) {
-                                    Log.w(
-                                        "token exception",
-                                        "Fetching FCM registration token failed",
-                                        task.exception
-                                    )
-                                    return@OnCompleteListener
-                                }
-
-                                // Get new FCM registration token
-                                val token = task.result
-                                Utils.writeStringToSharedPref(
-                                    this@LoginActivity,
-                                    Constants.SHARED_PREF_FIREBASE_INSTANCE_ID,
-                                    token
-                                )
-//                        Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-                                Log.e("token", token.toString())
-                            })
-
 
                         Utils.writeIntToSharedPref(
                             this@LoginActivity, Constants.PrefUserID,
@@ -269,5 +241,34 @@ class LoginActivity : AppCompatActivity() {
         }
 
         return isValid
+    }
+
+    fun getFirebaseToken(loginRequestVo: LoginRequestVo)
+    {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(
+                        "token exception",
+                        "Fetching FCM registration token failed",
+                        task.exception
+                    )
+                    login(loginRequestVo)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result!!
+                Utils.writeStringToSharedPref(
+                    this@LoginActivity,
+                    Constants.SHARED_PREF_FIREBASE_INSTANCE_ID,
+                    token
+                )
+                loginRequestVo.firebase_token = token
+                login(loginRequestVo)
+//                        Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+                Log.e("token", token.toString())
+            })
+
     }
 }

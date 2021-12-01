@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.everymomentholy">
 
-    <uses-sdk
-        android:targetSdkVersion="22"
-        tools:overrideLibrary="com.example.lib1, com.example.lib2" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-sdk
+        android:targetSdkVersion="22"
+        tools:overrideLibrary="com.example.lib1, com.example.lib2" />
 
     <application
         android:name=".EMHApplication"
@@ -23,9 +23,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryMomentHoly"
         android:usesCleartextTraffic="true"
-        tools:replace="android:allowBackup"
-        tools:ignore="LockedOrientationActivity">
-        <activity android:name=".ui.activity.OrderHistoryActivity"></activity>
+        tools:ignore="LockedOrientationActivity"
+        tools:replace="android:allowBackup">
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="EMH channel" />
+
+        <activity
+            android:name=".ui.activity.OrderHistoryActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
         <activity
             android:name=".ui.activity.LiturgiesListDialogActivity"
             android:screenOrientation="portrait"
@@ -40,10 +48,6 @@
             tools:replace="screenOrientation" />
         <activity
             android:name=".ui.activity.CollectionListActivity"
-            android:screenOrientation="portrait"
-            tools:replace="screenOrientation" />
-        <activity
-            android:name=".ui.fragments.AboutBookLiturgiesFragment"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
@@ -125,14 +129,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <service
-            android:name=".services.MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -144,6 +140,15 @@
                 android:resource="@xml/provider_paths"
                 tools:replace="android:resource" />
         </provider>
+
+        <service
+            android:name=".services.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

@@ -101,32 +101,10 @@ class BottomSliderAdapter(
                     .start(object : OnDownloadListener {
                         override fun onDownloadComplete() {
                             Log.e("complete", "complete")
-                            val folioReader = FolioReader.get()
-
-                            var config = AppUtil.getSavedConfig(context);
-                            if (config == null) {
-                                //   config : Config ()
-                            }
-                            config?.setThemeColorRes(R.color.loginbg)
-
-                            config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
-                            folioReader.setConfig(config, true)
-
-                            val myLiturgyVo: com.folioreader.emh.MyLiturgiesDataVo =
-                                com.folioreader.emh.MyLiturgiesDataVo()
-                            myLiturgyVo.userId =
-                                Utils.readIntData(context, Constants.PrefUserID, -1)
-                            myLiturgyVo.token = "bearer " + Utils.readStringFromSharedPref(
+                            Utils.invokeBookReader(
                                 context,
-                                Constants.SHARED_PREF_TOKEN,
-                                ""
-                            )
-                            myLiturgyVo.bookId = freeLiturgy.bookId
-                            myLiturgyVo.chapterId = freeLiturgy.chapterId
-                            myLiturgyVo.isFavorite = freeLiturgy.isFavorite
-                            folioReader.openBook(
                                 context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
-                                myLiturgyVo
+                                freeLiturgy
                             )
                         }
 

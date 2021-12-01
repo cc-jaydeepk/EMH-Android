@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.everymomentholy.R
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -82,7 +83,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Constants.CHANNEL_ID
         )
             .setSmallIcon(notificationIcon)
-            .setContentTitle("Property Preservation")
+            .setContentTitle(applicationContext.getString(R.string.app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)

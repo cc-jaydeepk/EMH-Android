@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.android.billingclient.api.*
 import com.bumptech.glide.Glide
 import com.everymomentholy.BuildConfig
 import com.everymomentholy.R
@@ -32,6 +33,8 @@ import com.everymomentholy.api.response.HomegetSettingResponseVo
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -78,12 +81,50 @@ class HomeFragment : Fragment() {
         iv_toolbar_notification.setOnClickListener {
             /*val intent = Intent(requireActivity(), NotificationListActivity::class.java)
             startActivity(intent)*/
-            if (context != null) {
-                AlertDialog.Builder(requireContext())
-                    .setMessage("This part is under Development.")
-                    .setPositiveButton(android.R.string.yes) { dialog, which ->
-                    }.show()
-            }
+              if (context != null) {
+                  AlertDialog.Builder(requireContext())
+                      .setMessage("This part is under Development.")
+                      .setPositiveButton(android.R.string.yes) { dialog, which ->
+                      }.show()
+              }
+
+           /* val purchasesUpdatedListener =
+                PurchasesUpdatedListener { billingResult, purchases ->
+                    // To be implemented in a later section.
+                }
+
+            var billingClient = BillingClient.newBuilder(requireContext())
+                .setListener(purchasesUpdatedListener)
+                .enablePendingPurchases()
+                .build()
+
+            billingClient.startConnection(object : BillingClientStateListener {
+                override fun onBillingSetupFinished(billingResult: BillingResult) {
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        // The BillingClient is ready. You can query purchases here.
+                        suspend {
+                            Log.e("billing emh", "inside suspend")
+                            querySkuDetails(billingClient)
+                        }
+
+                        *//*suspend {
+                            val flowParams = BillingFlowParams.newBuilder()
+                                .setSkuDetails(querySkuDetails(billingClient))
+                                .build()
+                            val responseCode = billingClient.launchBillingFlow(
+                                context as MainActivity,
+                                flowParams
+                            ).responseCode
+                        }*//*
+                    }
+                }
+
+                override fun onBillingServiceDisconnected() {
+                    // Try to restart the connection on the next request to
+                    // Google Play by calling the startConnection() method.
+                }
+            })*/
+
         }
 
         iv_toolbar_drawer.setOnClickListener {
@@ -199,16 +240,8 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (Utils.isNetworkAvailable(requireContext())) {
-            dailyLiturgyQuote()
-            getSettings()
-        } else {
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()
-        }
+        dailyLiturgyQuote()
+        getSettings()
 
     }
 
@@ -330,5 +363,21 @@ class HomeFragment : Fragment() {
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(requireActivity(), "No App Available", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    suspend fun querySkuDetails(billingClient: BillingClient): SkuDetails {
+        Log.e("billing emh", "inside querySkuDetails")
+        val skuList = ArrayList<String>()
+        skuList.add("emh_book_test1")
+        val params = SkuDetailsParams.newBuilder()
+        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
+
+        // leverage querySkuDetails Kotlin extension function
+        val skuDetailsResult = withContext(Dispatchers.IO) {
+            billingClient.querySkuDetails(params.build())
+        }
+        Log.e("billing emh", "skuDEtails " + skuDetailsResult.skuDetailsList?.size)
+        return skuDetailsResult.skuDetailsList?.get(0)!!
+        // Process the result.
     }
 }

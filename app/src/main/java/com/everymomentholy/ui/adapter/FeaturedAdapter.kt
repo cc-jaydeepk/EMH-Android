@@ -93,18 +93,12 @@ class FeaturedAdapter(
                     .start(object : OnDownloadListener {
                         override fun onDownloadComplete() {
                             Log.e("complete", "complete")
-                            val folioReader = FolioReader.get()
 
-                            var config = AppUtil.getSavedConfig(context);
-                            if (config == null) {
-                                //   config : Config ()
-                            }
-                            config?.setThemeColorRes(R.color.loginbg)
-
-                            config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
-                            folioReader.setConfig(config, true)
-
-                            folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + featuredLiturgyData.chapterId + ".epub")
+                            Utils.invokeBookReader(
+                                context,
+                                context?.filesDir?.absolutePath + "/" + "test_" + featuredLiturgyData.chapterId + ".epub",
+                                featuredLiturgyData
+                            )
                         }
 
                         override fun onError(error: com.downloader.Error?) {

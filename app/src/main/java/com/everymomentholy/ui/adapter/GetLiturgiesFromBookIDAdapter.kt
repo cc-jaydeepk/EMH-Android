@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
@@ -18,6 +19,7 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
@@ -46,7 +48,10 @@ class GetLiturgiesFromBookIDAdapter(
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: MyViewHolder,
+        @SuppressLint("RecyclerView") position: Int
+    ) {
 
         if (position == 0) {
             if (liturgyList[position].isFree == "Yes" || liturgyList[position].price == "0.0" || liturgyList[position].price == "0.00") {
@@ -138,17 +143,13 @@ class GetLiturgiesFromBookIDAdapter(
                         .start(object : OnDownloadListener {
                             override fun onDownloadComplete() {
                                 Log.e("complete", "complete")
-                                val folioReader = FolioReader.get()
 
-                                var config = AppUtil.getSavedConfig(context);
-                                if (config == null) {
-                                    //   config : Config ()
-                                }
-                                config?.setThemeColorRes(R.color.loginbg)
-                                config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
-                                folioReader.setConfig(config, true)
+                                Utils.invokeBookReader(
+                                    context,
+                                    context?.filesDir?.absolutePath + "/" + "test_" + liturgyList[position].chapterId + ".epub",
+                                    liturgyList[position]
+                                )
 
-                                folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + liturgyList[position].chapterId + ".epub")
                             }
 
                             override fun onError(error: com.downloader.Error?) {
@@ -160,7 +161,7 @@ class GetLiturgiesFromBookIDAdapter(
             }
         }
 
-        holder.llCollectionRaw.setOnClickListener(){
+        holder.llCollectionRaw.setOnClickListener() {
             if (holder.btnUnlock.text == "Read Now") {
                 val cw = ContextWrapper(context)
                 val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
@@ -182,17 +183,13 @@ class GetLiturgiesFromBookIDAdapter(
                         .start(object : OnDownloadListener {
                             override fun onDownloadComplete() {
                                 Log.e("complete", "complete")
-                                val folioReader = FolioReader.get()
 
-                                var config = AppUtil.getSavedConfig(context);
-                                if (config == null) {
-                                    //   config : Config ()
-                                }
-                                config?.setThemeColorRes(R.color.loginbg)
-                                config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
-                                folioReader.setConfig(config, true)
+                                Utils.invokeBookReader(
+                                    context,
+                                    context?.filesDir?.absolutePath + "/" + "test_" + liturgyList[position].chapterId + ".epub",
+                                    liturgyList[position]
+                                )
 
-                                folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + liturgyList[position].chapterId + ".epub")
                             }
 
                             override fun onError(error: com.downloader.Error?) {

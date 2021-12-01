@@ -2,14 +2,11 @@ package com.everymomentholy.ui.adapter
 
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.Intent
-import android.media.Image
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,10 +17,8 @@ import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
-import com.everymomentholy.api.response.CollectionDataVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
-import com.everymomentholy.ui.activity.ForgotPasswordActivity
-import com.everymomentholy.ui.activity.LiturgiesListActivity
+import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
 import com.folioreader.util.AppUtil
@@ -120,7 +115,7 @@ class BottomSliderLiturgiesAdapter(
         return super.getItemViewType(position)
     }
 
-    private fun readBook(freeLiturgies: MyLiturgiesDataVo) {
+    private fun readBook(freeLiturgy: MyLiturgiesDataVo) {
         val cw = ContextWrapper(context)
         val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
         if (!directory.exists()) {
@@ -129,9 +124,9 @@ class BottomSliderLiturgiesAdapter(
         var path = context?.filesDir?.absolutePath
         val downloadId =
             PRDownloader.download(
-                freeLiturgies.chapterUrl,
+                freeLiturgy.chapterUrl,
                 path,
-                "test_" + freeLiturgies.chapterId + ".epub"
+                "test_" + freeLiturgy.chapterId + ".epub"
             )
                 .build()
                 .setOnStartOrResumeListener { }
@@ -141,17 +136,11 @@ class BottomSliderLiturgiesAdapter(
                 .start(object : OnDownloadListener {
                     override fun onDownloadComplete() {
                         Log.e("complete", "complete")
-                        val folioReader = FolioReader.get()
-
-                        var config = AppUtil.getSavedConfig(context);
-                        if (config == null) {
-                            //   config : Config ()
-                        }
-                        config?.setThemeColorRes(R.color.loginbg)
-                        config?.setAllowedDirection(Config.AllowedDirection.VERTICAL_AND_HORIZONTAL)
-                        folioReader.setConfig(config, true)
-
-                        folioReader.openBook(context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgies.chapterId + ".epub")
+                        Utils.invokeBookReader(
+                            context,
+                            context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
+                            freeLiturgy
+                        )
                     }
 
                     override fun onError(error: com.downloader.Error?) {
