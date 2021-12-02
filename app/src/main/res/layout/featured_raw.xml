@@ -28,7 +28,6 @@
         <TextView
             android:id="@+id/txtFeaturedTitle"
             style="@style/liturgiesListTitleTextStyle"
-            android:layout_marginTop="@dimen/_2sdp"
             android:layout_toRightOf="@+id/imgFeatured"
             android:text="A Liturgy for DayBreak" />
 
@@ -38,7 +37,7 @@
             android:layout_width="@dimen/fav_frag_shareimg"
             android:layout_height="@dimen/fav_frag_shareimg"
             android:layout_below="@+id/txtFeaturedTitle"
-            android:layout_marginTop="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_27sdp"
             android:layout_toRightOf="@+id/imgFeatured"
             android:src="@drawable/ic_shareimage" />
 
@@ -48,7 +47,7 @@
             android:layout_height="@dimen/fav_frag_shareimg"
             android:layout_below="@+id/txtFeaturedTitle"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_29sdp"
+            android:layout_marginTop="@dimen/_27sdp"
             android:layout_toRightOf="@+id/img_featured_share"
             android:src="@drawable/ic_favorite" />
 

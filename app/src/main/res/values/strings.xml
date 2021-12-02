@@ -97,6 +97,7 @@
 </string>
     <string name="your_e_mail_address">YOUR E-MAIL ADDRESS</string>
     <string name="your_message">YOUR MESSAGE</string>
+    <string name="you_need_to_login_first">You need to Login first.</string>
 
 
 </resources>

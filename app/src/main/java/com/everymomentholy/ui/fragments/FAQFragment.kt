@@ -73,9 +73,6 @@ class FAQFragment : Fragment() {
                     response: Response<FaqResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-                        /*textFaq.setText(
-                            Html.fromHtml("<p>Coming Soon</p>")
-                        );*/
 
                         faqWebview.loadData(
                             response.body()!!.response.description,

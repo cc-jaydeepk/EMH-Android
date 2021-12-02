@@ -61,16 +61,10 @@ class ConditionFragment : Fragment() {
                     response: Response<TermsConditionResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-                        /*textFaq.setText(
-                            Html.fromHtml("<p>Coming Soon</p>")
-                        );*/
 
                         var description = response.body()!!.response.description
-                        // txtTermsCondition.text = description
 
-                        txtTermsCondition.text = Html.fromHtml(description)
-
-                        //  Log.e("terms", response.body()!!.response.description)
+                        // txtTermsCondition.text = Html.fromHtml(description)
 
                         termsConditionWebView.loadData(
                             description,

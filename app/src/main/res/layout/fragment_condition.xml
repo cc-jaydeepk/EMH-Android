@@ -33,7 +33,7 @@
         android:id="@+id/termsConditionWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/_7sdp"
+        android:layout_margin="@dimen/_10sdp"
         android:clipToPadding="false"
         android:scrollbars="none"
         android:visibility="visible" />

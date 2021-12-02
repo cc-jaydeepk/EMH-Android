@@ -25,6 +25,7 @@
         <TextView
             style="@style/dialogSmallTextStyle"
             android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_3sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
             android:text="Are you sure you want to Log out?" />

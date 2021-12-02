@@ -68,7 +68,7 @@
         android:layout_marginLeft="@dimen/_7sdp"
         android:layout_marginTop="@dimen/_7sdp"
         android:layout_marginRight="@dimen/_7sdp"
-        android:layout_marginBottom="@dimen/_23sdp" />
+        android:layout_marginBottom="@dimen/_50sdp" />
 
     <include layout="@layout/activity_bottom_slider" />
 

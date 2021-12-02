@@ -90,6 +90,7 @@ class MyProfileFragment : Fragment() {
 
         freeText = view.findViewById(R.id.textFree)
         txtUseName = view.findViewById(R.id.txtUseName)
+        (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
 
         ivChangePassword = view.findViewById(R.id.ivChangePassword)
 

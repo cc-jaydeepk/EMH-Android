@@ -20,7 +20,6 @@ import retrofit2.Response
 
 
 class ShareLiturgiesFragment : Fragment() {
-    private lateinit var textSahreLiturgy: TextView
     private lateinit var howToshareWebview: WebView
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +46,6 @@ class ShareLiturgiesFragment : Fragment() {
                     response: Response<ShareLiturgiesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
 
                         howToshareWebview.loadData(
                             response.body()!!.response.description,

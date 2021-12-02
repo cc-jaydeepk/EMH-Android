@@ -50,8 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtLiturgiesTitle"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -72,9 +72,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:background="@drawable/bg_unlock"
+                    android:fontFamily="@font/lato_medium"
                     android:padding="@dimen/_5sdp"
-                    android:textAllCaps="true"
                     android:text="Unlock"
+                    android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/getcollection_btntxt" />
 

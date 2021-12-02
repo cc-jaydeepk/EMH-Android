@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_featuredFragment -> {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.visibility = View.GONE
                     Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FEATURED_LITURGY
                     replaceFragment(FeaturedFragment(), "Featured Liturgies")
                     navBottomView.selectedItemId = R.id.nav_featuredFragment
@@ -259,17 +259,17 @@ class MainActivity : AppCompatActivity() {
                     // replaceFragment(SearchFragment(), "Search")
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.visibility = View.GONE
                     iv_toolbar_search.visibility = View.GONE
-                    ivToolbarDrawer.visibility = View.GONE
-                    iv_toolbar_backImage.visibility = View.VISIBLE
+                    ivToolbarDrawer.visibility = View.VISIBLE
+                    iv_toolbar_backImage.visibility = View.GONE
                     replaceFragment(SearchFragment(), "Search")
                     //showUnderDevDialog()
                     true
                 }
                 R.id.nav_shareLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.visibility = View.GONE
                     iv_toolbar_notification.visibility = View.GONE
                     replaceFragment(ShareLiturgiesFragment(), "How to Share Liturgies")
                     // showUnderDevDialog()
@@ -278,7 +278,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_aboutUsFragment -> {
                     // replaceFragment(AboutUsFragment(), "About Us")
                     toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.visibility = View.GONE
                     iv_toolbar_notification.visibility = View.GONE
                     replaceFragment(AboutUsFragment(), "About Us")
                     // showUnderDevDialog()
@@ -287,7 +287,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_FAQFragment -> {
                     // replaceFragment(FAQFragment(), "FAQ")
                     toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.visibility = View.GONE
                     iv_toolbar_notification.visibility = View.GONE
                     replaceFragment(FAQFragment(), "FAQ")
                     //showUnderDevDialog()
@@ -296,7 +296,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_conditionFragment -> {
                     //  replaceFragment(ConditionFragment(), "Terms & Condition")
                     toolbar.visibility = View.VISIBLE
-                    navBottomView.visibility = View.VISIBLE
+                    navBottomView.visibility = View.GONE
                     replaceFragment(ConditionFragment(), "Terms & Condition")
                     //showUnderDevDialog()
                     true

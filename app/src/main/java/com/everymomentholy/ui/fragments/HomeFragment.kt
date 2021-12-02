@@ -107,6 +107,7 @@ class HomeFragment : Fragment() {
             ivHomeShare.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
             iv_toolbar_notification.visibility = View.GONE
+            ivHomeShare.isEnabled = false
 
             screenShotCapture()
 
