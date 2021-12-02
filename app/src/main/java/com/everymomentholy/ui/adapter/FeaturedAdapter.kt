@@ -31,6 +31,7 @@ import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.Config
@@ -111,7 +112,11 @@ class FeaturedAdapter(
 
         holder.imgFeaturedShare.setOnClickListener() {
             if (Utils.isNetworkAvailable(context)) {
-                privateShareLiturgy(featuredLiturgyData)
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    (context as MainActivity).showLoginDialog()
+                } else {
+                    privateShareLiturgy(featuredLiturgyData)
+                }
             } else {
                 Toast.makeText(
                     context,
@@ -123,7 +128,11 @@ class FeaturedAdapter(
 
         holder.imgFeaturedFav.setOnClickListener() {
             if (Utils.isNetworkAvailable(context)) {
-                setLiturgiesFavourite(holder.imgFeaturedFav, featuredLiturgyData, position)
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    (context as MainActivity).showLoginDialog()
+                } else {
+                    setLiturgiesFavourite(holder.imgFeaturedFav, featuredLiturgyData, position)
+                }
             } else {
                 Toast.makeText(
                     context,

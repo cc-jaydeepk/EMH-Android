@@ -690,7 +690,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoginDialog() {
+    fun showLoginDialog() {
         val alertDialog = AlertDialog.Builder(
             this
         )

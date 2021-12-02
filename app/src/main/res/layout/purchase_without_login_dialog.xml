@@ -49,6 +49,7 @@
                 style="@style/dialogOkTextStyle"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:gravity="center"
+                android:padding="@dimen/_2sdp"
                 android:text="Register/Login" />
 
             <View
@@ -62,6 +63,7 @@
                 style="@style/dialogOkTextStyle"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:gravity="center"
+                android:padding="@dimen/_2sdp"
                 android:text="Purchase without Register/Login" />
 
             <View
@@ -75,6 +77,7 @@
                 style="@style/dialogCancelTextStyle"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:gravity="center"
+                android:padding="@dimen/_2sdp"
                 android:text="Cancel" />
 
         </LinearLayout>
