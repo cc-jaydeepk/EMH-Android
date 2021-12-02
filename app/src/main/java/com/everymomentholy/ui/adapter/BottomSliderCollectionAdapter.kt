@@ -128,14 +128,14 @@ class BottomSliderCollectionAdapter(
                     Utils.showDialogForUnlockWithoutLogin(context)
                 }
             } else if (holder.btnReadNow.text == "Unlock Volume") {
-               /* if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
-                }*/
-            } /*else if (holder.btnReadNow.text == "Unlock Collection") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
                 }
-            }*/ else {
+            } else if (holder.btnReadNow.text == "Unlock Collection") {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                }
+            } else {
                 if (freeLiturgies.isPurchased == "Yes") {
                     //if (position > 0) {
                     transferToLiturgyList(freeLiturgies)
@@ -158,7 +158,11 @@ class BottomSliderCollectionAdapter(
                 if (position == 0 && freeLiturgies.bookAmount == "0.00" || freeLiturgies.bookAmount == "0.0") {
                     transferToLiturgyList(freeLiturgies)
                 } else {
-                    transferToLiturgyList(freeLiturgies)
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                        Utils.showDialogForUnlockWithoutLogin(context)
+                    } else {
+                        transferToLiturgyList(freeLiturgies)
+                    }
                 }
 
             }

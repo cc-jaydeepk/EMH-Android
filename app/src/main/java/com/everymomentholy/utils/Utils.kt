@@ -1,18 +1,24 @@
 package com.everymomentholy.utils
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.LogoutRequestVo
 import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.utils.SharedPreference.Companion.getPreferences
 import com.folioreader.FolioReader
 
@@ -179,8 +185,7 @@ class Utils {
         }
 
 
-        fun invokeBookReader(context: Context, path: String, myLiturgiesDataVo: MyLiturgiesDataVo)
-        {
+        fun invokeBookReader(context: Context, path: String, myLiturgiesDataVo: MyLiturgiesDataVo) {
             val folioReader = FolioReader.get()
 
             val myLiturgyVo: com.folioreader.emh.MyLiturgiesDataVo =
@@ -202,11 +207,33 @@ class Utils {
         }
 
         fun showDialogForUnlockWithoutLogin(context: Context) {
-            AlertDialog.Builder(context)
-                .setMessage("This part is under Development.")
-                .setPositiveButton(android.R.string.yes) { dialog, which ->
-                }.setNegativeButton(android.R.string.no) { dialog, which ->
-                }.setNeutralButton(android.R.string.ok) { dialog, which -> }.show()
+            val alertDialog = AlertDialog.Builder(
+                context
+            )
+            val inflater = (context as Activity).layoutInflater
+            val alertView: View = inflater.inflate(R.layout.purchase_without_login_dialog, null)
+            alertDialog.setView(alertView)
+            val show = alertDialog.show()
+            val alertButtonCancel = alertView.findViewById<View>(R.id.txtCancel) as TextView
+            val alertButtonLoginRegister =
+                alertView.findViewById<View>(R.id.txtPurchaseRegisterLogin) as TextView
+            val alertButtonPurchase =
+                alertView.findViewById<View>(R.id.txtPurchaseWithoutRegisterLogin) as TextView
+
+
+            alertButtonLoginRegister.setOnClickListener {
+                val intent = Intent(context, SelectOptionActivity::class.java)
+                context.startActivity(intent)
+            }
+
+            alertButtonCancel.setOnClickListener {
+                show.dismiss()
+            }
+
+            alertButtonPurchase.setOnClickListener() {
+
+            }
+            show.setCanceledOnTouchOutside(false)
         }
     }
 }

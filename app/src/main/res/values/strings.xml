@@ -97,6 +97,7 @@
 </string>
     <string name="your_e_mail_address">YOUR E-MAIL ADDRESS</string>
     <string name="your_message">YOUR MESSAGE</string>
+    <string name="are_you_sure_want_to_buy_a_book_without_register_login">Are you sure want to buy a book without register\\login? Please be noted that if you have purchased the book without register\\login, you will not be able access the same book in another device or platform.</string>
     <string name="you_need_to_login_first">You need to Login first.</string>
 
 

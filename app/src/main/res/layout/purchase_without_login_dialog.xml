@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/bg_dialog"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            style="@style/dialogBigTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:gravity="center"
+            android:text="Every Moment Holy" />
+
+        <TextView
+            style="@style/dialogSmallTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:fontFamily="@font/lato_semibold"
+            android:gravity="center"
+            android:padding="@dimen/_3sdp"
+            android:text="@string/are_you_sure_want_to_buy_a_book_without_register_login" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="#DAD5D5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtPurchaseRegisterLogin"
+                style="@style/dialogOkTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="Register/Login" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_toRightOf="@id/txtOk"
+                android:background="#DAD5D5" />
+
+            <TextView
+                android:id="@+id/txtPurchaseWithoutRegisterLogin"
+                style="@style/dialogOkTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="Purchase without Register/Login" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_toRightOf="@id/txtOk"
+                android:background="#DAD5D5" />
+
+            <TextView
+                android:id="@+id/txtCancel"
+                style="@style/dialogCancelTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:gravity="center"
+                android:text="Cancel" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
