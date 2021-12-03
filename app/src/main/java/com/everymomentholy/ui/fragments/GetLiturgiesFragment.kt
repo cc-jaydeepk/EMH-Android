@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -26,7 +27,9 @@ import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.Utils
+import kotlinx.coroutines.GlobalScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -193,12 +196,11 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     intent.putExtra("liturgies", liturgyData)
                     context?.startActivity(intent)
                 } else {
-                    /* AlertDialog.Builder(requireContext())
-                         .setMessage("This part is under Development.")
-                         .setPositiveButton(android.R.string.yes) { dialog, which ->
-                         }.show()*/
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         Utils.showDialogForUnlockWithoutLogin(requireContext())
+                    }
+                    else{
+                        startPurchaseFlow(liturgyData.bookAmount)
                     }
                 }
             }
@@ -258,6 +260,12 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             txtLiturgyTitle.text = liturgyData.bookTitle
 
         }
+    }
+
+    private fun startPurchaseFlow(price: String) {
+        val inAppUtils =
+            InAppUtils.getInstance((context as Activity).application, GlobalScope)
+        inAppUtils.initiatePurchaseFlow(context as Activity, price)
     }
 
     override fun onResume() {

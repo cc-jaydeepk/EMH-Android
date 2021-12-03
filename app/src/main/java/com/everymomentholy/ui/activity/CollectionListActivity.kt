@@ -114,6 +114,7 @@ class CollectionListActivity : AppCompatActivity() {
                             wholeCollection.bookCoverPageImage = liturgies.volumeCoverPageImage
                             wholeCollection.bookTitle = liturgies.volumeTitle
                             wholeCollection.bookAmount = liturgies.volumeAmount
+                            wholeCollection.discountAmount = liturgies.discountAmount
                         } else {
                             wholeCollection.bookCoverPageImage = liturgies.bookCoverPageImage
                             wholeCollection.bookTitle = liturgies.bookTitle

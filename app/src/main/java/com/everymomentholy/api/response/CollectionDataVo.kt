@@ -17,4 +17,6 @@ class CollectionDataVo :Serializable{
     var isFreeLiturgyAvailable: String = ""
 
     var isPurchased: String = ""
+
+    var discountAmount: String = ""
 }

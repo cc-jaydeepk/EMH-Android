@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.media.Image
@@ -20,7 +21,9 @@ import com.everymomentholy.ui.activity.ForgotPasswordActivity
 import com.everymomentholy.ui.activity.LiturgiesListActivity
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.Utils
+import kotlinx.coroutines.GlobalScope
 
 class BottomSliderCollectionAdapter(
     var context: Context,
@@ -119,21 +122,30 @@ class BottomSliderCollectionAdapter(
         /*  if (freeLiturgies.isPurchased == "Yes") {
 
           } else {
-              holder.btnReadNow.text = "Purchase Collection"
+              holder.btnReadNow.text = "Unlock Collection"
           }*/
 
         holder.btnReadNow.setOnClickListener() {
-            if (holder.btnReadNow.text == "Purchase Collection") {
+            if (holder.btnReadNow.text == "Unlock Collection") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(freeLiturgies.bookAmount)
                 }
             } else if (holder.btnReadNow.text == "Unlock Volume") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    if (freeLiturgies.discountAmount != "0.00")
+                        startPurchaseFlow(freeLiturgies.discountAmount)
+                    else
+                        startPurchaseFlow(freeLiturgies.bookAmount)
                 }
             } else if (holder.btnReadNow.text == "Unlock Collection") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(freeLiturgies.bookAmount)
                 }
             } else {
                 if (freeLiturgies.isPurchased == "Yes") {
@@ -190,4 +202,9 @@ class BottomSliderCollectionAdapter(
         context.startActivity(intent)
     }
 
+    private fun startPurchaseFlow(price: String) {
+        val inAppUtils =
+            InAppUtils.getInstance((context as Activity).application, GlobalScope)
+        inAppUtils.initiatePurchaseFlow(context as Activity, price)
+    }
 }

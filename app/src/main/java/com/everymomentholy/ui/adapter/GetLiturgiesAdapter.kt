@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -18,7 +19,9 @@ import com.everymomentholy.ui.fragments.AboutBookLiturgiesFragment
 import com.everymomentholy.ui.activity.CollectionListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.Utils
+import kotlinx.coroutines.GlobalScope
 
 
 class GetLiturgiesAdapter(
@@ -67,8 +70,8 @@ class GetLiturgiesAdapter(
 
             if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
                 btnUnlock.text = "Read Now"
-                var sdk = android.os.Build.VERSION.SDK_INT;
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                var sdk = Build.VERSION.SDK_INT;
+                if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
                     btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 } else {
@@ -89,8 +92,8 @@ class GetLiturgiesAdapter(
 
             if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
                 btnUnlock.text = "Read Now"
-                var sdk = android.os.Build.VERSION.SDK_INT;
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                var sdk = Build.VERSION.SDK_INT;
+                if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
                     btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 } else {
@@ -137,12 +140,10 @@ class GetLiturgiesAdapter(
                     intent.putExtra("liturgies", getLiturgies)
                     context.startActivity(intent)
                 } else {
-                    /*  AlertDialog.Builder(context)
-                          .setMessage("This part is under Development.")
-                          .setPositiveButton(android.R.string.yes) { dialog, which ->
-                          }.show()*/
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         Utils.showDialogForUnlockWithoutLogin(context)
+                    }else {
+                        startPurchaseFlow(getLiturgies.bookAmount)
                     }
                 }
             }
@@ -156,5 +157,11 @@ class GetLiturgiesAdapter(
 
     fun getLiturgiesData(): List<GetLiturgiesDataVo> {
         return getLiturgiesList
+    }
+
+    private fun startPurchaseFlow(price: String) {
+        val inAppUtils =
+            InAppUtils.getInstance((context as Activity).application, GlobalScope)
+        inAppUtils.initiatePurchaseFlow(context as Activity, price)
     }
 }
