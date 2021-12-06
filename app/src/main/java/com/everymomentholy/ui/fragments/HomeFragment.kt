@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.*
 import com.bumptech.glide.Glide
 import com.everymomentholy.BuildConfig
@@ -35,6 +36,7 @@ import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
@@ -341,19 +343,5 @@ class HomeFragment : Fragment() {
         }
     }
 
-    suspend fun querySkuDetails(billingClient: BillingClient): SkuDetails {
-        Log.e("billing emh", "inside querySkuDetails")
-        val skuList = ArrayList<String>()
-        skuList.add("emh_book_test1")
-        val params = SkuDetailsParams.newBuilder()
-        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
 
-        // leverage querySkuDetails Kotlin extension function
-        val skuDetailsResult = withContext(Dispatchers.IO) {
-            billingClient.querySkuDetails(params.build())
-        }
-        Log.e("billing emh", "skuDEtails " + skuDetailsResult.skuDetailsList?.size)
-        return skuDetailsResult.skuDetailsList?.get(0)!!
-        // Process the result.
-    }
 }

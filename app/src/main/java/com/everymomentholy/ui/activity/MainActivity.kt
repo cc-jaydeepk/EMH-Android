@@ -22,6 +22,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
@@ -35,6 +36,7 @@ import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,7 +83,6 @@ class MainActivity : AppCompatActivity() {
             Constants.PrefUserID,
             0
         )!!
-
 
         toolbar = findViewById(R.id.toolbar)
         iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)

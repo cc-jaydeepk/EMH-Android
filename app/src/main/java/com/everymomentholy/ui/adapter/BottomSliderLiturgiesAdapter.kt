@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
@@ -18,14 +19,10 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.response.MyLiturgiesDataVo
-import com.everymomentholy.utils.Utils
-import com.everymomentholy.ui.activity.ForgotPasswordActivity
-import com.everymomentholy.ui.activity.LiturgiesListActivity
-import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
-import com.folioreader.Config
-import com.folioreader.FolioReader
-import com.folioreader.util.AppUtil
+import com.everymomentholy.utils.InAppUtils
+import com.everymomentholy.utils.Utils
+import kotlinx.coroutines.GlobalScope
 
 class BottomSliderLiturgiesAdapter(
     var context: Context,
@@ -63,16 +60,10 @@ class BottomSliderLiturgiesAdapter(
                 holder.txtLiturgiesPrice.text = "Free"
             }
             holder.btnReadNow.text = "Read Now"
-            var sdk = android.os.Build.VERSION.SDK_INT;
-            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.btnReadNow.background =
-                    context.resources.getDrawable(R.drawable.bg_read_now);
-                holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
-            } else {
-                holder.btnReadNow.background =
-                    context.resources.getDrawable(R.drawable.bg_read_now);
-                holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
-            }
+
+            holder.btnReadNow.background =
+                context.resources.getDrawable(R.drawable.bg_read_now);
+            holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
         } else {
             if (position == 0) {
                 holder.btnReadNow.text = "Unlock Collection"
@@ -90,13 +81,17 @@ class BottomSliderLiturgiesAdapter(
             .into(holder.imgFreeLiturgiescover)
 
         holder.btnReadNow.setOnClickListener() {
-            if (holder.btnReadNow.text == "Purchase Collection") {
+            if (holder.btnReadNow.text == "Unlock Collection") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(freeLiturgies.price)
                 }
             } else if (holder.btnReadNow.text == "Unlock") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(freeLiturgies.price)
                 }
             } else if (holder.btnReadNow.text == "Read Now") {
                 readBook(freeLiturgies)
@@ -104,11 +99,11 @@ class BottomSliderLiturgiesAdapter(
         }
 
         holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
-            if (holder.btnReadNow.text == "Purchase Collection") {
+            if (holder.btnReadNow.text == "Unlock Collection") {
+                startPurchaseFlow(freeLiturgies.price)
             } else if (holder.btnReadNow.text == "Read Now") {
                 readBook(freeLiturgies)
             }
-
         }
 
     }
@@ -159,5 +154,11 @@ class BottomSliderLiturgiesAdapter(
                     }
                 })
         Log.e("id", downloadId.toString())
+    }
+
+    private fun startPurchaseFlow(price: String) {
+        val inAppUtils =
+            InAppUtils.getInstance((context as Activity).application, GlobalScope)
+        inAppUtils.initiatePurchaseFlow(context as Activity, price)
     }
 }
