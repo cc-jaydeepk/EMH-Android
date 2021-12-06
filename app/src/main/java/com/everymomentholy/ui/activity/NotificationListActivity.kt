@@ -85,7 +85,7 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
                     } else {
                         Toast.makeText(
                             this@NotificationListActivity,
-                            response.body()!!.response.msg.toString(),
+                            response.body()!!.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -151,7 +151,7 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
                     } else {
                         Toast.makeText(
                             this@NotificationListActivity,
-                            response.body()!!.response.msg.toString(),
+                            response.body()!!.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }

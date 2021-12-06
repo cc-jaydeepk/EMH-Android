@@ -130,7 +130,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                         } else {
                             progressCardView.visibility = View.GONE
                             AlertDialog.Builder(context!!)
-                                .setMessage("No data available.")
+                                .setMessage("No liturgies available.")
                                 .setPositiveButton(android.R.string.yes) { dialog, which ->
                                 }.show()
                         }

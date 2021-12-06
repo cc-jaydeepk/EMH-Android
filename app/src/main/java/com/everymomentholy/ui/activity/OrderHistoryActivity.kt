@@ -112,7 +112,7 @@ class OrderHistoryActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@OrderHistoryActivity,
-                            response.body()!!.status.toString(),
+                            response.body()!!.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }

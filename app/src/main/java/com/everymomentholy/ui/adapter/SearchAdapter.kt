@@ -85,6 +85,8 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
         holder.txtSearchLiturgyReadNow.setOnClickListener() {
             if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Read Now") {
                 readBook(myLiturgiesDataVo)
+            } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Buy Now") {
+                Utils.showDialogForUnlockWithoutLogin(context)
             }
         }
     }

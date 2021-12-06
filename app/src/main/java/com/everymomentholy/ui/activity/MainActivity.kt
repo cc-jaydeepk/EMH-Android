@@ -260,6 +260,7 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(OrderBookFragment(), "Order Books")
                     toolbar.visibility = View.VISIBLE
                     navBottomView.selectedItemId = R.id.nav_orderBookFragment
+                    navView.setCheckedItem(R.id.nav_orderBookFragment)
                     //replaceFragment(OrderBookFragment(), "Book Ordered")
                     //showUnderDevDialog()
                     false

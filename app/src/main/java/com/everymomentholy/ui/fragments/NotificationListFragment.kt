@@ -71,7 +71,7 @@ class NotificationListFragment : Fragment(), NotificationListClickListner {
                     } else {
                         Toast.makeText(
                             context,
-                            response.body()!!.response.msg.toString(),
+                            response.body()!!.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
                     }

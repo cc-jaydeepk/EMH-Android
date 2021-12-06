@@ -8,6 +8,8 @@ class NotificationResponseVo {
 
     //var response: ResponseVo = ResponseVo()
 
-   // var response: ResponseVo = ResponseVo()
+    // var response: ResponseVo = ResponseVo()
     var response: NotificationResponse = NotificationResponse()
+
+    var message: String = ""
 }

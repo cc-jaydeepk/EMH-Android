@@ -35,8 +35,9 @@ class AboutUsFragment : Fragment() {
         (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
         // txtAbout = view.findViewById(R.id.txtAbout)
         webView = view.findViewById(R.id.webView)
-        val webSettings: WebSettings = webView.getSettings()
+        val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
+        webSettings.javaScriptCanOpenWindowsAutomatically = true
 
         if (Utils.isNetworkAvailable(requireContext())) {
             aboutUs()
