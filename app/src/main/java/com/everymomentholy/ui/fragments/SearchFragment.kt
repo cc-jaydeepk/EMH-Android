@@ -1,29 +1,29 @@
 package com.everymomentholy.ui.fragments
 
 import android.annotation.SuppressLint
-import android.media.Image
+import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.request.SearchLiturgiesRequestVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.MyLiturgiesResponseVo
@@ -34,7 +34,7 @@ import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
+
 
 @SuppressLint("NewApi")
 class SearchFragment : Fragment() {
@@ -59,6 +59,20 @@ class SearchFragment : Fragment() {
         txtSearchItemCount = view.findViewById(R.id.txt_search_item_count)
         //ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
 
+        edtSearch.setOnEditorActionListener(
+            OnEditorActionListener { v, actionId, event -> // Identifier of the action. This will be either the identifier you supplied,
+                // or EditorInfo.IME_NULL if being called due to the enter key being pressed.
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    val imm: InputMethodManager =
+                        requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
+                    return@OnEditorActionListener true
+                }
+                // Return true if you have consumed the action, else false.
+                false
+            })
+
         icSearch.setOnClickListener() {
             if (Utils.isNetworkAvailable(requireContext())) {
                 getSearchLiturgies()
@@ -80,6 +94,8 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0!!.length >= 3) {
+
+
                     if (Utils.isNetworkAvailable(requireContext())) {
                         getSearchLiturgies()
                     } else {
@@ -172,5 +188,15 @@ class SearchFragment : Fragment() {
         super.onDestroy()
         (activity as MainActivity).ivToolbarDrawer.visibility = View.VISIBLE
         (activity as MainActivity).iv_toolbar_backImage.visibility = View.GONE
+        val imm: InputMethodManager =
+            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
+    override fun onDestroyView() {
+        val imm: InputMethodManager =
+            requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+        super.onDestroyView()
     }
 }

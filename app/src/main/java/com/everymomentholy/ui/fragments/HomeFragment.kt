@@ -82,12 +82,12 @@ class HomeFragment : Fragment() {
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationListActivity::class.java)
             startActivity(intent)
-          /*  if (context != null) {
-                AlertDialog.Builder(requireContext())
-                    .setMessage("This part is under Development.")
-                    .setPositiveButton(android.R.string.yes) { dialog, which ->
-                    }.show()
-            }*/
+            /*  if (context != null) {
+                  AlertDialog.Builder(requireContext())
+                      .setMessage("This part is under Development.")
+                      .setPositiveButton(android.R.string.yes) { dialog, which ->
+                      }.show()
+              }*/
         }
 
         iv_toolbar_drawer.setOnClickListener {
@@ -199,13 +199,25 @@ class HomeFragment : Fragment() {
         intent.putExtra(Intent.EXTRA_SUBJECT, "")
         intent.putExtra(Intent.EXTRA_STREAM, uri) //pass uri here
         startActivity(Intent.createChooser(intent, "Share With"))
+
+        ivHomeShare.isEnabled = true
+        ivHomeShare.visibility = View.VISIBLE
     }
 
 
     override fun onResume() {
         super.onResume()
-        dailyLiturgyQuote()
-        getSettings()
+
+        if (Utils.isNetworkAvailable(requireContext())) {
+            dailyLiturgyQuote()
+            getSettings()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                requireContext().resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
     }
 

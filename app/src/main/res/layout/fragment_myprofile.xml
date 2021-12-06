@@ -144,7 +144,7 @@
                         android:background="@drawable/bg_register_edt"
                         android:enabled="false"
                         android:hint="First name"
-                        android:inputType="textPersonName" />
+                        android:inputType="text" />
 
                     <EditText
                         android:id="@+id/edtUserLastName"
@@ -153,7 +153,7 @@
                         android:background="@drawable/bg_register_edt"
                         android:enabled="false"
                         android:hint="Last name"
-                        android:inputType="textPersonName" />
+                        android:inputType="text" />
 
                     <EditText
                         android:id="@+id/edtUserEmail"

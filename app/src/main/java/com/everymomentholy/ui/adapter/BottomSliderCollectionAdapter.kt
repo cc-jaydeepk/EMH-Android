@@ -135,6 +135,8 @@ class BottomSliderCollectionAdapter(
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
                 }
+            } else if (holder.btnReadNow.text == "Read Now") {
+                transferToLiturgyList(freeLiturgies)
             } else {
                 if (freeLiturgies.isPurchased == "Yes") {
                     //if (position > 0) {
@@ -159,7 +161,11 @@ class BottomSliderCollectionAdapter(
                     transferToLiturgyList(freeLiturgies)
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                        Utils.showDialogForUnlockWithoutLogin(context)
+                        if (holder.btnReadNow.text == "Read Now") {
+                            transferToLiturgyList(freeLiturgies)
+                        } else {
+                            Utils.showDialogForUnlockWithoutLogin(context)
+                        }
                     } else {
                         transferToLiturgyList(freeLiturgies)
                     }

@@ -195,7 +195,7 @@ class MyProfileFragment : Fragment() {
         )!!
 
         txtUseName.text = Utils.readStringFromSharedPref(
-            requireActivity(), Constants.NAME,
+            requireActivity(), Constants.USER_NAME,
             ""
         ).toString()
 
@@ -380,10 +380,15 @@ class MyProfileFragment : Fragment() {
                             requireActivity(), Constants.USER_NAME,
                             getUserProfileUpdateRequestVo.firstName + " " + getUserProfileUpdateRequestVo.lastName
                         )
-                       /* Utils.writeStringToSharedPref(
-                            requireActivity(), Constants.NAME,
-                            getUserProfileUpdateRequestVo.firstName + getUserProfileUpdateRequestVo.lastName
-                        )*/
+
+                        txtUseName.text = Utils.readStringFromSharedPref(
+                            requireContext(), Constants.USER_NAME,
+                            ""
+                        ).toString()
+                        /* Utils.writeStringToSharedPref(
+                             requireActivity(), Constants.NAME,
+                             getUserProfileUpdateRequestVo.firstName + getUserProfileUpdateRequestVo.lastName
+                         )*/
 
                         Utils.writeStringToSharedPref(
                             requireActivity(), Constants.USER_EMAIL,

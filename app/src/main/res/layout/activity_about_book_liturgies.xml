@@ -63,6 +63,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/lato_medium"
                 android:textColor="@color/black"
+                android:layout_marginBottom="@dimen/_40sdp"
                 android:textSize="@dimen/about_book_desctext" />
 
         </LinearLayout>

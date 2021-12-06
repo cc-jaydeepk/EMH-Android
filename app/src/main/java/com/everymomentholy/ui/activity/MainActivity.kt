@@ -1,6 +1,7 @@
 package com.everymomentholy.ui.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -163,7 +165,9 @@ class MainActivity : AppCompatActivity() {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
 
-                if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+
+                } else {
                     profileImage = Utils.readStringFromSharedPref(
                         this@MainActivity, Constants.PROFILE_PIC,
                         ""
@@ -173,13 +177,17 @@ class MainActivity : AppCompatActivity() {
                         .load(profileImage)
                         .into(iv_drawer_profile_image)
 
-
                     txt_drawer_UserName.text = Utils.readStringFromSharedPref(
                         this@MainActivity, Constants.USER_NAME,
                         ""
                     ).toString()
 
-
+                    Log.e(
+                        "user name", Utils.readStringFromSharedPref(
+                            this@MainActivity, Constants.USER_NAME,
+                            ""
+                        ).toString()
+                    )
 
                     txt_drawer_email.text = Utils.readStringFromSharedPref(
                         this@MainActivity, Constants.USER_EMAIL,
@@ -605,6 +613,18 @@ class MainActivity : AppCompatActivity() {
 
     fun replaceFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle? = null) {
         if (currentFragment != fragment.javaClass.name) {
+
+            try {
+                val view = this.currentFocus
+                if (view != null) {
+                    val imm: InputMethodManager =
+                        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             txt_toolbar_name.text = txtToolbarTitle
             val fragmentManager = supportFragmentManager
             val transaction = fragmentManager.beginTransaction()

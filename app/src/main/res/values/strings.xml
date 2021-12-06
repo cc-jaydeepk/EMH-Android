@@ -13,7 +13,7 @@
     <string name="login">Login</string>
     <string name="i_have_read_and_agree_to_the">I have read and agree to the</string>
     <string name="close">Close</string>
-    <string name="your_name">YOUR NAME</string>
+    <string name="your_name">YOUR NAME <font color="#FF0000">*</font></string>
     <string name="submit">Submit</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="old_password">Old Password <font color="#FF0000">*</font></string>
@@ -95,8 +95,8 @@
 <p><span style=\"font-family:Verdana,Geneva,sans-serif\">We hope this app will make these liturgies readily available to anyone who needs them, including small groups who would like to read a liturgy together even though some in the&nbsp;group may not own the app. </span></p>"&lt;$1&gt;"<p><span style=\"font-family:Verdana,Geneva,sans-serif\">In order to share a liturgy with others, follow the steps below.</span></p>"&lt;$1&gt;"<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>1.</strong>&nbsp;Tap the &quot;Share&quot; icon on the liturgy you wish to share.</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>2.</strong> A small window will open displaying a link. This link is unique and will remain active for 24 hours.</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>3.</strong> Tap the &quot;Share Link&quot; button.</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>4. </strong>Select your preferred means of sharing the link (text message, Facebook, Instagram, etc.).</span></p>\r\n\r\n<p style=\"margin-left:40px\"><span style=\"font-family:Verdana,Geneva,sans-serif\"><strong>5.</strong> Anyone who recieves the link will be able to open the liturgy and read it until the link expires.</span></p>
 ]]>
 </string>
-    <string name="your_e_mail_address">YOUR E-MAIL ADDRESS</string>
-    <string name="your_message">YOUR MESSAGE</string>
+    <string name="your_e_mail_address">YOUR E-MAIL ADDRESS <font color="#FF0000">*</font></string>
+    <string name="your_message">YOUR MESSAGE <font color="#FF0000">*</font></string>
     <string name="are_you_sure_want_to_buy_a_book_without_register_login">Are you sure want to buy a book without register\\login? Please be noted that if you have purchased the book without register\\login, you will not be able access the same book in another device or platform.</string>
     <string name="you_need_to_login_first">You need to Login first.</string>
 
