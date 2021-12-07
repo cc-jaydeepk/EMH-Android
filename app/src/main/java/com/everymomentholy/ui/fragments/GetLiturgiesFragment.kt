@@ -198,8 +198,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         Utils.showDialogForUnlockWithoutLogin(requireContext())
-                    }
-                    else{
+                    } else {
                         startPurchaseFlow(liturgyData.bookAmount)
                     }
                 }

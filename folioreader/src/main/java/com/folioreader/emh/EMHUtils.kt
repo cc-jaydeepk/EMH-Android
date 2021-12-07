@@ -22,6 +22,9 @@ class EMHUtils {
 
     companion object {
 
+        var favoriteFlagChange: Boolean = false
+        var favoriteStatusChange: Boolean = false
+
         fun setLiturgiesFavourite(
             context: android.content.Context,
             liturgiesDataVo: MyLiturgiesDataVo
@@ -30,7 +33,8 @@ class EMHUtils {
             var setFavouriteRequestVo = SetFavouriteRequestVo()
 
             setFavouriteRequestVo.userId = liturgiesDataVo.userId
-            setFavouriteRequestVo.isFavorite = liturgiesDataVo.isFavorite != "True"
+            setFavouriteRequestVo.isFavorite =
+                !(liturgiesDataVo.isFavorite == "True" || liturgiesDataVo.isFavorite == "true")
             setFavouriteRequestVo.bookId = liturgiesDataVo.bookId
             setFavouriteRequestVo.chapterId = liturgiesDataVo.chapterId
 
@@ -46,10 +50,16 @@ class EMHUtils {
                         response: retrofit2.Response<BaseResponseVo>
                     ) {
                         if (response.body()?.statusCode == 1) {
-                            if (liturgiesDataVo.isFavorite == "True") {
+                            if (liturgiesDataVo.isFavorite == "True" || liturgiesDataVo.isFavorite == "true") {
                                 (context as FolioActivity).markFavorite(false, context)
+                                liturgiesDataVo.isFavorite = "false"
+                                favoriteFlagChange = true
+                                favoriteStatusChange = false
                             } else {
                                 (context as FolioActivity).markFavorite(true, context)
+                                liturgiesDataVo.isFavorite = "true"
+                                favoriteFlagChange = true
+                                favoriteStatusChange = true
                             }
                         } else {
                             android.widget.Toast.makeText(
@@ -74,7 +84,10 @@ class EMHUtils {
             }
         }
 
-        fun privateShareLiturgy(context: android.content.Context, liturgyDataVo: MyLiturgiesDataVo) {
+        fun privateShareLiturgy(
+            context: android.content.Context,
+            liturgyDataVo: MyLiturgiesDataVo
+        ) {
 
             var privateSharingRequest: PrivateSharingRequestVo = PrivateSharingRequestVo()
             privateSharingRequest.deviceId = Settings.Secure.getString(

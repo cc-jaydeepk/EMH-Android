@@ -25,6 +25,7 @@ import com.everymomentholy.ui.adapter.BottomSliderAdapter
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.folioreader.emh.EMHUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
@@ -335,6 +336,20 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             })
         } catch (exception: Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (EMHUtils.favoriteFlagChange) {
+            try {
+                if (bottomSliderAdapter.bookOpenPosition != -1) {
+                    bottomSliderAdapter.updateFavoriteStatusFromBookRead()
+                    bottomSliderAdapter.notifyDataSetChanged()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

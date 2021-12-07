@@ -32,6 +32,7 @@ import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
+import com.folioreader.emh.EMHUtils
 import com.folioreader.util.AppUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,8 +44,9 @@ class BottomSliderAdapter(
     var liturgyList: List<MyLiturgiesDataVo>,
 ) : RecyclerView.Adapter<BottomSliderAdapter.MyViewHolder>() {
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    public var bookOpenPosition = -1
 
+    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgShare = view.findViewById<ImageView>(R.id.imgShare)
         var imgFreeLiturgiescover = view.findViewById<ImageView>(R.id.imgFreeLiturgiescover)
         var txtfreeLiturgiesTitle = view.findViewById<TextView>(R.id.txtFreeLiturgiesTitle)
@@ -86,6 +88,7 @@ class BottomSliderAdapter(
         }
 
         holder.btnReadNow.setOnClickListener() {
+            bookOpenPosition = position
             val cw = ContextWrapper(context)
             val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
             if (!directory.exists()) {
@@ -127,7 +130,7 @@ class BottomSliderAdapter(
             holder.txtFree.text = "Free"
         }
 
-        if (freeLiturgy.isFavorite == "True") {
+        if (freeLiturgy.isFavorite == "True" || freeLiturgy.isFavorite == "true") {
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
         } else {
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
@@ -300,6 +303,19 @@ class BottomSliderAdapter(
             })
         } catch (exception: Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    fun updateFavoriteStatusFromBookRead() {
+        if (EMHUtils.favoriteFlagChange) {
+            if (bookOpenPosition != -1) {
+                if (EMHUtils.favoriteStatusChange) {
+                    liturgyList[bookOpenPosition].isFavorite = "True"
+                } else {
+                    liturgyList[bookOpenPosition].isFavorite = "False"
+                }
+                notifyDataSetChanged()
+            }
         }
     }
 }

@@ -33,6 +33,7 @@ import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
+import com.folioreader.emh.EMHUtils
 import com.folioreader.util.AppUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,6 +45,8 @@ class FavoriteAdapter(
     // var getLiturgiesList: List<LiturgiesDataVo>
     var favLiturgiesList: ArrayList<GetFavoritesDataVo>
 ) : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
+
+    public var bookOpenPosition = -1
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgFavCover = view.findViewById<ImageView>(R.id.imgFavCover)
@@ -61,7 +64,10 @@ class FavoriteAdapter(
     }
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
-    override fun onBindViewHolder(holder: MyViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    override fun onBindViewHolder(
+        holder: MyViewHolder,
+        @SuppressLint("RecyclerView") position: Int
+    ) {
 
         holder.txtFavLiturgyName.text = favLiturgiesList[position].chapterTitle
         Glide.with(context)
@@ -81,6 +87,7 @@ class FavoriteAdapter(
         }
 
         holder.btnFavReadNow.setOnClickListener() {
+            bookOpenPosition = position
             val cw = ContextWrapper(context)
             val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
             if (!directory.exists()) {
@@ -288,6 +295,21 @@ class FavoriteAdapter(
             })
         } catch (exception: Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    fun updateFavoriteStatusFromBookRead() {
+        if (EMHUtils.favoriteFlagChange) {
+            if (bookOpenPosition != -1) {
+                if (EMHUtils.favoriteStatusChange) {
+                    favLiturgiesList[bookOpenPosition].isFavorite = "True"
+                } else {
+                    favLiturgiesList[bookOpenPosition].isFavorite = "False"
+                    favLiturgiesList.removeAt(bookOpenPosition)
+                }
+
+            }
+            notifyDataSetChanged()
         }
     }
 }

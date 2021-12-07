@@ -14,7 +14,7 @@
     <item
         android:id="@+id/nav_favoritesFragment"
         android:icon="@drawable/ic_fevrite"
-        android:title="Favorites"></item>
+        android:title="Favourites"></item>
 
     <item
         android:id="@+id/nav_getLiturgiesFragment"

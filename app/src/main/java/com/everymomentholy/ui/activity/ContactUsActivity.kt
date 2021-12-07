@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.activity
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Patterns
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.util.Util
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
@@ -27,6 +29,7 @@ class ContactUsActivity : AppCompatActivity() {
     private lateinit var btnContactusSubmit: Button
     private lateinit var iv_toolbar_drawer: ImageView
     private lateinit var txt_toolbar_name: TextView
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +61,8 @@ class ContactUsActivity : AppCompatActivity() {
                     contactUsRequestVo.email = edtEmailAddress.text.toString().trim()
                     contactUsRequestVo.message = edtMessage.text.toString().trim()
 
+                    progressDialog = Utils.showProgressDialog(this@ContactUsActivity)!!
+                    progressDialog.show()
                     contactUs(contactUsRequestVo)
 
                 } else {
@@ -83,14 +88,19 @@ class ContactUsActivity : AppCompatActivity() {
                     call: Call<ContectUsResponseVo>,
                     response: Response<ContectUsResponseVo>
                 ) {
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
                     if (response.body()?.statusCode == 1) {
+                        edtEmailAddress.setText("")
+                        edtMessage.setText("")
+                        edtYourName.setText("")
 
                         Toast.makeText(
                             this@ContactUsActivity,
                             response.body()!!.response.toString(),
                             Toast.LENGTH_LONG
                         ).show()
-
                     } else {
                         /*Toast.makeText(
                             this@ContactUsActivity,
@@ -103,6 +113,9 @@ class ContactUsActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<ContectUsResponseVo>, t: Throwable) {
                     Toast.makeText(this@ContactUsActivity, "${t.message}", Toast.LENGTH_SHORT)
                         .show()
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
                 }
             })
         } catch (exception: Exception) {

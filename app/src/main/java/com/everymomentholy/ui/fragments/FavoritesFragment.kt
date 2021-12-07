@@ -19,6 +19,7 @@ import com.everymomentholy.api.response.GetFavoritesResponseVo
 import com.everymomentholy.ui.adapter.FavoriteAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.folioreader.emh.EMHUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +27,7 @@ import retrofit2.Response
 class FavoritesFragment : Fragment() {
 
     private lateinit var favRecyclerView: RecyclerView
-    private lateinit var adapter: FavoriteAdapter
+    private lateinit var favoriteAdapter: FavoriteAdapter
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -91,11 +92,24 @@ class FavoritesFragment : Fragment() {
     }
 
     fun setAdapter(favLiturgiesData: ArrayList<GetFavoritesDataVo>) {
-        adapter = FavoriteAdapter(requireContext(), favLiturgiesData)
+        favoriteAdapter = FavoriteAdapter(requireContext(), favLiturgiesData)
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(context)
         favRecyclerView.layoutManager = layoutManager
-        favRecyclerView.adapter = adapter
+        favRecyclerView.adapter = favoriteAdapter
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (EMHUtils.favoriteFlagChange) {
+            try {
+                if (favoriteAdapter.bookOpenPosition != -1) {
+                    favoriteAdapter.updateFavoriteStatusFromBookRead()
+                    favoriteAdapter.notifyDataSetChanged()
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

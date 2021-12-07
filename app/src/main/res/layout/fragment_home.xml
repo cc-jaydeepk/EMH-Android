@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/liturgitxtmargin"
                         android:fontFamily="@font/lato_medium"
-                        android:text="10 sep 2021"
+                        android:text=""
                         android:textColor="@color/loginbg"
                         android:textSize="@dimen/liturgitxtsize" />
 
@@ -120,7 +120,6 @@
                         android:layout_marginRight="@dimen/home_frg_txtmrg"
                         android:fontFamily="@font/lato_medium"
                         android:gravity="center"
-                        android:text="&#34;Give us discernment to know when \n to simply \n shut off our screens and to sit \n quietly in your presence.&#34;"
                         android:textSize="@dimen/home_frg_dessize" />
 
                     <TextView
@@ -133,7 +132,6 @@
                         android:layout_marginRight="@dimen/home_frg_txtmrg"
                         android:fontFamily="@font/lato_mediumitalic"
                         android:gravity="center"
-                        android:text="from &#34;For Those Flooded by Too Much Information&#34;"
                         android:textColor="@color/loginbg"
                         android:textSize="@dimen/home_frg_size" />
 

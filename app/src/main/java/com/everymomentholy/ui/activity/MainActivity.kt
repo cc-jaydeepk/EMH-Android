@@ -259,6 +259,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_orderBookFragment -> {
                     replaceFragment(OrderBookFragment(), "Order Books")
                     toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE
                     navBottomView.selectedItemId = R.id.nav_orderBookFragment
                     navView.setCheckedItem(R.id.nav_orderBookFragment)
                     //replaceFragment(OrderBookFragment(), "Book Ordered")

@@ -16,6 +16,7 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
@@ -86,7 +87,9 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
             if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Read Now") {
                 readBook(myLiturgiesDataVo)
             } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Buy Now") {
-                Utils.showDialogForUnlockWithoutLogin(context)
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                }
             }
         }
     }

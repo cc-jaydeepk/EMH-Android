@@ -235,5 +235,12 @@ class Utils {
             }
             show.setCanceledOnTouchOutside(false)
         }
+
+        fun showProgressDialog(context: Context): ProgressDialog? {
+            val progressDialog = ProgressDialog(context)
+            progressDialog.setTitle("Every Moment Holy")
+            progressDialog.setMessage("Please wait")
+            return progressDialog
+        }
     }
 }

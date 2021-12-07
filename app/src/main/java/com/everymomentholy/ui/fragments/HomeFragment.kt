@@ -35,6 +35,7 @@ import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.folioreader.util.ProgressDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -66,6 +67,7 @@ class HomeFragment : Fragment() {
 
     lateinit var quotesText: String
     lateinit var cotedText: String
+    lateinit var progressDialog: android.app.ProgressDialog
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
     override fun onCreateView(
@@ -84,12 +86,6 @@ class HomeFragment : Fragment() {
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationListActivity::class.java)
             startActivity(intent)
-            /*  if (context != null) {
-                  AlertDialog.Builder(requireContext())
-                      .setMessage("This part is under Development.")
-                      .setPositiveButton(android.R.string.yes) { dialog, which ->
-                      }.show()
-              }*/
         }
 
         iv_toolbar_drawer.setOnClickListener {
@@ -114,16 +110,10 @@ class HomeFragment : Fragment() {
             screenShotCapture()
 
             //After taking screenshot reset the button and view again
-            ivHomeShare.setVisibility(View.VISIBLE)
-            iv_toolbar_drawer.setVisibility(View.VISIBLE)
-            iv_toolbar_notification.setVisibility(View.VISIBLE)
+            ivHomeShare.visibility = View.VISIBLE
+            iv_toolbar_drawer.visibility = View.VISIBLE
+            iv_toolbar_notification.visibility = View.VISIBLE
         }
-
-        // dailyLiturgyQuote()
-        //getSettings()
-
-        //  val folioReader = FolioReader.get()
-        //folioReader.openBook(R.raw.before_shopping)
         return view
     }
 
@@ -211,6 +201,8 @@ class HomeFragment : Fragment() {
         super.onResume()
 
         if (Utils.isNetworkAvailable(requireContext())) {
+            progressDialog = Utils.showProgressDialog(requireContext())!!
+            progressDialog.show()
             dailyLiturgyQuote()
             getSettings()
         } else {
@@ -233,6 +225,9 @@ class HomeFragment : Fragment() {
                     call: Call<HomegetSettingResponseVo>,
                     response: Response<HomegetSettingResponseVo>
                 ) {
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
                     if (response.body()?.statusCode == 1) {
 
                         // txtQuote.text = response.body()!!.response.parentLiturgy
@@ -253,6 +248,9 @@ class HomeFragment : Fragment() {
 
                 override fun onFailure(call: Call<HomegetSettingResponseVo>, t: Throwable) {
                     Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
                 }
             })
         } catch (exception: Exception) {
