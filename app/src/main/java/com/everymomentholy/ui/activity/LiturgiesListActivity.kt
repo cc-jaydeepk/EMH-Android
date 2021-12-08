@@ -262,4 +262,5 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
             Constants.AFTER_PURCHASE_REFRESH_DELAY
         )
     }
+    // test
 }
