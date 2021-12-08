@@ -1,5 +1,6 @@
 package com.everymomentholy.api.response
 
+import com.everymomentholy.utils.ProductTypes
 import java.io.Serializable
 
 class CollectionDataVo :Serializable{
@@ -19,4 +20,8 @@ class CollectionDataVo :Serializable{
     var isPurchased: String = ""
 
     var discountAmount: String = ""
+
+    var volumeId: Int = 0
+
+    var productTypes: ProductTypes = ProductTypes.BOOK
 }

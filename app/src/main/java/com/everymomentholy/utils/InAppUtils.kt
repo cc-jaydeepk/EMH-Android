@@ -4,15 +4,28 @@ import android.app.Activity
 import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import com.android.billingclient.api.*
+import com.everymomentholy.api.request.PurchaseRequestVo
+import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.ui.activity.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Math.min
 import java.util.*
+import com.android.billingclient.api.BillingResult
+
+import com.android.billingclient.api.ConsumeResponseListener
+
+import com.android.billingclient.api.ConsumeParams
+import com.android.billingclient.api.BillingClient
+import com.everymomentholy.ui.activity.CollectionListActivity
+import com.everymomentholy.ui.activity.LiturgiesListActivity
+
 
 private const val RECONNECT_TIMER_START_MILLISECONDS = 1L * 1000L
 private const val RECONNECT_TIMER_MAX_TIME_MILLISECONDS = 1000L * 60L * 15L // 15 minutes
@@ -28,18 +41,23 @@ class InAppUtils private constructor(
         .setListener(this)
         .enablePendingPurchases()
         .build()
+    private lateinit var activity: Activity
+    private lateinit var purchaseRequestVo: PurchaseRequestVo
 
     // how long before the data source tries to reconnect to Google play
     private var reconnectMilliseconds = RECONNECT_TIMER_START_MILLISECONDS
 
     fun initiatePurchaseFlow(
         activity: Activity?,
-        price: String
+        purchaseRequestVo: PurchaseRequestVo
     ) {
+
+        this.activity = activity!!
+        this.purchaseRequestVo = purchaseRequestVo
 
         defaultScope.launch {
             Log.e(TAG, "inside purchase")
-            val skuDetails = querySkuDetails(price)
+            val skuDetails = querySkuDetails(purchaseRequestVo.amount)
             if (skuDetails != null) {
                 val flowParams = BillingFlowParams.newBuilder()
                     .setSkuDetails(skuDetails)
@@ -149,27 +167,61 @@ class InAppUtils private constructor(
         }
     }
 
+    private var listener =
+        ConsumeResponseListener { billingResult, purchaseToken ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    purchaseRequestVo.userId = Constants.SKIP_LOGIN_USER_ID
+                }
+                Log.e(TAG, "Consume Billing success: + " + billingResult.debugMessage)
+                if (activity is MainActivity)
+                    (activity as MainActivity).onPurchaseComplete(purchaseRequestVo)
+                else if (activity is CollectionListActivity)
+                    (activity as CollectionListActivity).onPurchaseComplete(purchaseRequestVo)
+                else if (activity is LiturgiesListActivity)
+                    (activity as LiturgiesListActivity).onPurchaseComplete(purchaseRequestVo)
+
+            } else {
+                Log.e(TAG, "Consume Billing failed: + " + billingResult.debugMessage)
+            }
+        }
+
     private fun processPurchaseList(purchases: List<Purchase>?, skusToUpdate: List<String>?) {
         if (null != purchases) {
             for (purchase in purchases) {
-                defaultScope.launch {
-                    if (!purchase.isAcknowledged) {
-                        // acknowledge everything --- new purchases are ones not yet acknowledged
-                        val billingResult = billingClient.acknowledgePurchase(
-                            AcknowledgePurchaseParams.newBuilder()
-                                .setPurchaseToken(purchase.purchaseToken)
-                                .build()
-                        )
-                        if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
-                            Log.e(TAG, "Error acknowledging purchase: ${purchase.skus.toString()}")
-                        } else {
-                            // purchase acknowledged
-                            /*for (sku in purchase.skus) {
+
+                /*For consumables, the consumeAsync() method fulfills the acknowledgement requirement and indicates
+                that your app has granted entitlement to the user. This method also enables your app to make the
+                one-time product available for purchase again.*/
+                val consumeParams = ConsumeParams
+                    .newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+                    .build()
+                billingClient.consumeAsync(consumeParams, listener)
+
+                /*
+                 No need to call acknowledgePurchase for consumable products and it is already handled by
+                 consumeAsync()
+
+                 defaultScope.launch {
+                     if (!purchase.isAcknowledged) {
+                         // acknowledge everything --- new purchases are ones not yet acknowledged
+                         val billingResult = billingClient.acknowledgePurchase(
+                             AcknowledgePurchaseParams.newBuilder()
+                                 .setPurchaseToken(purchase.purchaseToken)
+                                 .build()
+                         )
+                         if (billingResult.responseCode != BillingClient.BillingResponseCode.OK) {
+                             Log.e(TAG, "Error acknowledging purchase: ${purchase.skus.toString()}")
+                         } else {
+                             // purchase acknowledged
+                             *//*for (sku in purchase.skus) {
                                 setSkuState(sku, SkuState.SKU_STATE_PURCHASED_AND_ACKNOWLEDGED)
-                            }*/
+                            }*//*
                         }
                     }
-                }
+                }*/
             }
         }
     }
@@ -196,7 +248,7 @@ class InAppUtils private constructor(
         }
 
         val productListPriceMap: HashMap<String, String> = hashMapOf(
-            "0.99" to "emh99",
+            "0.99" to "emh099",
             "1.99" to "emh199",
             "2.99" to "emh299",
             "3.99" to "emh399",

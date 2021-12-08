@@ -180,6 +180,8 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         if (!isAuto) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
+
+
         bottomSheet.setZ(10.0F)
         // bottomSheetBehavior.peekHeight = 80
         bottomSheetBehavior.setPeekHeight(

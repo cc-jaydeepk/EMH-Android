@@ -211,4 +211,24 @@ interface APIInterface {
 
     @POST(Constants.API_READ_USER_NOTIFICATIONS)
     fun readUserNotification(@Body notificationReadRequestVo: NotificationReadRequestVo): Call<PrivateShareResponseVo>
+
+    @POST(Constants.API_PURCHASE_LITURGY)
+    fun purchaseLiturgyAcknowledge(
+        @Body privateSharingRequestVo: PurchaseRequestVo,
+        @Header("Authorization") token: String
+    ): Call<PrivateShareResponseVo>
+
+    @POST(Constants.API_PURCHASE_BOOK)
+    fun purchaseBookAcknowledge(
+        @Body privateSharingRequestVo: PurchaseRequestVo,
+        @Header("Authorization") token: String
+    ): Call<PrivateShareResponseVo>
+
+    @POST(Constants.API_PURCHASE_VOLUME)
+    fun purchaseVolumeAcknowledge(
+        @Body privateSharingRequestVo: PurchaseRequestVo,
+        @Header("Authorization") token: String
+    ): Call<PrivateShareResponseVo>
+
+
 }

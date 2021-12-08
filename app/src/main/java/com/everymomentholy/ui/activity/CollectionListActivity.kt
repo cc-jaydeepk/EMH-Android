@@ -16,17 +16,21 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.CollectionRequestVo
+import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.CollectionDataVo
 import com.everymomentholy.api.response.CollectionListResponseVo
 import com.everymomentholy.api.response.GetLiturgiesDataVo
+import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.interfaces.OnInAppPurchaseListener
 import com.everymomentholy.ui.adapter.BottomSliderCollectionAdapter
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CollectionListActivity : AppCompatActivity() {
+class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
 
     lateinit var rvCollectionList: RecyclerView
     var prefeUserId: Int = 0
@@ -36,6 +40,7 @@ class CollectionListActivity : AppCompatActivity() {
     lateinit var ivToolbarNotification: ImageView
     lateinit var txtToolbarName: TextView
     lateinit var ivToolbarDrawer: ImageView
+    var isPurchaseSuccess: Boolean = false
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,4 +167,99 @@ class CollectionListActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * This callback will acknowledge the successful in-app purchase to the backend server.
+     */
+    override fun onPurchaseComplete(purchaseRequestVo: PurchaseRequestVo) {
+
+        runOnUiThread {
+            Toast.makeText(this, "In app purchase complete", Toast.LENGTH_LONG).show()
+        }
+
+        val request = APIService.buildService(APIInterface::class.java)
+        lateinit var call: Call<PrivateShareResponseVo>
+
+        when (purchaseRequestVo.productType) {
+            ProductTypes.LITURGY -> {
+                call = request.purchaseLiturgyAcknowledge(
+                    purchaseRequestVo,
+                    "bearer " + Utils.readStringFromSharedPref(
+                        this,
+                        Constants.SHARED_PREF_TOKEN,
+                        ""
+                    )
+                )
+            }
+            ProductTypes.BOOK -> {
+                call = request.purchaseBookAcknowledge(
+                    purchaseRequestVo,
+                    "bearer " + Utils.readStringFromSharedPref(
+                        this,
+                        Constants.SHARED_PREF_TOKEN,
+                        ""
+                    )
+                )
+            }
+            ProductTypes.VOLUME -> {
+                call = request.purchaseVolumeAcknowledge(
+                    purchaseRequestVo,
+                    "bearer " + Utils.readStringFromSharedPref(
+                        this,
+                        Constants.SHARED_PREF_TOKEN,
+                        ""
+                    )
+                )
+            }
+        }
+
+        try {
+            call.enqueue(object : Callback<PrivateShareResponseVo> {
+                override fun onResponse(
+                    call: Call<PrivateShareResponseVo>,
+                    response: Response<PrivateShareResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        isPurchaseSuccess = true
+                        Toast.makeText(
+                            this@CollectionListActivity,
+                            "success",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                    } else {
+                        Toast.makeText(
+                            this@CollectionListActivity,
+                            response.body()!!.response,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PrivateShareResponseVo>, t: Throwable) {
+                    Toast.makeText(this@CollectionListActivity, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if(isPurchaseSuccess)
+        {
+            if (Utils.isNetworkAvailable(this)) {
+                isPurchaseSuccess = false
+                getCollectionList(liturgies.volumeId)
+            } else {
+                Toast.makeText(
+                    this@CollectionListActivity,
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
 }

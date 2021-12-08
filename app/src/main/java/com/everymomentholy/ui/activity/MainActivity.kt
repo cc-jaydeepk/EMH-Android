@@ -29,10 +29,14 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetUserProfileRequestVo
 import com.everymomentholy.api.request.LogoutRequestVo
+import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.LogoutResponseVo
+import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.interfaces.OnInAppPurchaseListener
 import com.everymomentholy.ui.fragments.*
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -42,7 +46,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarToggle: ActionBarDrawerToggle
@@ -744,5 +748,82 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(android.R.string.yes) { dialog, which ->
             }.setNegativeButton(android.R.string.no) { dialog, which ->
             }.setNeutralButton(android.R.string.ok) { dialog, which -> }.show()
+    }
+
+    /**
+     * This callback will acknowledge the successful in-app purchase to the backend server.
+     */
+    override fun onPurchaseComplete(purchaseRequestVo: PurchaseRequestVo) {
+
+        runOnUiThread {
+            Toast.makeText(this, "In app purchase complete", Toast.LENGTH_LONG).show()
+        }
+
+        val request = APIService.buildService(APIInterface::class.java)
+        lateinit var call: Call<PrivateShareResponseVo>
+
+        when (purchaseRequestVo.productType) {
+            ProductTypes.LITURGY -> {
+                call = request.purchaseLiturgyAcknowledge(
+                    purchaseRequestVo,
+                    "bearer " + Utils.readStringFromSharedPref(
+                        this,
+                        Constants.SHARED_PREF_TOKEN,
+                        ""
+                    )
+                )
+            }
+            ProductTypes.BOOK -> {
+                call = request.purchaseBookAcknowledge(
+                    purchaseRequestVo,
+                    "bearer " + Utils.readStringFromSharedPref(
+                        this,
+                        Constants.SHARED_PREF_TOKEN,
+                        ""
+                    )
+                )
+            }
+            ProductTypes.VOLUME -> {
+                call = request.purchaseVolumeAcknowledge(
+                    purchaseRequestVo,
+                    "bearer " + Utils.readStringFromSharedPref(
+                        this,
+                        Constants.SHARED_PREF_TOKEN,
+                        ""
+                    )
+                )
+            }
+        }
+
+        try {
+            call.enqueue(object : Callback<PrivateShareResponseVo> {
+                override fun onResponse(
+                    call: Call<PrivateShareResponseVo>,
+                    response: Response<PrivateShareResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "success",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                    } else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            response.body()!!.response,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PrivateShareResponseVo>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
     }
 }

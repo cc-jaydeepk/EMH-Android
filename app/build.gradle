@@ -14,8 +14,8 @@ android {
         applicationId "com.everymomentholy"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.4"
+        versionCode 9
+        versionName "1.9"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

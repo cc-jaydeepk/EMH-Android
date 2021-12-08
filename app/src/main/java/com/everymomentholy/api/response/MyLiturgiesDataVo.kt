@@ -1,5 +1,6 @@
 package com.everymomentholy.api.response
 
+import com.everymomentholy.utils.ProductTypes
 import java.io.Serializable
 
 class MyLiturgiesDataVo: Serializable {
@@ -16,4 +17,5 @@ class MyLiturgiesDataVo: Serializable {
     var price: String = ""
     var userId: Int = 0
     var token: String = ""
+    var productType: ProductTypes = ProductTypes.LITURGY
 }

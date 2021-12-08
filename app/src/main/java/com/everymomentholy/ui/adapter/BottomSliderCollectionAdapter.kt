@@ -3,12 +3,11 @@ package com.everymomentholy.ui.adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.media.Image
 import android.os.Build
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,12 +15,13 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
+import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.CollectionDataVo
-import com.everymomentholy.ui.activity.ForgotPasswordActivity
+import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.ui.activity.LiturgiesListActivity
-import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
+import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
 
@@ -127,25 +127,21 @@ class BottomSliderCollectionAdapter(
 
         holder.btnReadNow.setOnClickListener() {
             if (holder.btnReadNow.text == "Unlock Collection") {
+                freeLiturgies.productTypes = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
                 } else {
-                    startPurchaseFlow(freeLiturgies.bookAmount)
+                    startPurchaseFlow(freeLiturgies)
                 }
             } else if (holder.btnReadNow.text == "Unlock Volume") {
+                freeLiturgies.productTypes = ProductTypes.VOLUME
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
                 } else {
-                    if (freeLiturgies.discountAmount != "0.00")
-                        startPurchaseFlow(freeLiturgies.discountAmount)
-                    else
-                        startPurchaseFlow(freeLiturgies.bookAmount)
-                }
-            } else if (holder.btnReadNow.text == "Unlock Collection") {
-                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
-                } else {
-                    startPurchaseFlow(freeLiturgies.bookAmount)
+                    if (!freeLiturgies.discountAmount.isNullOrEmpty() && freeLiturgies.discountAmount != "0.00") {
+                        freeLiturgies.bookAmount = freeLiturgies.discountAmount
+                    }
+                    startPurchaseFlow(freeLiturgies)
                 }
             } else if (holder.btnReadNow.text == "Read Now") {
                 transferToLiturgyList(freeLiturgies)
@@ -208,9 +204,28 @@ class BottomSliderCollectionAdapter(
         context.startActivity(intent)
     }
 
-    private fun startPurchaseFlow(price: String) {
+    private fun startPurchaseFlow(collectionDataVo: CollectionDataVo) {
+        val deviceId = Settings.Secure.getString(
+            context.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        val userId = Utils.readIntData(
+            context,
+            Constants.PrefUserID,
+            0
+        )!!
+        val purchaseRequestVo = PurchaseRequestVo(
+            userId,
+            bookId = collectionDataVo.bookId,
+            amount = collectionDataVo.bookAmount,
+            deviceId = deviceId,
+            liturgyId = 0,
+            volumeId = collectionDataVo.volumeId,
+            productType = collectionDataVo.productTypes
+        )
+
         val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
-        inAppUtils.initiatePurchaseFlow(context as Activity, price)
+        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
     }
 }

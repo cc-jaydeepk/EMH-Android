@@ -267,7 +267,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     private fun startPurchaseFlow(price: String) {
         val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
-        inAppUtils.initiatePurchaseFlow(context as Activity, price)
+       // inAppUtils.initiatePurchaseFlow(context as Activity, price)
     }
 
     override fun onResume() {

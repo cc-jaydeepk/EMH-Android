@@ -1,8 +1,10 @@
 package com.everymomentholy.ui.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +17,12 @@ import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
+import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.Utils
-import com.folioreader.Config
-import com.folioreader.FolioReader
-import com.folioreader.util.AppUtil
+import kotlinx.coroutines.GlobalScope
 
 class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLiturgiesDataVo>) :
     RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
@@ -89,6 +91,8 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
             } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Buy Now") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(myLiturgiesDataVo)
                 }
             }
         }
@@ -132,5 +136,31 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                     }
                 })
         Log.e("id", downloadId.toString())
+    }
+
+    @SuppressLint("HardwareIds")
+    private fun startPurchaseFlow(myLiturgyDataVo: MyLiturgiesDataVo) {
+        val deviceId = Settings.Secure.getString(
+            context.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        val userId = Utils.readIntData(
+            context,
+            Constants.PrefUserID,
+            0
+        )
+        val purchaseRequestVo = PurchaseRequestVo(
+            userId,
+            bookId = myLiturgyDataVo.bookId,
+            amount = myLiturgyDataVo.price,
+            deviceId = deviceId,
+            liturgyId = myLiturgyDataVo.chapterId,
+            volumeId = 0,
+            productType = myLiturgyDataVo.productType
+        )
+
+        val inAppUtils =
+            InAppUtils.getInstance((context as Activity).application, GlobalScope)
+        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
     }
 }

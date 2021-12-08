@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,9 +19,11 @@ import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
+import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
+import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
 
@@ -82,16 +85,18 @@ class BottomSliderLiturgiesAdapter(
 
         holder.btnReadNow.setOnClickListener() {
             if (holder.btnReadNow.text == "Unlock Collection") {
+                freeLiturgies.productType = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
                 } else {
-                    startPurchaseFlow(freeLiturgies.price)
+                    startPurchaseFlow(freeLiturgies)
                 }
             } else if (holder.btnReadNow.text == "Unlock") {
+                freeLiturgies.productType = ProductTypes.LITURGY
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     Utils.showDialogForUnlockWithoutLogin(context)
                 } else {
-                    startPurchaseFlow(freeLiturgies.price)
+                    startPurchaseFlow(freeLiturgies)
                 }
             } else if (holder.btnReadNow.text == "Read Now") {
                 readBook(freeLiturgies)
@@ -100,7 +105,12 @@ class BottomSliderLiturgiesAdapter(
 
         holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
             if (holder.btnReadNow.text == "Unlock Collection") {
-                startPurchaseFlow(freeLiturgies.price)
+                freeLiturgies.productType = ProductTypes.BOOK
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(freeLiturgies)
+                }
             } else if (holder.btnReadNow.text == "Read Now") {
                 readBook(freeLiturgies)
             }
@@ -156,9 +166,28 @@ class BottomSliderLiturgiesAdapter(
         Log.e("id", downloadId.toString())
     }
 
-    private fun startPurchaseFlow(price: String) {
+    private fun startPurchaseFlow(myLiturgyDataVo: MyLiturgiesDataVo) {
+        val deviceId = Settings.Secure.getString(
+            context.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        val userId = Utils.readIntData(
+            context,
+            Constants.PrefUserID,
+            0
+        )!!
+        val purchaseRequestVo = PurchaseRequestVo(
+            userId,
+            bookId = myLiturgyDataVo.bookId,
+            amount = myLiturgyDataVo.price,
+            deviceId = deviceId,
+            liturgyId = myLiturgyDataVo.chapterId,
+            volumeId = 0,
+            productType = myLiturgyDataVo.productType
+        )
+
         val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
-        inAppUtils.initiatePurchaseFlow(context as Activity, price)
+        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
     }
 }

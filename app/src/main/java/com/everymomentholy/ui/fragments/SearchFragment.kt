@@ -199,4 +199,10 @@ class SearchFragment : Fragment() {
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
         super.onDestroyView()
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (edtSearch.text.isNotEmpty())
+            getSearchLiturgies()
+    }
 }

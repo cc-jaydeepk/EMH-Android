@@ -1,9 +1,11 @@
 package com.everymomentholy.ui.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +20,13 @@ import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.everymomentholy.R
+import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.InAppUtils
+import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
-import com.folioreader.Config
-import com.folioreader.FolioReader
-import com.folioreader.util.AppUtil
+import kotlinx.coroutines.GlobalScope
 
 class GetLiturgiesFromBookIDAdapter(
     var context: Context,
@@ -44,7 +48,7 @@ class GetLiturgiesFromBookIDAdapter(
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.collection_raw, parent, false)
-        return GetLiturgiesFromBookIDAdapter.MyViewHolder(itemView)
+        return MyViewHolder(itemView)
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -197,7 +201,20 @@ class GetLiturgiesFromBookIDAdapter(
                             }
                         })
                 Log.e("id", downloadId.toString())
-
+            } else if (holder.btnUnlock.text == "Unlock Collection") {
+                liturgyList[position].productType = ProductTypes.BOOK
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(liturgyList[position])
+                }
+            } else if (holder.btnUnlock.text == "Unlock") {
+                liturgyList[position].productType = ProductTypes.LITURGY
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(liturgyList[position])
+                }
             }
         }
     }
@@ -209,4 +226,30 @@ class GetLiturgiesFromBookIDAdapter(
     override fun getItemId(position: Int): Long {
         return super.getItemId(position)
     }
+
+    private fun startPurchaseFlow(myLiturgyDataVo: MyLiturgiesDataVo) {
+        val deviceId = Settings.Secure.getString(
+            context.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        val userId = Utils.readIntData(
+            context,
+            Constants.PrefUserID,
+            0
+        )!!
+        val purchaseRequestVo = PurchaseRequestVo(
+            userId,
+            bookId = myLiturgyDataVo.bookId,
+            amount = myLiturgyDataVo.price,
+            deviceId = deviceId,
+            liturgyId = myLiturgyDataVo.chapterId,
+            volumeId = 0,
+            productType = myLiturgyDataVo.productType
+        )
+
+        val inAppUtils =
+            InAppUtils.getInstance((context as Activity).application, GlobalScope)
+        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
+    }
+
 }

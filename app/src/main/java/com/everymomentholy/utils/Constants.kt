@@ -37,6 +37,9 @@ class Constants {
         const val API_GET_BOOK_STORE = "getBookStore"
         const val API_USER_NOTIFICATIONS = "userNotifications"
         const val API_READ_USER_NOTIFICATIONS = "readUserNotifications"
+        const val API_PURCHASE_LITURGY = "purchaseLiturgy"
+        const val API_PURCHASE_BOOK = "purchaseBook"
+        const val API_PURCHASE_VOLUME = "purchaseVolume"
 
         const val DEVICE_TYPE = "1"
         const val SHARED_PREF_APP_SETTINGS_RESPONSE = "APP_SETTINGS_RESPONSE"

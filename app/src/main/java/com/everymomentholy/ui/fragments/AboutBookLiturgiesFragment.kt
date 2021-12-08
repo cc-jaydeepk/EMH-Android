@@ -71,52 +71,34 @@ class AboutBookLiturgiesFragment : Fragment() {
             (activity as MainActivity).replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
         }
 
-        if (liturgies.isVolume == "Yes") {
-            if (Utils.isNetworkAvailable(requireContext())) {
-                getAboutVolumn(liturgies.volumeId)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.check_internet),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        } else {
-            if (Utils.isNetworkAvailable(requireContext())) {
+        if (Utils.isNetworkAvailable(requireContext())) {
+            if (liturgies.isVolume == "Yes")
+                getAboutVolume(liturgies.volumeId)
+            else
                 getAboutBookLiturgies(liturgies.bookId)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.check_internet),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
         }
+
         txtTitle.text = liturgies.volumeTitle
 
         llAboutBookBottomSheet.setOnClickListener {
-            if (liturgies.isVolume == "Yes") {
-                if (Utils.isNetworkAvailable(requireContext())) {
+            if (Utils.isNetworkAvailable(requireContext())) {
+                if (liturgies.isVolume == "Yes")
                     getCollectionList(liturgies.volumeId)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        resources.getString(R.string.check_internet),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            } else {
-                if (Utils.isNetworkAvailable(requireContext())) {
+                else
                     getMyLiturgiesList(liturgies.bookId)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        resources.getString(R.string.check_internet),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
             }
-
         }
 
         prefeUserId = Utils.readIntData(
@@ -130,27 +112,18 @@ class AboutBookLiturgiesFragment : Fragment() {
             Settings.Secure.ANDROID_ID
         )
 
-        if (liturgies.isVolume == "Yes") {
-            if (Utils.isNetworkAvailable(requireContext())) {
+        /*if (Utils.isNetworkAvailable(requireContext())) {
+            if (liturgies.isVolume == "Yes")
                 getCollectionList(liturgies.volumeId)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.check_internet),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        } else {
-            if (Utils.isNetworkAvailable(requireContext())) {
+            else
                 getMyLiturgiesList(liturgies.bookId)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.check_internet),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }*/
 
         return view
     }
@@ -204,9 +177,9 @@ class AboutBookLiturgiesFragment : Fragment() {
         }
     }
 
-    private fun getAboutVolumn(volumnID: Int) {
+    private fun getAboutVolume(volumeID: Int) {
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.getAboutVolume(volumnID)
+        val call = request.getAboutVolume(volumeID)
 
         try {
             call.enqueue(object : Callback<AboutVolumeResponseVo> {
@@ -410,6 +383,7 @@ class AboutBookLiturgiesFragment : Fragment() {
                                 wholeCollection.bookCoverPageImage = liturgies.volumeCoverPageImage
                                 wholeCollection.bookTitle = liturgies.volumeTitle
                                 wholeCollection.bookAmount = liturgies.volumeAmount
+                                wholeCollection.volumeId = liturgies.volumeId
                                 arrCollectionList.add(wholeCollection)
                             }
                         } else {
@@ -524,6 +498,24 @@ class AboutBookLiturgiesFragment : Fragment() {
             })
         } catch (exception: java.lang.Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+       // Toast.makeText(context, "This is on resume", Toast.LENGTH_LONG).show()
+
+        if (Utils.isNetworkAvailable(requireContext())) {
+            if (liturgies.isVolume == "Yes")
+                getCollectionList(liturgies.volumeId)
+            else
+                getMyLiturgiesList(liturgies.bookId)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
