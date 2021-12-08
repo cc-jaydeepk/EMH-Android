@@ -25,12 +25,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.util.Util
 import com.everymomentholy.BuildConfig
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
-import com.everymomentholy.api.response.HomegetSettingResponseVo
+import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
@@ -64,10 +64,12 @@ class HomeFragment : Fragment() {
     private lateinit var txtToolbar: RelativeLayout
     private lateinit var iv_toolbar_drawer: ImageView
     private lateinit var iv_toolbar_notification: ImageView
+    private lateinit var txtToolbarNotificationCount: TextView
 
     lateinit var quotesText: String
     lateinit var cotedText: String
     lateinit var progressDialog: android.app.ProgressDialog
+    var notificationCount = 0
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
     override fun onCreateView(
@@ -82,6 +84,7 @@ class HomeFragment : Fragment() {
         //  (activity as MainActivity?)!!.initToolBar("Every Moment Holy")
         iv_toolbar_drawer = view.findViewById(R.id.iv_toolbar_drawer)
         iv_toolbar_notification = view.findViewById(R.id.iv_toolbar_notification)
+        txtToolbarNotificationCount = view.findViewById(R.id.txt_toolbar_notification_count)
 
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationListActivity::class.java)
@@ -102,6 +105,8 @@ class HomeFragment : Fragment() {
 
         ivHomeShare.setOnClickListener {
 
+            progressDialog = Utils.showProgressDialog(requireContext())!!
+            progressDialog.show()
             ivHomeShare.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
             iv_toolbar_notification.visibility = View.GONE
@@ -194,6 +199,9 @@ class HomeFragment : Fragment() {
 
         ivHomeShare.isEnabled = true
         ivHomeShare.visibility = View.VISIBLE
+        if (progressDialog.isShowing) {
+            progressDialog.dismiss()
+        }
     }
 
 
@@ -241,6 +249,11 @@ class HomeFragment : Fragment() {
                             e.printStackTrace()
                         }
 
+                        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                            getNotificationListWithoutLogin()
+                        } else {
+                            getNotificationList()
+                        }
                     } else {
 
                     }
@@ -324,22 +337,101 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun shareScreenShot(imageFile: File) {
-        val uri = FileProvider.getUriForFile(
-            requireActivity(),
-            BuildConfig.APPLICATION_ID.toString() + "." + requireActivity().getLocalClassName() + ".provider",
-            imageFile
-        )
-        val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_STREAM, uri)
+    private fun getNotificationListWithoutLogin() {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.notificationListWithoutLogin()
+
         try {
-            this.startActivity(Intent.createChooser(intent, "Share With"))
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(requireActivity(), "No App Available", Toast.LENGTH_SHORT).show()
+            call.enqueue(object : Callback<NotificationResponseVo> {
+                override fun onResponse(
+                    call: Call<NotificationResponseVo>,
+                    response: Response<NotificationResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+
+                        if (response.body()?.response!!.data.size > 0) {
+                            notificationCount = response.body()?.response!!.data.size
+                            txtToolbarNotificationCount.visibility = View.VISIBLE
+                            txtToolbarNotificationCount.text = notificationCount.toString()
+                        } else {
+                            txtToolbarNotificationCount.visibility = View.GONE
+                        }
+
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            response.body()!!.message.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<NotificationResponseVo>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
         }
     }
 
+    private fun getNotificationList() {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.getNotification(
+            Utils.readIntFromSharedPref(
+                requireContext(),
+                Constants.PrefUserID,
+                -1
+            ), "bearer " + Utils.readStringFromSharedPref(
+                requireContext(),
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
+        )
+
+        try {
+            call.enqueue(object : Callback<NotificationResponseVo> {
+                override fun onResponse(
+                    call: Call<NotificationResponseVo>,
+                    response: Response<NotificationResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        if (response.body()!!.response.data.size > 0) {
+                            var notificationUnreadData =
+                                response.body()!!.response.data.filter { it.mode == "Unread" } as ArrayList<NotificationDataVo>
+
+                            if (notificationUnreadData.size > 0) {
+                                notificationCount = notificationUnreadData.size
+                                txtToolbarNotificationCount.visibility = View.VISIBLE
+                                txtToolbarNotificationCount.text = notificationCount.toString()
+                            }
+                        } else {
+                            txtToolbarNotificationCount.visibility = View.GONE
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            response.body()!!.message.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<NotificationResponseVo>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
 
 }

@@ -136,14 +136,6 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
             startActivity(intent)
-            /*txt_toolbar_name.text = "Notifications"
-            iv_toolbar_notification.visibility = View.GONE
-            iv_toolbar_drawer.visibility = View.GONE
-            iv_toolbar_backImage.visibility = View.VISIBLE
-            var fragment: Fragment
-            fragment = NotificationListFragment()
-            replaceFragment(fragment, "Notification")*/
-            // showUnderDevDialog()
         }
 
         iv_toolbar_backImage.setOnClickListener {

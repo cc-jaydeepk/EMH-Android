@@ -20,7 +20,7 @@ class NotificationListAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var notificationTitle: TextView = view.findViewById(R.id.txtNotificationTitle)
         var notificationTime: TextView = view.findViewById(R.id.txtNotificationTime)
-        var layoutLinear: RelativeLayout = view.findViewById(R.id.relativeLayour)
+        var rlNotificationRawMain: RelativeLayout = view.findViewById(R.id.rl_notification_raw_main)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,35 +34,15 @@ class NotificationListAdapter(
         holder.notificationTitle.text = notification.title
         holder.notificationTime.text = notification.createdAt
 
-        holder.layoutLinear.setOnClickListener() {
-//            val intent = Intent(context, NotificationDetailActivity::class.java)
-//            intent.putExtra("date", notification.createdAt)
-//            intent.putExtra("message", notification.message)
-//            context.startActivity(intent)
-
+        holder.rlNotificationRawMain.setOnClickListener() {
             notificationClickListner.onNotificationListClick(position, notification)
-
         }
 
-        /* holder.layoutLinear.setOnClickListener(object : View.OnClickListener {
-             override fun onClick(v: View?) {
-                 val bundle = Bundle()
-                 bundle.putString("date", notification.createdAt)
-                 bundle.putString("message", notification.message)
-
-                 //val notificationDetail = NotificationDetailFragment()
-                 //notificationDetail.setArguments(bundle)
-
-                 val activity = v!!.context as AppCompatActivity
-                 val notificationDetail = NotificationDetailFragment()
-                 activity.supportFragmentManager.beginTransaction()
-                     .replace(R.id.notificationLinear, notificationDetail).addToBackStack(null)
-                     .commit()
-
-                 notificationDetail.setArguments(bundle)
-             }
-
-         })*/
+        if (notification.mode == "Unread") {
+            holder.rlNotificationRawMain.setBackgroundColor(context.resources.getColor(R.color.app_gray))
+        } else {
+            holder.rlNotificationRawMain.setBackgroundColor(context.resources.getColor(R.color.white))
+        }
     }
 
     override fun getItemCount(): Int {

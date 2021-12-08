@@ -119,12 +119,6 @@ class MyProfileFragment : Fragment() {
             selectedCode = countryCodePicker.selectedCountryCode
         }
 
-//        edtUserFirstName.setEnabled(false);
-//        edtUserLastName.setEnabled(false);
-//        edtUserEmail.setEnabled(false);
-//        edtUserPhoneNumber.setEnabled(false);
-
-
         btnEditProfile.setOnClickListener {
             isImageSelect = true
 

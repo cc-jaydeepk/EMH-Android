@@ -95,15 +95,6 @@ class ChangePasswordActivity : AppCompatActivity() {
 
 
             }
-
-            /*var changePasswordRequestVo: ChangePasswordRequestVo = ChangePasswordRequestVo()
-            changePasswordRequestVo.userId = prefeUserId
-            changePasswordRequestVo.deviceId = android_id
-            changePasswordRequestVo.oldPassword = edtOldPassword.text.toString().trim()
-            changePasswordRequestVo.newPassword = edtNewpPassword.text.toString().trim()
-            changePasswordRequestVo.confirmPassword = edtConformPsw.text.toString().trim()
-            changePassword(changePasswordRequestVo)*/
-
         }
     }
 
@@ -187,14 +178,6 @@ class ChangePasswordActivity : AppCompatActivity() {
             edtConformPsw.requestFocus()
             isValid = false
         }
-
-
-        /*if (confirmPsw.isEmpty()) {
-            edtConfirmPsw.error = resources.getString(R.string.confirmpassword_error)
-            edtConfirmPsw.requestFocus()
-            isValid = false
-
-        }*/
 
         return isValid
     }

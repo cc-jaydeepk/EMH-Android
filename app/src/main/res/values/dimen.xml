@@ -32,7 +32,7 @@
     <dimen name="home_frg_txtmrg">@dimen/_25sdp</dimen>
     <dimen name="myliturgyimagsize">@dimen/_70sdp</dimen>
     <dimen name="myliturgyimagmrg">@dimen/_3sdp</dimen>
-    <dimen name="myliturgytxtsize">@dimen/_14ssp</dimen>
+    <dimen name="myliturgytxtsize">@dimen/_12ssp</dimen>
     <dimen name="myliturgybtnmargin">@dimen/_15sdp</dimen>
     <dimen name="viewmargin">@dimen/_10sdp</dimen>
     <dimen name="liturgitxtsize">@dimen/_12ssp</dimen>
@@ -75,7 +75,7 @@
     <dimen name="fav_frag_img">@dimen/_80sdp</dimen>
     <dimen name="fav_frag_txt">@dimen/_14ssp</dimen>
     <dimen name="fav_frag_shareimg">@dimen/_22sdp</dimen>
-    <dimen name="fav_frag_freetxt">@dimen/_14ssp</dimen>
+    <dimen name="fav_frag_freetxt">@dimen/_12ssp</dimen>
     <dimen name="fav_frag_btn">@dimen/_12sdp</dimen>
     <dimen name="getcollection_img">@dimen/_100sdp</dimen>
     <dimen name="getcollection_txtsize">@dimen/_18ssp</dimen>
@@ -88,7 +88,7 @@
     <dimen name="toolbar_drawer_imagesize">@dimen/_15sdp</dimen>
     <dimen name="toolbar_text_size">@dimen/_18ssp</dimen>
     <dimen name="toolbar_nitificationimage_size">@dimen/_20sdp</dimen>
-    <dimen name="openbtnn_textsize">@dimen/_10ssp</dimen>
+    <dimen name="openbtnn_textsize">@dimen/_8ssp</dimen>
     <dimen name="openbtnn_width">@dimen/_85sdp</dimen>
     <dimen name="openbtnn_height">@dimen/_35sdp</dimen>
     <dimen name="openbtnn_margintop">@dimen/_54sdp</dimen>

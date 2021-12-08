@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/_5sdp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -25,63 +25,58 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp" />-->
 
-        <TextView
-            android:id="@+id/txtFeaturedTitle"
-            style="@style/liturgiesListTitleTextStyle"
-            android:layout_toRightOf="@+id/imgFeatured"
-            android:text="A Liturgy for DayBreak" />
-
-
-        <ImageView
-            android:id="@+id/img_featured_share"
-            android:layout_width="@dimen/fav_frag_shareimg"
-            android:layout_height="@dimen/fav_frag_shareimg"
-            android:layout_below="@+id/txtFeaturedTitle"
-            android:layout_marginTop="@dimen/_27sdp"
-            android:layout_toRightOf="@+id/imgFeatured"
-            android:src="@drawable/ic_shareimage" />
-
-        <ImageView
-            android:id="@+id/img_featured_fav"
-            android:layout_width="@dimen/fav_frag_shareimg"
-            android:layout_height="@dimen/fav_frag_shareimg"
-            android:layout_below="@+id/txtFeaturedTitle"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_27sdp"
-            android:layout_toRightOf="@+id/img_featured_share"
-            android:src="@drawable/ic_favorite" />
-
-        <!--<Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="@dimen/openbtnn_width"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txtFeaturedTitle"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/_27sdp"
-            android:layout_marginRight="@dimen/_7sdp"
-            android:fontFamily="@font/lato_medium"
-            android:text="@string/read_now"
-            android:textColor="@color/loginbg"
-            android:textSize="@dimen/openbtnn_textsize"
-            app:strokeColor="@color/loginbg" />-->
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_featured_read_now"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="@dimen/openbtnn_width"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtFeaturedTitle"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/_27sdp"
-            android:layout_marginRight="@dimen/_9sdp"
-            android:fontFamily="@font/lato_medium"
-            android:padding="@dimen/_3sdp"
-            android:text="Read Now"
-            android:textColor="@color/loginbg"
-            android:textSize="@dimen/openbtnn_textsize"
-            app:strokeColor="@color/loginbg" />
+            <TextView
+                android:id="@+id/txtFeaturedTitle"
+                style="@style/liturgiesListTitleTextStyle"
+                android:layout_toRightOf="@+id/imgFeatured"
+                android:minLines="3"
+                android:text="A Liturgy for DayBreak" />
 
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_featured_share"
+                    android:layout_width="@dimen/fav_frag_shareimg"
+                    android:layout_height="@dimen/fav_frag_shareimg"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_shareimage" />
+
+                <ImageView
+                    android:id="@+id/img_featured_fav"
+                    android:layout_width="@dimen/fav_frag_shareimg"
+                    android:layout_height="@dimen/fav_frag_shareimg"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:src="@drawable/ic_favorite" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/btn_featured_read_now"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="@dimen/openbtnn_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|right"
+                    android:layout_marginRight="@dimen/_9sdp"
+                    android:fontFamily="@font/lato_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:text="Read Now"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/openbtnn_textsize"
+                    app:strokeColor="@color/loginbg" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
