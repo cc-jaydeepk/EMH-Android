@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -202,7 +204,8 @@ class SearchFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (edtSearch.text.isNotEmpty())
-            getSearchLiturgies()
+        if (edtSearch.text.isNotEmpty()) {
+            Handler(Looper.getMainLooper()).postDelayed(Runnable { getSearchLiturgies() }, Constants.AFTER_PURCHASE_REFRESH_DELAY)
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,6 +24,7 @@ import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.ProductTypes
@@ -166,14 +169,14 @@ class GetLiturgiesFromBookIDAdapter(
             else if (holder.btnUnlock.text == "Unlock Collection") {
                 liturgyList[position].productType = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
+                    showDialogForUnlockWithoutLogin(liturgyList[position])
                 } else {
                     startPurchaseFlow(liturgyList[position])
                 }
             } else if (holder.btnUnlock.text == "Unlock") {
                 liturgyList[position].productType = ProductTypes.LITURGY
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
+                    showDialogForUnlockWithoutLogin(liturgyList[position])
                 } else {
                     startPurchaseFlow(liturgyList[position])
                 }
@@ -219,14 +222,14 @@ class GetLiturgiesFromBookIDAdapter(
             } else if (holder.btnUnlock.text == "Unlock Collection") {
                 liturgyList[position].productType = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
+                    showDialogForUnlockWithoutLogin(liturgyList[position])
                 } else {
                     startPurchaseFlow(liturgyList[position])
                 }
             } else if (holder.btnUnlock.text == "Unlock") {
                 liturgyList[position].productType = ProductTypes.LITURGY
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
+                    showDialogForUnlockWithoutLogin(liturgyList[position])
                 } else {
                     startPurchaseFlow(liturgyList[position])
                 }
@@ -265,6 +268,37 @@ class GetLiturgiesFromBookIDAdapter(
         val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
         inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
+    }
+
+    fun showDialogForUnlockWithoutLogin(myLiturgyDataVo: MyLiturgiesDataVo) {
+        val alertDialog = AlertDialog.Builder(
+            context
+        )
+        val inflater = (context as Activity).layoutInflater
+        val alertView: View = inflater.inflate(R.layout.purchase_without_login_dialog, null)
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertButtonCancel = alertView.findViewById<View>(R.id.txtCancel) as TextView
+        val alertButtonLoginRegister =
+            alertView.findViewById<View>(R.id.txtPurchaseRegisterLogin) as TextView
+        val alertButtonPurchase =
+            alertView.findViewById<View>(R.id.txtPurchaseWithoutRegisterLogin) as TextView
+
+
+        alertButtonLoginRegister.setOnClickListener {
+            val intent = Intent(context, SelectOptionActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        alertButtonCancel.setOnClickListener {
+            show.dismiss()
+        }
+
+        alertButtonPurchase.setOnClickListener() {
+            show.dismiss()
+            startPurchaseFlow(myLiturgyDataVo)
+        }
+        show.setCanceledOnTouchOutside(false)
     }
 
 }

@@ -76,6 +76,8 @@ class Constants {
         const val CHANNEL_DESCRIPTION = "EMH"
 
         var GET_LITURGIES_VIEW_PAGER_POSITION = 0
+
+        const val AFTER_PURCHASE_REFRESH_DELAY = 1000L // in millis
     }
 
 }

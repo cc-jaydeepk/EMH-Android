@@ -757,10 +757,10 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
      */
     override fun onPurchaseComplete(purchaseRequestVo: PurchaseRequestVo) {
 
-        runOnUiThread {
+      /*  runOnUiThread {
             Toast.makeText(this, "In app purchase complete", Toast.LENGTH_LONG).show()
         }
-
+*/
         val request = APIService.buildService(APIInterface::class.java)
         lateinit var call: Call<PrivateShareResponseVo>
 

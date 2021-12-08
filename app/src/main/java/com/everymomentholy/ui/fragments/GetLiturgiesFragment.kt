@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.everymomentholy.R
@@ -26,6 +29,7 @@ import com.everymomentholy.interfaces.GetLiturgiesClickListner
 import com.everymomentholy.ui.activity.CollectionListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
@@ -195,7 +199,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     context?.startActivity(intent)
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                        Utils.showDialogForUnlockWithoutLogin(requireContext())
+                       showDialogForUnlockWithoutLogin(liturgyData)
                     } else {
                         startPurchaseFlow(liturgyData)
                     }
@@ -284,10 +288,45 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
     }
 
+    fun showDialogForUnlockWithoutLogin(myLiturgyDataVo: GetLiturgiesDataVo) {
+        val alertDialog = AlertDialog.Builder(
+            requireContext()
+        )
+        val inflater = layoutInflater
+        val alertView: View = inflater.inflate(R.layout.purchase_without_login_dialog, null)
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertButtonCancel = alertView.findViewById<View>(R.id.txtCancel) as TextView
+        val alertButtonLoginRegister =
+            alertView.findViewById<View>(R.id.txtPurchaseRegisterLogin) as TextView
+        val alertButtonPurchase =
+            alertView.findViewById<View>(R.id.txtPurchaseWithoutRegisterLogin) as TextView
+
+
+        alertButtonLoginRegister.setOnClickListener {
+            val intent = Intent(context, SelectOptionActivity::class.java)
+            startActivity(intent)
+        }
+
+        alertButtonCancel.setOnClickListener {
+            show.dismiss()
+        }
+
+        alertButtonPurchase.setOnClickListener() {
+            show.dismiss()
+            startPurchaseFlow(myLiturgyDataVo)
+        }
+        show.setCanceledOnTouchOutside(false)
+    }
+
     override fun onResume() {
         super.onResume()
         if (Utils.isNetworkAvailable(requireContext())) {
-            getBooks()
+            Handler(Looper.getMainLooper()).postDelayed(
+                Runnable {  getBooks() },
+                Constants.AFTER_PURCHASE_REFRESH_DELAY
+            )
+
         } else {
             Toast.makeText(
                 requireContext(),

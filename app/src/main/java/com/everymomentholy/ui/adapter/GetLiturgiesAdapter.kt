@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
@@ -18,6 +20,7 @@ import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.ui.fragments.AboutBookLiturgiesFragment
 import com.everymomentholy.ui.activity.CollectionListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.Utils
@@ -122,6 +125,12 @@ class GetLiturgiesAdapter(
 
         container.addView(view)
 
+        imgGetLiturge.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable("liturgies", getLiturgies)
+            var fragment: Fragment = AboutBookLiturgiesFragment()
+            (context as MainActivity).replaceFragment(fragment, "Get Liturgies", bundle)
+        }
 
         btnGetLiturgiesAbout.setOnClickListener() {
             val intent = Intent(context, AboutBookLiturgiesFragment::class.java)

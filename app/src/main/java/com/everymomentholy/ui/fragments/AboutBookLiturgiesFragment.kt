@@ -3,6 +3,8 @@ package com.everymomentholy.ui.fragments
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.text.Html
 import android.util.Log
@@ -503,13 +505,20 @@ class AboutBookLiturgiesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-       // Toast.makeText(context, "This is on resume", Toast.LENGTH_LONG).show()
+        // Toast.makeText(context, "This is on resume", Toast.LENGTH_LONG).show()
 
         if (Utils.isNetworkAvailable(requireContext())) {
             if (liturgies.isVolume == "Yes")
-                getCollectionList(liturgies.volumeId)
+                Handler(Looper.getMainLooper()).postDelayed(
+                    Runnable { getCollectionList(liturgies.volumeId) },
+                    Constants.AFTER_PURCHASE_REFRESH_DELAY
+                )
             else
-                getMyLiturgiesList(liturgies.bookId)
+                Handler(Looper.getMainLooper()).postDelayed(
+                    Runnable { getMyLiturgiesList(liturgies.bookId) },
+                    Constants.AFTER_PURCHASE_REFRESH_DELAY
+                )
+
         } else {
             Toast.makeText(
                 requireContext(),

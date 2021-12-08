@@ -12,13 +12,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.CollectionDataVo
-import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.ui.activity.LiturgiesListActivity
+import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.ProductTypes
@@ -129,14 +130,14 @@ class BottomSliderCollectionAdapter(
             if (holder.btnReadNow.text == "Unlock Collection") {
                 freeLiturgies.productTypes = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
+                    showDialogForUnlockWithoutLogin(freeLiturgies)
                 } else {
                     startPurchaseFlow(freeLiturgies)
                 }
             } else if (holder.btnReadNow.text == "Unlock Volume") {
                 freeLiturgies.productTypes = ProductTypes.VOLUME
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    Utils.showDialogForUnlockWithoutLogin(context)
+                    showDialogForUnlockWithoutLogin(freeLiturgies)
                 } else {
                     if (!freeLiturgies.discountAmount.isNullOrEmpty() && freeLiturgies.discountAmount != "0.00") {
                         freeLiturgies.bookAmount = freeLiturgies.discountAmount
@@ -172,7 +173,7 @@ class BottomSliderCollectionAdapter(
                         if (holder.btnReadNow.text == "Read Now") {
                             transferToLiturgyList(freeLiturgies)
                         } else {
-                            Utils.showDialogForUnlockWithoutLogin(context)
+                            showDialogForUnlockWithoutLogin(freeLiturgies)
                         }
                     } else {
                         transferToLiturgyList(freeLiturgies)
@@ -227,5 +228,36 @@ class BottomSliderCollectionAdapter(
         val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
         inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
+    }
+
+    fun showDialogForUnlockWithoutLogin(myLiturgyDataVo: CollectionDataVo) {
+        val alertDialog = AlertDialog.Builder(
+            context
+        )
+        val inflater = (context as Activity).layoutInflater
+        val alertView: View = inflater.inflate(R.layout.purchase_without_login_dialog, null)
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertButtonCancel = alertView.findViewById<View>(R.id.txtCancel) as TextView
+        val alertButtonLoginRegister =
+            alertView.findViewById<View>(R.id.txtPurchaseRegisterLogin) as TextView
+        val alertButtonPurchase =
+            alertView.findViewById<View>(R.id.txtPurchaseWithoutRegisterLogin) as TextView
+
+
+        alertButtonLoginRegister.setOnClickListener {
+            val intent = Intent(context, SelectOptionActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        alertButtonCancel.setOnClickListener {
+            show.dismiss()
+        }
+
+        alertButtonPurchase.setOnClickListener() {
+            show.dismiss()
+            startPurchaseFlow(myLiturgyDataVo)
+        }
+        show.setCanceledOnTouchOutside(false)
     }
 }

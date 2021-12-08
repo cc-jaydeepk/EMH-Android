@@ -5,6 +5,8 @@ import android.opengl.Visibility
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.View
@@ -166,9 +168,9 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
      */
     override fun onPurchaseComplete(purchaseRequestVo: PurchaseRequestVo) {
 
-        runOnUiThread {
+        /*runOnUiThread {
             Toast.makeText(this, "In app purchase complete", Toast.LENGTH_LONG).show()
-        }
+        }*/
 
         val request = APIService.buildService(APIInterface::class.java)
         lateinit var call: Call<PrivateShareResponseVo>
@@ -242,18 +244,22 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     override fun onResume() {
         super.onResume()
 
-        if(isPurchaseSuccess)
-        {
-            if (Utils.isNetworkAvailable(this)) {
-                isPurchaseSuccess = false
-                getMyLiturgiesList(bookId)
-            } else {
-                Toast.makeText(
-                    this@LiturgiesListActivity,
-                    resources.getString(R.string.check_internet),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
+        Handler(Looper.getMainLooper()).postDelayed(
+            Runnable {
+                if (isPurchaseSuccess) {
+                    if (Utils.isNetworkAvailable(this)) {
+                        isPurchaseSuccess = false
+                        getMyLiturgiesList(bookId)
+                    } else {
+                        Toast.makeText(
+                            this@LiturgiesListActivity,
+                            resources.getString(R.string.check_internet),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            },
+            Constants.AFTER_PURCHASE_REFRESH_DELAY
+        )
     }
 }
