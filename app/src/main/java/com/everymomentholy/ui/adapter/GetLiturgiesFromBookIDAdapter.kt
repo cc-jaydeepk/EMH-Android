@@ -163,6 +163,21 @@ class GetLiturgiesFromBookIDAdapter(
                 Log.e("id", downloadId.toString())
 
             }
+            else if (holder.btnUnlock.text == "Unlock Collection") {
+                liturgyList[position].productType = ProductTypes.BOOK
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(liturgyList[position])
+                }
+            } else if (holder.btnUnlock.text == "Unlock") {
+                liturgyList[position].productType = ProductTypes.LITURGY
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    Utils.showDialogForUnlockWithoutLogin(context)
+                } else {
+                    startPurchaseFlow(liturgyList[position])
+                }
+            }
         }
 
         holder.llCollectionRaw.setOnClickListener() {

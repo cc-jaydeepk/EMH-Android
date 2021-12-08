@@ -81,7 +81,7 @@ class InAppUtils private constructor(
         Log.e(TAG, "inside querySkuDetails")
         val skuList = ArrayList<String>()
         if (productListPriceMap[price] != null) {
-            skuList.add(productListPriceMap[price]!!)
+            skuList.add("android.test.purchased")
             Log.e(TAG, "product id = " + productListPriceMap[price]!!)
             val params = SkuDetailsParams.newBuilder()
             params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)

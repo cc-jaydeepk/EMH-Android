@@ -74,6 +74,8 @@ class Constants {
         const val CHANNEL_ID = "EMH"
         const val CHANNEL_NAME = "EMH Notification"
         const val CHANNEL_DESCRIPTION = "EMH"
+
+        var GET_LITURGIES_VIEW_PAGER_POSITION = 0
     }
 
 }

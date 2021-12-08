@@ -245,6 +245,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
+                    Constants.GET_LITURGIES_VIEW_PAGER_POSITION = 0
                     Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     navBottomView.selectedItemId = R.id.nav_getLiturgiesFragment
@@ -395,6 +396,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
+                    Constants.GET_LITURGIES_VIEW_PAGER_POSITION = 0
                     fragment = GetLiturgiesFragment()
                     Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
                     replaceFragment(fragment, "Get Liturgies")

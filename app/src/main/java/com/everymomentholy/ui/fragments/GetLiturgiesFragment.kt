@@ -13,13 +13,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetLiturgiesRequestVo
+import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.api.response.GetLiturgiesResponseVo
 import com.everymomentholy.interfaces.GetLiturgiesClickListner
@@ -29,6 +29,7 @@ import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
+import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
 import retrofit2.Call
@@ -91,6 +92,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             ) {
                 var liturgyData = adapter.getLiturgiesData()?.get(position)
 
+                Constants.GET_LITURGIES_VIEW_PAGER_POSITION = position
                 setLiturgiesAndVolumeData(liturgyData)
             }
 
@@ -103,16 +105,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             }
 
         })
-
-        if (Utils.isNetworkAvailable(requireContext())) {
-            getBooks()
-        } else {
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()
-        }
 
         return view
     }
@@ -154,6 +146,9 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                             viewPager.setPadding(100, 0, 100, 0)
                             viewPager.adapter = adapter;
                         }
+
+                        if (Constants.GET_LITURGIES_VIEW_PAGER_POSITION != 0)
+                            viewPager.setCurrentItem(Constants.GET_LITURGIES_VIEW_PAGER_POSITION, false)
 
                     } else {
                         Toast.makeText(
@@ -202,7 +197,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         Utils.showDialogForUnlockWithoutLogin(requireContext())
                     } else {
-                        startPurchaseFlow(liturgyData.bookAmount)
+                        startPurchaseFlow(liturgyData)
                     }
                 }
             }
@@ -264,15 +259,42 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         }
     }
 
-    private fun startPurchaseFlow(price: String) {
+    private fun startPurchaseFlow(getLiturgiesDataVo: GetLiturgiesDataVo) {
+        val deviceId = Settings.Secure.getString(
+            context?.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        val userId = Utils.readIntData(
+            requireContext(),
+            Constants.PrefUserID,
+            0
+        )!!
+        val purchaseRequestVo = PurchaseRequestVo(
+            userId,
+            bookId = getLiturgiesDataVo.bookId,
+            amount = getLiturgiesDataVo.bookAmount,
+            deviceId = deviceId,
+            liturgyId = 0,
+            volumeId = 0,
+            productType = ProductTypes.BOOK
+        )
+
         val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
-       // inAppUtils.initiatePurchaseFlow(context as Activity, price)
+        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
     }
 
     override fun onResume() {
         super.onResume()
-        // (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        if (Utils.isNetworkAvailable(requireContext())) {
+            getBooks()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
 
