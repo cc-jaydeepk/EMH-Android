@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -49,6 +50,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     private lateinit var btnGetLiturgiesReadNow: Button
     private lateinit var txtUnlock: TextView
     private lateinit var txtDollar: TextView
+    private lateinit var llGetLiturgiesMain: LinearLayout
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -67,6 +69,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         txtUnlock = view.findViewById(R.id.txtUnlock)
 
         txtDollar = view.findViewById(R.id.txtDollar)
+        llGetLiturgiesMain = view.findViewById(R.id.ll_getLiturgies_main)
 
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
@@ -142,7 +145,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     response: Response<GetLiturgiesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        llGetLiturgiesMain.visibility = View.VISIBLE
                         if (context != null) {
                             adapter = GetLiturgiesAdapter(
                                 context!!,

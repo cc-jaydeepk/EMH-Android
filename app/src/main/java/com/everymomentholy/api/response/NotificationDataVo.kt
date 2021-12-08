@@ -2,7 +2,6 @@ package com.everymomentholy.api.response
 
 class NotificationDataVo {
 
-    //dailyLiturgies API Response
     var notificationId: Int = 1
 
     var message: String = ""
@@ -11,5 +10,6 @@ class NotificationDataVo {
 
     var createdAt: String = ""
 
+    var mode: String = ""
 
 }

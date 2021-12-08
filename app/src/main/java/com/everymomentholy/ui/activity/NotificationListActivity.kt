@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.NotificationReadRequestVo
 import com.everymomentholy.api.response.NotificationDataVo
 import com.everymomentholy.api.response.NotificationResponseVo
+import com.everymomentholy.api.response.PrivateShareResponseVo
 import com.everymomentholy.interfaces.NotificationListClickListner
 import com.everymomentholy.ui.adapter.NotificationListAdapter
 import com.everymomentholy.utils.Constants
@@ -120,10 +122,11 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
 
 
     override fun onNotificationListClick(pos: Int, dataVo: NotificationDataVo) {
-        val intent = Intent(this, NotificationDetailActivity::class.java)
-        intent.putExtra("date", dataVo.createdAt)
-        intent.putExtra("message", dataVo.message)
-        startActivity(intent)
+        readNotification(
+            dataVo.notificationId,
+            Utils.readIntFromSharedPref(this@NotificationListActivity, Constants.PrefUserID, -1),
+            dataVo
+        )
     }
 
     private fun getNotificationList() {
@@ -158,6 +161,53 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
                 }
 
                 override fun onFailure(call: Call<NotificationResponseVo>, t: Throwable) {
+                    Toast.makeText(
+                        this@NotificationListActivity,
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+    private fun readNotification(notificationId: Int, userID: Int, dataVo: NotificationDataVo) {
+
+        var notificationReadRequestVo: NotificationReadRequestVo = NotificationReadRequestVo()
+        notificationReadRequestVo.notificationId = notificationId
+        notificationReadRequestVo.userId = userID
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.readUserNotification(
+            notificationReadRequestVo
+        )
+
+        try {
+            call.enqueue(object : Callback<PrivateShareResponseVo> {
+                override fun onResponse(
+                    call: Call<PrivateShareResponseVo>,
+                    response: Response<PrivateShareResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        val intent = Intent(
+                            this@NotificationListActivity,
+                            NotificationDetailActivity::class.java
+                        )
+                        intent.putExtra("date", dataVo.createdAt)
+                        intent.putExtra("message", dataVo.message)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(
+                            this@NotificationListActivity,
+                            response.body()!!.response.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PrivateShareResponseVo>, t: Throwable) {
                     Toast.makeText(
                         this@NotificationListActivity,
                         "${t.message}",

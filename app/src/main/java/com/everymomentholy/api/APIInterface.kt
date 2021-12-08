@@ -208,4 +208,7 @@ interface APIInterface {
         @Query("userId") userID: Int,
         @Header("Authorization") token: String
     ): Call<NotificationResponseVo>
+
+    @POST(Constants.API_READ_USER_NOTIFICATIONS)
+    fun readUserNotification(@Body notificationReadRequestVo: NotificationReadRequestVo): Call<PrivateShareResponseVo>
 }
