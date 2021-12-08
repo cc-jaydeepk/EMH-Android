@@ -1,6 +1,8 @@
 package com.everymomentholy.api.response
 
-class NotificationDataVo {
+import java.io.Serializable
+
+class NotificationDataVo : Serializable {
 
     var notificationId: Int = 1
 

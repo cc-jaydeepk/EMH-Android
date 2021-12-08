@@ -56,20 +56,6 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
         iv_toolbar_backImage.setOnClickListener {
             onBackPressed()
         }
-
-        if (Utils.isNetworkAvailable(this)) {
-            if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                getNotificationListWithoutLogin()
-            } else {
-                getNotificationList()
-            }
-        } else {
-            Toast.makeText(
-                this@NotificationListActivity,
-                resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()
-        }
     }
 
     private fun getNotificationListWithoutLogin() {
@@ -122,11 +108,14 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
 
 
     override fun onNotificationListClick(pos: Int, dataVo: NotificationDataVo) {
-        readNotification(
-            dataVo.notificationId,
-            Utils.readIntFromSharedPref(this@NotificationListActivity, Constants.PrefUserID, -1),
-            dataVo
+        val intent = Intent(
+            this@NotificationListActivity,
+            NotificationDetailActivity::class.java
         )
+        intent.putExtra("date", dataVo.createdAt)
+        intent.putExtra("message", dataVo.message)
+        intent.putExtra("notificationData", dataVo)
+        startActivity(intent)
     }
 
     private fun getNotificationList() {
@@ -173,50 +162,20 @@ class NotificationListActivity : AppCompatActivity(), NotificationListClickListn
         }
     }
 
-    private fun readNotification(notificationId: Int, userID: Int, dataVo: NotificationDataVo) {
-
-        var notificationReadRequestVo: NotificationReadRequestVo = NotificationReadRequestVo()
-        notificationReadRequestVo.notificationId = notificationId
-        notificationReadRequestVo.userId = userID
-
-        val request = APIService.buildService(APIInterface::class.java)
-        val call = request.readUserNotification(
-            notificationReadRequestVo
-        )
-
-        try {
-            call.enqueue(object : Callback<PrivateShareResponseVo> {
-                override fun onResponse(
-                    call: Call<PrivateShareResponseVo>,
-                    response: Response<PrivateShareResponseVo>
-                ) {
-                    if (response.body()?.statusCode == 1) {
-                        val intent = Intent(
-                            this@NotificationListActivity,
-                            NotificationDetailActivity::class.java
-                        )
-                        intent.putExtra("date", dataVo.createdAt)
-                        intent.putExtra("message", dataVo.message)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(
-                            this@NotificationListActivity,
-                            response.body()!!.response.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<PrivateShareResponseVo>, t: Throwable) {
-                    Toast.makeText(
-                        this@NotificationListActivity,
-                        "${t.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            })
-        } catch (exception: Exception) {
-            exception.printStackTrace()
+    override fun onResume() {
+        super.onResume()
+        if (Utils.isNetworkAvailable(this)) {
+            if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                getNotificationListWithoutLogin()
+            } else {
+                getNotificationList()
+            }
+        } else {
+            Toast.makeText(
+                this@NotificationListActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }

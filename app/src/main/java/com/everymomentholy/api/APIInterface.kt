@@ -210,7 +210,10 @@ interface APIInterface {
     ): Call<NotificationResponseVo>
 
     @POST(Constants.API_READ_USER_NOTIFICATIONS)
-    fun readUserNotification(@Body notificationReadRequestVo: NotificationReadRequestVo): Call<PrivateShareResponseVo>
+    fun readUserNotification(
+        @Body notificationReadRequestVo: NotificationReadRequestVo,
+        @Header("Authorization") token: String
+    ): Call<PrivateShareResponseVo>
 
     @POST(Constants.API_PURCHASE_LITURGY)
     fun purchaseLiturgyAcknowledge(

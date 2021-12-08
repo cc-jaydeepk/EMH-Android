@@ -16,10 +16,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:singleLine="true"
-            android:imeOptions="actionDone"
             android:layout_marginRight="@dimen/_10sdp"
-            android:fontFamily="@font/lato_medium" />
+            android:fontFamily="@font/lato_medium"
+            android:hint="SEARCH FOR....."
+            android:imeOptions="actionDone"
+            android:textSize="@dimen/_12ssp"
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/ic_search"

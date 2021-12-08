@@ -36,6 +36,7 @@ import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.Config
 import com.folioreader.FolioReader
+import com.folioreader.emh.EMHUtils
 import com.folioreader.util.AppUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,7 +47,7 @@ class FeaturedAdapter(
     var context: Context,
     var featuredLiturgiesList: ArrayList<MyLiturgiesDataVo>
 ) : RecyclerView.Adapter<FeaturedAdapter.MyViewHolder>() {
-
+    public var bookOpenPosition = -1
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var btnFeaturedReadNow = view.findViewById<Button>(R.id.btn_featured_read_now)
@@ -74,6 +75,7 @@ class FeaturedAdapter(
             .into(holder.imgFeatured)
 
         holder.btnFeaturedReadNow.setOnClickListener() {
+            bookOpenPosition = position
             val cw = ContextWrapper(context)
             val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
             if (!directory.exists()) {
@@ -293,5 +295,19 @@ class FeaturedAdapter(
             featuredLiturgiesList[position].isFavorite = "False"
         }
         notifyDataSetChanged()
+    }
+
+    public fun updateFavoriteStatusFromBookReadFeatured() {
+        if (EMHUtils.favoriteFlagChange) {
+            if (bookOpenPosition != -1) {
+                if (EMHUtils.favoriteStatusChange) {
+                    featuredLiturgiesList[bookOpenPosition].isFavorite = "True"
+                } else {
+                    featuredLiturgiesList[bookOpenPosition].isFavorite = "False"
+                }
+
+            }
+            notifyDataSetChanged()
+        }
     }
 }

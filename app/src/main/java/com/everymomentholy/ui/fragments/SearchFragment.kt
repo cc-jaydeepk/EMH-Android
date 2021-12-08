@@ -12,11 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import android.widget.TextView.OnEditorActionListener
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +42,7 @@ class SearchFragment : Fragment() {
     private lateinit var txtSearchItemCount: TextView
     private var adapter: RecyclerView.Adapter<SearchAdapter.MyViewHolder>? = null
     private var arrSearchedData: ArrayList<MyLiturgiesDataVo> = ArrayList()
+    private lateinit var linearResult: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +55,7 @@ class SearchFragment : Fragment() {
         edtSearch = view.findViewById(R.id.edtSearch)
         icSearch = view.findViewById(R.id.ic_search)
         txtSearchItemCount = view.findViewById(R.id.txt_search_item_count)
+        linearResult = view.findViewById(R.id.linearResult)
         //ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
 
         edtSearch.setOnEditorActionListener(
@@ -108,6 +107,7 @@ class SearchFragment : Fragment() {
                 } else {
                     if (arrSearchedData.isNotEmpty()) {
                         arrSearchedData.clear()
+                        linearResult.visibility = View.GONE
                         recyclerviewSearch.layoutManager = LinearLayoutManager(activity)
                         adapter = SearchAdapter(
                             requireContext(),
@@ -160,9 +160,14 @@ class SearchFragment : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        txtSearchItemCount.text =
-                            "Show " + response.body()!!.response.data.size.toString() + " matches"
+                        if (response.body()!!.response.data.size > 0) {
+                            linearResult.visibility = View.VISIBLE
+                            txtSearchItemCount.text =
+                                "Show " + response.body()!!.response.data.size.toString() + " matches"
 
+                        } else {
+                            linearResult.visibility = View.GONE
+                        }
                         arrSearchedData = response.body()!!.response.data
 
                         recyclerviewSearch.layoutManager = LinearLayoutManager(activity)

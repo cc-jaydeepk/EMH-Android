@@ -54,11 +54,6 @@ class EditProfileActivity : AppCompatActivity() {
         progressCardView = findViewById(R.id.progressCardView)
 
         ivOpenGallaery.setOnClickListener {
-//            val intent = Intent()
-//            intent.type = "image/*"
-//            intent.action = Intent.ACTION_GET_CONTENT
-//            startActivityForResult(intent, IMG_REQUEST)
-
             ImagePicker.with(this)
                 .crop()
                 .start()
@@ -78,89 +73,8 @@ class EditProfileActivity : AppCompatActivity() {
         btnUpdateProfile.setOnClickListener {
 
             progressCardView.visibility = View.VISIBLE
-           // getUserProfileUpdate()
 
         }
-    }
-
-
-    /*private fun getUserProfileUpdate() {
-        var getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo =
-            GetUserProfileUpdateRequestVo()
-        getUserProfileUpdateRequestVo.deviceId = android_id
-        getUserProfileUpdateRequestVo.userId = prefeUserId
-        getUserProfileUpdateRequestVo.firstName = edtUpdateFirstName.text.toString().trim()
-        getUserProfileUpdateRequestVo.lastName = edtUpdateLastName.text.toString().trim()
-        getUserProfileUpdateRequestVo.email = edtUpdateEmail.text.toString().trim()
-        getUserProfileUpdateRequestVo.countryCode = "+44"
-
-        val request = APIService.buildService(APIInterface::class.java)
-        val call =
-            request.getUserProfileUpdate(
-                getUserProfileUpdateRequestVo.userId,
-                getUserProfileUpdateRequestVo.deviceId,
-                getUserProfileUpdateRequestVo.firstName,
-                getUserProfileUpdateRequestVo.lastName,
-                getUserProfileUpdateRequestVo.email,
-                getUserProfileUpdateRequestVo.countryCode,
-                "bearer " + Utils.readStringFromSharedPref(
-                    this,
-                    Constants.SHARED_PREF_TOKEN,
-                    ""
-                )
-            )
-
-
-        try {
-            call.enqueue(object : Callback<GetUserProfileUpdateResponseVo> {
-                override fun onResponse(
-                    call: Call<GetUserProfileUpdateResponseVo>,
-                    response: Response<GetUserProfileUpdateResponseVo>
-                ) {
-                    if (response.body()?.statusCode == 1) {
-
-                        progressCardView.visibility = View.GONE
-                        showSuccesDialog()
-
-                        *//*Toast.makeText(
-                            this@EditProfileActivity,
-                            "Profile update successfully",
-                            Toast.LENGTH_LONG
-                        ).show()*//*
-
-                    } else {
-                        Toast.makeText(
-                            this@EditProfileActivity,
-                            response.body()!!.message,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<GetUserProfileUpdateResponseVo>, t: Throwable) {
-                    Toast.makeText(this@EditProfileActivity, "${t.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-        }
-    }*/
-
-    private fun showSuccesDialog() {
-        val builder = AlertDialog.Builder(this)
-        val inflater = layoutInflater
-        val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
-        // val dialogLayout = inflater.inflate(R.layout.login_dialog, null)
-        val txtOk = dialogLayout.findViewById<TextView>(R.id.txtOk)
-        val txtDialogSucces = dialogLayout.findViewById<TextView>(R.id.txtDialogSucces)
-        txtDialogSucces.text = "User profile updated successfully"
-        txtOk.setOnClickListener {
-            onBackPressed()
-        }
-
-        builder.setView(dialogLayout)
-        builder.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

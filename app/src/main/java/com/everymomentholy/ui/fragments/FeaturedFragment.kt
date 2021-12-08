@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
@@ -25,6 +23,7 @@ import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.adapter.FeaturedAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.folioreader.emh.EMHUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +32,7 @@ import java.lang.Exception
 class FeaturedFragment : Fragment() {
 
     private lateinit var rcvFeatured: RecyclerView
-    private var adapter: RecyclerView.Adapter<FeaturedAdapter.MyViewHolder>? = null
+    private lateinit var featuredAdapter: FeaturedAdapter
     private lateinit var txtAvaliableLiturgy: TextView
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -122,8 +121,8 @@ class FeaturedFragment : Fragment() {
                 ) {
                     if (response.body()?.statusCode == 1) {
                         rcvFeatured.layoutManager = LinearLayoutManager(activity)
-                        adapter = FeaturedAdapter(requireContext(), response.body()!!.response.data)
-                        rcvFeatured.adapter = adapter
+                        featuredAdapter = FeaturedAdapter(requireContext(), response.body()!!.response.data)
+                        rcvFeatured.adapter = featuredAdapter
                     } else {
 
                     }
@@ -136,6 +135,20 @@ class FeaturedFragment : Fragment() {
             })
         } catch (exception: Exception) {
             exception.printStackTrace()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (EMHUtils.favoriteFlagChange) {
+            try {
+                if (featuredAdapter.bookOpenPosition != -1) {
+                    featuredAdapter.updateFavoriteStatusFromBookReadFeatured()
+                    featuredAdapter.notifyDataSetChanged()
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }
