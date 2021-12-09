@@ -54,11 +54,12 @@ class PrivacyPolicyActivity : AppCompatActivity() {
                     if (response.body()?.statusCode == 1) {
 
                         policyWebView.getSettings().setJavaScriptEnabled(true);
-                        policyWebView.loadData(
+                        policyWebView.loadDataWithBaseURL(
+                            "",
                             response.body()?.response!!.description,
                             "text/html; charset=utf-8",
-                            "UTF-8"
-                        );
+                            "UTF-8", ""
+                        )
 
                     } else {
                         Toast.makeText(

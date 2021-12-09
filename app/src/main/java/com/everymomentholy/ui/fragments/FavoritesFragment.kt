@@ -71,7 +71,9 @@ class FavoritesFragment : Fragment() {
                     response: Response<GetFavoritesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-                        setAdapter(response.body()!!.response.data)
+                        if(context != null){
+                            setAdapter(response.body()!!.response.data)
+                        }
                     } else {
                         Toast.makeText(
                             requireActivity(),

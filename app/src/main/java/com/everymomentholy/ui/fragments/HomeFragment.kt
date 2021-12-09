@@ -1,7 +1,6 @@
 package com.everymomentholy.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -19,35 +18,27 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import com.android.billingclient.api.*
 import com.bumptech.glide.Glide
-import com.bumptech.glide.util.Util
 import com.everymomentholy.BuildConfig
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.response.*
+import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
+import com.everymomentholy.api.response.HomegetSettingResponseVo
+import com.everymomentholy.api.response.NotificationDataVo
+import com.everymomentholy.api.response.NotificationResponseVo
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import com.folioreader.util.ProgressDialog
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -207,18 +198,19 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-        if (Utils.isNetworkAvailable(requireContext())) {
-            progressDialog = Utils.showProgressDialog(requireContext())!!
-            progressDialog.show()
-            dailyLiturgyQuote()
-            getSettings()
-        } else {
-            Toast.makeText(
-                requireContext(),
-                requireContext().resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()
+        if (context != null) {
+            if (Utils.isNetworkAvailable(requireContext())) {
+                progressDialog = Utils.showProgressDialog(requireContext())!!
+                progressDialog.show()
+                dailyLiturgyQuote()
+                getSettings()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    requireContext().resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
     }
@@ -250,8 +242,10 @@ class HomeFragment : Fragment() {
                         }
 
                         if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                            if(context != null)
                             getNotificationListWithoutLogin()
                         } else {
+                            if(context != null)
                             getNotificationList()
                         }
                     } else {
@@ -412,21 +406,11 @@ class HomeFragment : Fragment() {
                         } else {
                             txtToolbarNotificationCount.visibility = View.GONE
                         }
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            response.body()!!.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<NotificationResponseVo>, t: Throwable) {
-                    Toast.makeText(
-                        requireContext(),
-                        "${t.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
                 }
             })
         } catch (exception: Exception) {

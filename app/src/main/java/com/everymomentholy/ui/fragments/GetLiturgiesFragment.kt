@@ -152,7 +152,10 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                         }
 
                         if (Constants.GET_LITURGIES_VIEW_PAGER_POSITION != 0)
-                            viewPager.setCurrentItem(Constants.GET_LITURGIES_VIEW_PAGER_POSITION, false)
+                            viewPager.setCurrentItem(
+                                Constants.GET_LITURGIES_VIEW_PAGER_POSITION,
+                                false
+                            )
 
                     } else {
                         Toast.makeText(
@@ -199,7 +202,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     context?.startActivity(intent)
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                       showDialogForUnlockWithoutLogin(liturgyData)
+                        showDialogForUnlockWithoutLogin(liturgyData)
                     } else {
                         startPurchaseFlow(liturgyData)
                     }
@@ -321,18 +324,19 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
     override fun onResume() {
         super.onResume()
-        if (Utils.isNetworkAvailable(requireContext())) {
-            Handler(Looper.getMainLooper()).postDelayed(
-                Runnable {  getBooks() },
-                Constants.AFTER_PURCHASE_REFRESH_DELAY
-            )
-
-        } else {
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()
+        if (context != null) {
+            if (Utils.isNetworkAvailable(requireContext())) {
+                Handler(Looper.getMainLooper()).postDelayed(
+                    Runnable { if(context != null)getBooks() },
+                    Constants.AFTER_PURCHASE_REFRESH_DELAY
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

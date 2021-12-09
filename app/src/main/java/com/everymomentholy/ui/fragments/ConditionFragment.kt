@@ -66,10 +66,11 @@ class ConditionFragment : Fragment() {
 
                         // txtTermsCondition.text = Html.fromHtml(description)
 
-                        termsConditionWebView.loadData(
+                        termsConditionWebView.loadDataWithBaseURL(
+                            "",
                             description,
                             "text/html",
-                            "UTF-8"
+                            "UTF-8", ""
                         )
 
                     } else {

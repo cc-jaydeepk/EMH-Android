@@ -368,7 +368,7 @@ class AboutBookLiturgiesFragment : Fragment() {
                     call: Call<CollectionListResponseVo>,
                     response: Response<CollectionListResponseVo>
                 ) {
-                    if (response.body()?.statusCode == 1) {
+                    if (response.body()?.statusCode == 1 && context != null) {
 
                         var totalPriceCollection: Double = 0.0
 
@@ -378,6 +378,12 @@ class AboutBookLiturgiesFragment : Fragment() {
 
                         var wholeCollection: CollectionDataVo = CollectionDataVo()
                         var arrCollectionList: ArrayList<CollectionDataVo> = ArrayList()
+                        arrCollectionList.addAll(response.body()!!.response.data)
+
+                        var unPurchasedItems =
+                            arrCollectionList.filter { cl -> cl.isPurchased != "Yes" }
+                        if (unPurchasedItems.isEmpty()) liturgies.isPurchased = "Yes"
+
                         if (liturgies.isVolume == "Yes") {
                             if (liturgies.isPurchased == "Yes") {
 
@@ -386,7 +392,7 @@ class AboutBookLiturgiesFragment : Fragment() {
                                 wholeCollection.bookTitle = liturgies.volumeTitle
                                 wholeCollection.bookAmount = liturgies.volumeAmount
                                 wholeCollection.volumeId = liturgies.volumeId
-                                arrCollectionList.add(wholeCollection)
+                                arrCollectionList.add(0, wholeCollection)
                             }
                         } else {
                             /*wholeCollection.bookCoverPageImage = liturgies.bookCoverPageImage
@@ -394,7 +400,7 @@ class AboutBookLiturgiesFragment : Fragment() {
                             wholeCollection.bookAmount =
                                 liturgies.bookAmount*/
                         }
-                        arrCollectionList.addAll(response.body()!!.response.data)
+
                         bottomSliderAdapter = BottomSliderCollectionAdapter(
                             context!!,
                             arrCollectionList
@@ -412,7 +418,7 @@ class AboutBookLiturgiesFragment : Fragment() {
 
                 override fun onFailure(call: Call<CollectionListResponseVo>, t: Throwable) {
                     Toast.makeText(
-                        context!!,
+                        activity,
                         "${t.message}",
                         Toast.LENGTH_SHORT
                     )
@@ -449,22 +455,28 @@ class AboutBookLiturgiesFragment : Fragment() {
                     call: Call<MyLiturgiesResponseVo>,
                     response: Response<MyLiturgiesResponseVo>
                 ) {
-                    if (response.body()?.statusCode == 1) {
+                    if (response.body()?.statusCode == 1 && context != null) {
 
                         var liturgiesList: ArrayList<MyLiturgiesDataVo> = ArrayList()
-                        var liturgie: MyLiturgiesDataVo = MyLiturgiesDataVo()
-                        liturgie.bookId = liturgies.bookId
-                        liturgie.chapterPageImage = liturgies.bookCoverPageImage
-                        liturgie.price = liturgies.bookAmount
-                        liturgie.chapterTitle = liturgies.bookTitle
+
+                        liturgiesList.addAll(response.body()?.response?.data!!)
+
+                        var unPurchasedItems =
+                            liturgiesList.filter { ll -> ll.isPurchased != "Yes" }
+                        if (unPurchasedItems.isEmpty()) liturgies.isPurchased = "Yes"
 
                         if (liturgies.isPurchased == "Yes" || liturgies.bookAmount == "0.00" || liturgies.bookAmount == "0.0") {
 
                         } else {
-                            liturgiesList.add(liturgie)
+                            var liturgie = MyLiturgiesDataVo()
+                            liturgie.bookId = liturgies.bookId
+                            liturgie.chapterPageImage = liturgies.bookCoverPageImage
+                            liturgie.price = liturgies.bookAmount
+                            liturgie.chapterTitle = liturgies.bookTitle
+                            liturgiesList.add(0, liturgie)
                         }
                         // liturgiesList.add(liturgie)
-                        liturgiesList.addAll(response.body()?.response?.data!!)
+
 
                         /*rvLiturgiesList.layoutManager =
                             LinearLayoutManager(this@LiturgiesListActivity)
@@ -481,7 +493,7 @@ class AboutBookLiturgiesFragment : Fragment() {
 
                     } else {
                         Toast.makeText(
-                            context!!,
+                            activity,
                             response.body()!!.response.message.toString(),
                             Toast.LENGTH_LONG
                         ).show()
@@ -491,7 +503,7 @@ class AboutBookLiturgiesFragment : Fragment() {
 
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
                     Toast.makeText(
-                        requireContext(),
+                        activity,
                         "${t.message}",
                         Toast.LENGTH_SHORT
                     )
@@ -506,25 +518,26 @@ class AboutBookLiturgiesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // Toast.makeText(context, "This is on resume", Toast.LENGTH_LONG).show()
+        if (context != null) {
+            if (Utils.isNetworkAvailable(requireContext())) {
+                if (liturgies.isVolume == "Yes")
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        Runnable { getCollectionList(liturgies.volumeId) },
+                        Constants.AFTER_PURCHASE_REFRESH_DELAY
+                    )
+                else
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        Runnable { getMyLiturgiesList(liturgies.bookId) },
+                        Constants.AFTER_PURCHASE_REFRESH_DELAY
+                    )
 
-        if (Utils.isNetworkAvailable(requireContext())) {
-            if (liturgies.isVolume == "Yes")
-                Handler(Looper.getMainLooper()).postDelayed(
-                    Runnable { getCollectionList(liturgies.volumeId) },
-                    Constants.AFTER_PURCHASE_REFRESH_DELAY
-                )
-            else
-                Handler(Looper.getMainLooper()).postDelayed(
-                    Runnable { getMyLiturgiesList(liturgies.bookId) },
-                    Constants.AFTER_PURCHASE_REFRESH_DELAY
-                )
-
-        } else {
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 }

@@ -137,19 +137,24 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                         }
                     } else {
                         progressCardView.visibility = View.GONE
-                        Toast.makeText(
-                            requireActivity(),
-                            response.body()!!.response.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        if (context != null) {
+                            Toast.makeText(
+                                requireContext(),
+                                response.body()!!.response.message.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                         Log.e("litu", response.body()!!.response.message)
                     }
                 }
 
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
                     progressCardView.visibility = View.GONE
-                    Toast.makeText(requireActivity(), "${t.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    if (context != null) {
+                        Toast.makeText(
+                            requireContext(), "${t.message}", Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             })
         } catch (exception: Exception) {
@@ -170,69 +175,70 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         lateinit var bottomSheet: RelativeLayout
         try {
             bottomSheet = view?.findViewById<RelativeLayout>(R.id.bottom_sheet) as RelativeLayout
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        val ivSlideUp = view?.findViewById<ImageView>(R.id.ivSlideUp)
-
-        val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
-        if (!isAuto) {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
 
 
-        bottomSheet.setZ(10.0F)
-        // bottomSheetBehavior.peekHeight = 80
-        bottomSheetBehavior.setPeekHeight(
-            requireActivity().getResources().getDimension(R.dimen.bottom_sheet_hight)
-                .toInt()
-        )
+            val ivSlideUp = view?.findViewById<ImageView>(R.id.ivSlideUp)
 
-        bottomSheetBehavior.isHideable = false
+            val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+            if (!isAuto) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
 
-        bottomSheetBehavior.setBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
 
-                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    //update my bottomsheet state.
-                    ivSlideUp?.setImageResource(R.drawable.ic_down_arrow)
+            bottomSheet.setZ(10.0F)
+            // bottomSheetBehavior.peekHeight = 80
+            bottomSheetBehavior.setPeekHeight(
+                requireActivity().getResources().getDimension(R.dimen.bottom_sheet_hight)
+                    .toInt()
+            )
 
-                } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    ivSlideUp?.setImageResource(R.drawable.slideup_arrow)
+            bottomSheetBehavior.isHideable = false
+
+            bottomSheetBehavior.setBottomSheetCallback(object :
+                BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                        //update my bottomsheet state.
+                        ivSlideUp?.setImageResource(R.drawable.ic_down_arrow)
+
+                    } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                        ivSlideUp?.setImageResource(R.drawable.slideup_arrow)
+                    }
+
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+                }
+            })
+
+            android_id = Settings.Secure.getString(
+                requireContext().contentResolver,
+                Settings.Secure.ANDROID_ID
+            )
+
+            bottomSliderAdapter = BottomSliderAdapter(
+                requireContext(),
+                filteredDataVo,
+            )
+            val layoutManager: RecyclerView.LayoutManager =
+                LinearLayoutManager(context)
+            if (buttomRcv != null) {
+                buttomRcv.layoutManager = layoutManager
+                buttomRcv.adapter = bottomSliderAdapter
+            }
+
+            ivSlideUp?.setOnClickListener() {
+                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                } else {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 }
 
             }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-        })
-
-        android_id = Settings.Secure.getString(
-            requireContext().contentResolver,
-            Settings.Secure.ANDROID_ID
-        )
-
-        bottomSliderAdapter = BottomSliderAdapter(
-            requireContext(),
-            filteredDataVo,
-        )
-        val layoutManager: RecyclerView.LayoutManager =
-            LinearLayoutManager(context)
-        if (buttomRcv != null) {
-            buttomRcv.layoutManager = layoutManager
-            buttomRcv.adapter = bottomSliderAdapter
-        }
-
-        ivSlideUp?.setOnClickListener() {
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            } else {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
-
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -281,7 +287,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                     call: Call<GetLiturgiesResponseVo>,
                     response: Response<GetLiturgiesResponseVo>
                 ) {
-                    if (response.body()?.statusCode == 1) {
+                    if (response.body()?.statusCode == 1 && context != null) {
 
                         var noVolume =
                             response.body()!!.response.data.filter { it.isVolume == "No" } as ArrayList<GetLiturgiesDataVo>
@@ -323,17 +329,22 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                         }
 
                     } else {
-                        Toast.makeText(
-                            requireActivity(),
-                            response.body()!!.response.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        if (context != null) {
+                            Toast.makeText(
+                                requireContext(),
+                                response.body()!!.response.message.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
                 }
 
                 override fun onFailure(call: Call<GetLiturgiesResponseVo>, t: Throwable) {
-                    Toast.makeText(requireActivity(), "${t.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    if (context != null) {
+                        Toast.makeText(
+                            requireContext(), "${t.message}", Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             })
         } catch (exception: Exception) {
