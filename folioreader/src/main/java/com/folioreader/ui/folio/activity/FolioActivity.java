@@ -18,6 +18,7 @@ package com.folioreader.ui.folio.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,10 +37,12 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,6 +56,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import kotlin.jvm.JvmStatic;
 
 import com.folioreader.Config;
@@ -366,8 +370,7 @@ public class FolioActivity
         if (!config.isShowTts())
             menu.findItem(R.id.itemTts).setVisible(false);
 
-        if(myLiturgiesDataVo!= null && myLiturgiesDataVo.isFavorite().equals("True"))
-        {
+        if (myLiturgiesDataVo != null && myLiturgiesDataVo.isFavorite().equals("True")) {
             menu.getItem(4).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favourite_fill));
         }
         return true;
@@ -407,11 +410,19 @@ public class FolioActivity
             return true;
         } else if (itemId == R.id.itemShare) {
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.getTitle());
-            EMHUtils.Companion.privateShareLiturgy(FolioActivity.this, myLiturgiesDataVo);
+            if (myLiturgiesDataVo.getUserId() > 0) {
+                EMHUtils.Companion.privateShareLiturgy(FolioActivity.this, myLiturgiesDataVo);
+            } else {
+                EMHUtils.Companion.showDialogForUnlockWithoutLogin(FolioActivity.this);
+            }
             return true;
         } else if (itemId == R.id.itemFavorite) {
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.getTitle());
-            EMHUtils.Companion.setLiturgiesFavourite(FolioActivity.this, myLiturgiesDataVo);
+            if (myLiturgiesDataVo.getUserId() > 0) {
+                EMHUtils.Companion.setLiturgiesFavourite(FolioActivity.this, myLiturgiesDataVo);
+            } else {
+                EMHUtils.Companion.showDialogForUnlockWithoutLogin(FolioActivity.this);
+            }
             return true;
         }
 
@@ -1116,5 +1127,4 @@ public class FolioActivity
             menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite));
         }
     }
-
 }

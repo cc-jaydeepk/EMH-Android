@@ -2,6 +2,7 @@ package com.everymomentholy.ui.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -48,6 +49,7 @@ class FeaturedAdapter(
     var featuredLiturgiesList: ArrayList<MyLiturgiesDataVo>
 ) : RecyclerView.Adapter<FeaturedAdapter.MyViewHolder>() {
     public var bookOpenPosition = -1
+    lateinit var progressDialog: ProgressDialog
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var btnFeaturedReadNow = view.findViewById<Button>(R.id.btn_featured_read_now)
@@ -76,6 +78,8 @@ class FeaturedAdapter(
 
         holder.btnFeaturedReadNow.setOnClickListener() {
             bookOpenPosition = position
+            progressDialog = Utils.showProgressDialog(context)!!
+            progressDialog.show()
             val cw = ContextWrapper(context)
             val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
             if (!directory.exists()) {
@@ -96,7 +100,9 @@ class FeaturedAdapter(
                     .start(object : OnDownloadListener {
                         override fun onDownloadComplete() {
                             Log.e("complete", "complete")
-
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss()
+                            }
                             Utils.invokeBookReader(
                                 context,
                                 context?.filesDir?.absolutePath + "/" + "test_" + featuredLiturgyData.chapterId + ".epub",

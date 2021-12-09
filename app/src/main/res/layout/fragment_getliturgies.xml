@@ -63,9 +63,8 @@
             android:layout_marginRight="@dimen/_15sdp"
             android:fontFamily="@font/lato_medium"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
-            android:textAllCaps="true"
             android:maxLines="2"
+            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="@dimen/getliturgy_txt_size" />
 

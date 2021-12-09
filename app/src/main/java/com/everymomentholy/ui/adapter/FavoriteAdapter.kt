@@ -2,6 +2,7 @@ package com.everymomentholy.ui.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -47,6 +48,7 @@ class FavoriteAdapter(
 ) : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
 
     public var bookOpenPosition = -1
+    lateinit var progressDialog: ProgressDialog
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgFavCover = view.findViewById<ImageView>(R.id.imgFavCover)
@@ -88,6 +90,8 @@ class FavoriteAdapter(
 
         holder.btnFavReadNow.setOnClickListener() {
             bookOpenPosition = position
+            progressDialog = Utils.showProgressDialog(context)!!
+            progressDialog.show()
             val cw = ContextWrapper(context)
             val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
             if (!directory.exists()) {
@@ -108,7 +112,9 @@ class FavoriteAdapter(
                     .start(object : OnDownloadListener {
                         override fun onDownloadComplete() {
                             Log.e("complete", "complete")
-
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss()
+                            }
                             var myLiturgiesDataVo = MyLiturgiesDataVo()
                             myLiturgiesDataVo.bookId = favLiturgiesList[position].bookId
                             myLiturgiesDataVo.chapterId = favLiturgiesList[position].chapterId

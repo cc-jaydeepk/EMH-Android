@@ -1,6 +1,7 @@
 package com.everymomentholy.ui.adapter
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -34,6 +35,8 @@ class BottomSliderLiturgiesAdapter(
     var context: Context,
     var liturgyList: List<MyLiturgiesDataVo>,
 ) : RecyclerView.Adapter<BottomSliderLiturgiesAdapter.MyViewHolder>() {
+
+    lateinit var progressDialog: ProgressDialog
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -135,6 +138,8 @@ class BottomSliderLiturgiesAdapter(
     }
 
     private fun readBook(freeLiturgy: MyLiturgiesDataVo) {
+        progressDialog = Utils.showProgressDialog(context)!!
+        progressDialog.show()
         val cw = ContextWrapper(context)
         val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
         if (!directory.exists()) {
@@ -155,6 +160,9 @@ class BottomSliderLiturgiesAdapter(
                 .start(object : OnDownloadListener {
                     override fun onDownloadComplete() {
                         Log.e("complete", "complete")
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss()
+                        }
                         Utils.invokeBookReader(
                             context,
                             context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",

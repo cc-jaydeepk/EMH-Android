@@ -1,6 +1,7 @@
 package com.folioreader.emh
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
@@ -157,6 +158,36 @@ class EMHUtils {
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
+        }
+
+        fun showDialogForUnlockWithoutLogin(context: Context) {
+            val alertDialog = AlertDialog.Builder(
+                context
+            )
+            val inflater = (context as Activity).layoutInflater
+            val alertView: View = inflater.inflate(R.layout.purchase_without_login_dialog, null)
+            alertDialog.setView(alertView)
+            val show = alertDialog.show()
+            val alertButtonCancel = alertView.findViewById<View>(R.id.txtCancel) as TextView
+            val alertButtonLoginRegister =
+                alertView.findViewById<View>(R.id.txtPurchaseRegisterLogin) as TextView
+            val alertButtonPurchase =
+                alertView.findViewById<View>(R.id.txtPurchaseWithoutRegisterLogin) as TextView
+
+
+            alertButtonLoginRegister.setOnClickListener {
+                /*val intent = Intent(context, SelectOptionActivity::class.java)
+                context.startActivity(intent)*/
+            }
+
+            alertButtonCancel.setOnClickListener {
+                show.dismiss()
+            }
+
+            alertButtonPurchase.setOnClickListener() {
+
+            }
+            show.setCanceledOnTouchOutside(false)
         }
     }
 
