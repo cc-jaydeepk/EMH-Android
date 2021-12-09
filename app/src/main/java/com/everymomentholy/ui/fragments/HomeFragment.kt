@@ -13,10 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -60,6 +57,7 @@ class HomeFragment : Fragment() {
     lateinit var quotesText: String
     lateinit var cotedText: String
     lateinit var progressDialog: android.app.ProgressDialog
+    lateinit var progressbarHomeFragment: ProgressBar
     var notificationCount = 0
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
@@ -76,6 +74,7 @@ class HomeFragment : Fragment() {
         iv_toolbar_drawer = view.findViewById(R.id.iv_toolbar_drawer)
         iv_toolbar_notification = view.findViewById(R.id.iv_toolbar_notification)
         txtToolbarNotificationCount = view.findViewById(R.id.txt_toolbar_notification_count)
+        progressbarHomeFragment = view.findViewById(R.id.progressbar_home_fragment)
 
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationListActivity::class.java)
@@ -96,8 +95,6 @@ class HomeFragment : Fragment() {
 
         ivHomeShare.setOnClickListener {
 
-            progressDialog = Utils.showProgressDialog(requireContext())!!
-            progressDialog.show()
             ivHomeShare.visibility = View.GONE
             iv_toolbar_drawer.visibility = View.GONE
             iv_toolbar_notification.visibility = View.GONE
@@ -190,9 +187,8 @@ class HomeFragment : Fragment() {
 
         ivHomeShare.isEnabled = true
         ivHomeShare.visibility = View.VISIBLE
-        if (progressDialog.isShowing) {
-            progressDialog.dismiss()
-        }
+        progressbarHomeFragment.visibility = View.GONE
+        rootLayout.visibility = View.VISIBLE
     }
 
 
@@ -200,8 +196,8 @@ class HomeFragment : Fragment() {
         super.onResume()
         if (context != null) {
             if (Utils.isNetworkAvailable(requireContext())) {
-                progressDialog = Utils.showProgressDialog(requireContext())!!
-                progressDialog.show()
+                progressbarHomeFragment.visibility = View.VISIBLE
+                rootLayout.visibility = View.GONE
                 dailyLiturgyQuote()
                 getSettings()
             } else {
@@ -225,9 +221,8 @@ class HomeFragment : Fragment() {
                     call: Call<HomegetSettingResponseVo>,
                     response: Response<HomegetSettingResponseVo>
                 ) {
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
+                    progressbarHomeFragment.visibility = View.GONE
+                    rootLayout.visibility = View.VISIBLE
                     if (response.body()?.statusCode == 1) {
 
                         // txtQuote.text = response.body()!!.response.parentLiturgy
@@ -242,11 +237,11 @@ class HomeFragment : Fragment() {
                         }
 
                         if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                            if(context != null)
-                            getNotificationListWithoutLogin()
+                            if (context != null)
+                                getNotificationListWithoutLogin()
                         } else {
-                            if(context != null)
-                            getNotificationList()
+                            if (context != null)
+                                getNotificationList()
                         }
                     } else {
 
@@ -254,7 +249,7 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<HomegetSettingResponseVo>, t: Throwable) {
-                    Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
                     if (progressDialog.isShowing) {
                         progressDialog.dismiss()
                     }
@@ -322,7 +317,7 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<HomeDailyLiturgyResponseVo>, t: Throwable) {
-                    Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } catch (exception: Exception) {
@@ -352,20 +347,12 @@ class HomeFragment : Fragment() {
                         }
 
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            response.body()!!.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
+
                     }
                 }
 
                 override fun onFailure(call: Call<NotificationResponseVo>, t: Throwable) {
-                    Toast.makeText(
-                        requireContext(),
-                        "${t.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+
                 }
             })
         } catch (exception: Exception) {

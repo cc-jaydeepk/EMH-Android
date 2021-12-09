@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,7 @@ class ContactUsActivity : AppCompatActivity() {
     private lateinit var iv_toolbar_drawer: ImageView
     private lateinit var txt_toolbar_name: TextView
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var ivToolbarBack: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +42,17 @@ class ContactUsActivity : AppCompatActivity() {
         edtMessage = findViewById(R.id.edtMessage)
         btnContactusSubmit = findViewById(R.id.btnContactusSubmit)
         txt_toolbar_name = findViewById(R.id.txt_toolbar_name)
+        ivToolbarBack = findViewById(R.id.iv_toolbar_backImage)
         txt_toolbar_name.text = "Contact Us"
 
 
         iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
-        iv_toolbar_drawer.setImageResource(R.drawable.ic_back)
-        iv_toolbar_drawer.setOnClickListener {
+        //iv_toolbar_drawer.setImageResource(R.drawable.ic_back)
+
+        iv_toolbar_drawer.visibility = View.GONE
+        ivToolbarBack.visibility = View.VISIBLE
+
+        ivToolbarBack.setOnClickListener {
             onBackPressed()
         }
 

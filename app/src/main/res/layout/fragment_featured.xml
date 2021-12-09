@@ -16,7 +16,6 @@
             android:layout_gravity="center"
             android:fontFamily="@font/lato_medium"
             android:gravity="center"
-            android:text="hhhhhhhhh"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp" />
 

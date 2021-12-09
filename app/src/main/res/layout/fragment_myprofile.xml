@@ -67,22 +67,28 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:src="@drawable/profileimage" />-->
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile_image"
-                        android:layout_width="@dimen/myprofile_img"
-                        android:layout_height="@dimen/myprofile_img"
+                    <RelativeLayout
+                        android:layout_width="@dimen/_104sdp"
                         android:layout_marginTop="@dimen/_20sdp"
-                        android:src="@drawable/profileimage" />
+                        android:layout_height="@dimen/_104sdp">
 
-                    <ImageView
-                        android:id="@+id/ivOpenGallery"
-                        android:layout_width="@dimen/profile_edit_icon"
-                        android:layout_height="@dimen/profile_edit_icon"
-                        android:layout_marginStart="@dimen/profile_edit_iconmargin"
-                        android:layout_marginLeft="@dimen/profile_edit_iconmargin"
-                        android:layout_marginTop="-49dp"
-                        android:src="@drawable/ic_edit_image"
-                        android:visibility="gone" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profile_image"
+                            android:layout_width="@dimen/myprofile_img"
+                            android:layout_height="@dimen/myprofile_img"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/profileimage" />
+
+                        <ImageView
+                            android:id="@+id/ivOpenGallery"
+                            android:layout_width="@dimen/profile_edit_icon"
+                            android:layout_height="@dimen/profile_edit_icon"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginBottom="@dimen/_20sdp"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_edit_image"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
 
                     <TextView
                         android:id="@+id/txtUseName"
@@ -97,10 +103,11 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/profile_historybtn_layout"
+                        android:layout_height="@dimen/_40sdp"
                         android:layout_marginLeft="@dimen/profile_historybtn_margin"
                         android:layout_marginRight="@dimen/profile_historybtn_margin"
                         android:gravity="center"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:orientation="horizontal">
 
 
@@ -108,7 +115,6 @@
                             android:id="@+id/ivOrderHistory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/profile_historybtn"
                             android:layout_weight="1"
                             android:src="@drawable/ic_orderhistory" />
 

@@ -22,7 +22,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
@@ -40,7 +39,6 @@ import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -113,6 +111,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         toolbar.visibility = View.GONE
         var fragment1: Fragment? = null
         fragment1 = HomeFragment()
+        navView.setCheckedItem(R.id.nav_homeFragment)
         addFragment(fragment1, "Every Moment Holy", null)
 
         if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
@@ -579,18 +578,11 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
 
                         userImage = response.body()!!.response.userProfilePic
 
-                    } else {
-                        Toast.makeText(
-                            this@MainActivity,
-                            response.body()!!.response.message,
-                            Toast.LENGTH_LONG
-                        ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<GetUserProfileVo>, t: Throwable) {
-                    Toast.makeText(this@MainActivity, "${t.message}", Toast.LENGTH_SHORT)
-                        .show()
+
                 }
             })
         } catch (exception: Exception) {

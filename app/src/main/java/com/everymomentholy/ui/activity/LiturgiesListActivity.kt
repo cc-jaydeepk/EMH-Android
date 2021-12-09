@@ -50,6 +50,7 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     lateinit var collectionData: CollectionDataVo
     var bookId = 0
     var isPurchaseSuccess: Boolean = false
+    lateinit var ivToolbarBack: ImageView
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,12 +61,15 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
         ivToolbarDrawer = findViewById(R.id.iv_toolbar_drawer)
         ivToolbarNotification = findViewById(R.id.iv_toolbar_notification)
         txtToolbarName = findViewById(R.id.txt_toolbar_name)
+        ivToolbarBack = findViewById(R.id.iv_toolbar_backImage)
 
         ivToolbarNotification.visibility = View.GONE
-        ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+        //ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+        ivToolbarDrawer.visibility = View.GONE
+        ivToolbarBack.visibility = View.VISIBLE
         txtToolbarName.text = "Liturgies"
 
-        ivToolbarDrawer.setOnClickListener() {
+        ivToolbarBack.setOnClickListener() {
             onBackPressed()
         }
 

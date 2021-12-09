@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
@@ -28,8 +29,8 @@ class OrderBookAdapter(
 
         var ivOrderbook = view.findViewById<ImageView>(R.id.iv_orderbook)
         var txtOrderBookTitle = view.findViewById<TextView>(R.id.txt_order_book_title)
-        var btnOrderBbookRabbitRoom = view.findViewById<Button>(R.id.btn_order_book_rabbit_room)
-        var btnOrderBbookAmazon = view.findViewById<Button>(R.id.btn_order_book_amazon)
+        var btnOrderBbookRabbitRoom = view.findViewById<LinearLayout>(R.id.btn_order_book_rabbit_room)
+        var btnOrderBbookAmazon = view.findViewById<LinearLayout>(R.id.btn_order_book_amazon)
 
     }
 

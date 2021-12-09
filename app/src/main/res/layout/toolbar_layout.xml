@@ -13,14 +13,14 @@
             android:layout_height="@dimen/toolbar_drawer_imagesize"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_6sdp"
-            android:src="@drawable/drawer_image" />
+            android:src="@drawable/drawer_image"
+            android:visibility="visible"/>
 
         <ImageView
             android:id="@+id/iv_toolbar_backImage"
             android:layout_width="@dimen/toolbar_back"
             android:layout_height="@dimen/toolbar_back"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/_7sdp"
             android:layout_marginLeft="@dimen/_10sdp"
             android:src="@drawable/ic_back"
             android:visibility="gone" />

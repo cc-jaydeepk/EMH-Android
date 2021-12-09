@@ -76,7 +76,9 @@ class SearchFragment : Fragment() {
 
         icSearch.setOnClickListener() {
             if (Utils.isNetworkAvailable(requireContext())) {
-                getSearchLiturgies()
+                if (edtSearch.text.isNotEmpty()) {
+                    getSearchLiturgies()
+                }
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -210,7 +212,10 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (context != null && edtSearch.text.isNotEmpty()) {
-            Handler(Looper.getMainLooper()).postDelayed(Runnable { getSearchLiturgies() }, Constants.AFTER_PURCHASE_REFRESH_DELAY)
+            Handler(Looper.getMainLooper()).postDelayed(
+                Runnable { getSearchLiturgies() },
+                Constants.AFTER_PURCHASE_REFRESH_DELAY
+            )
         }
     }
 }

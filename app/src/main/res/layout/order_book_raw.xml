@@ -34,31 +34,74 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/orderbook_txtname" />
 
-            <Button
+            <LinearLayout
                 android:id="@+id/btn_order_book_rabbit_room"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/_110sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/orderbook_btn_marginright"
-                android:drawableLeft="@drawable/ic_rabbit_room"
-                android:padding="@dimen/orderbook_btnpadding"
-                android:text="@string/rabbit_room"
-                android:textColor="@color/loginbg"
-                android:textSize="@dimen/orderbook_btn_txtsixe"
-                app:strokeColor="@color/loginbg" />
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_read_now"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp">
 
-            <Button
+                <LinearLayout
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:background="@color/loginbg"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:src="@drawable/ic_rabbit_room" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/lato_medium"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/rabbit_room"
+                    android:textAllCaps="true"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/orderbook_btn_txtsixe" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/btn_order_book_amazon"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/_110sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/orderbook_btn_marginright"
-                android:drawableLeft="@drawable/ic_amazone_icon"
-                android:padding="@dimen/orderbook_btnpadding"
-                android:text="@string/amazon"
-                android:textColor="@color/loginbg"
-                android:textSize="@dimen/orderbook_btn_txtsixe"
-                app:strokeColor="@color/loginbg" />
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_read_now"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:background="@color/loginbg"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_18sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:src="@drawable/ic_amazone_icon" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/lato_medium"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/amazon"
+                    android:textAllCaps="true"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/orderbook_btn_txtsixe" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

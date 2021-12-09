@@ -10,8 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import com.folioreader.emh.APIService
-import com.folioreader.emh.APIInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -187,6 +185,23 @@ class EMHUtils {
             alertButtonPurchase.setOnClickListener() {
 
             }
+            show.setCanceledOnTouchOutside(false)
+        }
+
+        fun showLoginDialog(context: Context) {
+            val alertDialog = AlertDialog.Builder(
+                context
+            )
+            val inflater = (context as Activity).layoutInflater
+            val alertView: View = inflater.inflate(R.layout.login_alert_dialog, null)
+            alertDialog.setView(alertView)
+            val show = alertDialog.show()
+            val alertOk = alertView.findViewById<View>(R.id.txtLoginOk) as TextView
+
+            alertOk.setOnClickListener {
+                show.dismiss()
+            }
+
             show.setCanceledOnTouchOutside(false)
         }
     }

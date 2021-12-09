@@ -92,8 +92,7 @@ class LiturgiesListDialogActivity : AppCompatActivity() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         bottomSheet.z = 10.0F
         //  bottomSheetBehavior.peekHeight = 340
-        bottomSheetBehavior.peekHeight = 160
-
+        
         bottomSheetBehavior.isHideable = false
 
         bottomSheetBehavior.setBottomSheetCallback(object :

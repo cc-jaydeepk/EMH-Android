@@ -413,7 +413,7 @@ public class FolioActivity
             if (myLiturgiesDataVo.getUserId() > 0) {
                 EMHUtils.Companion.privateShareLiturgy(FolioActivity.this, myLiturgiesDataVo);
             } else {
-                EMHUtils.Companion.showDialogForUnlockWithoutLogin(FolioActivity.this);
+                EMHUtils.Companion.showLoginDialog(FolioActivity.this);
             }
             return true;
         } else if (itemId == R.id.itemFavorite) {
@@ -421,7 +421,7 @@ public class FolioActivity
             if (myLiturgiesDataVo.getUserId() > 0) {
                 EMHUtils.Companion.setLiturgiesFavourite(FolioActivity.this, myLiturgiesDataVo);
             } else {
-                EMHUtils.Companion.showDialogForUnlockWithoutLogin(FolioActivity.this);
+                EMHUtils.Companion.showLoginDialog(FolioActivity.this);
             }
             return true;
         }

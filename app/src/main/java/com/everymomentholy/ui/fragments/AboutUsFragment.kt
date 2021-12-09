@@ -1,12 +1,15 @@
 package com.everymomentholy.ui.fragments
 
+import android.R.attr.button
 import android.os.Bundle
 import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -38,7 +41,8 @@ class AboutUsFragment : Fragment() {
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.javaScriptCanOpenWindowsAutomatically = true
-
+        webView.settings.setSupportZoom(true)
+       
         if (Utils.isNetworkAvailable(requireContext())) {
             aboutUs()
         } else {

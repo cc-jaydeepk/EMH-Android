@@ -42,6 +42,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     lateinit var ivToolbarNotification: ImageView
     lateinit var txtToolbarName: TextView
     lateinit var ivToolbarDrawer: ImageView
+    lateinit var ivToolbarBack: ImageView
     var isPurchaseSuccess: Boolean = false
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -53,12 +54,15 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
         ivToolbarDrawer = findViewById(R.id.iv_toolbar_drawer)
         txtToolbarName = findViewById(R.id.txt_toolbar_name)
         ivToolbarNotification = findViewById(R.id.iv_toolbar_notification)
+        ivToolbarBack = findViewById(R.id.iv_toolbar_backImage)
 
         txtToolbarName.text = "Get Collection"
         ivToolbarNotification.visibility = View.GONE
-        ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+        // ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
+        ivToolbarDrawer.visibility = View.GONE
+        ivToolbarBack.visibility = View.VISIBLE
 
-        ivToolbarDrawer.setOnClickListener() {
+        ivToolbarBack.setOnClickListener() {
             onBackPressed()
         }
 
