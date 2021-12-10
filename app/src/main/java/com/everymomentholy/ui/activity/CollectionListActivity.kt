@@ -226,11 +226,11 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 ) {
                     if (response.body()?.statusCode == 1) {
                         isPurchaseSuccess = true
-                        Toast.makeText(
+                      /*  Toast.makeText(
                             this@CollectionListActivity,
                             "success",
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
 
                     } else {
                         Toast.makeText(

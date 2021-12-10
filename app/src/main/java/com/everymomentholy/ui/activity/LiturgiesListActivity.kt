@@ -220,12 +220,12 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 ) {
                     if (response.body()?.statusCode == 1) {
                         isPurchaseSuccess = true
-                        Toast.makeText(
+                       /* Toast.makeText(
                             this@LiturgiesListActivity,
                             "success",
                             Toast.LENGTH_LONG
                         ).show()
-
+*/
                     } else {
                         Toast.makeText(
                             this@LiturgiesListActivity,

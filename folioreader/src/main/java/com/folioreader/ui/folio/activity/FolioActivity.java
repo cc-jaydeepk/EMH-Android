@@ -371,7 +371,7 @@ public class FolioActivity
             menu.findItem(R.id.itemTts).setVisible(false);
 
         if (myLiturgiesDataVo != null && myLiturgiesDataVo.isFavorite().equals("True")) {
-            menu.getItem(4).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favourite_fill));
+            menu.getItem(4).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favourite_fill_folio));
         }
         return true;
     }
@@ -1122,9 +1122,9 @@ public class FolioActivity
     public void markFavorite(boolean isFav, Context context) {
         // menu item index for favorite is 4
         if (isFav) {
-            menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favourite_fill));
+            menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favourite_fill_folio));
         } else {
-            menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite));
+            menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite_folio));
         }
     }
 }

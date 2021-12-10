@@ -788,11 +788,11 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     response: Response<PrivateShareResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-                        Toast.makeText(
+                        /*Toast.makeText(
                             this@MainActivity,
                             "success",
                             Toast.LENGTH_LONG
-                        ).show()
+                        ).show()*/
 
                     } else {
                         Toast.makeText(
