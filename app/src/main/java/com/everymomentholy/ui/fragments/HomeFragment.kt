@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
 
         ivHomeShare.setOnClickListener {
 
-            ivHomeShare.visibility = View.GONE
+            ivHomeShare.visibility = View.INVISIBLE
             iv_toolbar_drawer.visibility = View.GONE
             iv_toolbar_notification.visibility = View.GONE
             ivHomeShare.isEnabled = false
@@ -103,7 +103,6 @@ class HomeFragment : Fragment() {
             screenShotCapture()
 
             //After taking screenshot reset the button and view again
-            ivHomeShare.visibility = View.VISIBLE
             iv_toolbar_drawer.visibility = View.VISIBLE
             iv_toolbar_notification.visibility = View.VISIBLE
         }
@@ -186,7 +185,7 @@ class HomeFragment : Fragment() {
         startActivity(Intent.createChooser(intent, "Share With"))
 
         ivHomeShare.isEnabled = true
-        ivHomeShare.visibility = View.VISIBLE
+       // ivHomeShare.visibility = View.VISIBLE
         progressbarHomeFragment.visibility = View.GONE
         rootLayout.visibility = View.VISIBLE
     }
@@ -195,6 +194,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         if (context != null) {
+            ivHomeShare.visibility = View.VISIBLE
             if (Utils.isNetworkAvailable(requireContext())) {
                 progressbarHomeFragment.visibility = View.VISIBLE
                 rootLayout.visibility = View.GONE

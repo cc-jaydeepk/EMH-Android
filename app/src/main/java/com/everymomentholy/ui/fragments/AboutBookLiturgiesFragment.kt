@@ -408,21 +408,24 @@ class AboutBookLiturgiesFragment : Fragment() {
                         showBottomSheetDialog()
 
                     } else {
-                        Toast.makeText(
-                            context!!,
-                            response.body()!!.response.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        if (context != null) {
+                            Toast.makeText(
+                                context!!,
+                                response.body()!!.response.message.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
                 }
 
                 override fun onFailure(call: Call<CollectionListResponseVo>, t: Throwable) {
-                    Toast.makeText(
-                        activity,
-                        "${t.message}",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    if (context != null) {
+                        Toast.makeText(
+                            context!!,
+                            "${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             })
         } catch (exception: Exception) {

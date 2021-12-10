@@ -213,7 +213,7 @@ class SearchFragment : Fragment() {
         super.onResume()
         if (context != null && edtSearch.text.isNotEmpty()) {
             Handler(Looper.getMainLooper()).postDelayed(
-                Runnable { getSearchLiturgies() },
+                Runnable { if(context!= null) getSearchLiturgies() },
                 Constants.AFTER_PURCHASE_REFRESH_DELAY
             )
         }

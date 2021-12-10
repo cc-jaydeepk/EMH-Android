@@ -71,21 +71,27 @@ class FavoritesFragment : Fragment() {
                     response: Response<GetFavoritesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-                        if(context != null){
+                        if (context != null) {
                             setAdapter(response.body()!!.response.data)
                         }
                     } else {
-                        Toast.makeText(
-                            requireActivity(),
-                            response.body()!!.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        if (context != null) {
+                            Toast.makeText(
+                                requireContext(),
+                                response.body()!!.message.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
                 }
 
                 override fun onFailure(call: Call<GetFavoritesResponseVo>, t: Throwable) {
-                    Toast.makeText(requireActivity(), "${t.message}", Toast.LENGTH_SHORT)
-                        .show()
+
+                    if (context != null) {
+                        Toast.makeText(requireContext(), "${t.message}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
                 }
             })
         } catch (exception: Exception) {
