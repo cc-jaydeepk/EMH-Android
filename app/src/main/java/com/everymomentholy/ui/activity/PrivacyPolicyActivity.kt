@@ -26,7 +26,7 @@ class PrivacyPolicyActivity : AppCompatActivity() {
         policyWebView = findViewById(R.id.policyWebView)
         ivToolbarBackImage = findViewById(R.id.iv_toolbar_backImage)
 
-        ivToolbarBackImage.setOnClickListener() {
+        ivToolbarBackImage.setOnClickListener {
             onBackPressed()
         }
 
@@ -53,7 +53,10 @@ class PrivacyPolicyActivity : AppCompatActivity() {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-                        policyWebView.getSettings().setJavaScriptEnabled(true);
+                        policyWebView.settings.javaScriptEnabled = true
+                        policyWebView.settings.javaScriptCanOpenWindowsAutomatically = true
+                        policyWebView.settings.setSupportZoom(true)
+
                         policyWebView.loadDataWithBaseURL(
                             "",
                             response.body()?.response!!.description,

@@ -176,7 +176,9 @@ class BottomSliderCollectionAdapter(
                             showDialogForUnlockWithoutLogin(freeLiturgies)
                         }
                     } else {
-                        transferToLiturgyList(freeLiturgies)
+                        if (position > 0) {
+                            transferToLiturgyList(freeLiturgies)
+                        }
                     }
                 }
 

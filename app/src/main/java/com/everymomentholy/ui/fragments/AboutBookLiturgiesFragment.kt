@@ -495,11 +495,13 @@ class AboutBookLiturgiesFragment : Fragment() {
                         showBottomSheetForLiturgiesDialog()
 
                     } else {
-                        Toast.makeText(
-                            activity,
-                            response.body()!!.response.message.toString(),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        if (context != null) {
+                            Toast.makeText(
+                                context,
+                                response.body()!!.response.message.toString(),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                         Log.e("litu", response.body()!!.response.message)
                     }
                 }
