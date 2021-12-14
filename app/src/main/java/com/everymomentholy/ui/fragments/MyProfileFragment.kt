@@ -267,7 +267,7 @@ class MyProfileFragment : Fragment() {
                         edtUserEmail.text = Editable.Factory.getInstance().newEditable(email)
                         edtUserPhoneNumber.text =
                             Editable.Factory.getInstance().newEditable(phoneNo)
-
+                        countryCodePicker.setCountryForPhoneCode(response.body()!!.response.countryCode.toInt())
                         //  freeText.text = response.body()!!.response.firstName
                         // txtUseName.text = response.body()!!.response.firstName
 
@@ -403,22 +403,12 @@ class MyProfileFragment : Fragment() {
 
                         val bundle = Bundle()
                         bundle.putString("name", getUserProfileUpdateRequestVo.firstName)
-                        //bundle.putParcelable("BitmapImage", bitmapImage);
-
 
                         btnEditProfile.visibility = View.VISIBLE
-                        // progressCardView.visibility = View.GONE
-                        // ivOpenGallery.visibility = View.GONE
-                        // btnUpdateProfile.visibility = View.GONE
-
-                        edtUserFirstName.setEnabled(false)
-
-                        edtUserLastName.setEnabled(false)
-
-                        edtUserEmail.setEnabled(false)
-
-                        edtUserPhoneNumber.setEnabled(false)
-
+                        edtUserFirstName.isEnabled = false
+                        edtUserLastName.isEnabled = false
+                        edtUserEmail.isEnabled = false
+                        edtUserPhoneNumber.isEnabled = false
                         txtUseName.text =
                             getUserProfileUpdateRequestVo.firstName + " " + getUserProfileUpdateRequestVo.lastName
 
@@ -427,6 +417,7 @@ class MyProfileFragment : Fragment() {
                         showAlert()
 
                     } else {
+                        progressCardView.visibility = View.GONE
                         Toast.makeText(
                             requireActivity(),
                             response.body()!!.message,

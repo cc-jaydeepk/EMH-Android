@@ -125,7 +125,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         registrationRequestVo.firstName = edtFirstName.text.toString().trim()
                         registrationRequestVo.lastName = edtLastName.text.toString().trim()
                         registrationRequestVo.email = edtEmail.text.toString().trim()
-                        registrationRequestVo.countryCode = "44"
+                        registrationRequestVo.countryCode = countryCode.toString()
                         registrationRequestVo.password = edtPassword.text.toString().trim()
                         registrationRequestVo.deviceType = "1"
                         registrationRequestVo.deviceId = android_id
@@ -303,9 +303,6 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
     override fun onCountrySelected() {
         countryCode = ccp!!.selectedCountryCode
         countryName = ccp!!.selectedCountryName
-
-        Toast.makeText(this, "Country Code " + countryCode, Toast.LENGTH_SHORT).show()
-        Toast.makeText(this, "Country Name " + countryName, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("NewApi")
