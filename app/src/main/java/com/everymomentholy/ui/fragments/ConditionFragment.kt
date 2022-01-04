@@ -1,8 +1,6 @@
 package com.everymomentholy.ui.fragments
 
 import android.os.Bundle
-import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +12,13 @@ import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.response.FaqResponseVo
 import com.everymomentholy.api.response.TermsConditionResponseVo
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class ConditionFragment : Fragment() {
 
