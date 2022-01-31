@@ -283,7 +283,8 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             deviceId = deviceId,
             liturgyId = 0,
             volumeId = 0,
-            productType = ProductTypes.BOOK
+            productType = ProductTypes.BOOK,
+            productId = getLiturgiesDataVo.bookPurchaseCode
         )
 
         val inAppUtils =

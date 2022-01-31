@@ -1,7 +1,6 @@
 package com.everymomentholy.ui.activity
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
@@ -9,14 +8,12 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.util.Util
+import com.everymomentholy.BuildConfig
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.ContactUsRequestVo
-import com.everymomentholy.api.request.ResetPasswordRequestVo
 import com.everymomentholy.api.response.ContectUsResponseVo
-import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -67,6 +64,7 @@ class ContactUsActivity : AppCompatActivity() {
                     contactUsRequestVo.userName = edtYourName.text.toString().trim()
                     contactUsRequestVo.email = edtEmailAddress.text.toString().trim()
                     contactUsRequestVo.message = edtMessage.text.toString().trim()
+                    contactUsRequestVo.appVersion = BuildConfig.VERSION_NAME
 
                     progressDialog = Utils.showProgressDialog(this@ContactUsActivity)!!
                     progressDialog.show()

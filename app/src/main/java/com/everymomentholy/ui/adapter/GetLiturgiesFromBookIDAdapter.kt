@@ -273,7 +273,8 @@ class GetLiturgiesFromBookIDAdapter(
             deviceId = deviceId,
             liturgyId = myLiturgyDataVo.chapterId,
             volumeId = 0,
-            productType = myLiturgyDataVo.productType
+            productType = myLiturgyDataVo.productType,
+            productId = myLiturgyDataVo.liturgyPurchaseCode
         )
 
         val inAppUtils =

@@ -10,5 +10,6 @@ class PurchaseRequestVo(
     var amount: String,
     val deviceId: String,
     val volumeId: Int,
-    val productType: ProductTypes
+    val productType: ProductTypes,
+    val productId: String,
 )

@@ -18,4 +18,6 @@ class MyLiturgiesDataVo: Serializable {
     var userId: Int = 0
     var token: String = ""
     var productType: ProductTypes = ProductTypes.LITURGY
+    var liturgyPurchaseCode: String = ""
+
 }

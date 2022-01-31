@@ -24,4 +24,7 @@ class CollectionDataVo :Serializable{
     var volumeId: Int = 0
 
     var productTypes: ProductTypes = ProductTypes.BOOK
+
+    var bookPurchaseCode: String = ""
+
 }

@@ -55,48 +55,52 @@ class InAppUtils private constructor(
         this.activity = activity!!
         this.purchaseRequestVo = purchaseRequestVo
 
-        defaultScope.launch {
-            Log.e(TAG, "inside purchase")
-            val skuDetails = querySkuDetails(purchaseRequestVo.amount)
-            if (skuDetails != null) {
-                val flowParams = BillingFlowParams.newBuilder()
-                    .setSkuDetails(skuDetails)
-                    .build()
-                val br = billingClient.launchBillingFlow(
-                    activity!!,
-                    flowParams
-                )
+        if (!purchaseRequestVo.productId.isNullOrBlank()) {
+            defaultScope.launch {
+                Log.e(TAG, "inside purchase")
+                val skuDetails = querySkuDetails(purchaseRequestVo.productId)
+                if (skuDetails != null) {
+                    val flowParams = BillingFlowParams.newBuilder()
+                        .setSkuDetails(skuDetails)
+                        .build()
+                    val br = billingClient.launchBillingFlow(
+                        activity!!,
+                        flowParams
+                    )
 
-                if (br.responseCode == BillingClient.BillingResponseCode.OK) {
-                    Log.e(TAG, "Billing success: + " + br.debugMessage)
-                } else {
-                    Log.e(TAG, "Billing failed: + " + br.debugMessage)
+                    if (br.responseCode == BillingClient.BillingResponseCode.OK) {
+                        Log.e(TAG, "Billing success: + " + br.debugMessage)
+                    } else {
+                        Log.e(TAG, "Billing failed: + " + br.debugMessage)
+                    }
                 }
             }
         }
     }
 
 
-    private suspend fun querySkuDetails(price: String): SkuDetails? {
+    private suspend fun querySkuDetails(productId: String): SkuDetails? {
         Log.e(TAG, "inside querySkuDetails")
         val skuList = ArrayList<String>()
-        if (productListPriceMap[price] != null) {
-            skuList.add("android.test.purchased")
-            Log.e(TAG, "product id = " + productListPriceMap[price]!!)
-            val params = SkuDetailsParams.newBuilder()
-            params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
+        // if (productListPriceMap[price] != null) {
+        //skuList.add("android.test.purchased")
+        // skuList.add(productListPriceMap[price]!!)
+        skuList.add(productId)
+        Log.e(TAG, "product id = $productId")
+        val params = SkuDetailsParams.newBuilder()
+        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
 
-            // leverage querySkuDetails Kotlin extension function
-            val skuDetailsResult = withContext(Dispatchers.IO) {
-                billingClient.querySkuDetails(params.build())
-            }
-            Log.e(TAG, "skuDetails " + skuDetailsResult.skuDetailsList?.size)
-            if (skuDetailsResult.skuDetailsList?.size!! > 0)
-                return skuDetailsResult.skuDetailsList?.get(0)!!
-            else
-                return null
-        } else
+        // leverage querySkuDetails Kotlin extension function
+        val skuDetailsResult = withContext(Dispatchers.IO) {
+            billingClient.querySkuDetails(params.build())
+        }
+        Log.e(TAG, "skuDetails " + skuDetailsResult.skuDetailsList?.size)
+        if (skuDetailsResult.skuDetailsList?.size!! > 0)
+            return skuDetailsResult.skuDetailsList?.get(0)!!
+        else
             return null
+        /*} else
+            return null*/
         // Process the result.
     }
 
@@ -174,7 +178,7 @@ class InAppUtils private constructor(
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     purchaseRequestVo.userId = Constants.SKIP_LOGIN_USER_ID
                 }
-                Log.e(TAG, "Consume Billing success: + " + billingResult.debugMessage)
+                Log.e(TAG, "Consume Billing success: " + billingResult.debugMessage)
                 if (activity is MainActivity)
                     (activity as MainActivity).onPurchaseComplete(purchaseRequestVo)
                 else if (activity is CollectionListActivity)
@@ -183,7 +187,7 @@ class InAppUtils private constructor(
                     (activity as LiturgiesListActivity).onPurchaseComplete(purchaseRequestVo)
 
             } else {
-                Log.e(TAG, "Consume Billing failed: + " + billingResult.debugMessage)
+                Log.e(TAG, "Consume Billing failed: " + billingResult.debugMessage)
             }
         }
 

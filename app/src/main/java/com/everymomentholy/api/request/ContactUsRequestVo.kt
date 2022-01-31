@@ -8,5 +8,6 @@ class ContactUsRequestVo {
 
     var message : String = ""
 
+    var appVersion : String = ""
 
 }

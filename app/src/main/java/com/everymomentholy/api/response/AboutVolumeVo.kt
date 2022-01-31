@@ -12,4 +12,6 @@ class AboutVolumeVo {
     var volumeDescription: String = ""
     var volumeId: Int = 0
     var volumeTitle: String = ""
+    var volumePurchaseCode: String = ""
+
 }

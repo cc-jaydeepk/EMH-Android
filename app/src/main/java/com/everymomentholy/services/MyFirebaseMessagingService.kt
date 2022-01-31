@@ -109,14 +109,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private val notificationIcon: Int
-        private get() {
-            val useWhiteIcon =
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-            return 1/*if (useWhiteIcon) {
-                R.drawable.ic_back
-            } else {
-                R.mipmap.ic_launcher
-            }*/
+        get() {
+            return R.mipmap.ic_launcher
         }
 
     private fun sendRegistrationToServer(token: String) {

@@ -224,7 +224,8 @@ class BottomSliderCollectionAdapter(
             deviceId = deviceId,
             liturgyId = 0,
             volumeId = collectionDataVo.volumeId,
-            productType = collectionDataVo.productTypes
+            productType = collectionDataVo.productTypes,
+            productId = collectionDataVo.bookPurchaseCode
         )
 
         val inAppUtils =

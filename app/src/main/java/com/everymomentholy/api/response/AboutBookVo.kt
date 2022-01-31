@@ -15,4 +15,7 @@ class AboutBookVo {
     var isPurchased: String = ""
 
     var bookDescription : String = ""
+
+    var bookPurchaseCode : String = ""
+
 }
