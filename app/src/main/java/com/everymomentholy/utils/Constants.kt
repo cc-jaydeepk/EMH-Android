@@ -3,6 +3,7 @@ package com.everymomentholy.utils
 class Constants {
 
     companion object {
+        //test server
         // const val BASE_URL = "http://203.109.113.162:8686/every_moment_holy/public/api/"
         const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/"
 
