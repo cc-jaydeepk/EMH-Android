@@ -27,4 +27,6 @@ class CollectionDataVo :Serializable{
 
     var bookPurchaseCode: String = ""
 
+    var volumePurchaseCode: String = ""
+
 }

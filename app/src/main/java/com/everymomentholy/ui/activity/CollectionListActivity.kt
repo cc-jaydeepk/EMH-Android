@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,15 +15,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.CollectionRequestVo
 import com.everymomentholy.api.request.PurchaseRequestVo
-import com.everymomentholy.api.response.CollectionDataVo
-import com.everymomentholy.api.response.CollectionListResponseVo
-import com.everymomentholy.api.response.GetLiturgiesDataVo
-import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.api.response.*
 import com.everymomentholy.interfaces.OnInAppPurchaseListener
 import com.everymomentholy.ui.adapter.BottomSliderCollectionAdapter
 import com.everymomentholy.utils.Constants
@@ -44,6 +43,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     lateinit var ivToolbarDrawer: ImageView
     lateinit var ivToolbarBack: ImageView
     var isPurchaseSuccess: Boolean = false
+    var volumePurchaseCode: String = ""
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +79,10 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
         liturgies = intent.getSerializableExtra("liturgies") as GetLiturgiesDataVo
 
         if (Utils.isNetworkAvailable(this)) {
+            if (liturgies.isVolume == "Yes")
+                getAboutVolume(liturgies.volumeId)
             getCollectionList(liturgies.volumeId)
+
         } else {
             Toast.makeText(
                 this@CollectionListActivity,
@@ -120,17 +123,24 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                             totalPriceCollection += i.bookAmount
                         }*/
 
-                        var wholeCollection: CollectionDataVo = CollectionDataVo()
-                        if (liturgies.isVolume == "Yes") {
+                        var wholeCollection = CollectionDataVo()
+                        if (liturgies.isVolume == "Yes" && !liturgies.isPurchased.equals(
+                                "Yes",
+                                false
+                            )
+                        ) {
                             wholeCollection.bookCoverPageImage = liturgies.volumeCoverPageImage
                             wholeCollection.bookTitle = liturgies.volumeTitle
                             wholeCollection.bookAmount = liturgies.volumeAmount
                             wholeCollection.discountAmount = liturgies.discountAmount
+                            wholeCollection.bookPurchaseCode = volumePurchaseCode
+                            wholeCollection.volumeId = liturgies.volumeId
                         } else {
                             wholeCollection.bookCoverPageImage = liturgies.bookCoverPageImage
                             wholeCollection.bookTitle = liturgies.bookTitle
                             wholeCollection.bookAmount =
                                 liturgies.bookAmount
+                            wholeCollection.bookPurchaseCode = liturgies.bookPurchaseCode
                         }
 
                         var arrCollectionList: ArrayList<CollectionDataVo> = ArrayList()
@@ -173,6 +183,41 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
         }
     }
 
+
+    private fun getAboutVolume(volumeID: Int) {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.getAboutVolume(volumeID)
+
+        try {
+            call.enqueue(object : Callback<AboutVolumeResponseVo> {
+                override fun onResponse(
+                    call: Call<AboutVolumeResponseVo>,
+                    response: Response<AboutVolumeResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        volumePurchaseCode = response.body()!!.response.volumePurchaseCode
+                    } else {
+                        Toast.makeText(
+                            this@CollectionListActivity,
+                            response.body()!!.status.toString(),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<AboutVolumeResponseVo>, t: Throwable) {
+                    Toast.makeText(
+                        this@CollectionListActivity,
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
     /**
      * This callback will acknowledge the successful in-app purchase to the backend server.
      */
@@ -205,6 +250,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         ""
                     )
                 )
+                liturgies.isPurchased = "Yes"
             }
             ProductTypes.VOLUME -> {
                 call = request.purchaseVolumeAcknowledge(
@@ -215,6 +261,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         ""
                     )
                 )
+                liturgies.isPurchased = "Yes"
             }
         }
 
@@ -226,11 +273,16 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 ) {
                     if (response.body()?.statusCode == 1) {
                         isPurchaseSuccess = true
-                      /*  Toast.makeText(
-                            this@CollectionListActivity,
-                            "success",
-                            Toast.LENGTH_LONG
-                        ).show()*/
+                        if (Utils.isNetworkAvailable(this@CollectionListActivity)) {
+                            isPurchaseSuccess = false
+                            getCollectionList(liturgies.volumeId)
+                        } else {
+                            Toast.makeText(
+                                this@CollectionListActivity,
+                                resources.getString(R.string.check_internet),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
 
                     } else {
                         Toast.makeText(
@@ -254,23 +306,15 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     override fun onResume() {
         super.onResume()
 
-        Handler(Looper.getMainLooper()).postDelayed(
-            Runnable {
-                if (isPurchaseSuccess) {
-                    if (Utils.isNetworkAvailable(this)) {
-                        isPurchaseSuccess = false
-                        getCollectionList(liturgies.volumeId)
-                    } else {
-                        Toast.makeText(
-                            this@CollectionListActivity,
-                            resources.getString(R.string.check_internet),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            },
-            Constants.AFTER_PURCHASE_REFRESH_DELAY
-        )
+        if (Utils.isNetworkAvailable(this)) {
+            getCollectionList(liturgies.volumeId)
+        } else {
+            Toast.makeText(
+                this@CollectionListActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
     }
 }

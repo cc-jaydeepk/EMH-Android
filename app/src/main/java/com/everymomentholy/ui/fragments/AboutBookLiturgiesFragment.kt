@@ -44,6 +44,7 @@ class AboutBookLiturgiesFragment : Fragment() {
     var prefeUserId: Int = 0
     var android_id: String = ""
     lateinit var ivBack: ImageView
+    var volumePurchaseCode: String = ""
 
     @SuppressLint("HardwareIds")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -195,15 +196,15 @@ class AboutBookLiturgiesFragment : Fragment() {
                             .load(response.body()!!.response.volumeCoverPageImage)
                             .into(ivAboutImage)
                         txtTitle.text = response.body()!!.response.volumeTitle
+                        volumePurchaseCode = response.body()!!.response.volumePurchaseCode
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            txtAboutDescription.setText(
-                                Html.fromHtml(
-                                    response.body()!!.response.volumeDescription,
-                                    Html.FROM_HTML_MODE_LEGACY
-                                )
+                            txtAboutDescription.text = Html.fromHtml(
+                                response.body()!!.response.volumeDescription,
+                                Html.FROM_HTML_MODE_LEGACY
                             )
                         } else
-                            txtAboutDescription.setText(Html.fromHtml(response.body()!!.response.volumeDescription))
+                            txtAboutDescription.text =
+                                Html.fromHtml(response.body()!!.response.volumeDescription)
                         // setAdapter(this@NotificationListActivity, response.body()!!)
 
                     } else {
@@ -392,6 +393,7 @@ class AboutBookLiturgiesFragment : Fragment() {
                                 wholeCollection.bookTitle = liturgies.volumeTitle
                                 wholeCollection.bookAmount = liturgies.volumeAmount
                                 wholeCollection.volumeId = liturgies.volumeId
+                                wholeCollection.bookPurchaseCode = volumePurchaseCode
                                 arrCollectionList.add(0, wholeCollection)
                             }
                         } else {
@@ -465,17 +467,21 @@ class AboutBookLiturgiesFragment : Fragment() {
                         liturgiesList.addAll(response.body()?.response?.data!!)
 
                         var unPurchasedItems =
-                            liturgiesList.filter { ll -> ll.isPurchased != "Yes" }
+                            liturgiesList.filter { ll -> ll.isPurchased != "Yes" }// check for un-purchased items
+                        unPurchasedItems =
+                            unPurchasedItems.filter { ll -> ll.isFree != "Yes" }// check for free items
+
                         if (unPurchasedItems.isEmpty()) liturgies.isPurchased = "Yes"
 
                         if (liturgies.isPurchased == "Yes" || liturgies.bookAmount == "0.00" || liturgies.bookAmount == "0.0") {
-
+// some business logic to be added...
                         } else {
                             var liturgie = MyLiturgiesDataVo()
                             liturgie.bookId = liturgies.bookId
                             liturgie.chapterPageImage = liturgies.bookCoverPageImage
                             liturgie.price = liturgies.bookAmount
                             liturgie.chapterTitle = liturgies.bookTitle
+                            liturgie.liturgyPurchaseCode = liturgies.bookPurchaseCode
                             liturgiesList.add(0, liturgie)
                         }
                         // liturgiesList.add(liturgie)

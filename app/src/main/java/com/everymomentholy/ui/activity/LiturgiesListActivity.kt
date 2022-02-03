@@ -1,20 +1,15 @@
 package com.everymomentholy.ui.activity
 
-import android.content.SharedPreferences
-import android.opengl.Visibility
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.view.View.GONE
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
@@ -28,15 +23,12 @@ import com.everymomentholy.api.response.MyLiturgiesResponseVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
 import com.everymomentholy.interfaces.OnInAppPurchaseListener
 import com.everymomentholy.ui.adapter.GetLiturgiesFromBookIDAdapter
-import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 
 class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
 
@@ -131,6 +123,7 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         liturgie.chapterPageImage = collectionData.bookCoverPageImage
                         liturgie.price = collectionData.bookAmount
                         liturgie.chapterTitle = collectionData.bookTitle
+                        liturgie.liturgyPurchaseCode = collectionData.bookPurchaseCode
 
                         if (collectionData.isPurchased == "Yes" || collectionData.bookAmount == "0.00" || collectionData.bookAmount == "0.0") {
 
@@ -199,6 +192,7 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         ""
                     )
                 )
+                collectionData.isPurchased = "Yes"
             }
             ProductTypes.VOLUME -> {
                 call = request.purchaseVolumeAcknowledge(
@@ -220,12 +214,16 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 ) {
                     if (response.body()?.statusCode == 1) {
                         isPurchaseSuccess = true
-                       /* Toast.makeText(
-                            this@LiturgiesListActivity,
-                            "success",
-                            Toast.LENGTH_LONG
-                        ).show()
-*/
+                        if (Utils.isNetworkAvailable(this@LiturgiesListActivity)) {
+                            isPurchaseSuccess = false
+                            getMyLiturgiesList(bookId)
+                        } else {
+                            Toast.makeText(
+                                this@LiturgiesListActivity,
+                                resources.getString(R.string.check_internet),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     } else {
                         Toast.makeText(
                             this@LiturgiesListActivity,
@@ -248,23 +246,33 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     override fun onResume() {
         super.onResume()
 
-        Handler(Looper.getMainLooper()).postDelayed(
-            Runnable {
-                if (isPurchaseSuccess) {
-                    if (Utils.isNetworkAvailable(this)) {
-                        isPurchaseSuccess = false
-                        getMyLiturgiesList(bookId)
-                    } else {
-                        Toast.makeText(
-                            this@LiturgiesListActivity,
-                            resources.getString(R.string.check_internet),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            },
-            Constants.AFTER_PURCHASE_REFRESH_DELAY
-        )
+        if (Utils.isNetworkAvailable(this)) {
+            getMyLiturgiesList(bookId)
+        } else {
+            Toast.makeText(
+                this@LiturgiesListActivity,
+                resources.getString(R.string.check_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+        /*  Handler(Looper.getMainLooper()).postDelayed(
+              Runnable {
+                  if (isPurchaseSuccess) {
+                      if (Utils.isNetworkAvailable(this)) {
+                          isPurchaseSuccess = false
+                          getMyLiturgiesList(bookId)
+                      } else {
+                          Toast.makeText(
+                              this@LiturgiesListActivity,
+                              resources.getString(R.string.check_internet),
+                              Toast.LENGTH_LONG
+                          ).show()
+                      }
+                  }
+              },
+              Constants.AFTER_PURCHASE_REFRESH_DELAY
+          )*/
     }
     // test
 }
