@@ -78,7 +78,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         ccp = findViewById(R.id.country_code_picker)
         ccp!!.setOnCountryChangeListener(this)
 
-        ccp!!.setDefaultCountryUsingNameCode("IN")
+        //ccp!!.setDefaultCountryUsingNameCode("IN")
+        countryCode = ccp!!.selectedCountryCode
 
         progressCardView = findViewById(R.id.progressCardView)
         registerProgressBar = findViewById(R.id.registerProgressBar)
@@ -188,6 +189,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                     } else {
                         progressCardView.visibility = View.GONE
                         Log.e("Fail", response.body()!!.message.toString())
+                        btnRegister.isEnabled = true
                         Toast.makeText(
                             this@RegisterActivity,
                             response.body()!!.message.toString(),

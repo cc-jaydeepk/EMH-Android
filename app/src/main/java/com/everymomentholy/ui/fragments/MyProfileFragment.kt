@@ -66,7 +66,7 @@ class MyProfileFragment : Fragment() {
     private lateinit var freeText: TextView
     private lateinit var android_id: String
     private lateinit var countryCodePicker: com.hbb20.CountryCodePicker
-    private var selectedCode: String = "+91"
+    private var selectedCode: String = ""
     private lateinit var shadowView: TextView
     private lateinit var ivOrderHistory: ImageView
 
@@ -118,6 +118,9 @@ class MyProfileFragment : Fragment() {
         countryCodePicker.setOnCountryChangeListener() {
             selectedCode = countryCodePicker.selectedCountryCode
         }
+
+        //ccp!!.setDefaultCountryUsingNameCode("IN")
+        selectedCode = countryCodePicker!!.selectedCountryCode
 
         btnEditProfile.setOnClickListener {
             isImageSelect = true
