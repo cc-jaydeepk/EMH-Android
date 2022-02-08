@@ -81,7 +81,7 @@ class Constants {
 
         var GET_LITURGIES_VIEW_PAGER_POSITION = 0
 
-        const val AFTER_PURCHASE_REFRESH_DELAY = 1500L // in millis
+        const val AFTER_PURCHASE_REFRESH_DELAY = 1000L // in millis
     }
 
 }

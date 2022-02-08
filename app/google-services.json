@@ -44,6 +44,42 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:210630931820:android:29d6a394012e763cc2af49",
+        "android_client_info": {
+          "package_name": "com.brentwood.emh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210630931820-qm88m5relcl50na6sffra2rlnnpugu8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHr8a-UkvAiD4H-Ps-rtsGUadVkEIV-ss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210630931820-itv0ese6qp16lsn7rfbcjl7g2n7gemod.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210630931820-0bt38vq118oql3svtcpf7qinu2kd2pjs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.artist.Castpro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:210630931820:android:3a0665ef0b9a3209c2af49",
         "android_client_info": {
           "package_name": "com.castpro"
