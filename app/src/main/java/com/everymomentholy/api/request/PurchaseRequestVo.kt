@@ -11,5 +11,6 @@ class PurchaseRequestVo(
     val deviceId: String,
     val volumeId: Int,
     val productType: ProductTypes,
-    val productId: String,
+    var productId: String,
+    var discountAmount: String = ""
 )

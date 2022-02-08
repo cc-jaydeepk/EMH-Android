@@ -55,6 +55,12 @@ class InAppUtils private constructor(
         this.activity = activity!!
         this.purchaseRequestVo = purchaseRequestVo
 
+        if (!purchaseRequestVo.discountAmount.isNullOrEmpty() || purchaseRequestVo.discountAmount != "0.00") {
+            if (productListPriceMap[purchaseRequestVo.discountAmount] != null) {
+                purchaseRequestVo.productId = productListPriceMap[purchaseRequestVo.discountAmount]!!
+            }
+        }
+
         if (!purchaseRequestVo.productId.isNullOrBlank()) {
             defaultScope.launch {
                 Log.e(TAG, "inside purchase")

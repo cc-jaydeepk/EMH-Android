@@ -284,7 +284,8 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             liturgyId = 0,
             volumeId = 0,
             productType = ProductTypes.BOOK,
-            productId = getLiturgiesDataVo.bookPurchaseCode
+            productId = getLiturgiesDataVo.bookPurchaseCode,
+            discountAmount = getLiturgiesDataVo.discountAmount
         )
 
         val inAppUtils =
@@ -328,7 +329,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         if (context != null) {
             if (Utils.isNetworkAvailable(requireContext())) {
                 Handler(Looper.getMainLooper()).postDelayed(
-                    Runnable { if(context != null)getBooks() },
+                    Runnable { if (context != null) getBooks() },
                     Constants.AFTER_PURCHASE_REFRESH_DELAY
                 )
             } else {
