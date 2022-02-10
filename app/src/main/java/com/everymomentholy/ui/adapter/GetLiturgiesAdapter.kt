@@ -88,7 +88,11 @@ class GetLiturgiesAdapter(
                 }
                 txtDollar.text = ""
             } else {
-                txtLiturgyPrice.text = "$ " + getLiturgies.bookAmount
+                if (!getLiturgies.discountAmount.isNullOrEmpty() && getLiturgies.discountAmount != "0.00") {
+                    txtLiturgyPrice.text = "$" + getLiturgies.discountAmount
+                } else {
+                    txtLiturgyPrice.text = "$ " + getLiturgies.bookAmount
+                }
             }
 
         } else {
@@ -110,7 +114,11 @@ class GetLiturgiesAdapter(
                 }
                 txtDollar.text = ""
             } else {
-                txtLiturgyPrice.text = "$ " + getLiturgies.bookAmount
+                if (!getLiturgies.discountAmount.isNullOrEmpty() && getLiturgies.discountAmount != "0.00") {
+                    txtLiturgyPrice.text = "$" + getLiturgies.discountAmount
+                } else {
+                    txtLiturgyPrice.text = "$ " + getLiturgies.bookAmount
+                }
                 btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
                 btnUnlock.setTextColor(context.resources.getColor(R.color.white))
                 btnUnlock.text = "Unlock"
@@ -151,7 +159,7 @@ class GetLiturgiesAdapter(
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         Utils.showDialogForUnlockWithoutLogin(context)
-                    }else {
+                    } else {
                         startPurchaseFlow(getLiturgies.bookAmount)
                     }
                 }
@@ -171,6 +179,6 @@ class GetLiturgiesAdapter(
     private fun startPurchaseFlow(price: String) {
         val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
-       // inAppUtils.initiatePurchaseFlow(context as Activity, price)
+        // inAppUtils.initiatePurchaseFlow(context as Activity, price)
     }
 }

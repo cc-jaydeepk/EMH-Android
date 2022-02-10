@@ -25,6 +25,7 @@ import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
+import kotlin.math.roundToInt
 
 class BottomSliderCollectionAdapter(
     var context: Context,
@@ -76,10 +77,12 @@ class BottomSliderCollectionAdapter(
                     holder.btnReadNow.text = "Read Now"
                     var sdk = android.os.Build.VERSION.SDK_INT;
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                        holder.btnReadNow.background =
+                            context.resources.getDrawable(R.drawable.bg_read_now);
                         holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
                     } else {
-                        holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                        holder.btnReadNow.background =
+                            context.resources.getDrawable(R.drawable.bg_read_now);
                         holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
                     }
                     if (freeLiturgies.isPurchased == "Yes") {
@@ -90,7 +93,23 @@ class BottomSliderCollectionAdapter(
                 } else {
                     holder.btnReadNow.text = "Unlock Volume"
                     holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
-                    holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
+
+                    if (!freeLiturgies.discountAmount.isNullOrEmpty() && freeLiturgies.discountAmount != "0.00") {
+
+                        var discountPrice = 0f
+                        liturgyList.subList(1, liturgyList.size).forEach { col ->
+                            if (col.isPurchased != "Yes")
+                                discountPrice += col.bookAmount.toFloat()
+                        }
+
+                        discountPrice = discountPrice.roundToInt() - 0.01f
+                        liturgyList[0].discountAmount = discountPrice.toString() // update new discount price in the volume object too.
+                        holder.txtLiturgiesPrice.text = "$" + discountPrice.toString()
+
+                    } else {
+                        holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
+                    }
+
                 }
             }
         } else {

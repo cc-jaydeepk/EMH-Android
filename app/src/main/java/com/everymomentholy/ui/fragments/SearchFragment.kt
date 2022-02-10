@@ -175,11 +175,14 @@ class SearchFragment : Fragment() {
                         arrSearchedData = response.body()!!.response.data
 
                         recyclerviewSearch.layoutManager = LinearLayoutManager(activity)
-                        adapter = SearchAdapter(
-                            requireContext(),
-                            arrSearchedData
-                        )
-                        recyclerviewSearch.adapter = adapter
+                        if(requireContext() != null)
+                        {
+                            adapter = SearchAdapter(
+                                requireContext(),
+                                arrSearchedData
+                            )
+                            recyclerviewSearch.adapter = adapter
+                        }
                     }
                 }
 

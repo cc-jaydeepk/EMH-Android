@@ -250,7 +250,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         ""
                     )
                 )
-                liturgies.isPurchased = "Yes"
+                if(liturgies.isVolume != "Yes") liturgies.isPurchased = "Yes"
             }
             ProductTypes.VOLUME -> {
                 call = request.purchaseVolumeAcknowledge(
@@ -275,6 +275,8 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         isPurchaseSuccess = true
                         if (Utils.isNetworkAvailable(this@CollectionListActivity)) {
                             isPurchaseSuccess = false
+                            if (liturgies.isVolume == "Yes")
+                                getAboutVolume(liturgies.volumeId)
                             getCollectionList(liturgies.volumeId)
                         } else {
                             Toast.makeText(
@@ -307,6 +309,8 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
         super.onResume()
 
         if (Utils.isNetworkAvailable(this)) {
+            if (liturgies.isVolume == "Yes")
+                getAboutVolume(liturgies.volumeId)
             getCollectionList(liturgies.volumeId)
         } else {
             Toast.makeText(

@@ -231,7 +231,11 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 }
                 txtDollar.text = ""
             } else {
-                txtLiturgyPrice.text = "$ " + liturgyData.volumeAmount
+                if (!liturgyData.discountAmount.isNullOrEmpty() && liturgyData.discountAmount != "0.00") {
+                    txtLiturgyPrice.text = "$" + liturgyData.discountAmount
+                } else {
+                    txtLiturgyPrice.text = "$ " + liturgyData.volumeAmount
+                }
                 txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_unlock));
                 txtUnlock.setTextColor(context?.resources?.getColor(R.color.white)!!)
                 txtUnlock.text = "Unlock"
