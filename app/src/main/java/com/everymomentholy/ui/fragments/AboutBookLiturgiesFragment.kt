@@ -386,14 +386,13 @@ class AboutBookLiturgiesFragment : Fragment() {
                         if (unPurchasedItems.isEmpty()) liturgies.isPurchased = "Yes"
 
                         if (liturgies.isVolume == "Yes") {
-                            if (liturgies.isPurchased == "Yes") {
-
-                            } else {
+                            if (liturgies.isPurchased != "Yes") {
                                 wholeCollection.bookCoverPageImage = liturgies.volumeCoverPageImage
                                 wholeCollection.bookTitle = liturgies.volumeTitle
                                 wholeCollection.bookAmount = liturgies.volumeAmount
                                 wholeCollection.volumeId = liturgies.volumeId
                                 wholeCollection.bookPurchaseCode = volumePurchaseCode
+                                wholeCollection.discountAmount = liturgies.discountAmount
                                 arrCollectionList.add(0, wholeCollection)
                             }
                         } else {

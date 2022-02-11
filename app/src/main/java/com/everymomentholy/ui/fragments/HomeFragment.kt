@@ -56,7 +56,6 @@ class HomeFragment : Fragment() {
 
     lateinit var quotesText: String
     lateinit var cotedText: String
-    lateinit var progressDialog: android.app.ProgressDialog
     lateinit var progressbarHomeFragment: ProgressBar
     var notificationCount = 0
 
@@ -174,7 +173,7 @@ class HomeFragment : Fragment() {
 
         val uri = FileProvider.getUriForFile(
             requireActivity(),
-            BuildConfig.APPLICATION_ID + "." + requireActivity().getLocalClassName() + ".provider",
+            BuildConfig.APPLICATION_ID + ".provider",
             file
         )
         val intent = Intent()
@@ -250,9 +249,6 @@ class HomeFragment : Fragment() {
 
                 override fun onFailure(call: Call<HomegetSettingResponseVo>, t: Throwable) {
                     //Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
                 }
             })
         } catch (exception: Exception) {

@@ -121,7 +121,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
         -->
-        <provider
+       <!-- <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.everymomentholy.ui.activity.MainActivity.provider"
             android:exported="false"
@@ -129,7 +129,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
+        </provider>-->
 
         <provider
             android:name="androidx.core.content.FileProvider"
