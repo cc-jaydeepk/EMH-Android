@@ -8,6 +8,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object APIService {
 
+    // dev. server
+    //const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/"
+
+    //Live server
+    const val BASE_URL = "https://app.everymomentholy.com/api/"
+
     private val interceptor = run {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.apply {
@@ -21,7 +27,7 @@ object APIService {
         .create()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/")
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(client)
         .build()

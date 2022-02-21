@@ -65,7 +65,11 @@ class InAppUtils private constructor(
             defaultScope.launch {
                 Log.e(TAG, "inside purchase")
                 val skuDetails = querySkuDetails(purchaseRequestVo.productId)
+
                 if (skuDetails != null) {
+                    Log.e(TAG, "SKU price: " + skuDetails.price)
+                    Log.e(TAG, "SKU OriginalPrice: " + skuDetails.originalPrice)
+                    Log.e(TAG, "SKU OriginalJson: " + skuDetails.originalJson)
                     val flowParams = BillingFlowParams.newBuilder()
                         .setSkuDetails(skuDetails)
                         .build()

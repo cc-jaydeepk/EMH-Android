@@ -8,7 +8,7 @@ class Constants {
         //const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/"
 
         //Live server
-        const val BASE_URL = "  https://app.everymomentholy.com/api/"
+        const val BASE_URL = "https://app.everymomentholy.com/api/"
 
         //API
         const val API_REGISTRATION = "register"
