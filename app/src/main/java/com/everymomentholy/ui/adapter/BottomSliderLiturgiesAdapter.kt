@@ -30,6 +30,7 @@ import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
+import java.io.File
 
 class BottomSliderLiturgiesAdapter(
     var context: Context,
@@ -138,43 +139,53 @@ class BottomSliderLiturgiesAdapter(
     }
 
     private fun readBook(freeLiturgy: MyLiturgiesDataVo) {
-        progressDialog = Utils.showProgressDialog(context)!!
-        progressDialog.show()
+
         val cw = ContextWrapper(context)
         val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
         if (!directory.exists()) {
             directory.mkdir()
         }
         var path = context?.filesDir?.absolutePath
-        val downloadId =
-            PRDownloader.download(
-                freeLiturgy.chapterUrl,
-                path,
-                "test_" + freeLiturgy.chapterId + ".epub"
+        val bookFile = File(path + "/test_" + freeLiturgy.chapterId + ".epub")
+        if (bookFile.exists() && bookFile.length() > 0) {
+            Utils.invokeBookReader(
+                context,
+                context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
+                freeLiturgy
             )
-                .build()
-                .setOnStartOrResumeListener { }
-                .setOnPauseListener { }
-                .setOnCancelListener { }
-                .setOnProgressListener { }
-                .start(object : OnDownloadListener {
-                    override fun onDownloadComplete() {
-                        Log.e("complete", "complete")
-                        if (progressDialog.isShowing()) {
-                            progressDialog.dismiss()
+        } else {
+            progressDialog = Utils.showProgressDialog(context)!!
+            progressDialog.show()
+            val downloadId =
+                PRDownloader.download(
+                    freeLiturgy.chapterUrl,
+                    path,
+                    "test_" + freeLiturgy.chapterId + ".epub"
+                )
+                    .build()
+                    .setOnStartOrResumeListener { }
+                    .setOnPauseListener { }
+                    .setOnCancelListener { }
+                    .setOnProgressListener { }
+                    .start(object : OnDownloadListener {
+                        override fun onDownloadComplete() {
+                            Log.e("complete", "complete")
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss()
+                            }
+                            Utils.invokeBookReader(
+                                context,
+                                context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
+                                freeLiturgy
+                            )
                         }
-                        Utils.invokeBookReader(
-                            context,
-                            context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
-                            freeLiturgy
-                        )
-                    }
 
-                    override fun onError(error: com.downloader.Error?) {
+                        override fun onError(error: com.downloader.Error?) {
 
-                    }
-                })
-        Log.e("id", downloadId.toString())
+                        }
+                    })
+            Log.e("id", downloadId.toString())
+        }
     }
 
     private fun startPurchaseFlow(myLiturgyDataVo: MyLiturgiesDataVo) {

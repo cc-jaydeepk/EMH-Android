@@ -8,23 +8,20 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.everymomentholy.R
-import com.everymomentholy.api.APIInterface
-import com.everymomentholy.api.APIService
-import com.everymomentholy.api.request.LogoutRequestVo
-import com.everymomentholy.api.request.SetFavouriteRequestVo
-import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.utils.SharedPreference.Companion.getPreferences
 import com.folioreader.FolioReader
+import java.io.*
 
 class Utils {
 
     companion object {
+
+        val FILE_NAME = "liturgies.json"
+
         /**
          * This method is used to check Internet connectivity in the application. If
          * the Internet is available, then it returns true, else false.
@@ -242,5 +239,45 @@ class Utils {
             progressDialog.setMessage("Please wait")
             return progressDialog
         }
+
+        fun readJsonFromFile(context: Context): String? {
+            return try {
+                val fis: FileInputStream = context.openFileInput(FILE_NAME)
+                val isr = InputStreamReader(fis)
+                val bufferedReader = BufferedReader(isr)
+                val sb = StringBuilder()
+                var line: String?
+                while (bufferedReader.readLine().also { line = it } != null) {
+                    sb.append(line)
+                }
+                sb.toString()
+            } catch (fileNotFound: FileNotFoundException) {
+                null
+            } catch (ioException: IOException) {
+                null
+            }
+        }
+
+        fun storeJsonInFile(context: Context, jsonString: String?): Boolean {
+            return try {
+                val fos: FileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)
+                if (jsonString != null) {
+                    fos.write(jsonString.toByteArray())
+                }
+                fos.close()
+                true
+            } catch (fileNotFound: FileNotFoundException) {
+                false
+            } catch (ioException: IOException) {
+                false
+            }
+        }
+
+        fun isFilePresent(context: Context): Boolean {
+            val path = context.filesDir.absolutePath + "/" + FILE_NAME
+            val file = File(path)
+            return file.exists()
+        }
     }
+
 }

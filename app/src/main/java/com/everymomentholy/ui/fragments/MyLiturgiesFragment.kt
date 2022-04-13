@@ -85,6 +85,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 resources.getString(R.string.check_internet),
                 Toast.LENGTH_LONG
             ).show()
+            loadFromTheCache()
         }
 
         ll_enroute_bottom_sheet.setOnClickListener {
@@ -95,6 +96,10 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         return view
     }
 
+    private fun loadFromTheCache()
+    {
+
+    }
 
     private fun getMyLiturgiesList(bookID: Int, isAuto: Boolean = false) {
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()

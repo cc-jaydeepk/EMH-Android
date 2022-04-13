@@ -6,8 +6,11 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.*
 import com.everymomentholy.R
+import com.everymomentholy.services.MyLiturgiesDataWorker
 import com.everymomentholy.utils.Constants
+import java.util.concurrent.TimeUnit
 
 class SelectOptionActivity : AppCompatActivity() {
 
@@ -51,5 +54,24 @@ class SelectOptionActivity : AppCompatActivity() {
             /*     val intent = Intent(this@SelectOptionActivity, MainActivity::class.java)
                  startActivity(intent)*/
         }
+
+        executeLiturgiesDownloadWork()
+    }
+
+    private fun executeLiturgiesDownloadWork() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val uploadWorkRequest = OneTimeWorkRequestBuilder<MyLiturgiesDataWorker>()
+            .setConstraints(constraints)
+            .setBackoffCriteria(
+                BackoffPolicy.LINEAR,
+                OneTimeWorkRequest.MIN_BACKOFF_MILLIS,
+                TimeUnit.MILLISECONDS
+            )
+            .build()
+
+        WorkManager.getInstance().enqueue(uploadWorkRequest)
     }
 }
