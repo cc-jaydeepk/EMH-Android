@@ -113,6 +113,9 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
     }
 
 
+    /**
+     * download all available liturgies
+     */
     private fun downloadLiturgies(data: ArrayList<MyLiturgiesDataVo>) {
         data.forEach {
 
