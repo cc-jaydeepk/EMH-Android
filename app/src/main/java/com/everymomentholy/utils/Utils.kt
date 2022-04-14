@@ -20,8 +20,6 @@ class Utils {
 
     companion object {
 
-        val FILE_NAME = "liturgies.json"
-
         /**
          * This method is used to check Internet connectivity in the application. If
          * the Internet is available, then it returns true, else false.
@@ -240,9 +238,9 @@ class Utils {
             return progressDialog
         }
 
-        fun readJsonFromFile(context: Context): String? {
+        fun readJsonFromFile(context: Context, fileName: String): String? {
             return try {
-                val fis: FileInputStream = context.openFileInput(FILE_NAME)
+                val fis: FileInputStream = context.openFileInput(fileName)
                 val isr = InputStreamReader(fis)
                 val bufferedReader = BufferedReader(isr)
                 val sb = StringBuilder()
@@ -258,9 +256,9 @@ class Utils {
             }
         }
 
-        fun storeJsonInFile(context: Context, jsonString: String?): Boolean {
+        fun storeJsonInFile(context: Context, jsonString: String?, fileName: String): Boolean {
             return try {
-                val fos: FileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)
+                val fos: FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
                 if (jsonString != null) {
                     fos.write(jsonString.toByteArray())
                 }
@@ -273,11 +271,11 @@ class Utils {
             }
         }
 
-        fun isFilePresent(context: Context): Boolean {
+        /*fun isFilePresent(context: Context): Boolean {
             val path = context.filesDir.absolutePath + "/" + FILE_NAME
             val file = File(path)
             return file.exists()
-        }
+        }*/
     }
 
 }

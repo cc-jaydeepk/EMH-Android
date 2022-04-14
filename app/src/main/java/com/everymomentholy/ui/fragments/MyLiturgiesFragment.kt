@@ -28,6 +28,7 @@ import com.everymomentholy.utils.Utils
 import com.folioreader.emh.EMHUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -80,6 +81,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         if (Utils.isNetworkAvailable(requireContext())) {
             getBooks()
         } else {
+            setUpOfflineView()
             Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.check_internet),
@@ -96,8 +98,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         return view
     }
 
-    private fun loadFromTheCache()
-    {
+    private fun loadFromTheCache() {
 
     }
 
@@ -256,6 +257,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         if (Utils.isNetworkAvailable(requireContext())) {
             getMyLiturgiesList(bookID, isAuto)
         } else {
+            showLiturgiesOffline()
             Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.check_internet),
@@ -284,6 +286,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             getLiturgiesRequestVo.appUserId,
             getLiturgiesRequestVo.deviceId, token
         )
+
 
 
         try {
@@ -369,5 +372,54 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun setUpOfflineView() {
+        val booksJsonString = Utils.readJsonFromFile(requireContext(), Constants.BOOKS_FILE_NAME)
+        val liturgiesJsonString =
+            Utils.readJsonFromFile(requireContext(), Constants.LITURGIES_FILE_NAME)
+
+        val response: LiturgiesResponseVo =
+            Gson().fromJson(booksJsonString, LiturgiesResponseVo::class.java)
+
+        var noVolume =
+            response.data.filter { it.isVolume == "No" } as ArrayList<GetLiturgiesDataVo>
+
+
+        var freeAvailableLiturgies =
+            noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
+
+        if (!freePurchasedLiturgies.isNullOrEmpty())
+            freePurchasedLiturgies.clear()
+
+        freePurchasedLiturgies = freeAvailableLiturgies
+
+        Log.e("free", freePurchasedLiturgies.size.toString())
+        try {
+
+            if (freePurchasedLiturgies.isNotEmpty()) {
+                freePurchasedLiturgies[0].isClicked = true
+                liturgyAdapter = MyLiturgyAdapter(
+                    requireContext(),
+                    freePurchasedLiturgies,
+                    this@MyLiturgiesFragment
+                )
+                val layoutManager: RecyclerView.LayoutManager =
+                    LinearLayoutManager(context)
+                recycler_liturgy.layoutManager = layoutManager
+                recycler_liturgy.adapter = liturgyAdapter
+                liturgyAdapter.setLiturgiesClick(this@MyLiturgiesFragment)
+                getMyLiturgiesList(freePurchasedLiturgies[0].bookId, true)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun showLiturgiesOffline()
+    {
+
     }
 }
