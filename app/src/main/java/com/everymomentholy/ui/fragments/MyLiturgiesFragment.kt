@@ -418,6 +418,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
     }
 
+    //
     private fun showLiturgiesOffline()
     {
 
