@@ -257,7 +257,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         if (Utils.isNetworkAvailable(requireContext())) {
             getMyLiturgiesList(bookID, isAuto)
         } else {
-            showLiturgiesOffline()
+            showLiturgiesOffline(bookID, isAuto)
             Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.check_internet),
@@ -376,51 +376,73 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
     private fun setUpOfflineView() {
         val booksJsonString = Utils.readJsonFromFile(requireContext(), Constants.BOOKS_FILE_NAME)
-        val liturgiesJsonString =
-            Utils.readJsonFromFile(requireContext(), Constants.LITURGIES_FILE_NAME)
 
-        val response: LiturgiesResponseVo =
-            Gson().fromJson(booksJsonString, LiturgiesResponseVo::class.java)
+        if (!booksJsonString.isNullOrEmpty()) {
+            val response: LiturgiesResponseVo =
+                Gson().fromJson(booksJsonString, LiturgiesResponseVo::class.java)
 
-        var noVolume =
-            response.data.filter { it.isVolume == "No" } as ArrayList<GetLiturgiesDataVo>
+            var noVolume =
+                response.data.filter { it.isVolume == "No" } as ArrayList<GetLiturgiesDataVo>
 
 
-        var freeAvailableLiturgies =
-            noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
+            var freeAvailableLiturgies =
+                noVolume.filter { it.isFreeLiturgyAvailable == "Yes" || it.isPurchased == "Yes" } as ArrayList<GetLiturgiesDataVo>
 
-        if (!freePurchasedLiturgies.isNullOrEmpty())
-            freePurchasedLiturgies.clear()
+            if (!freePurchasedLiturgies.isNullOrEmpty())
+                freePurchasedLiturgies.clear()
 
-        freePurchasedLiturgies = freeAvailableLiturgies
+            freePurchasedLiturgies = freeAvailableLiturgies
 
-        Log.e("free", freePurchasedLiturgies.size.toString())
-        try {
+            Log.e("free", freePurchasedLiturgies.size.toString())
+            try {
 
-            if (freePurchasedLiturgies.isNotEmpty()) {
-                freePurchasedLiturgies[0].isClicked = true
-                liturgyAdapter = MyLiturgyAdapter(
-                    requireContext(),
-                    freePurchasedLiturgies,
-                    this@MyLiturgiesFragment
-                )
-                val layoutManager: RecyclerView.LayoutManager =
-                    LinearLayoutManager(context)
-                recycler_liturgy.layoutManager = layoutManager
-                recycler_liturgy.adapter = liturgyAdapter
-                liturgyAdapter.setLiturgiesClick(this@MyLiturgiesFragment)
-                getMyLiturgiesList(freePurchasedLiturgies[0].bookId, true)
+                if (freePurchasedLiturgies.isNotEmpty()) {
+                    freePurchasedLiturgies[0].isClicked = true
+                    liturgyAdapter = MyLiturgyAdapter(
+                        requireContext(),
+                        freePurchasedLiturgies,
+                        this@MyLiturgiesFragment
+                    )
+                    val layoutManager: RecyclerView.LayoutManager =
+                        LinearLayoutManager(context)
+                    recycler_liturgy.layoutManager = layoutManager
+                    recycler_liturgy.adapter = liturgyAdapter
+                    liturgyAdapter.setLiturgiesClick(this@MyLiturgiesFragment)
+                    getMyLiturgiesList(freePurchasedLiturgies[0].bookId, true)
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-
     }
 
     //
-    private fun showLiturgiesOffline()
-    {
+    private fun showLiturgiesOffline(bookID: Int, isAuto: Boolean) {
+        val liturgiesJsonString =
+            Utils.readJsonFromFile(requireContext(), Constants.LITURGIES_FILE_NAME)
 
+        if (!liturgiesJsonString.isNullOrEmpty()) {
+            val response: MyLiturgiesResponse =
+                Gson().fromJson(liturgiesJsonString, MyLiturgiesResponse::class.java)
+
+            var byBookID =
+                response.data.filter { it.bookId == bookID } as ArrayList<MyLiturgiesDataVo>
+            //freeLiturgies = response.body()!!.response.data.filter { it.isFree == "Yes" } as ArrayList<LiturgiesDataVo>
+            freeLiturgies =
+                byBookID.filter { it.isFree == "Yes" || it.isPurchased == "Yes" } as ArrayList<MyLiturgiesDataVo>
+
+            Log.e("free liturgies", freeLiturgies.size.toString())
+
+            if (freeLiturgies.size > 0) {
+                showBottomSheetDialog(freeLiturgies, isAuto)
+            } else {
+                progressCardView.visibility = View.GONE
+                AlertDialog.Builder(requireContext())
+                    .setMessage("No liturgies available.")
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                    }.show()
+            }
+        }
     }
 }

@@ -101,7 +101,7 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
                         Log.e(LOG_TAG, response.body()!!.response.message)
                     }
 
-                    Utils.storeJsonInFile(context, response.toString(), Constants.LITURGIES_FILE_NAME)
+                    Utils.storeJsonInFile(context, Gson().toJson(response.body()!!.response), Constants.LITURGIES_FILE_NAME)
 
                     //   GlobalScope.launch {
                     downloadLiturgies(response.body()!!.response.data)
