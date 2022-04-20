@@ -226,10 +226,10 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         navBottomView.visibility = View.VISIBLE
                         navBottomView.selectedItemId = R.id.nav_favoritesFragment
                         Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
-                        replaceFragment(FavoritesFragment(), "Favourites")
+                        replaceFragment(FavoritesFragment(), "Favorites")
                     }
                     //  showUnderDevDialog()
-                    // replaceFragment(FavoritesFragment(), "Favourites")
+                    // replaceFragment(FavoritesFragment(), "Favorites")
                     true
                 }
                 R.id.nav_getLiturgiesFragment -> {
@@ -374,7 +374,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         iv_toolbar_search.visibility = View.VISIBLE
                         iv_toolbar_notification.visibility = View.GONE
                         fragment = FavoritesFragment()
-                        replaceFragment(fragment, "Favourites")
+                        replaceFragment(fragment, "Favorites")
                         Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
                         navView.setCheckedItem(R.id.nav_favoritesFragment)
                     }
@@ -683,7 +683,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         toolbar.visibility = View.VISIBLE
                         iv_toolbar_search.visibility = View.VISIBLE
                         iv_toolbar_notification.visibility = View.GONE
-                        replaceFragment(FavoritesFragment(), "Favourites")
+                        replaceFragment(FavoritesFragment(), "Favorites")
                     }
                     Constants.SEARCH_FROM_GET_LITURGY -> {
                         toolbar.visibility = View.VISIBLE

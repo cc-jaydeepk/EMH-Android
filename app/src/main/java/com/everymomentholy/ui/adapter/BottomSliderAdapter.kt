@@ -84,7 +84,7 @@ class BottomSliderAdapter(
             } else {
                 Toast.makeText(
                     context,
-                    context.resources.getString(R.string.check_internet),
+                    context.resources.getString(R.string.internet_required),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -106,7 +106,7 @@ class BottomSliderAdapter(
                     context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
                     freeLiturgy
                 )
-            } else {
+            } else if(Utils.isNetworkAvailable(context)){
                 progressDialog = Utils.showProgressDialog(context)!!
                 progressDialog.show()
                 val downloadId =
@@ -139,6 +139,14 @@ class BottomSliderAdapter(
                         })
                 Log.e("id", downloadId.toString())
             }
+            else
+            {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.liturgy_not_downloaded),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         if (freeLiturgy.isPurchased == "Yes") {
@@ -163,7 +171,7 @@ class BottomSliderAdapter(
             } else {
                 Toast.makeText(
                     context,
-                    context.resources.getString(R.string.check_internet),
+                    context.resources.getString(R.string.internet_required),
                     Toast.LENGTH_LONG
                 ).show()
             }

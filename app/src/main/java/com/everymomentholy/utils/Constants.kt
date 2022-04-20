@@ -85,6 +85,7 @@ class Constants {
 
         const val LITURGIES_FILE_NAME = "liturgies.json"
         const val BOOKS_FILE_NAME = "books.json"
+        const val FAVORITES_FILE_NAME = "favorites.json"
     }
 
 }

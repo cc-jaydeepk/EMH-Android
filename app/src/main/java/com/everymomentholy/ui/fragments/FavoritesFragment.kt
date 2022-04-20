@@ -3,6 +3,7 @@ package com.everymomentholy.ui.fragments
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.response.GetFavoritesDataVo
-import com.everymomentholy.api.response.GetFavoritesResponseVo
+import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.adapter.FavoriteAdapter
+import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.emh.EMHUtils
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,11 +44,12 @@ class FavoritesFragment : Fragment() {
         if (Utils.isNetworkAvailable(requireContext())) {
             getFavoriteLiturgiesList()
         } else {
-            Toast.makeText(
+            setUpOfflineView()
+            /*Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.check_internet),
                 Toast.LENGTH_LONG
-            ).show()
+            ).show()*/
         }
         return view
     }
@@ -120,4 +123,20 @@ class FavoritesFragment : Fragment() {
             }
         }
     }
+
+    private fun setUpOfflineView() {
+        val favoritesJsonString =
+            Utils.readJsonFromFile(requireContext(), Constants.FAVORITES_FILE_NAME)
+
+        if (!favoritesJsonString.isNullOrEmpty()) {
+
+            val response: FavoriteResponseVo =
+                Gson().fromJson(favoritesJsonString, FavoriteResponseVo::class.java)
+
+            if (context != null) {
+                setAdapter(response.data)
+            }
+        }
+    }
+
 }

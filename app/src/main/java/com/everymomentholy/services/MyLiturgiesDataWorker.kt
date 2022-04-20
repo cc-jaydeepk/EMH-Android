@@ -20,10 +20,7 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
-import com.everymomentholy.api.response.GetLiturgiesDataVo
-import com.everymomentholy.api.response.GetLiturgiesResponseVo
-import com.everymomentholy.api.response.MyLiturgiesDataVo
-import com.everymomentholy.api.response.MyLiturgiesResponseVo
+import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -44,15 +41,15 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
     Worker(appContext, workerParams) {
 
     val LOG_TAG = "liturgy worker"
-  /*  val LITURGIES_FILE_NAME = "liturgies.json"
-    val BOOKS_FILE_NAME = "books.json"*/
+    /*  val LITURGIES_FILE_NAME = "liturgies.json"
+      val BOOKS_FILE_NAME = "books.json"*/
 
     val context = appContext
 
     val prefUserId = Utils.readIntData(
         context,
         Constants.PrefUserID,
-        0
+        5
     )!!
     val androidId = Settings.Secure.getString(
         context.contentResolver,
@@ -63,6 +60,10 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
 
         val isSuccess = getLiturgiesList()
         getBooks()
+
+     //   if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+            getFavoriteLiturgiesList()
+       // }
 
         return if (isSuccess)
             Result.success()
@@ -76,11 +77,11 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
         var isSuccess = false
 
         var myLiturgiesRequestVo: MyLiturgiesRequestVo = MyLiturgiesRequestVo()
-        if (Constants.USER_LOGIN_STATUS != Constants.LOGIN) {
+        /*if (Constants.USER_LOGIN_STATUS != Constants.LOGIN) {
             myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
-        } else {
+        } else {*/
             myLiturgiesRequestVo.appUserId = prefUserId
-        }
+        //}
         myLiturgiesRequestVo.deviceId = androidId
 
         val request = APIService.buildService(APIInterface::class.java)
@@ -101,7 +102,11 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
                         Log.e(LOG_TAG, response.body()!!.response.message)
                     }
 
-                    Utils.storeJsonInFile(context, Gson().toJson(response.body()!!.response), Constants.LITURGIES_FILE_NAME)
+                    Utils.storeJsonInFile(
+                        context,
+                        Gson().toJson(response.body()!!.response),
+                        Constants.LITURGIES_FILE_NAME
+                    )
 
                     //   GlobalScope.launch {
                     downloadLiturgies(response.body()!!.response.data)
@@ -170,10 +175,10 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
 
         var getLiturgiesRequestVo = GetLiturgiesRequestVo()
         var token = ""
-        if (Constants.USER_LOGIN_STATUS != Constants.LOGIN) {
+       /* if (Constants.USER_LOGIN_STATUS != Constants.LOGIN) {
             getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
             getLiturgiesRequestVo.deviceId = androidId
-        } else {
+        } else {*/
             getLiturgiesRequestVo.appUserId = prefUserId
             getLiturgiesRequestVo.deviceId = androidId
             token = "bearer " + Utils.readStringFromSharedPref(
@@ -181,7 +186,7 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
                 Constants.SHARED_PREF_TOKEN,
                 ""
             )
-        }
+        //}
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getBooks(
             getLiturgiesRequestVo.appUserId,
@@ -201,7 +206,11 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
                         } else {
                             Log.e(LOG_TAG, response.body()!!.response.message)
                         }
-                        Utils.storeJsonInFile(context, Gson().toJson(response.body()!!.response), Constants.BOOKS_FILE_NAME)
+                        Utils.storeJsonInFile(
+                            context,
+                            Gson().toJson(response.body()!!.response),
+                            Constants.BOOKS_FILE_NAME
+                        )
                     }
                 }
 
@@ -210,6 +219,51 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
                 }
             })
         } catch (exception: java.lang.Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+    @SuppressLint("HardwareIds")
+    private fun getFavoriteLiturgiesList() {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.getFavoriteList(
+            Utils.readIntFromSharedPref(context, Constants.PrefUserID, -1),
+            "bearer " + Utils.readStringFromSharedPref(
+                context,
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
+        )
+
+        try {
+            call.enqueue(object : Callback<GetFavoritesResponseVo> {
+                override fun onResponse(
+                    call: Call<GetFavoritesResponseVo>,
+                    response: Response<GetFavoritesResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        Log.e(LOG_TAG, response.body()!!.message)
+
+                    } else {
+                        Log.e(LOG_TAG, response.body()!!.message)
+                    }
+                    Utils.storeJsonInFile(
+                        context,
+                        Gson().toJson(response.body()!!.response),
+                        Constants.FAVORITES_FILE_NAME
+                    )
+                }
+
+                override fun onFailure(call: Call<GetFavoritesResponseVo>, t: Throwable) {
+
+                    if (context != null) {
+                        Log.e(LOG_TAG, t.message!!)
+                    }
+                }
+            })
+        } catch (exception: Exception) {
             exception.printStackTrace()
         }
     }

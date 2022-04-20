@@ -82,12 +82,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             getBooks()
         } else {
             setUpOfflineView()
-            Toast.makeText(
+          /*  Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.check_internet),
                 Toast.LENGTH_LONG
-            ).show()
-            loadFromTheCache()
+            ).show()*/
         }
 
         ll_enroute_bottom_sheet.setOnClickListener {
@@ -96,10 +95,6 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         }
 
         return view
-    }
-
-    private fun loadFromTheCache() {
-
     }
 
     private fun getMyLiturgiesList(bookID: Int, isAuto: Boolean = false) {
@@ -253,16 +248,17 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
         freePurchasedLiturgies.forEach { f -> f.isClicked = false }
         freePurchasedLiturgies[pos].isClicked = true
         liturgyAdapter.notifyDataSetChanged()
-        progressCardView.visibility = View.VISIBLE
+
         if (Utils.isNetworkAvailable(requireContext())) {
+            progressCardView.visibility = View.VISIBLE
             getMyLiturgiesList(bookID, isAuto)
         } else {
             showLiturgiesOffline(bookID, isAuto)
-            Toast.makeText(
+          /*  Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.check_internet),
                 Toast.LENGTH_LONG
-            ).show()
+            ).show()*/
         }
     }
 
@@ -286,8 +282,6 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             getLiturgiesRequestVo.appUserId,
             getLiturgiesRequestVo.deviceId, token
         )
-
-
 
         try {
             call.enqueue(object : Callback<GetLiturgiesResponseVo> {
