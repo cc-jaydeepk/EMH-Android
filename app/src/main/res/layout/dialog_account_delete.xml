@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            style="@style/dialogBigTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:gravity="center" />
+
+        <TextView
+            style="@style/dialogSmallTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:gravity="center"
+            android:text="Are you sure you want to Delete this account?" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="#DAD5D5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_layout_hight"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtDeleteCancel"
+                style="@style/dialogOkTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="No"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="@dimen/_33sdp"
+                android:layout_toRightOf="@id/txtOk"
+                android:background="#DAD5D5" />
+
+            <TextView
+                android:id="@+id/txtDeleteYes"
+                style="@style/dialogOkTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Yes" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

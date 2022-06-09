@@ -44,6 +44,7 @@ class Constants {
         const val API_PURCHASE_LITURGY = "purchaseLiturgy"
         const val API_PURCHASE_BOOK = "purchaseBook"
         const val API_PURCHASE_VOLUME = "purchaseVolume"
+        const val API_DELETE_ACCOUNT = "deleteUser/{userId}"
 
         const val DEVICE_TYPE = "1"
         const val SHARED_PREF_APP_SETTINGS_RESPONSE = "APP_SETTINGS_RESPONSE"
@@ -86,6 +87,8 @@ class Constants {
         const val LITURGIES_FILE_NAME = "liturgies.json"
         const val BOOKS_FILE_NAME = "books.json"
         const val FAVORITES_FILE_NAME = "favorites.json"
+        const val DAILY_QUOTE_FILE_NAME = "daily.json"
+        const val HOME_IMAGE_FILE_NAME = "home_image.json"
     }
 
 }

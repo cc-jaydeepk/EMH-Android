@@ -22,14 +22,12 @@ import com.everymomentholy.BuildConfig
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.response.HomeDailyLiturgyResponseVo
-import com.everymomentholy.api.response.HomegetSettingResponseVo
-import com.everymomentholy.api.response.NotificationDataVo
-import com.everymomentholy.api.response.NotificationResponseVo
+import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -94,16 +92,24 @@ class HomeFragment : Fragment() {
 
         ivHomeShare.setOnClickListener {
 
-            ivHomeShare.visibility = View.INVISIBLE
-            iv_toolbar_drawer.visibility = View.GONE
-            iv_toolbar_notification.visibility = View.GONE
-            ivHomeShare.isEnabled = false
+            if (Utils.isNetworkAvailable(requireContext())) {
+                ivHomeShare.visibility = View.INVISIBLE
+                iv_toolbar_drawer.visibility = View.GONE
+                iv_toolbar_notification.visibility = View.GONE
+                ivHomeShare.isEnabled = false
 
-            screenShotCapture()
+                screenShotCapture()
 
-            //After taking screenshot reset the button and view again
-            iv_toolbar_drawer.visibility = View.VISIBLE
-            iv_toolbar_notification.visibility = View.VISIBLE
+                //After taking screenshot reset the button and view again
+                iv_toolbar_drawer.visibility = View.VISIBLE
+                iv_toolbar_notification.visibility = View.VISIBLE
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.feature_requires_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
         return view
     }
@@ -184,7 +190,7 @@ class HomeFragment : Fragment() {
         startActivity(Intent.createChooser(intent, "Share With"))
 
         ivHomeShare.isEnabled = true
-       // ivHomeShare.visibility = View.VISIBLE
+        // ivHomeShare.visibility = View.VISIBLE
         progressbarHomeFragment.visibility = View.GONE
         rootLayout.visibility = View.VISIBLE
     }
@@ -200,11 +206,12 @@ class HomeFragment : Fragment() {
                 dailyLiturgyQuote()
                 getSettings()
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    requireContext().resources.getString(R.string.check_internet),
-                    Toast.LENGTH_LONG
-                ).show()
+                /* Toast.makeText(
+                     requireContext(),
+                     requireContext().resources.getString(R.string.check_internet),
+                     Toast.LENGTH_LONG
+                 ).show()*/
+                showOfflineUI()
             }
         }
 
@@ -231,6 +238,12 @@ class HomeFragment : Fragment() {
                                 .load(response.body()!!.response.home_page_liturgy_image)
                                 .centerCrop()
                                 .into(imgHomeClock)
+
+                            Utils.storeJsonInFile(
+                                context!!,
+                                response.body()!!.response.home_page_liturgy_image,
+                                Constants.HOME_IMAGE_FILE_NAME
+                            )
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -242,8 +255,6 @@ class HomeFragment : Fragment() {
                             if (context != null)
                                 getNotificationList()
                         }
-                    } else {
-
                     }
                 }
 
@@ -280,6 +291,11 @@ class HomeFragment : Fragment() {
                         txtQuote.text = response.body()!!.response.parentLiturgy
                         txtDailyQuote.text = response.body()!!.response.quote
 
+                        Utils.storeJsonInFile(
+                            context!!,
+                            Gson().toJson(response.body()!!.response),
+                            Constants.DAILY_QUOTE_FILE_NAME
+                        )
 
                         //  quotesText = response.body()!!.response.quote
                         cotedText = response.body()!!.response.parentLiturgy
@@ -306,8 +322,6 @@ class HomeFragment : Fragment() {
                         val validUrl = Date()
                         Log.e("text", yourDate)
                         txtDate.text = yourDate
-
-                    } else {
 
                     }
                 }
@@ -401,4 +415,55 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun showOfflineUI() {
+
+        progressbarHomeFragment.visibility = View.GONE
+        rootLayout.visibility = View.VISIBLE
+
+        try {
+            Glide
+                .with(requireContext())
+                .load(Utils.readJsonFromFile(requireContext(), Constants.HOME_IMAGE_FILE_NAME))
+                .centerCrop()
+                .into(imgHomeClock)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        val jsonString =
+            Utils.readJsonFromFile(requireContext(), Constants.DAILY_QUOTE_FILE_NAME)
+
+        if (!jsonString.isNullOrEmpty()) {
+
+            val response: DailyLiturgiesResponseVo =
+                Gson().fromJson(jsonString, DailyLiturgiesResponseVo::class.java)
+
+            txtQuote.text = response.parentLiturgy
+            txtDailyQuote.text = response.quote
+
+            cotedText = response.parentLiturgy
+
+            var format = SimpleDateFormat("d")
+            val date: String = format.format(Date())
+
+            val current = Calendar.getInstance().time
+
+            if (date.endsWith("1") && !date.endsWith("11"))
+                format = SimpleDateFormat("d'st' MMM yyyy");
+            else if (date.endsWith("2") && !date.endsWith("12"))
+                format = SimpleDateFormat("d'nd' MMM yyyy");
+            else if (date.endsWith("3") && !date.endsWith("13"))
+                format = SimpleDateFormat("d'rd' MMM yyyy");
+            else
+                format = SimpleDateFormat("d'th' MMM yyyy");
+            val yourDate = format.format(Date())
+            val formatter = SimpleDateFormat("dd mm yyyy")
+            var answer: String = formatter.format(current)
+            Log.d("answer", answer)
+            val validUrl = Date()
+            Log.e("text", yourDate)
+            txtDate.text = yourDate
+        }
+    }
 }

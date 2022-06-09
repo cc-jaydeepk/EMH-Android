@@ -152,9 +152,9 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
                     progressCardView.visibility = View.GONE
                     if (context != null) {
-                        Toast.makeText(
+                     /*   Toast.makeText(
                             requireContext(), "${t.message}", Toast.LENGTH_SHORT
-                        ).show()
+                        ).show()*/
                     }
                 }
             })
@@ -343,9 +343,9 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
                 override fun onFailure(call: Call<GetLiturgiesResponseVo>, t: Throwable) {
                     if (context != null) {
-                        Toast.makeText(
+                       /* Toast.makeText(
                             requireContext(), "${t.message}", Toast.LENGTH_SHORT
-                        ).show()
+                        ).show()*/
                     }
                 }
             })

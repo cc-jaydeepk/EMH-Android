@@ -251,6 +251,18 @@
 
                     </RelativeLayout>
 
+                    <Button
+                        android:id="@+id/btnDeleteAccount"
+                        style="@style/edtStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:backgroundTint="@color/loginbg"
+                        android:text="Delete Account"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/login_button_txtsize" />
+
                 </LinearLayout>
 
             </LinearLayout>

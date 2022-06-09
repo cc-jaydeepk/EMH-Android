@@ -31,12 +31,12 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetUserProfileRequestVo
 import com.everymomentholy.api.request.GetUserProfileUpdateRequestVo
+import com.everymomentholy.api.request.LogoutRequestVo
+import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
 import com.everymomentholy.api.response.GetUserProfileVo
-import com.everymomentholy.ui.activity.ChangePasswordActivity
-import com.everymomentholy.ui.activity.MainActivity
-import com.everymomentholy.ui.activity.NotificationDetailActivity
-import com.everymomentholy.ui.activity.OrderHistoryActivity
+import com.everymomentholy.api.response.NotificationResponseVo
+import com.everymomentholy.ui.activity.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.github.drjacky.imagepicker.ImagePicker
@@ -69,6 +69,7 @@ class MyProfileFragment : Fragment() {
     private var selectedCode: String = ""
     private lateinit var shadowView: TextView
     private lateinit var ivOrderHistory: ImageView
+    private lateinit var btnDeleteAccount: Button
 
     private var profile_upload_ImageUri: Uri? = null
     private lateinit var file: File
@@ -108,6 +109,7 @@ class MyProfileFragment : Fragment() {
         countryCodePicker = view.findViewById(R.id.country_code_picker)
         shadowView = view.findViewById(R.id.shadowView)
         ivOrderHistory = view.findViewById(R.id.ivOrderHistory)
+        btnDeleteAccount = view.findViewById(R.id.btnDeleteAccount)
 
         ivOpenGallery.setOnClickListener {
             ImagePicker.with(this)
@@ -157,14 +159,6 @@ class MyProfileFragment : Fragment() {
             if (checkValidation()) {
 
                 if (Utils.isNetworkAvailable(requireActivity())) {
-                    //  getUserProfileUpdate()
-
-                    /*var getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo =
-                        GetUserProfileUpdateRequestVo()
-                    getUserProfileUpdateRequestVo.firstName =
-                        edtUserFirstName.text.toString().trim()
-                    getUserProfileUpdateRequestVo.lastName = edtUserLastName.text.toString().trim()
-                    updateProfile(getUserProfileUpdateRequestVo)*/
 
                     progressCardView.visibility = View.VISIBLE
                     getUserProfileUpdate()
@@ -178,6 +172,10 @@ class MyProfileFragment : Fragment() {
                 }
 
             }
+        }
+
+        btnDeleteAccount.setOnClickListener {
+            promptUserConfirmation()
         }
 
         android_id = Settings.Secure.getString(
@@ -198,12 +196,14 @@ class MyProfileFragment : Fragment() {
 
         getUserProfile()
 
-        ivChangePassword.setOnClickListener {
+        ivChangePassword.setOnClickListener()
+        {
             val intent = Intent(activity, ChangePasswordActivity::class.java)
             startActivity(intent)
         }
 
-        ivOrderHistory.setOnClickListener() {
+        ivOrderHistory.setOnClickListener()
+        {
             val intent = Intent(context, OrderHistoryActivity::class.java)
             startActivity(intent)
         }
@@ -211,6 +211,90 @@ class MyProfileFragment : Fragment() {
         return view
     }
 
+
+    private fun promptUserConfirmation() {
+        val alertDialog = AlertDialog.Builder(requireContext())
+        val inflater = activity?.layoutInflater
+        val alertView: View = inflater?.inflate(R.layout.dialog_account_delete, null)!!
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertButtonCancel = alertView.findViewById<View>(R.id.txtDeleteCancel) as TextView
+        val alertButtonYes = alertView.findViewById<View>(R.id.txtDeleteYes) as TextView
+
+        alertButtonYes.setOnClickListener {
+            if (Utils.isNetworkAvailable(requireActivity())) {
+                progressCardView.visibility = View.VISIBLE
+                deleteUserAccount()
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    requireContext().resources.getString(R.string.check_internet),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        alertButtonCancel.setOnClickListener {
+            show.dismiss()
+        }
+        show.setCanceledOnTouchOutside(false)
+    }
+
+    private fun deleteUserAccount() {
+        val request = APIService.buildService(APIInterface::class.java)
+        val call = request.deleteUserAccount(
+            Utils.readIntFromSharedPref(
+                requireContext(),
+                Constants.PrefUserID,
+                -1
+            ), "bearer " + Utils.readStringFromSharedPref(
+                requireContext(),
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
+        )
+
+        try {
+            call.enqueue(object : Callback<BaseResponseVo> {
+                override fun onResponse(
+                    call: Call<BaseResponseVo>,
+                    response: Response<BaseResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        Toast.makeText(
+                            requireContext(),
+                            response.body()!!.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        Utils.writeUserIdBooleanFromSharedPref(requireContext(), false);
+                        Utils.clearAllPreference(requireContext())
+                        val intent = Intent(requireContext(), SelectOptionActivity::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        activity?.finish()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            response.body()!!.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponseVo>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
 
     private fun getUserProfile() {
         var getUserProfileRequestVo: GetUserProfileRequestVo = GetUserProfileRequestVo()

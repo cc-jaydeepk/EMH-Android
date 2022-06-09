@@ -123,11 +123,11 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             if (Utils.isNetworkAvailable(this)) {
                 getUserProfile()
             } else {
-                Toast.makeText(
+               /* Toast.makeText(
                     this@MainActivity,
                     resources.getString(R.string.check_internet),
                     Toast.LENGTH_LONG
-                ).show()
+                ).show()*/
             }
 
         }

@@ -64,8 +64,9 @@
     <string name="old_password_error">Please enter old password.</string>
     <string name="new_password_error">Please enter new password.</string>
     <string name="valid_email_error">Please enter valid email address.</string>
-    <string name="check_internet">Please check internet connection.</string>
+    <string name="check_internet">This features of the app requires an internet connection. However, you can still read your available and favorite liturgies while being offline.</string>
     <string name="internet_required">Internet connection is required to perform this action.</string>
+    <string name="feature_requires_internet">This features of the app requires an internet connection. However, you can still read your available and favorite liturgies while being offline.</string>
     <string name="liturgy_not_downloaded">This Liturgy is yet to be downloaded. It will get downloaded after your phone gets an internet connection.</string>
     <string name="reset_password">Reset Password</string>
     <string name="verification_code">Verification Code <font color="#FF0000">*</font></string>

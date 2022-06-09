@@ -233,5 +233,9 @@ interface APIInterface {
         @Header("Authorization") token: String
     ): Call<PrivateShareResponseVo>
 
-
+    @DELETE(Constants.API_DELETE_ACCOUNT)
+    fun deleteUserAccount(
+        @Path("userId") userID: Int,
+        @Header("Authorization") token: String
+    ): Call<BaseResponseVo>
 }
