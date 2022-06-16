@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item>
+        <shape android:shape="oval">
+            <solid android:color="#CDCCCC" />
+            <size
+                android:width="@dimen/_15sdp"
+                android:height="@dimen/_15sdp" />
+            <stroke
+                android:width="0.3dp"
+                android:color="#8e8e8e" />
+        </shape>
+    </item>-->
+
+    <item>
+
+        <shape android:shape="oval">
+            <solid android:color="#E6BAB7B7" />
+            <size
+                android:width="@dimen/setting_switch_size"
+                android:height="@dimen/setting_switch_size" />
+            <!--<stroke
+                android:width="1sp"
+                android:color="#E6AEAAAA" />-->
+        </shape>
+    </item>
+
+    <!-- <item android:drawable="@drawable/ic_audio_off"
+         android:bottom="8dp"
+         android:top="8dp"
+         android:left="8dp"
+         android:right="8dp"/>-->
+
+
+</layer-list>

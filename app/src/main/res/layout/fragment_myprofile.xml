@@ -69,8 +69,8 @@
 
                     <RelativeLayout
                         android:layout_width="@dimen/_104sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:layout_height="@dimen/_104sdp">
+                        android:layout_height="@dimen/_104sdp"
+                        android:layout_marginTop="@dimen/_20sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profile_image"
@@ -84,8 +84,8 @@
                             android:layout_width="@dimen/profile_edit_icon"
                             android:layout_height="@dimen/profile_edit_icon"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginBottom="@dimen/_20sdp"
                             android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="@dimen/_20sdp"
                             android:src="@drawable/ic_edit_image"
                             android:visibility="invisible" />
                     </RelativeLayout>
@@ -105,9 +105,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginLeft="@dimen/profile_historybtn_margin"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:layout_marginRight="@dimen/profile_historybtn_margin"
                         android:gravity="center"
-                        android:layout_marginTop="@dimen/_8sdp"
                         android:orientation="horizontal">
 
 
@@ -219,6 +219,32 @@
                             android:focusableInTouchMode="true" />
 
                     </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/editText_margintop">
+
+                        <EditText
+                            android:id="@+id/edtNotification"
+                            style="@style/edtStyle"
+                            android:background="@drawable/bg_register_edt"
+                            android:enabled="false"
+                            android:hint="@string/notifications"
+                            android:inputType="text" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/v_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="@dimen/_35sdp"
+                            android:thumb="@drawable/thumb_new"
+                            app:track="@drawable/track_new" />
+
+                    </RelativeLayout>
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"

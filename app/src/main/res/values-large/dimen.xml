@@ -153,5 +153,7 @@
     <dimen name="getliturgy_aboutbook_image_margintop">@dimen/_8sdp</dimen>
     <dimen name="contactus_edittext_margintop">@dimen/_30sdp</dimen>
 
+    <dimen name="setting_switch_size">@dimen/_10sdp</dimen>
+
 
 </resources>

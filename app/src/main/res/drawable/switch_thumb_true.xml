@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+
+        <shape android:shape="oval">
+            <solid android:color="@color/loginbg" />
+            <size
+                android:width="@dimen/setting_switch_size"
+                android:height="@dimen/setting_switch_size" />
+            <!-- <stroke
+                 android:width="1sp"
+                 android:color="#7EEF82" />-->
+        </shape>
+    </item>
+
+
+</layer-list>
