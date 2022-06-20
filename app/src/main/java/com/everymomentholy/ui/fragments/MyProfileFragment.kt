@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -35,7 +34,10 @@ import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
 import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.NotificationAlertResponseVo
-import com.everymomentholy.ui.activity.*
+import com.everymomentholy.ui.activity.ChangePasswordActivity
+import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.OrderHistoryActivity
+import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.github.drjacky.imagepicker.ImagePicker
@@ -132,41 +134,40 @@ class MyProfileFragment : Fragment() {
         notification_switch.setChecked(sharedPreferences.getBoolean("switch", true))
 
         notification_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isCheck) {
-                isCheck = isChecked
 
-                status = isCheck.toString()
-                status = "Off"
+            //working code for save state
+            if (isChecked) {
 
+                /*val myBoolean = isChecked
+                val result: String = BooleanUtils.toStringYesNo(myBoolean)
+                Log.e("ischeck", "onCreateView: " + result)*/
 
-                notificationAlert()
-
-            } else {
-                //editor.putBoolean(Constants.IS_NOTIFICATION_ON, false)
                 isCheck = isChecked
 
                 status = isCheck.toString()
                 status = "On"
 
-                notificationAlert()
-
-            }
-
-            //working code for save state
-            /*if (isChecked) {
-
-                Log.e("ischeck", "onCreateView: " + isChecked)
+                Log.e("ischeck", "onCreateView: " + status)
 
                 editor.putBoolean("switch", true);
                 editor.apply();
                 notification_switch.setChecked(true)
 
+                notificationAlert()
+
             } else {
-                Log.e("ischeck", "onCreateView: " + isChecked)
+                isCheck = isChecked
+
+                status = isCheck.toString()
+                status = "Off"
+
+                Log.e("ischeck", "onCreateView: " + status)
                 editor.putBoolean("switch", false);
                 editor.apply();
                 notification_switch.setChecked(false)
-            }*/
+
+                notificationAlert()
+            }
 
         }
 

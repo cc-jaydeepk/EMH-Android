@@ -17,7 +17,7 @@
         android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <!--<include
             layout="@layout/toolbar_layout"
@@ -71,15 +71,16 @@
 
         </RelativeLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_relativ">
 
+            <!--android:layout_below="@+id/toolbar_relativ"-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar_relativ"
                 android:orientation="vertical">
 
                 <TextView
@@ -100,7 +101,6 @@
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:gravity="center"
-
                     android:orientation="vertical">
 
 
@@ -130,10 +130,10 @@
                         android:textSize="@dimen/home_frg_liturgiesnm"
                         android:textStyle="bold" />
 
-                    <RelativeLayout
+                    <!--<RelativeLayout
                         android:id="@+id/relative"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true">
 
                         <ImageView
@@ -147,7 +147,7 @@
                         <com.yuyakaido.android.cardstackview.CardStackView
                             android:id="@+id/card_stack"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_150sdp"
+                            android:layout_height="match_parent"
                             android:layout_alignParentBottom="true"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_toLeftOf="@+id/rightArraw"
@@ -168,7 +168,52 @@
                             android:src="@drawable/right_arrow" />
 
 
+                    </RelativeLayout>-->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <RelativeLayout
+                            android:id="@+id/relative"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom">
+
+                            <ImageView
+                                android:id="@+id/leftArrow"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="3dp"
+                                android:src="@drawable/left_arrow" />
+
+                            <com.yuyakaido.android.cardstackview.CardStackView
+                                android:id="@+id/card_stack"
+                                android:layout_width="match_parent"
+                                android:layout_height="300dp"
+                                android:layout_toLeftOf="@+id/rightArraw"
+                                android:layout_toRightOf="@+id/leftArrow"
+                                android:clipToPadding="false"
+                                android:padding="4dp">
+
+                            </com.yuyakaido.android.cardstackview.CardStackView>
+
+
+                            <ImageView
+                                android:id="@+id/rightArraw"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="3dp"
+                                android:src="@drawable/right_arrow" />
+
+
+                        </RelativeLayout>
+
                     </RelativeLayout>
+
 
                     <ImageView
                         android:id="@+id/shareImage"
@@ -204,13 +249,14 @@
                         android:layout_height="@dimen/home_frg_shareimg"
                         android:layout_marginTop="@dimen/home_share_icon"
                         android:src="@drawable/homeshare"
+                        android:visibility="gone"
                         app:tint="@color/loginbg" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
 
 
     </RelativeLayout>

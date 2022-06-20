@@ -115,12 +115,12 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
         txtDate = view.findViewById(R.id.txtDate)
         imgHomeClock = view.findViewById(R.id.imgHomeClock)
         ivHomeShare = view.findViewById(R.id.ivHomeShare)
-        ivHomeShare.visibility = View.VISIBLE
+        //  ivHomeShare.visibility = View.VISIBLE
 
 
         shareQuote = view.findViewById(R.id.shareImage)
         shareQuote.setOnClickListener {
-            // shareMethod()
+            shareMethod()
         }
 
 
@@ -145,6 +145,17 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
                 .build()
             manager.setSwipeAnimationSetting(setting)
             cardStackView.swipe()
+
+            if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+
+                view.setClickable(false);
+                view.setEnabled(false);
+
+                rightButton.isClickable = false
+
+                manager.setCanScrollHorizontal(false)
+                // paginate()
+            }
         }
 
         cardStackView = view.findViewById(R.id.card_stack)
@@ -218,6 +229,35 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
         }
     }
 
+    /*private fun initialize() {
+        manager.setStackFrom(StackFrom.Top)
+        manager.setVisibleCount(5)
+        manager.setTranslationInterval(8.0f)
+        manager.setScaleInterval(0.95f)
+        manager.setSwipeThreshold(0.3f)
+        manager.setMaxDegree(20.0f)
+        // manager.setDirections(Direction.HORIZONTAL)
+        // manager.setDirections(Direction.Right)
+        manager.setCanScrollHorizontal(true)
+        manager.setCanScrollVertical(false)
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+        manager.setOverlayInterpolator(LinearInterpolator())
+        cardStackView.layoutManager = manager
+        cardStackView.adapter = quoteAdapter
+
+        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+
+            manager.setCanScrollHorizontal(false)
+            // paginate()
+        }
+
+        cardStackView.itemAnimator.apply {
+            if (this is DefaultItemAnimator) {
+                supportsChangeAnimations = false
+            }
+        }
+    }*/
+
 
     private fun quoteLiturgy() {
         val request = APIService.buildService(APIInterface::class.java)
@@ -239,14 +279,17 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
                             arrquoteList
                         )
 
+                        val second = QuotePreviousquoteVo(
+                            response.body()!!.response.date,
+                            response.body()!!.response.parentLiturgy,
+                            response.body()!!.response.quote
+                        )
+                        arrquoteList.add(second)
+
                         cardStackView.layoutManager = manager
                         manager.setVisibleCount(7)
                         cardStackView.adapter = quoteAdapter
 
-                        /* for (i in 0..5) {
-                             val i = arrquoteList
-                             Log.e("ASD", "onResponse: " + i)
-                         }*/
 
                     }
                 }
@@ -346,7 +389,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
     override fun onResume() {
         super.onResume()
         if (context != null) {
-            ivHomeShare.visibility = View.VISIBLE
+            //  ivHomeShare.visibility = View.VISIBLE
             if (Utils.isNetworkAvailable(requireContext())) {
                 progressbarHomeFragment.visibility = View.VISIBLE
                 rootLayout.visibility = View.GONE
@@ -629,12 +672,21 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
     }
 
     override fun onCardRewound() {
+        rightButton.isClickable = true
+        manager.setCanScrollHorizontal(true)
     }
 
     override fun onCardCanceled() {
     }
 
     override fun onCardAppeared(view: View?, position: Int) {
+        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+            //right.visibility = View.GONE
+            rightButton.isClickable = false
+
+            manager.setCanScrollHorizontal(false)
+
+        }
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
