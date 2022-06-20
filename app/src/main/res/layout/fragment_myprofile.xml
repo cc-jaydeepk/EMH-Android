@@ -234,7 +234,7 @@
                             android:inputType="text" />
 
                         <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/v_switch"
+                            android:id="@+id/notification_switch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"

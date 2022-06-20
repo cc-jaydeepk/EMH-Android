@@ -128,6 +128,8 @@ class LoginActivity : AppCompatActivity() {
                             response.body()!!.response.userId
                         )
 
+                        Log.e("userID", "onResponse: " + response.body()!!.response.userId)
+
                         Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.USER_NAME,
                             response.body()!!.response.firstName + " " + response.body()!!.response.lastName
@@ -235,8 +237,7 @@ class LoginActivity : AppCompatActivity() {
         return isValid
     }
 
-    fun getFirebaseToken(loginRequestVo: LoginRequestVo)
-    {
+    fun getFirebaseToken(loginRequestVo: LoginRequestVo) {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(
             OnCompleteListener { task ->
                 if (!task.isSuccessful) {

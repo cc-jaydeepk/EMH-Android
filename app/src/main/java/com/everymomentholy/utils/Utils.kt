@@ -46,6 +46,34 @@ class Utils {
             return false
         }
 
+        fun readBoolean(context: Context?, status: Boolean) {
+            val editor = getPreferences(context).edit()
+            editor.putBoolean(Constants.IS_NOTIFICATION_ON, status)
+            editor.apply()
+        }
+
+        fun writeBoolean(context: Context?): Boolean {
+            return getPreferences(context).getBoolean(Constants.IS_NOTIFICATION_ON, false)
+        }
+
+        fun writeBoolean(context: Context, key: String?, value: Boolean) {
+            val sharedPref: SharedPreferences =
+                context.getSharedPreferences(Constants.IS_NOTIFICATION_ON, Context.MODE_PRIVATE)
+            val editor = sharedPref.edit()
+            editor.putBoolean(key, value)
+            editor.apply()
+        }
+
+        fun readBoolFromSharedPref(
+            context: Context,
+            key: String,
+            defaultValue: Boolean
+        ): Boolean {
+            val sharedPref =
+                context.getSharedPreferences(Constants.IS_NOTIFICATION_ON, Context.MODE_PRIVATE)
+            return sharedPref.getBoolean(key, defaultValue)
+        }
+
 
         fun writeUserIdBooleanFromSharedPref(context: Context?, loggedIn: Boolean) {
             val editor = getPreferences(context).edit()

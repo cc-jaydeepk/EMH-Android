@@ -64,6 +64,7 @@ class Constants {
         const val DEFAULT_PROFILE_PIC = "userProfilePic"
         const val SHARED_PREF_DEVICE_ID = "deviceID"
         const val SHARED_PREF_FIREBASE_INSTANCE_ID = "firebase_instance_id"
+        const val IS_NOTIFICATION_ON = "IS_NOTIFICATION_ON"
 
         const val SEARCH_FROM_MY_LITURGY = 1
         const val SEARCH_FROM_FAVORITES = 2
@@ -74,6 +75,7 @@ class Constants {
         const val SKIP_LOGIN = 1
         const val LOGIN = 2
         const val SKIP_LOGIN_USER_ID = 5
+
 
         // push notification constants
         const val CHANNEL_ID = "EMH"

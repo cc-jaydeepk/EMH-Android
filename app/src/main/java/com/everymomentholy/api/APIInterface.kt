@@ -62,6 +62,7 @@ interface APIInterface {
     fun getUserProfileUpdate(
         @Path("userid") id: Int,
         @Query("deviceId") deviceId: String?,
+        @Query("notification_status") notification_status: String,
         @Query("firstName") firstName: String?,
         @Query("lastName") lastName: String?,
         @Query("email") email: String,
@@ -72,6 +73,22 @@ interface APIInterface {
         @Part image: MultipartBody.Part?
 
     ): Call<GetUserProfileUpdateResponseVo>
+
+    @POST(Constants.API_GET_USER_PROFILE_UPDATE)
+    fun notificationAlert(
+        @Path("userid") id: Int,
+        @Query("deviceId") deviceId: String?,
+        @Query("notification_status") notification_status: String,
+        @Query("firstName") firstName: String?,
+        @Query("lastName") lastName: String?,
+        @Query("email") email: String,
+        @Query("countryCode") countryCode: String,
+        @Query("mobile") phoneno: String,
+        // @Query("userProfilePic") userProfilePic: String,
+        @Header("Authorization") token: String,
+        // @Part image: MultipartBody.Part?
+
+    ): Call<NotificationAlertResponseVo>
 
     /*@POST(Constants.API_GET_USER_PROFILE_UPDATE)
     fun updateUserData(

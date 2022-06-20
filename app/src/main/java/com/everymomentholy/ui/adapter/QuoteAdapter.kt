@@ -10,9 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
 import com.everymomentholy.api.response.QuotePreviousquoteVo
+import com.everymomentholy.interfaces.LiturgyLitstClickListner
+import com.everymomentholy.interfaces.ShareLiturgy
 
 class QuoteAdapter(
-    val quoteList: ArrayList<QuotePreviousquoteVo>
+    var context: Context,
+    var quoteList: ArrayList<QuotePreviousquoteVo>,
 ) : RecyclerView.Adapter<QuoteAdapter.MyViewHolder>() {
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -33,10 +36,21 @@ class QuoteAdapter(
         holder.quoteText.text = quote.quote
         holder.parentLiturgyText.text = quote.parentLiturgy
         holder.dateText.text = quote.date
+
+        //.onNotificationListClick(position, quote)
     }
 
     override fun getItemCount(): Int {
         return quoteList.size
+    }
+
+    fun setQuote(quoteData: ArrayList<QuotePreviousquoteVo>) {
+        this.quoteList = quoteData
+        // notifyDataSetChanged()
+    }
+
+    fun getQuote(): ArrayList<QuotePreviousquoteVo> {
+        return quoteList
     }
 
 }

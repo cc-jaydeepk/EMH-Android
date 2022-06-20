@@ -2,14 +2,13 @@ package com.everymomentholy.ui.fragments
 
 import android.app.Activity
 import android.content.ContentResolver
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.database.Cursor
+import android.content.SharedPreferences
 import android.graphics.Bitmap
-import android.media.Image
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Editable
@@ -21,21 +20,21 @@ import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
-import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.GetUserProfileRequestVo
 import com.everymomentholy.api.request.GetUserProfileUpdateRequestVo
-import com.everymomentholy.api.request.LogoutRequestVo
+import com.everymomentholy.api.request.NotificationAlertRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
 import com.everymomentholy.api.response.GetUserProfileVo
-import com.everymomentholy.api.response.NotificationResponseVo
+import com.everymomentholy.api.response.NotificationAlertResponseVo
 import com.everymomentholy.ui.activity.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -81,6 +80,12 @@ class MyProfileFragment : Fragment() {
     lateinit var userProfileMultipart: MultipartBody.Part
     lateinit var progressCardView: CardView
 
+    lateinit var notification_switch: SwitchCompat
+
+    var isCheck: Boolean = true
+    private var status: String = "On"
+    private lateinit var notificationStatus: String
+
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -110,6 +115,60 @@ class MyProfileFragment : Fragment() {
         shadowView = view.findViewById(R.id.shadowView)
         ivOrderHistory = view.findViewById(R.id.ivOrderHistory)
         btnDeleteAccount = view.findViewById(R.id.btnDeleteAccount)
+
+
+        notification_switch = view.findViewById(R.id.notification_switch)
+
+        /*val sharedPreferences: SharedPreferences = requireActivity().getSharedPreferences(
+            "save",
+            MODE_PRIVATE
+        )
+        notification_switch.setChecked(sharedPreferences.getBoolean("value", true))*/
+
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("savestate", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        //notification_switch.isChecked = sharedPreferences.getBoolean("switch", true)
+        notification_switch.setChecked(sharedPreferences.getBoolean("switch", true))
+
+        notification_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isCheck) {
+                isCheck = isChecked
+
+                status = isCheck.toString()
+                status = "Off"
+
+
+                notificationAlert()
+
+            } else {
+                //editor.putBoolean(Constants.IS_NOTIFICATION_ON, false)
+                isCheck = isChecked
+
+                status = isCheck.toString()
+                status = "On"
+
+                notificationAlert()
+
+            }
+
+            //working code for save state
+            /*if (isChecked) {
+
+                Log.e("ischeck", "onCreateView: " + isChecked)
+
+                editor.putBoolean("switch", true);
+                editor.apply();
+                notification_switch.setChecked(true)
+
+            } else {
+                Log.e("ischeck", "onCreateView: " + isChecked)
+                editor.putBoolean("switch", false);
+                editor.apply();
+                notification_switch.setChecked(false)
+            }*/
+
+        }
 
         ivOpenGallery.setOnClickListener {
             ImagePicker.with(this)
@@ -161,6 +220,7 @@ class MyProfileFragment : Fragment() {
                 if (Utils.isNetworkAvailable(requireActivity())) {
 
                     progressCardView.visibility = View.VISIBLE
+
                     getUserProfileUpdate()
 
                 } else {
@@ -382,12 +442,93 @@ class MyProfileFragment : Fragment() {
         }
     }
 
+    private fun notificationAlert() {
+
+        /*var notificationAlertStatus = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.IS_NOTIFICATION_ON,
+            status
+        ).toString()
+
+        Log.e("TAG", "notificationAlert: " + notificationAlertStatus)*/
+
+        var notificationAlertRequestVo: NotificationAlertRequestVo = NotificationAlertRequestVo()
+        notificationAlertRequestVo.userId = prefeUserId
+        notificationAlertRequestVo.deviceId = android_id
+        notificationAlertRequestVo.notification_status = status
+        notificationAlertRequestVo.firstName = edtUserFirstName.text.toString().trim()
+        notificationAlertRequestVo.lastName = edtUserLastName.text.toString().trim()
+        notificationAlertRequestVo.email = edtUserEmail.text.toString().trim()
+        notificationAlertRequestVo.mobileNo = edtUserPhoneNumber.text.toString().trim()
+        notificationAlertRequestVo.countryCode = selectedCode.toString()
+        "bearer " + Utils.readStringFromSharedPref(
+            requireActivity(),
+            Constants.SHARED_PREF_TOKEN,
+            ""
+        )
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.notificationAlert(
+                notificationAlertRequestVo.userId,
+                notificationAlertRequestVo.deviceId,
+                notificationAlertRequestVo.notification_status,
+                notificationAlertRequestVo.firstName,
+                notificationAlertRequestVo.lastName,
+                notificationAlertRequestVo.email,
+                notificationAlertRequestVo.countryCode,
+                notificationAlertRequestVo.mobileNo,
+                "bearer " + Utils.readStringFromSharedPref(
+                    requireActivity(),
+                    Constants.SHARED_PREF_TOKEN,
+                    ""
+                )
+            )
+
+
+        try {
+            call.enqueue(object : Callback<NotificationAlertResponseVo> {
+                @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
+                override fun onResponse(
+                    call: Call<NotificationAlertResponseVo>,
+                    response: Response<NotificationAlertResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        /* Toast.makeText(
+                             requireActivity(),
+                             response.body()!!.message,
+                             Toast.LENGTH_LONG
+                         ).show()*/
+
+                    } else {
+                        // progressCardView.visibility = View.GONE
+                        /* Log.e("Log", "onResponse: " + response.body()!!.message)
+                         Toast.makeText(
+                             requireActivity(),
+                             response.body()!!.message,
+                             Toast.LENGTH_LONG
+                         ).show()*/
+
+                    }
+                }
+
+                override fun onFailure(call: Call<NotificationAlertResponseVo>, t: Throwable) {
+                    Toast.makeText(requireActivity(), "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+
+    }
+
     private fun getUserProfileUpdate() {
 
         var getUserProfileUpdateRequestVo: GetUserProfileUpdateRequestVo =
             GetUserProfileUpdateRequestVo()
         getUserProfileUpdateRequestVo.deviceId = android_id
         getUserProfileUpdateRequestVo.userId = prefeUserId
+        getUserProfileUpdateRequestVo.notification_status = status
         getUserProfileUpdateRequestVo.firstName = edtUserFirstName.text.toString().trim()
         getUserProfileUpdateRequestVo.lastName = edtUserLastName.text.toString().trim()
         getUserProfileUpdateRequestVo.email = edtUserEmail.text.toString().trim()
@@ -435,6 +576,7 @@ class MyProfileFragment : Fragment() {
             request.getUserProfileUpdate(
                 getUserProfileUpdateRequestVo.userId,
                 getUserProfileUpdateRequestVo.deviceId,
+                getUserProfileUpdateRequestVo.notification_status,
                 getUserProfileUpdateRequestVo.firstName,
                 getUserProfileUpdateRequestVo.lastName,
                 getUserProfileUpdateRequestVo.email,

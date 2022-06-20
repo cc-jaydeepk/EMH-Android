@@ -13,24 +13,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.everymomentholy.BuildConfig
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.*
+import com.everymomentholy.interfaces.ShareLiturgy
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.ui.adapter.QuoteAdapter
-import com.everymomentholy.ui.adapter.SearchAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.google.gson.Gson
@@ -43,8 +42,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class HomeFragment : Fragment(), CardStackListener {
+class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
 
     private lateinit var txtTitle: TextView
     private lateinit var txtQuote: TextView
@@ -58,23 +56,32 @@ class HomeFragment : Fragment(), CardStackListener {
     private lateinit var iv_toolbar_drawer: ImageView
     private lateinit var iv_toolbar_notification: ImageView
     private lateinit var txtToolbarNotificationCount: TextView
-
-
-    private lateinit var cardStackView: CardStackView
-
-    private val manager by lazy { CardStackLayoutManager(requireContext(), this) }
-
-
-    private var quoteAdapter: RecyclerView.Adapter<QuoteAdapter.MyViewHolder>? = null
-    //private lateinit var quoteAdapter: QuoteAdapter
-
-    private var quoteList: ArrayList<QuotePreviousquoteVo> = ArrayList()
-    //quoteAdapter by lazy { QuoteAdapter(quoteList) }
+    private lateinit var shareQuote: ImageView
 
     lateinit var quotesText: String
     lateinit var cotedText: String
     lateinit var progressbarHomeFragment: ProgressBar
     var notificationCount = 0
+
+
+    // private lateinit var cardStackView: CardStackView
+
+    //  private lateinit var manager: CardStackLayoutManager
+
+    // private lateinit var quoteAdapter: QuoteAdapter
+    // private var quoteList: ArrayList<QuotePreviousquoteVo> = ArrayList()
+    //quoteAdapter by lazy { QuoteAdapter(quoteList) }
+
+
+    private lateinit var cardStackView: CardStackView
+    private lateinit var quoteAdapter: QuoteAdapter
+    private val manager by lazy { CardStackLayoutManager(requireActivity(), this) }
+    private var quoteList: ArrayList<QuotePreviousquoteVo> = ArrayList()
+
+    lateinit var leftButton: ImageView
+    lateinit var rightButton: ImageView
+    var shareResponse: String = ""
+
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
     override fun onCreateView(
@@ -84,13 +91,6 @@ class HomeFragment : Fragment(), CardStackListener {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        cardStackView = view.findViewById(R.id.card_stack_view)
-
-        // quoteAdapter = QuoteAdapter(quoteList)
-
-        quoteAdapter = QuoteAdapter(
-            quoteList
-        )
 
         rootLayout = view.findViewById(R.id.rootLayout)
         txt_toolbar = view.findViewById(R.id.txt_toolbar)
@@ -116,6 +116,42 @@ class HomeFragment : Fragment(), CardStackListener {
         imgHomeClock = view.findViewById(R.id.imgHomeClock)
         ivHomeShare = view.findViewById(R.id.ivHomeShare)
         ivHomeShare.visibility = View.VISIBLE
+
+
+        shareQuote = view.findViewById(R.id.shareImage)
+        shareQuote.setOnClickListener {
+            // shareMethod()
+        }
+
+
+        leftButton = view.findViewById(R.id.leftArrow)
+        leftButton.setOnClickListener {
+            val setting = RewindAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(DecelerateInterpolator())
+                .build()
+            manager.setRewindAnimationSetting(setting)
+            cardStackView.rewind()
+        }
+
+        rightButton = view.findViewById(R.id.rightArraw)
+        rightButton.setOnClickListener {
+            leftButton.visibility = View.VISIBLE
+            val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+        }
+
+        cardStackView = view.findViewById(R.id.card_stack)
+        quoteAdapter = QuoteAdapter(
+            requireActivity(),
+            quoteList
+        )
 
         quoteLiturgy()
         setupCardStackView()
@@ -145,13 +181,23 @@ class HomeFragment : Fragment(), CardStackListener {
         return view
     }
 
+    private fun shareMethod() {
+
+
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, shareResponse)
+        requireActivity().startActivity(Intent.createChooser(intent, "Share With"))
+    }
+
     private fun setupCardStackView() {
         initialize()
     }
 
     private fun initialize() {
         manager.setStackFrom(StackFrom.Top)
-        manager.setVisibleCount(3)
+        manager.setVisibleCount(7)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
@@ -172,6 +218,7 @@ class HomeFragment : Fragment(), CardStackListener {
         }
     }
 
+
     private fun quoteLiturgy() {
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.quoteLiturgies()
@@ -185,12 +232,22 @@ class HomeFragment : Fragment(), CardStackListener {
                     if (response.body()?.statusCode == 1) {
 
 
+                        var arrquoteList: ArrayList<QuotePreviousquoteVo> = ArrayList()
+                        arrquoteList.addAll(response.body()!!.response.previousquotes)
+                        quoteAdapter = QuoteAdapter(
+                            requireActivity(),
+                            arrquoteList
+                        )
+
                         cardStackView.layoutManager = manager
+                        manager.setVisibleCount(7)
                         cardStackView.adapter = quoteAdapter
 
-                        //  txtDailyQuote.text = response.body()!!.response.quote
+                        /* for (i in 0..5) {
+                             val i = arrquoteList
+                             Log.e("ASD", "onResponse: " + i)
+                         }*/
 
-                        //setAdapter(requireContext(), response.body()!!.response)
                     }
                 }
 
@@ -203,19 +260,6 @@ class HomeFragment : Fragment(), CardStackListener {
         }
     }
 
-    fun setAdapter(context: Context, response: QuoteVo) {
-        /*quoteAdapter = QuoteAdapter(
-
-            // response.body()!!.response.data,
-            response.previousquotes
-        )*/
-        quoteAdapter = QuoteAdapter(
-            quoteList
-        )
-        cardStackView.layoutManager = manager
-        // attach adapter to the recycler view
-        cardStackView.adapter = quoteAdapter
-    }
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
     private fun screenShotCapture() {
@@ -306,7 +350,7 @@ class HomeFragment : Fragment(), CardStackListener {
             if (Utils.isNetworkAvailable(requireContext())) {
                 progressbarHomeFragment.visibility = View.VISIBLE
                 rootLayout.visibility = View.GONE
-                // dailyLiturgyQuote()
+                dailyLiturgyQuote()
                 //quoteLiturgy()
                 getSettings()
             } else {
@@ -393,7 +437,7 @@ class HomeFragment : Fragment(), CardStackListener {
                     if (response.body()?.statusCode == 1) {
 
                         txtQuote.text = response.body()!!.response.parentLiturgy
-                        txtDailyQuote.text = response.body()!!.response.quote
+                        // txtDailyQuote.text = response.body()!!.response.quote
 
                         Utils.storeJsonInFile(
                             context!!,
@@ -576,6 +620,12 @@ class HomeFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardSwiped(direction: Direction?) {
+        Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
+        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+
+            manager.setCanScrollHorizontal(false)
+            // paginate()
+        }
     }
 
     override fun onCardRewound() {
@@ -588,5 +638,9 @@ class HomeFragment : Fragment(), CardStackListener {
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
+    }
+
+    override fun shareKiturgy(pos: Int, quote: QuotePreviousquoteVo) {
+        shareResponse = quote.quote
     }
 }
