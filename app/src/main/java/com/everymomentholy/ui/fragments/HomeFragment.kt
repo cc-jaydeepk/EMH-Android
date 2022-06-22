@@ -26,7 +26,7 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.*
-import com.everymomentholy.interfaces.ShareLiturgy
+import com.everymomentholy.interfaces.ShareItem
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.ui.adapter.QuoteAdapter
@@ -42,7 +42,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
+class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
     private lateinit var txtTitle: TextView
     private lateinit var txtQuote: TextView
@@ -64,23 +64,16 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
     var notificationCount = 0
 
 
-    // private lateinit var cardStackView: CardStackView
-
-    //  private lateinit var manager: CardStackLayoutManager
-
-    // private lateinit var quoteAdapter: QuoteAdapter
-    // private var quoteList: ArrayList<QuotePreviousquoteVo> = ArrayList()
-    //quoteAdapter by lazy { QuoteAdapter(quoteList) }
-
-
     private lateinit var cardStackView: CardStackView
+
     private lateinit var quoteAdapter: QuoteAdapter
     private val manager by lazy { CardStackLayoutManager(requireActivity(), this) }
     private var quoteList: ArrayList<QuotePreviousquoteVo> = ArrayList()
 
     lateinit var leftButton: ImageView
     lateinit var rightButton: ImageView
-    var shareResponse: String = ""
+
+    var data: String = ""
 
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
@@ -89,9 +82,16 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //val view = inflater.inflate(R.layout.fragment_home_new, container, false)
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        quoteAdapter = QuoteAdapter(
+            requireActivity(),
+            quoteList,
+            this
+        )
 
+        cardStackView = view.findViewById(R.id.card_stack_view)
         rootLayout = view.findViewById(R.id.rootLayout)
         txt_toolbar = view.findViewById(R.id.txt_toolbar)
         //  (activity as MainActivity?)!!.initToolBar("Every Moment Holy")
@@ -118,13 +118,18 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
         //  ivHomeShare.visibility = View.VISIBLE
 
 
+        rightButton = view.findViewById(R.id.rightArraw)
+        leftButton = view.findViewById(R.id.leftArrow)
+
         shareQuote = view.findViewById(R.id.shareImage)
         shareQuote.setOnClickListener {
-            shareMethod()
+            //shareMethod()
+            shareQQ()
         }
 
+        quoteLiturgy()
+        setupCardStackView()
 
-        leftButton = view.findViewById(R.id.leftArrow)
         leftButton.setOnClickListener {
             val setting = RewindAnimationSetting.Builder()
                 .setDirection(Direction.Right)
@@ -135,7 +140,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
             cardStackView.rewind()
         }
 
-        rightButton = view.findViewById(R.id.rightArraw)
+
         rightButton.setOnClickListener {
             leftButton.visibility = View.VISIBLE
             val setting = SwipeAnimationSetting.Builder()
@@ -153,19 +158,20 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
 
                 rightButton.isClickable = false
 
+
                 manager.setCanScrollHorizontal(false)
                 // paginate()
             }
         }
 
-        cardStackView = view.findViewById(R.id.card_stack)
+        // cardStackView = view.findViewById(R.id.card_stack)
         quoteAdapter = QuoteAdapter(
             requireActivity(),
-            quoteList
+            quoteList,
+            this
         )
 
-        quoteLiturgy()
-        setupCardStackView()
+
 
 
         ivHomeShare.setOnClickListener {
@@ -192,23 +198,16 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
         return view
     }
 
-    private fun shareMethod() {
-
-
-        val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT, shareResponse)
-        requireActivity().startActivity(Intent.createChooser(intent, "Share With"))
-    }
 
     private fun setupCardStackView() {
         initialize()
     }
 
-    private fun initialize() {
+
+    /*private fun initialize() {
         manager.setStackFrom(StackFrom.Top)
-        manager.setVisibleCount(7)
+        // manager.setVisibleCount(7)
+        manager.setVisibleCount(6)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
@@ -227,12 +226,12 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
                 supportsChangeAnimations = false
             }
         }
-    }
+    }*/
 
-    /*private fun initialize() {
+    private fun initialize() {
         manager.setStackFrom(StackFrom.Top)
         manager.setVisibleCount(5)
-        manager.setTranslationInterval(8.0f)
+        manager.setTranslationInterval(11.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
         manager.setMaxDegree(20.0f)
@@ -256,7 +255,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
                 supportsChangeAnimations = false
             }
         }
-    }*/
+    }
 
 
     private fun quoteLiturgy() {
@@ -276,7 +275,8 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
                         arrquoteList.addAll(response.body()!!.response.previousquotes)
                         quoteAdapter = QuoteAdapter(
                             requireActivity(),
-                            arrquoteList
+                            arrquoteList,
+                            this@HomeFragment
                         )
 
                         val second = QuotePreviousquoteVo(
@@ -286,8 +286,20 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
                         )
                         arrquoteList.add(second)
 
+                        /*for (n in arrquoteList.indices){
+                          //  println("myArray[$n]: ${myArray[n]}")
+                            Log.e("position", "onResponse: " + n)
+                        }*/
+
+                        /*val firstName: String = arrquoteList.get(5).toString()
+                        Log.e("position", "onResponse: " + firstName)*/
+
+                        for ((index, value) in arrquoteList.withIndex()) {
+                            // println("Value at Index $index is: $value")
+                            Log.e("po", "Value at Index " + value)
+                        }
+
                         cardStackView.layoutManager = manager
-                        manager.setVisibleCount(7)
                         cardStackView.adapter = quoteAdapter
 
 
@@ -664,35 +676,72 @@ class HomeFragment : Fragment(), CardStackListener, ShareLiturgy {
 
     override fun onCardSwiped(direction: Direction?) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
+        leftButton.setColorFilter(
+            requireActivity().getResources().getColor(R.color.loginbg)
+        )
         if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
 
             manager.setCanScrollHorizontal(false)
             // paginate()
         }
+
+        /*if (manager.topPosition + 7 == quoteAdapter!!.itemCount) {
+            leftButton.setColorFilter(
+                requireActivity().getResources().getColor(R.color.right_light_gray)
+            )
+
+        }*/
     }
 
     override fun onCardRewound() {
         rightButton.isClickable = true
         manager.setCanScrollHorizontal(true)
+        rightButton.setColorFilter(
+            requireActivity().getResources().getColor(R.color.loginbg)
+        )
     }
 
     override fun onCardCanceled() {
     }
 
     override fun onCardAppeared(view: View?, position: Int) {
-        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
-            //right.visibility = View.GONE
-            rightButton.isClickable = false
 
+        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+            rightButton.isClickable = false
+            rightButton.setColorFilter(
+                requireActivity().getResources().getColor(R.color.right_light_gray)
+            )
             manager.setCanScrollHorizontal(false)
 
         }
+
+        if (quoteList.size == manager.topPosition) {
+            leftButton.setColorFilter(
+                requireActivity().getResources().getColor(R.color.right_light_gray)
+            )
+
+        }
+
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
     }
 
     override fun shareKiturgy(pos: Int, quote: QuotePreviousquoteVo) {
-        shareResponse = quote.quote
+
+        data = quote.quote
+        //Log.e("DATA", "shareKiturgy: " + data)
+    }
+
+    fun shareQQ() {
+        var datashare = data
+        Log.e("DATA", "shareQQ: " + datashare)
+
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, datashare)
+        startActivity(Intent.createChooser(intent, "Share With"))
+
     }
 }

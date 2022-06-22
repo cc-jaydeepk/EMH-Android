@@ -15,4 +15,5 @@
     <color name="dialogCancelTxt">#F44336</color>
     <color name="gray">#8F8D8D</color>
     <color name="light_gray">#ECE9E9</color>
+    <color name="right_light_gray">#8E8C8C</color>
 </resources>
