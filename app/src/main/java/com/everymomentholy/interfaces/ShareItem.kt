@@ -5,5 +5,5 @@ import com.everymomentholy.api.response.QuotePreviousquoteVo
 
 interface ShareItem {
 
-    fun shareKiturgy(pos: Int, quote: QuotePreviousquoteVo)
+    fun shareQuote(pos: Int, quote: QuotePreviousquoteVo)
 }

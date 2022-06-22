@@ -1,7 +1,6 @@
 package com.everymomentholy.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,13 +37,9 @@ class QuoteAdapter(
         holder.parentLiturgyText.text = currentquote.parentLiturgy
         holder.dateText.text = currentquote.date
 
-       // shareClickListner.shareKiturgy(position, currentquote)
-
-        holder.itemView.setOnClickListener {
-            shareClickListner.shareKiturgy(position, currentquote)
+        holder.share.setOnClickListener {
+            shareClickListner.shareQuote(position, currentquote)
         }
-
-        //.onNotificationListClick(position, quote)
     }
 
     override fun getItemCount(): Int {
@@ -53,11 +48,16 @@ class QuoteAdapter(
 
     fun setQuote(quoteData: ArrayList<QuotePreviousquoteVo>) {
         this.quoteList = quoteData
-        // notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
-    fun getQuote(): ArrayList<QuotePreviousquoteVo> {
+    fun getQuotes(): ArrayList<QuotePreviousquoteVo> {
         return quoteList
+    }
+
+    fun addQuote(quoteData: QuotePreviousquoteVo) {
+        this.quoteList.add(quoteData)
+        notifyItemRangeInserted(quoteList.size-1, quoteList.size-1)
     }
 
 }

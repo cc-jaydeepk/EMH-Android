@@ -74,6 +74,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
     lateinit var rightButton: ImageView
 
     var data: String = ""
+    var counter: Int = 0
 
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
@@ -122,10 +123,10 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         leftButton = view.findViewById(R.id.leftArrow)
 
         shareQuote = view.findViewById(R.id.shareImage)
-        shareQuote.setOnClickListener {
-            //shareMethod()
-            shareQQ()
-        }
+        /* shareQuote.setOnClickListener {
+             //shareMethod()
+             shareQQ()
+         }*/
 
         quoteLiturgy()
         setupCardStackView()
@@ -143,21 +144,15 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
         rightButton.setOnClickListener {
             leftButton.visibility = View.VISIBLE
-            val setting = SwipeAnimationSetting.Builder()
-                .setDirection(Direction.Right)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(AccelerateInterpolator())
-                .build()
-            manager.setSwipeAnimationSetting(setting)
+
             cardStackView.swipe()
 
             if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
 
-                view.setClickable(false);
-                view.setEnabled(false);
+                view.isClickable = false
+                view.isEnabled = false
 
                 rightButton.isClickable = false
-
 
                 manager.setCanScrollHorizontal(false)
                 // paginate()
@@ -176,24 +171,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
         ivHomeShare.setOnClickListener {
 
-            if (Utils.isNetworkAvailable(requireContext())) {
-                ivHomeShare.visibility = View.INVISIBLE
-                iv_toolbar_drawer.visibility = View.GONE
-                iv_toolbar_notification.visibility = View.GONE
-                ivHomeShare.isEnabled = false
-
-                screenShotCapture()
-
-                //After taking screenshot reset the button and view again
-                iv_toolbar_drawer.visibility = View.VISIBLE
-                iv_toolbar_notification.visibility = View.VISIBLE
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.feature_requires_internet),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            shareScreenShot()
         }
         return view
     }
@@ -201,6 +179,27 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
     private fun setupCardStackView() {
         initialize()
+    }
+
+    private fun shareScreenShot() {
+        if (Utils.isNetworkAvailable(requireContext())) {
+            ivHomeShare.visibility = View.INVISIBLE
+            iv_toolbar_drawer.visibility = View.GONE
+            iv_toolbar_notification.visibility = View.GONE
+            ivHomeShare.isEnabled = false
+
+            screenShotCapture()
+
+            //After taking screenshot reset the button and view again
+            iv_toolbar_drawer.visibility = View.VISIBLE
+            iv_toolbar_notification.visibility = View.VISIBLE
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.feature_requires_internet),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
 
@@ -244,11 +243,11 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         cardStackView.layoutManager = manager
         cardStackView.adapter = quoteAdapter
 
-        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+        /* if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
 
-            manager.setCanScrollHorizontal(false)
-            // paginate()
-        }
+             manager.setCanScrollHorizontal(false)
+             // paginate()
+         }*/
 
         cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
@@ -278,6 +277,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                             arrquoteList,
                             this@HomeFragment
                         )
+                        quoteList = arrquoteList
 
                         val second = QuotePreviousquoteVo(
                             response.body()!!.response.date,
@@ -381,7 +381,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
         val uri = FileProvider.getUriForFile(
             requireActivity(),
-            BuildConfig.APPLICATION_ID + ".provider",
+            com.everymomentholy.BuildConfig.APPLICATION_ID + ".provider",
             file
         )
         val intent = Intent()
@@ -677,13 +677,17 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
     override fun onCardSwiped(direction: Direction?) {
         Log.d("CardStackView", "onCardSwiped: p = ${manager.topPosition}, d = $direction")
         leftButton.setColorFilter(
-            requireActivity().getResources().getColor(R.color.loginbg)
+            requireActivity().resources.getColor(R.color.loginbg)
         )
-        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+        //if (manager.topPosition == quoteAdapter!!.itemCount) {
+        //manager.setCanScrollHorizontal(false)
+        if (counter == 7)
+            counter = 0
+        else
+            counter++
 
-            manager.setCanScrollHorizontal(false)
-            // paginate()
-        }
+        quoteAdapter.addQuote(quoteList[counter])
+        //}
 
         /*if (manager.topPosition + 7 == quoteAdapter!!.itemCount) {
             leftButton.setColorFilter(
@@ -706,14 +710,14 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
     override fun onCardAppeared(view: View?, position: Int) {
 
-        if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
-            rightButton.isClickable = false
-            rightButton.setColorFilter(
-                requireActivity().getResources().getColor(R.color.right_light_gray)
-            )
-            manager.setCanScrollHorizontal(false)
+        /* if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
+             rightButton.isClickable = false
+             rightButton.setColorFilter(
+                 requireActivity().getResources().getColor(R.color.right_light_gray)
+             )
+             manager.setCanScrollHorizontal(false)
 
-        }
+         }*/
 
         if (quoteList.size == manager.topPosition) {
             leftButton.setColorFilter(
@@ -727,10 +731,14 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
     override fun onCardDisappeared(view: View?, position: Int) {
     }
 
-    override fun shareKiturgy(pos: Int, quote: QuotePreviousquoteVo) {
+    override fun shareQuote(pos: Int, quote: QuotePreviousquoteVo) {
 
-        data = quote.quote
-        //Log.e("DATA", "shareKiturgy: " + data)
+       /* val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, quote.quote)
+        startActivity(Intent.createChooser(intent, "Share With"))*/
+        shareScreenShot()
     }
 
     fun shareQQ() {
