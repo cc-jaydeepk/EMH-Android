@@ -28,6 +28,16 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/dateTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
                     android:id="@+id/quoteTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -46,19 +56,6 @@
                     android:gravity="center"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/_11ssp" />
-
-
-                <TextView
-                    android:id="@+id/dateTxt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_regular"
-                    android:gravity="center"
-                    android:text="dhsfhgfdjdvhldfkjgf;lv"
-                    android:textColor="#000"
-                    android:textSize="@dimen/_11ssp"
-                    android:visibility="gone" />
-
 
             </LinearLayout>
 

@@ -225,7 +225,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:clipToPadding="false"
-                            android:minHeight="@dimen/_380sdp">
+                            android:minHeight="@dimen/_410sdp">
 
                         </com.yuyakaido.android.cardstackview.CardStackView>
 
