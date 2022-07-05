@@ -269,8 +269,16 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
-
                         var arrquoteList: ArrayList<QuotePreviousquoteVo> = ArrayList()
+
+                        val second = QuotePreviousquoteVo(
+                            response.body()!!.response.date,
+                            response.body()!!.response.parentLiturgy,
+                            response.body()!!.response.quote
+                        )
+                        arrquoteList.add(second)
+
+
                         arrquoteList.addAll(response.body()!!.response.previousquotes)
                         quoteAdapter = QuoteAdapter(
                             requireActivity(),
@@ -279,12 +287,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                         )
                         quoteList = arrquoteList
 
-                        val second = QuotePreviousquoteVo(
-                            response.body()!!.response.date,
-                            response.body()!!.response.parentLiturgy,
-                            response.body()!!.response.quote
-                        )
-                        arrquoteList.add(second)
 
                         /*for (n in arrquoteList.indices){
                           //  println("myArray[$n]: ${myArray[n]}")
@@ -679,14 +681,24 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         leftButton.setColorFilter(
             requireActivity().resources.getColor(R.color.loginbg)
         )
-        //if (manager.topPosition == quoteAdapter!!.itemCount) {
-        //manager.setCanScrollHorizontal(false)
+
         if (counter == 7)
             counter = 0
         else
             counter++
 
         quoteAdapter.addQuote(quoteList[counter])
+
+
+        /*if (manager.topPosition == quoteAdapter!!.itemCount) {
+                counter++
+            }
+            quoteAdapter.addQuote(quoteList[counter])*/
+
+
+        //if (manager.topPosition == quoteAdapter!!.itemCount) {
+        //manager.setCanScrollHorizontal(false)
+
         //}
 
         /*if (manager.topPosition + 7 == quoteAdapter!!.itemCount) {
@@ -733,11 +745,11 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
     override fun shareQuote(pos: Int, quote: QuotePreviousquoteVo) {
 
-       /* val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT, quote.quote)
-        startActivity(Intent.createChooser(intent, "Share With"))*/
+        /* val intent = Intent()
+         intent.action = Intent.ACTION_SEND
+         intent.type = "text/plain"
+         intent.putExtra(Intent.EXTRA_TEXT, quote.quote)
+         startActivity(Intent.createChooser(intent, "Share With"))*/
         shareScreenShot()
     }
 
