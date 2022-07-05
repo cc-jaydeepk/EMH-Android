@@ -14,6 +14,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.everymomentholy.R
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.NotificationListActivity
 import com.everymomentholy.utils.Constants
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -22,6 +23,7 @@ import java.util.*
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     var TAG = MyFirebaseMessagingService::class.java.canonicalName
     var addNewToken = ""
+    var type = ""
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -59,6 +61,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "Short lived task is done.")
         val data: Map<String, String> = remoteMessage.data
         val messageBody = data["body"]
+        if (data["notification_type"] != null)
+            type = data["notification_type"]!!
+        //Log.d(TAG, data["notification_type"]!! )
         messageBody?.let { sendNotification(it) }
     }
 
@@ -71,7 +76,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val generator = Random()
         var UNIQUE_NUMBER = 10000
         UNIQUE_NUMBER = generator.nextInt(UNIQUE_NUMBER)
-        val intent = Intent(this, MainActivity::class.java)
+        lateinit var intent: Intent
+        if (type.equals("UserNotification", true))
+            intent = Intent(this, NotificationListActivity::class.java)
+        else
+            intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val pendingIntent = PendingIntent.getActivity(
             this, UNIQUE_NUMBER, intent,

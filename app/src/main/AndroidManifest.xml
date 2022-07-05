@@ -54,6 +54,7 @@
         <activity
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             tools:replace="screenOrientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -110,26 +111,6 @@
             android:name=".ui.activity.EditProfileActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
-        <!--
- <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-        -->
-       <!-- <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.everymomentholy.ui.activity.MainActivity.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>-->
 
         <provider
             android:name="androidx.core.content.FileProvider"
