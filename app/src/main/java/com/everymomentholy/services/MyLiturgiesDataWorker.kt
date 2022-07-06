@@ -61,9 +61,9 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
         val isSuccess = getLiturgiesList()
         getBooks()
 
-     //   if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
-            getFavoriteLiturgiesList()
-       // }
+        //   if (Constants.USER_LOGIN_STATUS == Constants.LOGIN) {
+        getFavoriteLiturgiesList()
+        // }
 
         return if (isSuccess)
             Result.success()
@@ -80,7 +80,7 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
         /*if (Constants.USER_LOGIN_STATUS != Constants.LOGIN) {
             myLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
         } else {*/
-            myLiturgiesRequestVo.appUserId = prefUserId
+        myLiturgiesRequestVo.appUserId = prefUserId
         //}
         myLiturgiesRequestVo.deviceId = androidId
 
@@ -175,17 +175,17 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
 
         var getLiturgiesRequestVo = GetLiturgiesRequestVo()
         var token = ""
-       /* if (Constants.USER_LOGIN_STATUS != Constants.LOGIN) {
-            getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
-            getLiturgiesRequestVo.deviceId = androidId
-        } else {*/
-            getLiturgiesRequestVo.appUserId = prefUserId
-            getLiturgiesRequestVo.deviceId = androidId
-            token = "bearer " + Utils.readStringFromSharedPref(
-                context,
-                Constants.SHARED_PREF_TOKEN,
-                ""
-            )
+        /* if (Constants.USER_LOGIN_STATUS != Constants.LOGIN) {
+             getLiturgiesRequestVo.appUserId = Constants.SKIP_LOGIN_USER_ID
+             getLiturgiesRequestVo.deviceId = androidId
+         } else {*/
+        getLiturgiesRequestVo.appUserId = prefUserId
+        getLiturgiesRequestVo.deviceId = androidId
+        token = "bearer " + Utils.readStringFromSharedPref(
+            context,
+            Constants.SHARED_PREF_TOKEN,
+            ""
+        )
         //}
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getBooks(
@@ -247,7 +247,8 @@ class MyLiturgiesDataWorker(appContext: Context, workerParams: WorkerParameters)
                         Log.e(LOG_TAG, response.body()!!.message)
 
                     } else {
-                        Log.e(LOG_TAG, response.body()!!.message)
+                        if (response.body() != null)
+                            Log.e(LOG_TAG, response.body()!!.message)
                     }
                     Utils.storeJsonInFile(
                         context,

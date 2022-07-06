@@ -1,5 +1,6 @@
 package com.everymomentholy.services
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -72,6 +73,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      *
      * @param messageBody FCM message body received.
      */
+    @SuppressLint("UnspecifiedImmutableFlag")
     private fun sendNotification(messageBody: String) {
         val generator = Random()
         var UNIQUE_NUMBER = 10000
@@ -82,10 +84,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         else
             intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        val pendingIntent = PendingIntent.getActivity(
-            this, UNIQUE_NUMBER, intent,
-            PendingIntent.FLAG_ONE_SHOT
-        )
+
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.getActivity(
+                this, UNIQUE_NUMBER, intent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getActivity(
+                this, UNIQUE_NUMBER, intent,
+                PendingIntent.FLAG_ONE_SHOT
+            )
+        }
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(
             this,
