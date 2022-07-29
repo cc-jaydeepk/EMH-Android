@@ -24,8 +24,8 @@
     <dimen name="agreetxtsize">@dimen/_12ssp</dimen>
     <dimen name="privacytxtsize">@dimen/_13ssp</dimen>
     <dimen name="countrycodepadding">@dimen/_10sdp</dimen>
-    <dimen name="home_img">@dimen/_150sdp</dimen>
-    <dimen name="home_frg_liturgiesnm">@dimen/_20ssp</dimen>
+    <dimen name="home_img">@dimen/_120sdp</dimen>
+    <dimen name="home_frg_liturgiesnm">@dimen/_18ssp</dimen>
     <dimen name="home_frg_dessize">@dimen/_14ssp</dimen>
     <dimen name="home_frg_size">@dimen/_14ssp</dimen>
     <dimen name="home_frg_shareimg">@dimen/_33sdp</dimen>

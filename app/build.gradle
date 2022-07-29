@@ -7,16 +7,20 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def enableCrashlyticsInDebugBuild = false
+def enableCrashlyticsInReleaseBuild = true
+
+
 android {
-    compileSdkVersion 31
+    compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.brentwood.emh"
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 7
-        versionName "1.2.1"
+        targetSdkVersion 30
+        versionCode 10
+        versionName "1.2.4"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -26,8 +30,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [crashlyticsEnabled:"${enableCrashlyticsInReleaseBuild}"]
+        }
+        debug{
+            manifestPlaceholders = [crashlyticsEnabled:"${enableCrashlyticsInDebugBuild}"]
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

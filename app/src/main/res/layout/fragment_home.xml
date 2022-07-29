@@ -78,59 +78,63 @@
 
             <!--android:layout_below="@+id/toolbar_relativ"-->
 
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txt_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:fontFamily="@font/lato_medium"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp"
-                    android:visibility="gone" />
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:gravity="center"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
-
-                    <ImageView
-                        android:id="@+id/imgHomeClock"
-                        android:layout_width="@dimen/home_img"
-                        android:layout_height="@dimen/home_img" />
-
                     <TextView
-                        android:id="@+id/txtDate"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/txt_toolbar"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/liturgitxtmargin"
+                        android:layout_centerInParent="true"
                         android:fontFamily="@font/lato_medium"
-                        android:text=""
-                        android:textColor="@color/loginbg"
-                        android:textSize="@dimen/liturgitxtsize" />
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18ssp"
+                        android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/txtTitle"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_7ssp"
-                        android:fontFamily="@font/lato_medium"
-                        android:text="@string/daily_liturgy_quote"
-                        android:textColor="@color/loginbg"
-                        android:textSize="@dimen/home_frg_liturgiesnm"
-                        android:textStyle="bold" />
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <!--<RelativeLayout
+
+                        <ImageView
+                            android:id="@+id/imgHomeClock"
+                            android:layout_width="@dimen/home_img"
+                            android:layout_height="@dimen/home_img" />
+
+                        <TextView
+                            android:id="@+id/txtDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/liturgitxtmargin"
+                            android:fontFamily="@font/lato_medium"
+                            android:text=""
+                            android:textColor="@color/loginbg"
+                            android:textSize="@dimen/liturgitxtsize" />
+
+                        <TextView
+                            android:id="@+id/txtTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_7ssp"
+                            android:fontFamily="@font/lato_medium"
+                            android:text="@string/daily_liturgy_quote"
+                            android:textColor="@color/loginbg"
+                            android:textSize="@dimen/home_frg_liturgiesnm"
+                            android:textStyle="bold" />
+
+                        <!--<RelativeLayout
                         android:id="@+id/relative"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -170,7 +174,7 @@
 
                     </RelativeLayout>-->
 
-                    <!--<RelativeLayout
+                        <!--<RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -214,41 +218,40 @@
 
                     </RelativeLayout>-->
 
-                    <RelativeLayout
-                        android:id="@+id/relative"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_20sdp">
-
-                        <com.yuyakaido.android.cardstackview.CardStackView
-                            android:id="@+id/card_stack_view"
+                        <RelativeLayout
+                            android:id="@+id/relative"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:clipToPadding="false"
-                            android:minHeight="@dimen/_410sdp">
+                            android:layout_height="@dimen/_240sdp"
+                            android:layout_marginTop="@dimen/_20sdp">
 
-                        </com.yuyakaido.android.cardstackview.CardStackView>
+                            <com.yuyakaido.android.cardstackview.CardStackView
+                                android:id="@+id/card_stack_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_238sdp"
+                                android:clipToPadding="false">
 
-                        <ImageView
-                            android:id="@+id/leftArrow"
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/left_arrow" />
+                            </com.yuyakaido.android.cardstackview.CardStackView>
 
-                        <ImageView
-                            android:id="@+id/rightArraw"
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/right_arrow"
-                            app:tint="@color/loginbg" />
+                            <ImageView
+                                android:id="@+id/leftArrow"
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/left_arrow" />
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/rightArraw"
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/right_arrow"
+                                app:tint="@color/loginbg" />
 
-                    <!-- <TextView
+                        </RelativeLayout>
+
+                        <!-- <TextView
                          android:id="@+id/txt_toolbar_notification_count"
                          android:layout_width="@dimen/_18sdp"
                          android:layout_height="@dimen/_18sdp"
@@ -260,56 +263,56 @@
                          android:textColor="@color/white"
                          android:visibility="gone" />-->
 
-                    <!-- android:layout_marginTop="-29dp"-->
+                        <!-- android:layout_marginTop="-29dp"-->
 
-                    <LinearLayout
-                        android:layout_width="@dimen/_26sdp"
-                        android:layout_height="@dimen/_26sdp"
-                        android:layout_marginTop="-35dp"
-                        android:background="@drawable/red_notification_circle"
-                        android:gravity="center"
-                        android:visibility="gone">
+                        <LinearLayout
+                            android:layout_width="@dimen/_26sdp"
+                            android:layout_height="@dimen/_26sdp"
+                            android:layout_marginTop="-35dp"
+                            android:background="@drawable/red_notification_circle"
+                            android:gravity="center"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/shareImage"
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_gravity="center"
+                                android:elevation="15dp"
+                                android:src="@drawable/ic_share"
+                                android:visibility="visible"
+                                app:tint="@color/white" />
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/txtQuote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/home_frg_txtmrg"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/home_frg_txtmrg"
+                            android:fontFamily="@font/lato_mediumitalic"
+                            android:gravity="center"
+                            android:textColor="@color/loginbg"
+                            android:textSize="@dimen/home_frg_size"
+                            android:visibility="gone" />
 
                         <ImageView
-                            android:id="@+id/shareImage"
-                            android:layout_width="@dimen/_18sdp"
-                            android:layout_height="@dimen/_18sdp"
-                            android:layout_gravity="center"
-                            android:elevation="15dp"
-                            android:src="@drawable/ic_share"
-                            android:visibility="visible"
-                            app:tint="@color/white" />
+                            android:id="@+id/ivHomeShare"
+                            android:layout_width="@dimen/home_frg_shareimg"
+                            android:layout_height="@dimen/home_frg_shareimg"
+                            android:layout_marginTop="@dimen/home_share_icon"
+                            android:src="@drawable/homeshare"
+                            android:visibility="gone"
+                            app:tint="@color/loginbg" />
 
                     </LinearLayout>
 
-
-                    <TextView
-                        android:id="@+id/txtQuote"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/home_frg_txtmrg"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/home_frg_txtmrg"
-                        android:fontFamily="@font/lato_mediumitalic"
-                        android:gravity="center"
-                        android:textColor="@color/loginbg"
-                        android:textSize="@dimen/home_frg_size"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:id="@+id/ivHomeShare"
-                        android:layout_width="@dimen/home_frg_shareimg"
-                        android:layout_height="@dimen/home_frg_shareimg"
-                        android:layout_marginTop="@dimen/home_share_icon"
-                        android:src="@drawable/homeshare"
-                        android:visibility="gone"
-                        app:tint="@color/loginbg" />
-
                 </LinearLayout>
-
-            </LinearLayout>
-
+            </ScrollView>
         </RelativeLayout>
 
 

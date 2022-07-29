@@ -280,11 +280,17 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
 
                         arrquoteList.addAll(response.body()!!.response.previousquotes)
-                        quoteAdapter = QuoteAdapter(
-                            requireActivity(),
-                            arrquoteList,
-                            this@HomeFragment
-                        )
+
+                        try {
+                            quoteAdapter = QuoteAdapter(
+                                requireActivity(),
+                                arrquoteList,
+                                this@HomeFragment
+                            )
+                        } catch (ex: Exception) {
+                            ex.printStackTrace()
+                        }
+
                         quoteList = arrquoteList
 
 
@@ -296,10 +302,10 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                         /*val firstName: String = arrquoteList.get(5).toString()
                         Log.e("position", "onResponse: " + firstName)*/
 
-                        for ((index, value) in arrquoteList.withIndex()) {
-                            // println("Value at Index $index is: $value")
-                            Log.e("po", "Value at Index " + value)
-                        }
+                        /* for ((index, value) in arrquoteList.withIndex()) {
+                             // println("Value at Index $index is: $value")
+                             Log.e("po", "Value at Index " + value)
+                         }*/
 
                         cardStackView.layoutManager = manager
                         cardStackView.adapter = quoteAdapter
@@ -645,7 +651,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                 Gson().fromJson(jsonString, DailyLiturgiesResponseVo::class.java)
 
             txtQuote.text = response.parentLiturgy
-            txtDailyQuote.text = response.quote
+            // txtDailyQuote.text = response.quote
 
             cotedText = response.parentLiturgy
 
