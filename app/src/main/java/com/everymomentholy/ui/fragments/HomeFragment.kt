@@ -118,15 +118,10 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         ivHomeShare = view.findViewById(R.id.ivHomeShare)
         //  ivHomeShare.visibility = View.VISIBLE
 
-
         rightButton = view.findViewById(R.id.rightArraw)
         leftButton = view.findViewById(R.id.leftArrow)
 
         shareQuote = view.findViewById(R.id.shareImage)
-        /* shareQuote.setOnClickListener {
-             //shareMethod()
-             shareQQ()
-         }*/
 
         quoteLiturgy()
         setupCardStackView()
@@ -140,7 +135,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             manager.setRewindAnimationSetting(setting)
             cardStackView.rewind()
         }
-
 
         rightButton.setOnClickListener {
             leftButton.visibility = View.VISIBLE
@@ -165,9 +159,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             quoteList,
             this
         )
-
-
-
 
         ivHomeShare.setOnClickListener {
 
@@ -202,31 +193,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         }
     }
 
-
-    /*private fun initialize() {
-        manager.setStackFrom(StackFrom.Top)
-        // manager.setVisibleCount(7)
-        manager.setVisibleCount(6)
-        manager.setTranslationInterval(8.0f)
-        manager.setScaleInterval(0.95f)
-        manager.setSwipeThreshold(0.3f)
-        manager.setMaxDegree(20.0f)
-        // manager.setDirections(Direction.HORIZONTAL)
-        // manager.setDirections(Direction.Right)
-        manager.setCanScrollHorizontal(true)
-        manager.setCanScrollVertical(false)
-        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
-        manager.setOverlayInterpolator(LinearInterpolator())
-        cardStackView.layoutManager = manager
-        cardStackView.adapter = quoteAdapter
-
-        cardStackView.itemAnimator.apply {
-            if (this is DefaultItemAnimator) {
-                supportsChangeAnimations = false
-            }
-        }
-    }*/
-
     private fun initialize() {
         manager.setStackFrom(StackFrom.Top)
         manager.setVisibleCount(5)
@@ -242,12 +208,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         manager.setOverlayInterpolator(LinearInterpolator())
         cardStackView.layoutManager = manager
         cardStackView.adapter = quoteAdapter
-
-        /* if (manager.topPosition + 1 == quoteAdapter!!.itemCount) {
-
-             manager.setCanScrollHorizontal(false)
-             // paginate()
-         }*/
 
         cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
@@ -278,7 +238,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                         )
                         arrquoteList.add(second)
 
-
                         arrquoteList.addAll(response.body()!!.response.previousquotes)
 
                         try {
@@ -292,25 +251,8 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                         }
 
                         quoteList = arrquoteList
-
-
-                        /*for (n in arrquoteList.indices){
-                          //  println("myArray[$n]: ${myArray[n]}")
-                            Log.e("position", "onResponse: " + n)
-                        }*/
-
-                        /*val firstName: String = arrquoteList.get(5).toString()
-                        Log.e("position", "onResponse: " + firstName)*/
-
-                        /* for ((index, value) in arrquoteList.withIndex()) {
-                             // println("Value at Index $index is: $value")
-                             Log.e("po", "Value at Index " + value)
-                         }*/
-
                         cardStackView.layoutManager = manager
                         cardStackView.adapter = quoteAdapter
-
-
                     }
                 }
 

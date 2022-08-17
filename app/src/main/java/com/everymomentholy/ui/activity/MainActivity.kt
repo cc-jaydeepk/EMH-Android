@@ -122,14 +122,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         } else {
             if (Utils.isNetworkAvailable(this)) {
                 getUserProfile()
-            } else {
-               /* Toast.makeText(
-                    this@MainActivity,
-                    resources.getString(R.string.check_internet),
-                    Toast.LENGTH_LONG
-                ).show()*/
             }
-
         }
 
         iv_toolbar_notification.setOnClickListener {
@@ -162,7 +155,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 super.onDrawerOpened(drawerView)
 
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-
+                      //todo
                 } else {
                     profileImage = Utils.readStringFromSharedPref(
                         this@MainActivity, Constants.PROFILE_PIC,
@@ -741,10 +734,10 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
      */
     override fun onPurchaseComplete(purchaseRequestVo: PurchaseRequestVo) {
 
-      /*  runOnUiThread {
-            Toast.makeText(this, "In app purchase complete", Toast.LENGTH_LONG).show()
-        }
-*/
+        /*  runOnUiThread {
+              Toast.makeText(this, "In app purchase complete", Toast.LENGTH_LONG).show()
+          }
+  */
         val request = APIService.buildService(APIInterface::class.java)
         lateinit var call: Call<PrivateShareResponseVo>
 
