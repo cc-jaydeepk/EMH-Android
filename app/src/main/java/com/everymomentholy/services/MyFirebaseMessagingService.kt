@@ -85,7 +85,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getActivity(
                 this, UNIQUE_NUMBER, intent,
                 PendingIntent.FLAG_IMMUTABLE
@@ -93,9 +93,24 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         } else {
             PendingIntent.getActivity(
                 this, UNIQUE_NUMBER, intent,
-                PendingIntent.FLAG_ONE_SHOT
+                PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
+
+        /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(
+                this,
+                0, intentToLaunchThisActivityFromNotification,
+                PendingIntent.FLAG_IMMUTABLE);
+        }
+        else
+        {
+            pendingIntent = PendingIntent.getActivity(
+                this,
+                0, intentToLaunchThisActivityFromNotification,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        }*/
+
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(
             this,

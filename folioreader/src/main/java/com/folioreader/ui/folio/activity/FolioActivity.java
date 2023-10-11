@@ -16,6 +16,7 @@
 package com.folioreader.ui.folio.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -47,6 +48,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -158,6 +160,18 @@ public class FolioActivity
     private MyLiturgiesDataVo myLiturgiesDataVo;
 
     private Menu menu;
+
+    public static String[] storge_permissions = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    public static String[] storge_permissions_33 = {
+            Manifest.permission.READ_MEDIA_IMAGES,
+            // Manifest.permission.READ_MEDIA_AUDIO,
+            //Manifest.permission.READ_MEDIA_VIDEO
+    };
 
     private enum RequestCode {
         CONTENT_HIGHLIGHT(77),
@@ -290,11 +304,39 @@ public class FolioActivity
         initActionBar();
         initMediaController();
 
-        if (ContextCompat.checkSelfPermission(FolioActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        String readImagePermission = null;
+
+        //Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+           // Manifest.permission.READ_MEDIA_IMAGES
+            ActivityCompat.requestPermissions(FolioActivity.this, Constants.getReadMediaImagesPerms(), Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
+        } else {
+           // Manifest.permission.READ_EXTERNAL_STORAGE
             ActivityCompat.requestPermissions(FolioActivity.this, Constants.getWriteExternalStoragePerms(), Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
+        }*/
+
+        /*if (ContextCompat.checkSelfPermission(this, readImagePermission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(FolioActivity.this, Constants.permissions(), Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
+        } else {
+            setupBook();
+        }*/
+
+        final int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    Constants.permissions(),
+                    Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
         } else {
             setupBook();
         }
+
+        /*if (ContextCompat.checkSelfPermission(FolioActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(FolioActivity.this, Constants.getWriteExternalStoragePerms(), Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
+        } else {
+            setupBook();
+        }*/
     }
 
     private void initActionBar() {
@@ -323,7 +365,7 @@ public class FolioActivity
                 color = ContextCompat.getColor(this, R.color.black);
             } else {
                 int[] attrs = {android.R.attr.navigationBarColor};
-                TypedArray typedArray = getTheme().obtainStyledAttributes(attrs);
+                @SuppressLint("ResourceType") TypedArray typedArray = getTheme().obtainStyledAttributes(attrs);
                 color = typedArray.getColor(0, ContextCompat.getColor(this, R.color.white));
             }
             getWindow().setNavigationBarColor(color);

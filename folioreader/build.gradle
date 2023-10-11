@@ -29,11 +29,11 @@ ext {
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion ANDROID_COMPILE_SDK_VERSION
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion ANDROID_MIN_SDK
-        targetSdkVersion ANDROID_TARGET_SDK_VERSION
+        targetSdkVersion 33
         versionCode VERSION_CODE
         versionName VERSION_NAME
         vectorDrawables.useSupportLibrary = true

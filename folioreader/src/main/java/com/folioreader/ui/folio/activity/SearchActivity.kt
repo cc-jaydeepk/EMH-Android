@@ -30,7 +30,6 @@ import com.folioreader.util.AppUtil
 import com.folioreader.util.UiUtil
 import com.folioreader.view.FolioSearchView
 import kotlinx.android.synthetic.main.activity_search.*
-import java.lang.Exception
 import java.lang.reflect.Field
 
 class SearchActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Any?>,
@@ -151,6 +150,7 @@ class SearchActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Any?>,
     }
 
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         Log.v(LOG_TAG, "-> onNewIntent")
 
         if (intent.hasExtra(BUNDLE_SEARCH_URI)) {
@@ -268,7 +268,7 @@ class SearchActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Any?>,
             }
         })
 
-        itemSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+        /*itemSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
 
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 return true
@@ -279,7 +279,22 @@ class SearchActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Any?>,
                 navigateBack()
                 return false
             }
+        })*/
+
+        itemSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
+                Log.v(LOG_TAG, "-> onMenuItemActionCollapse")
+                navigateBack()
+                return false
+            }
         })
+
+
+
 
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) softKeyboardVisible = true
