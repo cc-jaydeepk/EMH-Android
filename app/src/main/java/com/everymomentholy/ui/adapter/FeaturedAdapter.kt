@@ -6,9 +6,11 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.media.Image
 import android.os.Build
 import android.provider.Settings
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,13 +34,13 @@ import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.interfaces.LiturgyLitstClickListner
+import com.everymomentholy.interfaces.PlayAudioClickListner
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.PlayAudioActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import com.folioreader.Config
-import com.folioreader.FolioReader
 import com.folioreader.emh.EMHUtils
-import com.folioreader.util.AppUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,17 +48,22 @@ import java.lang.Exception
 
 class FeaturedAdapter(
     var context: Context,
-    var featuredLiturgiesList: ArrayList<MyLiturgiesDataVo>
+    var featuredLiturgiesList: ArrayList<MyLiturgiesDataVo>,
+    var playAudioClickListner: PlayAudioClickListner
 ) : RecyclerView.Adapter<FeaturedAdapter.MyViewHolder>() {
     public var bookOpenPosition = -1
     lateinit var progressDialog: ProgressDialog
+
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var btnFeaturedReadNow = view.findViewById<Button>(R.id.btn_featured_read_now)
         var imgFeaturedFav = view.findViewById<ImageView>(R.id.img_featured_fav)
         var imgFeaturedShare = view.findViewById<ImageView>(R.id.img_featured_share)
         var txtFeaturedTitle = view.findViewById<TextView>(R.id.txtFeaturedTitle)
+        var txtIncludedIn = view.findViewById<TextView>(R.id.txtIncludedIn)
+        var txtInclude = view.findViewById<TextView>(R.id.txtInclude)
         var imgFeatured = view.findViewById<ImageView>(R.id.imgFeatured)
+        var btnPlayNow = view.findViewById<Button>(R.id.btnPlayNow)
 
     }
 
@@ -72,6 +79,21 @@ class FeaturedAdapter(
         var featuredLiturgyData = featuredLiturgiesList[position]
 
         holder.txtFeaturedTitle.text = featuredLiturgyData.chapterTitle
+        //holder.txtIncludedIn.text = featuredLiturgyData.volumeTags
+        val spannable = SpannableString(featuredLiturgyData.volumeTags)
+        spannable.setSpan(
+            UnderlineSpan(),
+            0, // start
+            spannable.length, // end
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        if (featuredLiturgyData.volumeTags == "") {
+            holder.txtIncludedIn.visibility = View.GONE
+            holder.txtInclude.visibility = View.GONE
+        } else {
+            holder.txtInclude.visibility = View.VISIBLE
+            holder.txtIncludedIn.text = spannable
+        }
         Glide.with(context)
             .load(featuredLiturgyData.chapterPageImage)
             .into(holder.imgFeatured)
@@ -118,6 +140,8 @@ class FeaturedAdapter(
 
         }
 
+
+
         holder.imgFeaturedShare.setOnClickListener() {
             if (Utils.isNetworkAvailable(context)) {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
@@ -132,6 +156,47 @@ class FeaturedAdapter(
                     Toast.LENGTH_LONG
                 ).show()
             }
+        }
+
+        /*if(featuredLiturgiesList[position].isPurchased == "Yes"){
+            if (featuredLiturgiesList[position].audio_file == ""){
+                holder.btnPlayNow.visibility = View.GONE
+            }else{
+                holder.btnPlayNow.visibility = View.VISIBLE
+            }
+        }else{
+            holder.btnPlayNow.visibility = View.GONE
+        }*/
+
+        if (featuredLiturgiesList[position].audio_file == ""){
+            holder.btnPlayNow.visibility = View.GONE
+        }else{
+            holder.btnPlayNow.visibility = View.VISIBLE
+        }
+
+        holder.btnPlayNow.setOnClickListener {
+            /*val intent = Intent(context, PlayAudioActivity::class.java)
+            intent.putExtra("title", featuredLiturgiesList[position].chapterTitle);
+            intent.putExtra("audio", featuredLiturgiesList[position].audio_file);
+            context.startActivity(intent)*/
+
+            playAudioClickListner.onPlayAudio(
+                featuredLiturgiesList[position].chapterTitle,
+                featuredLiturgiesList[position].audio_file,
+                false
+            )
+
+           // liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId, false)
+
+            /*val bundle = Bundle()
+            bundle.putString("title", featuredLiturgiesList[position].chapterTitle)
+            bundle.putString("audio", featuredLiturgiesList[position].audio_file);
+            var fragment: Fragment = PlayAudioFragment()
+            (context as MainActivity).replaceFragment(
+                fragment,
+                "Audio",
+                bundle
+            )*/
         }
 
         holder.imgFeaturedFav.setOnClickListener() {
@@ -253,6 +318,7 @@ class FeaturedAdapter(
         setFavouriteRequestVo.isFavorite = liturgiesDataVo.isFavorite != "True"
         setFavouriteRequestVo.bookId = liturgiesDataVo.bookId
         setFavouriteRequestVo.chapterId = liturgiesDataVo.chapterId
+        setFavouriteRequestVo.type = "liturgy"
 
         val request = APIService.buildService(APIInterface::class.java)
         val call =
@@ -271,8 +337,18 @@ class FeaturedAdapter(
                     if (response.body()?.statusCode == 1) {
                         if (liturgiesDataVo.isFavorite == "True") {
                             ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+                            Toast.makeText(
+                                context,
+                                "Removed from favorite",
+                                Toast.LENGTH_LONG
+                            ).show()
                         } else {
                             ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+                            Toast.makeText(
+                                context,
+                                "Added to favorite",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                         updateList(setFavouriteRequestVo.isFavorite, position)
                     } else {

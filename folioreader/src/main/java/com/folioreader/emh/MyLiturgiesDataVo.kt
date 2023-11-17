@@ -1,5 +1,6 @@
 package com.folioreader.emh
 
+import com.folioreader.util.ProductTypes
 import java.io.Serializable
 
 class MyLiturgiesDataVo: Serializable {
@@ -16,4 +17,11 @@ class MyLiturgiesDataVo: Serializable {
     var price: String = ""
     var userId: Int = 0
     var token: String = ""
+    var productType: ProductTypes = ProductTypes.LITURGY
+    var liturgyPurchaseCode: String = ""
+    var audio_file: String = ""
+    var volumeTags: String = ""
+
+   // var productType: ProductTypes = ProductTypes.LITURGY
 }
+

@@ -5,13 +5,23 @@ class Constants {
     companion object {
         //test server
         // const val BASE_URL = "http://203.109.113.162:8686/every_moment_holy/public/api/"
+
+        //staging old
         //const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/"
 
+        //31-10-2023 staging
+        const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/apiV2/"
+
         //Live server
-        const val BASE_URL = "https://app.everymomentholy.com/api/"
+        //const val BASE_URL = "https://app.everymomentholy.com/apiV2/"
 
         //API
         const val API_REGISTRATION = "register"
+        const val API_CREATESUBSCRIPTION = "createSubscription"
+        const val API_GETUSERSUBSCRIPTIONPLANS = "getUserSubscriptionPlans/{userid}"
+        const val API_CANCELSUBSCRIPTION = "cancelSubscription"
+        const val API_SUBSCRIPTIONPLANLIST = "subscriptionPlanList"
+        const val API_GETSUBSCRIPTIONSTATUS = "getSubscriptionStatus"
         const val API_LOGIN = "login"
         const val API_FORGOT_PASSWORD = "forgotPassword"
         const val API_RESET_PASSWORD = "updatePassword"
@@ -36,6 +46,7 @@ class Constants {
         const val API_PRIVACY_POLICY = "getStaticPages?slug=privacy-policy"
         const val API_SET_FAVORITE = "setFavorite"
         const val API_GET_FAVORITES_LIST = "getFavoritesList"
+        const val API_GET_FAVORITES_BOOKLIST = "getFavoritesBookList"
         const val API_PRIVATE_SHARING = "privateSharing"
         const val API_GET_ORDER_HISTORY = "getOrderHistory"
         const val API_GET_BOOK_STORE = "getBookStore"
@@ -50,6 +61,11 @@ class Constants {
         const val SHARED_PREF_APP_SETTINGS_RESPONSE = "APP_SETTINGS_RESPONSE"
 
         //Shared preferences keys
+        const val CUSTOMER_ID = "customerId"
+        const val SUBSCRIPTION_ID = "subscriptionId"
+        const val PUBLISHABLE_KEY = "publishablekey"
+        const val EPHEMERALKEY_ID = "ephemeralkeyid"
+        const val PAYMENT_INTENT_ID = "paymentintentid"
         const val SHARED_PREF_NAME = "EveryMomentHoly"
         const val PrefUserID = "userId"
         const val SHARED_PREF_TOKEN = "token"
@@ -59,6 +75,9 @@ class Constants {
         const val NAME = "userName"
         const val LASTNAME = "userLastName"
         const val USER_EMAIL = "email"
+        const val UPCOMINGPLAN = "upcomingplan"
+        const val USER_SUBSCRIPTIONSTATUS = "subscriptionStatus"
+        const val USER_SUBSCRIPTIONMESSAGE = "  message"
         const val PROFILE_PIC = "userProfilePic"
         const val PROFILE = "userProfilePic"
         const val DEFAULT_PROFILE_PIC = "userProfilePic"
@@ -91,6 +110,13 @@ class Constants {
         const val FAVORITES_FILE_NAME = "favorites.json"
         const val DAILY_QUOTE_FILE_NAME = "daily.json"
         const val HOME_IMAGE_FILE_NAME = "home_image.json"
+
+        // upcomin subscription plan
+        const val UpcomingPlan = "upcomingPlan"
+        const val UPCOMING_STARTED_AT = "UpcominStarted"
+        const val UPCOMING_EXPIRED_AT = "UpcominExpired"
+        const val UPCOMING_SUB_TYPE = "UpcominSubType"
+        const val UPCOMING_SUB_STATUS = "UpcominSubStatus"
     }
 
 }

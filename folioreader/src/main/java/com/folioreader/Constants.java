@@ -1,6 +1,9 @@
 package com.folioreader;
 
 import android.Manifest;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * Created by mobisys on 10/4/2016.
@@ -32,4 +35,28 @@ public class Constants {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
     }
+
+    public static String[] storge_permissions = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+    public static String[] storge_permissions_33 = {
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_AUDIO,
+            Manifest.permission.READ_MEDIA_VIDEO
+    };
+
+    public static String[] permissions() {
+        String[] p;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            p = storge_permissions_33;
+        } else {
+            p = storge_permissions;
+        }
+        return p;
+    }
+
+
 }

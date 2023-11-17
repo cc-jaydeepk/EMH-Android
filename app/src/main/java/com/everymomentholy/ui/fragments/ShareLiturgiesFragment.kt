@@ -8,6 +8,7 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
@@ -21,6 +22,7 @@ import retrofit2.Response
 
 class ShareLiturgiesFragment : Fragment() {
     private lateinit var howToshareWebview: WebView
+    lateinit var progressCardView: CardView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,8 +31,10 @@ class ShareLiturgiesFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_share_how, container, false)
         (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
         howToshareWebview = view.findViewById(R.id.how_to_share)
+        progressCardView = view.findViewById(R.id.progressCardView)
         val webSettings: WebSettings = howToshareWebview.settings
         webSettings.javaScriptEnabled = true
+        progressCardView.visibility = View.VISIBLE
         shareLiturgies()
         return view
     }
@@ -46,7 +50,7 @@ class ShareLiturgiesFragment : Fragment() {
                     response: Response<ShareLiturgiesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        progressCardView.visibility = View.GONE
                         howToshareWebview.loadData(
                             response.body()!!.response.description,
                             "text/html",

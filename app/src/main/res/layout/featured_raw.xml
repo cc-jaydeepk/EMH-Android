@@ -6,77 +6,111 @@
     android:layout_margin="@dimen/_5sdp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imgFeatured"
-            style="@style/liturgiesListImageStyle"
-            app:srcCompat="@drawable/ic_fav_liturgy" />
-
-        <!--<TextView
-            android:id="@+id/txtFeaturedNm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_toRightOf="@+id/imgFeatured"
-            android:text="A Liturgy for DayBreak"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_16ssp" />-->
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/txtFeaturedTitle"
-                style="@style/liturgiesListTitleTextStyle"
-                android:layout_toRightOf="@+id/imgFeatured"
-                android:minLines="3"
-                android:text="A Liturgy for DayBreak" />
+            <ImageView
+                android:id="@+id/imgFeatured"
+                style="@style/liturgiesListImageStyle"
+                app:srcCompat="@drawable/ic_fav_liturgy" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/img_featured_share"
-                    android:layout_width="@dimen/fav_frag_shareimg"
-                    android:layout_height="@dimen/fav_frag_shareimg"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_shareimage" />
-
-                <ImageView
-                    android:id="@+id/img_featured_fav"
-                    android:layout_width="@dimen/fav_frag_shareimg"
-                    android:layout_height="@dimen/fav_frag_shareimg"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:src="@drawable/ic_favorite" />
+                <TextView
+                    android:id="@+id/txtFeaturedTitle"
+                    style="@style/liturgiesListTitleTextStyle"
+                    android:layout_toRightOf="@+id/imgFeatured"
+                    android:maxLines="3"
+                    android:text="A Liturgy for DayBreak" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_featured_read_now"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="@dimen/openbtnn_width"
+                    <TextView
+                        android:id="@+id/txtInclude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/imgFeatured"
+                        android:maxLines="1"
+                        android:text="Included in: "
+                        android:textColor="@color/graylight"
+                        android:textSize="@dimen/includedtext" />
+
+                    <TextView
+                        android:id="@+id/txtIncludedIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/imgFeatured"
+                        android:maxLines="1"
+                        android:text="Included in: "
+                        android:textColor="@color/graylight"
+                        android:textSize="@dimen/includedtext" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|right"
-                    android:layout_marginRight="@dimen/_9sdp"
-                    android:fontFamily="@font/lato_medium"
-                    android:padding="@dimen/_3sdp"
-                    android:text="Read Now"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/openbtnn_textsize"
-                    app:strokeColor="@color/loginbg" />
+                    android:layout_marginTop="@dimen/_7sdp">
+
+                    <ImageView
+                        android:id="@+id/img_featured_share"
+                        android:layout_width="@dimen/fav_frag_shareimg"
+                        android:layout_height="@dimen/fav_frag_shareimg"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_shareimage" />
+
+                    <ImageView
+                        android:id="@+id/img_featured_fav"
+                        android:layout_width="@dimen/fav_frag_shareimg"
+                        android:layout_height="@dimen/fav_frag_shareimg"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:src="@drawable/ic_favorite" />
+
+                    <Button
+                        android:id="@+id/btnPlayNow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|right"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:fontFamily="@font/lato_medium"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Play Now"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/openbtnn_textsize" />
+
+                    <Button
+                        android:id="@+id/btn_featured_read_now"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|right"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:fontFamily="@font/lato_medium"
+                        android:padding="@dimen/_3sdp"
+                        android:text="Read Now"
+                        android:textColor="@color/loginbg"
+                        android:textSize="@dimen/openbtnn_textsize"
+                        app:strokeColor="@color/loginbg" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

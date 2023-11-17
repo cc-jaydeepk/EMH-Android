@@ -19,5 +19,7 @@ class MyLiturgiesDataVo: Serializable {
     var token: String = ""
     var productType: ProductTypes = ProductTypes.LITURGY
     var liturgyPurchaseCode: String = ""
+    var audio_file: String = ""
+    var volumeTags: String = ""
 
 }

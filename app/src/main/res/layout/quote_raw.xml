@@ -50,11 +50,24 @@
                     android:id="@+id/parentLiturgyTxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
                     android:fontFamily="@font/lato_regular"
                     android:gravity="center"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/_11ssp" />
+
+                <ImageView
+                    android:id="@+id/shareImage"
+                    android:layout_width="@dimen/home_frg_shareimg1"
+                    android:layout_height="@dimen/home_frg_shareimg1"
+                    android:src="@drawable/homeshare"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:visibility="visible"
+                    app:tint="@color/loginbg"
+                    />
 
             </LinearLayout>
 
@@ -69,10 +82,10 @@
             android:background="@drawable/red_notification_circle"
             android:elevation="@dimen/_15sdp"
             android:gravity="center"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
-                android:id="@+id/shareImage"
+                android:id="@+id/shareImage1"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"
                 android:src="@drawable/ic_share"

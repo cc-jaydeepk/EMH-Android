@@ -8,18 +8,19 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -30,17 +31,14 @@ import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.PrivateSharingRequestVo
 import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.*
+import com.everymomentholy.ui.activity.FavLiturgyListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import com.folioreader.Config
-import com.folioreader.FolioReader
 import com.folioreader.emh.EMHUtils
-import com.folioreader.util.AppUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.lang.Exception
 
 class FavoriteAdapter(
     var context: Context,
@@ -53,11 +51,13 @@ class FavoriteAdapter(
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgFavCover = view.findViewById<ImageView>(R.id.imgFavCover)
-        var btnFavReadNow = view.findViewById<Button>(R.id.btn_fav_read_now)
+        var btnFavReadNow = view.findViewById<TextView>(R.id.btn_fav_read_now)
         var imgFavorite = view.findViewById<ImageView>(R.id.img_favorite)
         var imgFavShareImg = view.findViewById<ImageView>(R.id.imgFavShareImg)
         var txtFavLiturgyName = view.findViewById<TextView>(R.id.txtFavLiturgyName)
         var txtFavFree = view.findViewById<TextView>(R.id.txt_fav_free)
+        var txtLiturgy = view.findViewById<TextView>(R.id.txtLiturgy)
+        var txtIncludedIn = view.findViewById<TextView>(R.id.txtIncludedIn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -72,7 +72,23 @@ class FavoriteAdapter(
         @SuppressLint("RecyclerView") position: Int
     ) {
 
+        val favLiturgy = favLiturgiesList[position]
+
+        var subscriptionStatus = Utils.readStringFromSharedPref(
+            context, Constants.USER_SUBSCRIPTIONSTATUS,
+            ""
+        )
+
         holder.txtFavLiturgyName.text = favLiturgiesList[position].chapterTitle
+        //holder.txtIncludedIn.text = favLiturgiesList[position].volumeTags
+        val spannable = SpannableString(favLiturgiesList[position].volumeTags)
+        spannable.setSpan(
+            UnderlineSpan(),
+            0, // start
+            spannable.length, // end
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        holder.txtIncludedIn.text = spannable
         Glide.with(context)
             .load(favLiturgiesList[position].chapterPageImage)
             .into(holder.imgFavCover)
@@ -90,73 +106,85 @@ class FavoriteAdapter(
         }
 
         holder.btnFavReadNow.setOnClickListener() {
-            bookOpenPosition = position
 
-            val cw = ContextWrapper(context)
-            val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
-            if (!directory.exists()) {
-                directory.mkdir()
-            }
+            if (favLiturgiesList[position].chapterId == 0) {
+                if (holder.btnFavReadNow.text == "SUBSCRIBE") {
 
-            var path = context?.filesDir?.absolutePath
-            val bookFile = File(path + "/test_" + favLiturgiesList[position].chapterId + ".epub")
+                } else {
+                    transferToLiturgyList(favLiturgy)
+                }
 
-            if (bookFile.exists() && bookFile.length() > 0) {
-                var myLiturgiesDataVo = MyLiturgiesDataVo()
-                myLiturgiesDataVo.bookId = favLiturgiesList[position].bookId
-                myLiturgiesDataVo.chapterId = favLiturgiesList[position].chapterId
-                myLiturgiesDataVo.isFavorite = favLiturgiesList[position].isFavorite
+            } else {
 
-                Utils.invokeBookReader(
-                    context,
-                    context?.filesDir?.absolutePath + "/" + "test_" + favLiturgiesList[position].chapterId + ".epub",
-                    myLiturgiesDataVo
-                )
-            } else if(Utils.isNetworkAvailable(context)){
-                progressDialog = Utils.showProgressDialog(context)!!
-                progressDialog.show()
-                val downloadId =
-                    PRDownloader.download(
-                        favLiturgiesList[position].chapterUrl,
-                        path,
-                        "test_" + favLiturgiesList[position].chapterId + ".epub"
+                bookOpenPosition = position
+
+                val cw = ContextWrapper(context)
+                val directory = cw.getDir("files", AppCompatActivity.MODE_PRIVATE)
+                if (!directory.exists()) {
+                    directory.mkdir()
+                }
+
+                var path = context?.filesDir?.absolutePath
+                val bookFile =
+                    File(path + "/test_" + favLiturgiesList[position].chapterId + ".epub")
+
+                if (bookFile.exists() && bookFile.length() > 0) {
+                    var myLiturgiesDataVo = MyLiturgiesDataVo()
+                    myLiturgiesDataVo.bookId = favLiturgiesList[position].bookId
+                    myLiturgiesDataVo.chapterId = favLiturgiesList[position].chapterId
+                    myLiturgiesDataVo.isFavorite = favLiturgiesList[position].isFavorite
+                    myLiturgiesDataVo.audio_file = favLiturgiesList[position].audio_file
+
+                    Utils.invokeBookReader(
+                        context,
+                        context?.filesDir?.absolutePath + "/" + "test_" + favLiturgiesList[position].chapterId + ".epub",
+                        myLiturgiesDataVo,
                     )
-                        .build()
-                        .setOnStartOrResumeListener { }
-                        .setOnPauseListener { }
-                        .setOnCancelListener { }
-                        .setOnProgressListener { }
-                        .start(object : OnDownloadListener {
-                            override fun onDownloadComplete() {
-                                Log.e("complete", "complete")
-                                if (progressDialog.isShowing()) {
-                                    progressDialog.dismiss()
+                } else if (Utils.isNetworkAvailable(context)) {
+                    progressDialog = Utils.showProgressDialog(context)!!
+                    progressDialog.show()
+                    val downloadId =
+                        PRDownloader.download(
+                            favLiturgiesList[position].chapterUrl,
+                            path,
+                            "test_" + favLiturgiesList[position].chapterId + ".epub"
+                        )
+                            .build()
+                            .setOnStartOrResumeListener { }
+                            .setOnPauseListener { }
+                            .setOnCancelListener { }
+                            .setOnProgressListener { }
+                            .start(object : OnDownloadListener {
+                                override fun onDownloadComplete() {
+                                    Log.e("complete", "complete")
+                                    if (progressDialog.isShowing()) {
+                                        progressDialog.dismiss()
+                                    }
+                                    var myLiturgiesDataVo = MyLiturgiesDataVo()
+                                    myLiturgiesDataVo.bookId = favLiturgiesList[position].bookId
+                                    myLiturgiesDataVo.chapterId =
+                                        favLiturgiesList[position].chapterId
+                                    myLiturgiesDataVo.isFavorite =
+                                        favLiturgiesList[position].isFavorite
+
+                                    Utils.invokeBookReader(
+                                        context,
+                                        context?.filesDir?.absolutePath + "/" + "test_" + favLiturgiesList[position].chapterId + ".epub",
+                                        myLiturgiesDataVo)
                                 }
-                                var myLiturgiesDataVo = MyLiturgiesDataVo()
-                                myLiturgiesDataVo.bookId = favLiturgiesList[position].bookId
-                                myLiturgiesDataVo.chapterId = favLiturgiesList[position].chapterId
-                                myLiturgiesDataVo.isFavorite = favLiturgiesList[position].isFavorite
 
-                                Utils.invokeBookReader(
-                                    context,
-                                    context?.filesDir?.absolutePath + "/" + "test_" + favLiturgiesList[position].chapterId + ".epub",
-                                    myLiturgiesDataVo
-                                )
-                            }
+                                override fun onError(error: com.downloader.Error?) {
 
-                            override fun onError(error: com.downloader.Error?) {
-
-                            }
-                        })
-                Log.e("id", downloadId.toString())
-            }
-            else
-            {
-                Toast.makeText(
-                    context,
-                    context.resources.getString(R.string.liturgy_not_downloaded),
-                    Toast.LENGTH_LONG
-                ).show()
+                                }
+                            })
+                    Log.e("id", downloadId.toString())
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.resources.getString(R.string.liturgy_not_downloaded),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
 
@@ -166,6 +194,24 @@ class FavoriteAdapter(
             holder.txtFavFree.text = "Free"
         } else if (favLiturgiesList[position].isFeatured == "Yes") {
             holder.txtFavFree.text = "Featured"
+        }
+
+        if (favLiturgiesList[position].chapterId == 0) {
+            holder.txtLiturgy.text = "Book"
+            holder.imgFavShareImg.visibility = View.INVISIBLE
+            holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
+            holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.white))
+
+            if (subscriptionStatus == "Yes") {
+                holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                holder.btnFavReadNow.text = "READ NOW"
+            } else {
+                holder.btnFavReadNow.text = "SUBSCRIBE"
+            }
+        } else {
+            holder.txtLiturgy.text = "Liturgy"
+            holder.imgFavShareImg.visibility = View.VISIBLE
         }
 
         holder.imgFavShareImg.setOnClickListener() {
@@ -180,6 +226,14 @@ class FavoriteAdapter(
             }
         }
 
+    }
+
+    private fun transferToLiturgyList(favLiturgies: GetFavoritesDataVo) {
+        var intent = Intent(context, FavLiturgyListActivity::class.java)
+        intent.putExtra("favBookID", favLiturgies.bookId)
+        intent.putExtra("favCollection", favLiturgies)
+        intent.putExtra("onPressReadNow", true)
+        context.startActivity(intent)
     }
 
     override fun getItemCount(): Int {
@@ -199,6 +253,12 @@ class FavoriteAdapter(
         setFavouriteRequestVo.isFavorite = liturgiesDataVo.isFavorite != "True"
         setFavouriteRequestVo.bookId = liturgiesDataVo.bookId
         setFavouriteRequestVo.chapterId = liturgiesDataVo.chapterId
+
+        if (setFavouriteRequestVo.chapterId == 0) {
+            setFavouriteRequestVo.type = "book"
+        } else {
+            setFavouriteRequestVo.type = "liturgy"
+        }
 
         val request = APIService.buildService(APIInterface::class.java)
         val call =

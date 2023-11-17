@@ -19,6 +19,36 @@ interface APIInterface {
     @POST(Constants.API_LOGIN)
     fun userLogin(@Body loginRequestVo: LoginRequestVo): Call<LoginResponseVo>
 
+    @POST(Constants.API_CREATESUBSCRIPTION)
+    fun createSubscription(@Body createSubscrptionReqVo: CreateSubscrptionReqVo): Call<CreateSubscrptionResVo>
+
+    @GET(Constants.API_GETUSERSUBSCRIPTIONPLANS)
+    fun getUserSubscriptionPlans(
+        @Path("userid") id: Int,
+        @Query("deviceId") deviceId: String?,
+        @Header("Authorization") token: String
+    ): Call<GetUserSubscriptionPlanResVo>
+
+    /* @GET(Constants.API_GET_USER_PROFILE)
+     fun getUserProfile(
+         @Path("userid") id: Int,
+         @Query("deviceId") deviceId: String?,
+         @Header("Authorization") token: String
+     ): Call<GetUserProfileVo>*/
+
+
+    @POST(Constants.API_CANCELSUBSCRIPTION)
+    fun cancelSubscription(@Body cancelSubscriptionReqVo: CancelSubscriptionReqVo): Call<CancelSubscriptionResVo>
+
+    @POST(Constants.API_CREATESUBSCRIPTION)
+    fun subscribedUser(@Body createSubscrptionReqVo: CreateSubscrptionReqVo): Call<SubscribedUserRes>
+
+    @POST(Constants.API_GETSUBSCRIPTIONSTATUS)
+    fun getSubscriptionStatus(@Body getSubscriptionStatusReqVo: GetSubscriptionStatusReqVo): Call<GetSubscriptionStatusResVo>
+
+    @POST(Constants.API_SUBSCRIPTIONPLANLIST)
+    fun subscriptionPlanList(): Call<SubscriptionPlanListResponseVo>
+
     @GET(Constants.API_FORGOT_PASSWORD)
     fun forgotPassword(@Query("email") forgotemail: String?): Call<ForgotPasswordResponseVo>
 
@@ -189,6 +219,12 @@ interface APIInterface {
         @Query("userId") userID: Int?,
         @Header("Authorization") token: String
     ): Call<GetFavoritesResponseVo>
+
+    @GET(Constants.API_GET_FAVORITES_BOOKLIST)
+    fun getFavoriteBookList(
+        @Query("userId") userID: Int?,
+        @Header("Authorization") token: String
+    ): Call<GetFavoriteBookList>
 
     @POST(Constants.API_PRIVATE_SHARING)
     fun privateSharing(

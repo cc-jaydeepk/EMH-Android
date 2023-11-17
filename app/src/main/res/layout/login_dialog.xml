@@ -24,7 +24,7 @@
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
-            android:text="Every Moment Holy" />
+            android:text="Every Moment HOLY" />
 
         <TextView
             style="@style/dialogSmallTextStyle"
@@ -33,7 +33,7 @@
             android:layout_marginRight="@dimen/_7sdp"
             android:fontFamily="@font/lato_medium"
             android:gravity="center"
-            android:text="@string/you_need_to_login_first" />
+            android:text="No free liturgies available for this book" />
 
         <View
             android:layout_width="match_parent"

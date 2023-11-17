@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.TextView.OnEditorActionListener
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +46,7 @@ class SearchFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<SearchAdapter.MyViewHolder>? = null
     private var arrSearchedData: ArrayList<MyLiturgiesDataVo> = ArrayList()
     private lateinit var linearResult: LinearLayout
+    private lateinit var progressCardView: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +60,7 @@ class SearchFragment : Fragment() {
         icSearch = view.findViewById(R.id.ic_search)
         txtSearchItemCount = view.findViewById(R.id.txt_search_item_count)
         linearResult = view.findViewById(R.id.linearResult)
+        progressCardView = view.findViewById(R.id.progressCardView)
         //ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
 
         edtSearch.setOnEditorActionListener(
@@ -77,6 +80,7 @@ class SearchFragment : Fragment() {
         icSearch.setOnClickListener() {
             if (Utils.isNetworkAvailable(requireContext())) {
                 if (edtSearch.text.isNotEmpty()) {
+                    progressCardView.visibility = View.VISIBLE
                     getSearchLiturgies()
                 }
             } else {
@@ -100,6 +104,7 @@ class SearchFragment : Fragment() {
 
 
                     if (Utils.isNetworkAvailable(requireContext())) {
+                        progressCardView.visibility = View.VISIBLE
                         getSearchLiturgies()
                     } else {
                         Toast.makeText(
@@ -112,6 +117,7 @@ class SearchFragment : Fragment() {
                     if (arrSearchedData.isNotEmpty()) {
                         arrSearchedData.clear()
                         linearResult.visibility = View.GONE
+                        progressCardView.visibility = View.GONE
                         recyclerviewSearch.layoutManager = LinearLayoutManager(activity)
                         adapter = SearchAdapter(
                             requireContext(),
@@ -163,7 +169,7 @@ class SearchFragment : Fragment() {
                     response: Response<MyLiturgiesResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        progressCardView.visibility = View.GONE
                         if (response.body()!!.response.data.size > 0) {
                             linearResult.visibility = View.VISIBLE
                             txtSearchItemCount.text =
@@ -175,8 +181,7 @@ class SearchFragment : Fragment() {
                         arrSearchedData = response.body()!!.response.data
 
                         recyclerviewSearch.layoutManager = LinearLayoutManager(activity)
-                        if(activity != null)
-                        {
+                        if (activity != null) {
                             adapter = SearchAdapter(
                                 activity!!,
                                 arrSearchedData
@@ -216,7 +221,7 @@ class SearchFragment : Fragment() {
         super.onResume()
         if (context != null && edtSearch.text.isNotEmpty()) {
             Handler(Looper.getMainLooper()).postDelayed(
-                Runnable { if(context!= null) getSearchLiturgies() },
+                Runnable { if (context != null) getSearchLiturgies() },
                 Constants.AFTER_PURCHASE_REFRESH_DELAY
             )
         }

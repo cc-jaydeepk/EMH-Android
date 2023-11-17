@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+
+
+    <dimen name="mysubscriptiontext">22sp</dimen>
+    <dimen name="myprofilefrag">@dimen/_2sdp</dimen>
+    <dimen name="subscriptiontxt">@dimen/_10ssp</dimen>
+    <dimen name="subscription_marginlr">35dp</dimen>
+    <dimen name="openbtnn_widthnew">@dimen/_70sdp</dimen>
+
+    <dimen name="playaudio_playbtn">@dimen/_30sdp</dimen>
+    <dimen name="playaudio_volume_increse">@dimen/_20sdp</dimen>
+    <dimen name="playaudio_txt_size">@dimen/_10ssp</dimen>
+    <dimen name="playaudio_titletxt_size">@dimen/_12ssp</dimen>
+
+    <dimen name="homecardstack_size">@dimen/_200sdp</dimen>
+    <dimen name="homeshare_size">@dimen/_20sdp</dimen>
+    <dimen name="homeshareicon_size">@dimen/_14sdp</dimen>
+
+    <dimen name="subscribe_titletxt">@dimen/_12ssp</dimen>
+    <dimen name="subscribe_pricetxt">@dimen/_14ssp</dimen>
+    <dimen name="marginleft">30dp</dimen>
+    <dimen name="subscribe_plantype">25sp</dimen>
+    <dimen name="subscribe_txtdesc">22sp</dimen>
+    <dimen name="subscribe_txtsave">@dimen/_12ssp</dimen>
+    <dimen name="subscribe_save">19dp</dimen>
+    <dimen name="subscribe_nowbtn">26sp</dimen>
+    <dimen name="subscribe_nowbtnmarginbtm">35dp</dimen>
+
     <dimen name="login_margin">@dimen/_30sdp</dimen>
     <dimen name="login_margintop">@dimen/_15sdp</dimen>
     <dimen name="register_margintop">@dimen/_10sdp</dimen>
@@ -30,6 +57,7 @@
     <dimen name="home_frg_dessize">@dimen/_12ssp</dimen>
     <dimen name="home_frg_size">@dimen/_12ssp</dimen>
     <dimen name="home_frg_shareimg">@dimen/_22sdp</dimen>
+    <dimen name="home_frg_shareimg1">@dimen/_19sdp</dimen>
     <dimen name="myliturgyimagsize">@dimen/_50sdp</dimen>
     <dimen name="myliturgytxtsize">@dimen/_10ssp</dimen>
     <dimen name="viewmargin">@dimen/_4sdp</dimen>
@@ -85,7 +113,7 @@
     <dimen name="toolbar_drawer_imagesize">@dimen/_10sdp</dimen>
     <dimen name="toolbar_text_size">@dimen/_12ssp</dimen>
     <dimen name="toolbar_nitificationimage_size">@dimen/_14sdp</dimen>
-    <dimen name="openbtnn_textsize">@dimen/_8ssp</dimen>
+    <dimen name="openbtnn_textsize">@dimen/_6ssp</dimen>
     <dimen name="openbtnn_width">@dimen/_70sdp</dimen>
     <dimen name="openbtnn_height">@dimen/_25sdp</dimen>
     <dimen name="openbtnn_margintop">@dimen/_31sdp</dimen>
@@ -130,7 +158,7 @@
     <dimen name="getliturgy_cardview_height">@dimen/_200sdp</dimen>
     <dimen name="bg_read_now_border">@dimen/_1sdp</dimen>
     <dimen name="change_password_edtxtmargin">@dimen/_25sdp</dimen>
-    <dimen name="toolbar_back">@dimen/_35sdp</dimen>
+    <dimen name="toolbar_back">@dimen/_13sdp</dimen>
     <dimen name="changepassword_mainimage_margintop">@dimen/_15sdp</dimen>
     <dimen name="editText_margintop">@dimen/_7sdp</dimen>
     <dimen name="change_password_submitbtn_margin">@dimen/_35sdp</dimen>

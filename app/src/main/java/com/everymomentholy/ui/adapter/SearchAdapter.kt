@@ -61,7 +61,8 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
         if (myLiturgiesDataVo.isPurchased == "Yes" || myLiturgiesDataVo.isFree == "Yes" ||
             myLiturgiesDataVo.isFeatured == "Yes"
         ) {
-            holder.txtSearchLiturgyReadNow.text = "Read Now"
+            //holder.txtSearchLiturgyReadNow.text = "Read Now"
+            holder.txtSearchLiturgyReadNow.text = "Open"
             var sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.txtSearchLiturgyReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
@@ -71,7 +72,8 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                 holder.txtSearchLiturgyReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
             }
         } else {
-            holder.txtSearchLiturgyReadNow.text = "Buy Now"
+            //holder.txtSearchLiturgyReadNow.text = "Buy Now"
+            holder.txtSearchLiturgyReadNow.text = "Subscribe"
             holder.txtSearchLiturgyReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
             holder.txtSearchLiturgyReadNow.setTextColor(context.resources.getColor(R.color.white))
         }
@@ -92,9 +94,18 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
         }
 
         holder.txtSearchLiturgyReadNow.setOnClickListener() {
-            if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Read Now") {
+            /*if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Read Now") {
                 readBook(myLiturgiesDataVo)
             } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Buy Now") {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    showDialogForUnlockWithoutLogin(myLiturgiesDataVo)
+                } else {
+                    startPurchaseFlow(myLiturgiesDataVo)
+                }
+            }*/
+            if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Open") {
+                readBook(myLiturgiesDataVo)
+            } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Subscribe") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(myLiturgiesDataVo)
                 } else {
@@ -137,7 +148,7 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                         Utils.invokeBookReader(
                             context,
                             context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
-                            freeLiturgy
+                            freeLiturgy,
                         )
                     }
 

@@ -3,7 +3,7 @@ package com.everymomentholy.api.response
 import com.everymomentholy.utils.ProductTypes
 import java.io.Serializable
 
-class CollectionDataVo :Serializable{
+class CollectionDataVo : Serializable {
 
     var LiturgyAvailable: String = ""
 
@@ -28,5 +28,9 @@ class CollectionDataVo :Serializable{
     var bookPurchaseCode: String = ""
 
     var volumePurchaseCode: String = ""
+
+    var isFavorite: String = ""
+
+    var volumeTags: String = ""
 
 }

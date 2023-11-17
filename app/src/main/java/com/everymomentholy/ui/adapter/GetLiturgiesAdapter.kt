@@ -134,10 +134,14 @@ class GetLiturgiesAdapter(
         container.addView(view)
 
         imgGetLiturge.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable("liturgies", getLiturgies)
-            var fragment: Fragment = AboutBookLiturgiesFragment()
-            (context as MainActivity).replaceFragment(fragment, "Get Liturgies", bundle)
+            if (getLiturgies.isFreeLiturgyAvailable == "No") {
+                (context as MainActivity).showLiturgyDialog()
+            } else {
+                val bundle = Bundle()
+                bundle.putSerializable("liturgies", getLiturgies)
+                var fragment: Fragment = AboutBookLiturgiesFragment()
+                (context as MainActivity).replaceFragment(fragment, "Get Liturgies", bundle)
+            }
         }
 
         btnGetLiturgiesAbout.setOnClickListener() {

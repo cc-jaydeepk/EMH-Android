@@ -53,7 +53,7 @@ class QuoteAdapter(
         val quoteDate = outSDF.format(formeteddate)
         holder.dateText.text = quoteDate
 
-        val current = LocalDate.now()
+       /* val current = LocalDate.now()
         val formetCurrentdate = inSDF.parse(current.toString())
         val currentDate = outSDF.format(formetCurrentdate)
 
@@ -61,7 +61,7 @@ class QuoteAdapter(
             holder.dateText.text = "Today"
         } else {
             holder.dateText.text = quoteDate
-        }
+        }*/
 
         holder.share.setOnClickListener {
             shareClickListner.shareQuote(position, currentquote)

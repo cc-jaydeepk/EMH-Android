@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 super.onDrawerOpened(drawerView)
 
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                      //todo
+                    //todo
                 } else {
                     profileImage = Utils.readStringFromSharedPref(
                         this@MainActivity, Constants.PROFILE_PIC,
@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     // replaceFragment(FavoritesFragment(), "Favorites")
                     true
                 }
-                R.id.nav_getLiturgiesFragment -> {
+                /*R.id.nav_getLiturgiesFragment -> {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
@@ -234,7 +234,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
                     navBottomView.selectedItemId = R.id.nav_getLiturgiesFragment
                     true
-                }
+                }*/
                 R.id.nav_featuredFragment -> {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
@@ -255,6 +255,31 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     //replaceFragment(OrderBookFragment(), "Book Ordered")
                     //showUnderDevDialog()
                     false
+                }
+                R.id.nav_subscription -> {
+                    toolbar.visibility = View.VISIBLE
+                    navBottomView.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE
+                    //navBottomView.selectedItemId = R.id.nav_subScriptionPlanListFrag
+                    //replaceFragment(SubscriptionPlanFragment(), "Subscription")
+                    val bundle = Bundle()
+                    bundle.putBoolean("onPress", false);
+                    //replaceFragment(SubscriptionPlanListFragment(), "Subscription")
+                    replaceFragment(
+                        SubscriptionPlanListFragment(),
+                        "Subscription",
+                        bundle
+                    )
+                    // navBottomView.selectedItemId = R.id.nav_myLiturgiesFragment
+                    true
+
+                    /* toolbar.visibility = View.VISIBLE
+                     iv_toolbar_search.visibility = View.VISIBLE
+                     navBottomView.visibility = View.VISIBLE
+                     navBottomView.selectedItemId = R.id.nav_favoritesFragment
+                     Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
+                     replaceFragment(FavoritesFragment(), "Favorites")*/
                 }
                 R.id.nav_searchFragment -> {
                     // replaceFragment(SearchFragment(), "Search")
@@ -343,6 +368,26 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     fragment = HomeFragment()
                     loadFragment(fragment)
                     navView.setCheckedItem(R.id.nav_homeFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_searchFragment -> {
+
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE
+                    Constants.GET_LITURGIES_VIEW_PAGER_POSITION = 0
+                    fragment = SearchFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
+                    replaceFragment(fragment, "Search")
+                    navView.setCheckedItem(R.id.nav_getLiturgiesFragment)
+
+//                    toolbar.visibility = View.VISIBLE
+//                    iv_toolbar_notification.visibility = View.GONE
+//                    navBottomView.visibility = View.GONE
+//                    iv_toolbar_search.visibility = View.GONE
+//                    ivToolbarDrawer.visibility = View.VISIBLE
+//                    iv_toolbar_backImage.visibility = View.GONE
+//                    replaceFragment(SearchFragment(), "Search")
                     return@setOnNavigationItemSelectedListener true
                 }
 
@@ -617,6 +662,12 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             val transaction = fragmentManager.beginTransaction()
             if (fragment is AboutBookLiturgiesFragment)
                 transaction.replace(R.id.nav_host_fragment, fragment)
+            else if (fragment is SubscriptionPlanListFragment)
+                transaction.replace(R.id.nav_host_fragment, fragment)
+            else if (fragment is PlayAudioFragment)
+                transaction.replace(R.id.nav_host_fragment, fragment)
+            /* else if (fragment is AboutBookLiturgiesFragment)
+                 transaction.replace(R.id.nav_host_fragment, fragment)*/
             else if (fragment is SearchFragment)
                 transaction.replace(R.id.nav_host_fragment, fragment, "searchFrag")
             else
@@ -636,6 +687,9 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.nav_host_fragment, fragment)
         if (fragment is AboutBookLiturgiesFragment) {
+            transaction.addToBackStack("yes")
+        }
+        if (fragment is SubscriptionPlanListFragment) {
             transaction.addToBackStack("yes")
         }
         if (arguments != null) {
@@ -662,6 +716,12 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             val fragment: Fragment? =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
             if (fragment is AboutBookLiturgiesFragment) {
+                toolbar.visibility = View.VISIBLE
+                replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+            } else if (fragment is SubscriptionPlanListFragment) {
+                toolbar.visibility = View.VISIBLE
+                replaceFragment(GetLiturgiesFragment(), "subscription")
+            } else if (fragment is SubscriptionPlanListFragment) {
                 toolbar.visibility = View.VISIBLE
                 replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
             } else if (fragment is SearchFragment) {
@@ -713,6 +773,31 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             show.dismiss()
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
+        }
+
+        alertCancel.setOnClickListener {
+            show.dismiss()
+        }
+        show.setCanceledOnTouchOutside(false)
+    }
+
+    fun showLiturgyDialog() {
+        val alertDialog = AlertDialog.Builder(
+            this
+        )
+        val inflater = layoutInflater
+        val alertView: View = inflater.inflate(R.layout.login_dialog, null)
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertCancel = alertView.findViewById<View>(R.id.txtLoginCancel) as TextView
+        alertCancel.visibility = View.GONE
+        val alertOk = alertView.findViewById<View>(R.id.txtLoginOk) as TextView
+
+
+        alertOk.setOnClickListener {
+            show.dismiss()
+//            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+//            startActivity(intent)
         }
 
         alertCancel.setOnClickListener {

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +12,32 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
+import com.everymomentholy.api.APIInterface
+import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.PurchaseRequestVo
+import com.everymomentholy.api.request.SetFavouriteRequestVo
+import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.CollectionDataVo
-import com.everymomentholy.ui.activity.LiturgiesListActivity
-import com.everymomentholy.ui.activity.SelectOptionActivity
+import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.ui.activity.*
+import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 import kotlin.math.roundToInt
 
 class BottomSliderCollectionAdapter(
@@ -41,23 +54,28 @@ class BottomSliderCollectionAdapter(
         var llBottomSliderGetLiturgiesAbout =
             view.findViewById<LinearLayout>(R.id.llBottomSliderGetLiturgiesAbout)
         var imageBook = view.findViewById<ImageView>(R.id.imageBook)
+        var imgFavorite = view.findViewById<ImageView>(R.id.imgFavorite)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.raw_bottom_slider_get_liturgies_about, parent, false)
+
         return MyViewHolder(itemView)
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val freeLiturgies = liturgyList[position]
+        holder.imgFavorite.visibility = View.VISIBLE
 
         if (position == 0) {
             if (freeLiturgies.isPurchased == "Yes") {
                 if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased == "Yes") {
-                    holder.btnReadNow.text = "Read Now"
+                    holder.btnReadNow.text = "OPEN"
+                    // holder.btnPlayNow.visibility = View.VISIBLE
+
                     var sdk = android.os.Build.VERSION.SDK_INT;
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                         holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
@@ -68,13 +86,15 @@ class BottomSliderCollectionAdapter(
                     }
                     if (freeLiturgies.isPurchased == "Yes") {
                         holder.txtLiturgiesPrice.text = "Purchased"
+
                     } else {
                         holder.txtLiturgiesPrice.text = "Free"
+
                     }
                 }
             } else {
                 if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00") {
-                    holder.btnReadNow.text = "Read Now"
+                    holder.btnReadNow.text = "OPEN"
                     var sdk = android.os.Build.VERSION.SDK_INT;
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                         holder.btnReadNow.background =
@@ -91,7 +111,11 @@ class BottomSliderCollectionAdapter(
                         holder.txtLiturgiesPrice.text = "Free"
                     }
                 } else {
-                    holder.btnReadNow.text = "Unlock Volume"
+                    // holder.btnReadNow.text = "Unlock Volume"
+                    //this is volume part
+                    holder.btnReadNow.text = "Subscribe"
+                    holder.imgFavorite.visibility = View.GONE
+                    holder.imageBook.visibility = View.GONE
                     holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
 
                     if (!freeLiturgies.discountAmount.isNullOrEmpty() && freeLiturgies.discountAmount != "0.00") {
@@ -103,7 +127,8 @@ class BottomSliderCollectionAdapter(
                         }
 
                         discountPrice = discountPrice.roundToInt() - 0.01f
-                        liturgyList[0].discountAmount = discountPrice.toString() // update new discount price in the volume object too.
+                        liturgyList[0].discountAmount =
+                            discountPrice.toString() // update new discount price in the volume object too.
                         holder.txtLiturgiesPrice.text = "$" + discountPrice.toString()
 
                     } else {
@@ -114,7 +139,8 @@ class BottomSliderCollectionAdapter(
             }
         } else {
             if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased == "Yes") {
-                holder.btnReadNow.text = "Read Now"
+                holder.btnReadNow.text = "OPEN"
+                // holder.btnReadNow.text = "OPEN"
                 var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
@@ -129,7 +155,9 @@ class BottomSliderCollectionAdapter(
                     holder.txtLiturgiesPrice.text = "Free"
                 }
             } else {
-                holder.btnReadNow.text = "Unlock Collection"
+                // holder.btnReadNow.text = "Unlock Collection"
+                //this is collection part
+                holder.btnReadNow.text = "Subscribe"
                 holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
             }
         }
@@ -139,21 +167,44 @@ class BottomSliderCollectionAdapter(
             .load(freeLiturgies.bookCoverPageImage)
             .into(holder.imgFreeLiturgiescover)
 
-        /*  if (freeLiturgies.isPurchased == "Yes") {
 
-          } else {
-              holder.btnReadNow.text = "Unlock Collection"
-          }*/
+
+
+
+        holder.imgFavorite.setOnClickListener {
+            setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
+        }
+
+        if (freeLiturgies.isFavorite == "True" || freeLiturgies.isFavorite == "true") {
+            holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+        } else {
+            holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+        }
 
         holder.btnReadNow.setOnClickListener() {
-            if (holder.btnReadNow.text == "Unlock Collection") {
+            if (holder.btnReadNow.text == "Subscribe") {
+                // holder.btnReadNow.text == "Unlock Collection"
+                // this is collection part
                 freeLiturgies.productTypes = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(freeLiturgies)
                 } else {
-                    startPurchaseFlow(freeLiturgies)
+                    // startPurchaseFlow(freeLiturgies)
+                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    context?.startActivity(intent)
+
+                    /*val bundle = Bundle()
+                    bundle.putBoolean("onPress", true);
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    replaceFragment(
+                        SubscriptionPlanListFragment(),
+                        "Subscription",
+                        bundle
+                    )*/
                 }
-            } else if (holder.btnReadNow.text == "Unlock Volume") {
+            } else if (holder.btnReadNow.text == "Subscribe") {
+                // holder.btnReadNow.text == "Unlock Volume"
+                //this is volume paart
                 freeLiturgies.productTypes = ProductTypes.VOLUME
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(freeLiturgies)
@@ -161,9 +212,20 @@ class BottomSliderCollectionAdapter(
                     if (!freeLiturgies.discountAmount.isNullOrEmpty() && freeLiturgies.discountAmount != "0.00") {
                         freeLiturgies.bookAmount = freeLiturgies.discountAmount
                     }
-                    startPurchaseFlow(freeLiturgies)
+                    //startPurchaseFlow(freeLiturgies)
+                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    context?.startActivity(intent)
+
+                    /*val bundle = Bundle()
+                    bundle.putBoolean("onPress", true);
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    (context as CollectionListActivity).replaceFragment(
+                        SubscriptionPlanListFragment(),
+                        "Subscription",
+                        bundle
+                    )*/
                 }
-            } else if (holder.btnReadNow.text == "Read Now") {
+            } else if (holder.btnReadNow.text == "OPEN") {
                 transferToLiturgyList(freeLiturgies)
             } else {
                 if (freeLiturgies.isPurchased == "Yes") {
@@ -189,7 +251,7 @@ class BottomSliderCollectionAdapter(
                     transferToLiturgyList(freeLiturgies)
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                        if (holder.btnReadNow.text == "Read Now") {
+                        if (holder.btnReadNow.text == "Subscribe") {
                             transferToLiturgyList(freeLiturgies)
                         } else {
                             showDialogForUnlockWithoutLogin(freeLiturgies)
@@ -206,6 +268,14 @@ class BottomSliderCollectionAdapter(
 
     }
 
+    /* private fun replaceFragment(fragment: Fragment, s: String, bundle: Bundle) {
+         val fragmentManager = context.supportFragmentManager
+         val transaction = fragmentManager.beginTransaction()
+         transaction.replace(R.id.frameLayout, fragment)
+
+     }*/
+
+
     override fun getItemCount(): Int {
         return liturgyList.size
 
@@ -218,6 +288,81 @@ class BottomSliderCollectionAdapter(
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
     }
+
+    private fun setLiturgiesFavourite(
+        ivfav: ImageView,
+        liturgiesDataVo: CollectionDataVo,
+        position: Int
+    ) {
+
+        var setFavouriteRequestVo = SetFavouriteRequestVo()
+
+        setFavouriteRequestVo.userId = Utils.readIntData(context, Constants.PrefUserID, -1)
+        setFavouriteRequestVo.isFavorite = liturgiesDataVo.isFavorite != "True"
+        setFavouriteRequestVo.bookId = liturgiesDataVo.bookId
+        setFavouriteRequestVo.type = "book"
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.setFavorite(
+                setFavouriteRequestVo,
+                "bearer " + Utils.readStringFromSharedPref(context, Constants.SHARED_PREF_TOKEN, "")
+            )
+
+        try {
+            call.enqueue(object : Callback<BaseResponseVo> {
+                @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+                override fun onResponse(
+                    call: Call<BaseResponseVo>,
+                    response: Response<BaseResponseVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        if (liturgiesDataVo.isFavorite == "True") {
+                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+                            Toast.makeText(
+                                context,
+                                "Removed from favorite",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+                            Toast.makeText(
+                                context,
+                                "Added to favorite",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        updateList(setFavouriteRequestVo.isFavorite, position)
+                    } else {
+
+                        Toast.makeText(
+                            context,
+                            "Error",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<BaseResponseVo>, t: Throwable) {
+                    Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+    }
+
+    private fun updateList(favourite: Boolean, position: Int) {
+        if (favourite) {
+            liturgyList[position].isFavorite = "True"
+        } else {
+            liturgyList[position].isFavorite = "False"
+        }
+        //notifyDataSetChanged()
+        notifyItemChanged(position)
+    }
+
 
     private fun transferToLiturgyList(freeLiturgies: CollectionDataVo) {
         var intent = Intent(context, LiturgiesListActivity::class.java)
@@ -279,7 +424,9 @@ class BottomSliderCollectionAdapter(
 
         alertButtonPurchase.setOnClickListener() {
             show.dismiss()
-            startPurchaseFlow(myLiturgyDataVo)
+            //startPurchaseFlow(myLiturgyDataVo)
+            val intent = Intent(context, SelectSubscriptionPlan::class.java)
+            context?.startActivity(intent)
         }
         show.setCanceledOnTouchOutside(false)
     }

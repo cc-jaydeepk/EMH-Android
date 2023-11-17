@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -95,7 +96,13 @@ class LoginActivity : AppCompatActivity() {
                     loginRequestVo.password = edtLoginPassword.text.toString().trim()
                     //loginRequestVo.deviceType = "1"
                     loginRequestVo.deviceType = Constants.DEVICE_TYPE
+                    // view.setElevation(8f);
                     progressCardView.visibility = View.VISIBLE
+                    //To disable the user interaction
+                    getWindow().setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
                     getFirebaseToken(loginRequestVo)
                 } else {
                     Toast.makeText(
@@ -142,6 +149,11 @@ class LoginActivity : AppCompatActivity() {
                         )
 
                         Utils.writeStringToSharedPref(
+                            this@LoginActivity, Constants.USER_SUBSCRIPTIONSTATUS,
+                            response.body()!!.response.subscription
+                        )
+
+                        Utils.writeStringToSharedPref(
                             this@LoginActivity, Constants.PROFILE_PIC,
                             response.body()!!.response.userProfilePic
                         )
@@ -153,19 +165,10 @@ class LoginActivity : AppCompatActivity() {
 
                         Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), true)
 
-                        /* val prefs =
-                            PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
-                        val statusLocked = prefs.edit().putBoolean("locked", true).apply()*/
-
-                        /*val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-                        val myEdit = sharedPreferences.edit()
-                        myEdit.putInt("userId", response.body()!!.response.userId)
-                        myEdit.apply()*/
-
-                        // Log.e("loginresponse", appOpenCount)
-
-
+                        //view.setElevation(0f);
                         progressCardView.visibility = View.GONE
+                        //To get user interaction back
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
                         isUserLogin = true
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -175,8 +178,16 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
 
+                        /*val intent =
+                            Intent(this@LoginActivity, SelectSubscriptionPlan::class.java)
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()*/
+
                     } else {
                         progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                         Toast.makeText(
                             this@LoginActivity,
@@ -188,12 +199,14 @@ class LoginActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<LoginResponseVo>, t: Throwable) {
                     progressCardView.visibility = View.GONE
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     Toast.makeText(this@LoginActivity, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } catch (exception: Exception) {
             progressCardView.visibility = View.GONE
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             exception.printStackTrace()
         }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">EMH</string>
-    <string name="app_full_name">Every Moment Holy</string>
+    <string name="subscription">Lorem Ipsum dolor sit amet, consectetur adipisicing elit, sed do.</string>
+    <string name="app_full_name">Every Moment HOLY</string>
     <string name="register">Register</string>
     <string name="skip_login">Skip Login</string>
     <string name="register_to_continue">Register To Continue</string>
@@ -10,6 +11,7 @@
     <string name="email">Email <font color="#FF0000">*</font></string>
     <string name="phone_number">Phone Number</string>
     <string name="password">Password <font color="#FF0000">*</font></string>
+    <string name="hint_email">Email <font color="#FF0000">*</font></string>
     <string name="login">Login</string>
     <string name="i_have_read_and_agree_to_the">I have read and agree to the</string>
     <string name="close">Close</string>
@@ -90,7 +92,7 @@
     <string name="currently_available_to_all_users">Currently Available to All Users</string>
     <string name="result">Result</string>
 
-    <string name="sample_string">"some test line 1 <br/> some test line 2"</string>
+    <string name="sample_string">"some test line 1 <br /> some test line 2"</string>
     <string name="sample_string1">Hello&lt;br /&gt;World!</string>
 
     <string name="nice_html">
@@ -101,9 +103,13 @@
     <string name="your_e_mail_address">YOUR E-MAIL ADDRESS <font color="#FF0000">*</font></string>
     <string name="your_message">YOUR MESSAGE <font color="#FF0000">*</font></string>
     <string name="are_you_sure_want_to_buy_a_book_without_register_login">Are you sure want to buy a book without register\\login? Please be noted that if you have purchased the book without register\\login, you will not be able access the same book in another device or platform.</string>
-    <string name="need_to_register_login_for_purchase">Please register\\login to purchase items.</string>
+    <string name="need_to_register_login_for_purchase">Please register/login to purchase items.</string>
     <string name="you_need_to_login_first">You need to Login first.</string>
     <string name="notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="subscribe_for_full_access_to_more_than_200_liturgies">Subscribe for full access to more than 200 liturgies</string>
+    <string name="subscribetext">To access all of the prayers and liturgies in the Every Moment Holy series, including audio reading, choose a monthly or annual subscription. Unsubscribed users have limited access.</string>
 
 
 </resources>

@@ -9,7 +9,14 @@
     <item
         android:id="@+id/nav_myLiturgiesFragment"
         android:icon="@drawable/ic_liturgies"
-        android:title="My Liturgies"></item>
+        android:title="My Liturgies"
+        android:visible="false"></item>
+
+    <item
+        android:id="@+id/nav_getLiturgiesFragment"
+        android:icon="@drawable/ic_pruchase_liturgy"
+        android:title="Liturgies"></item>
+
 
     <item
         android:id="@+id/nav_favoritesFragment"
@@ -17,8 +24,12 @@
         android:title="Favorites"></item>
 
     <item
-        android:id="@+id/nav_getLiturgiesFragment"
-        android:icon="@drawable/ic_pruchase_liturgy"
-        android:title="Get Liturgies"></item>
+        android:id="@+id/nav_searchFragment"
+        android:icon="@drawable/ic_searchimg"
+        android:title="Search"></item>
+
+
+
+
 
 </menu>

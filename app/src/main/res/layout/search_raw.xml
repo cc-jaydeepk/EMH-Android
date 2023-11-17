@@ -53,6 +53,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/lato_medium"
                     android:text="@string/free"
+                    android:visibility="invisible"
                     android:textColor="@color/loginbg"
                     android:textSize="@dimen/fav_frag_freetxt" />
 
@@ -60,6 +61,7 @@
                     android:id="@+id/txt_search_liturgy_read_now"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_8sdp"
                     android:layout_gravity="center"
                     android:background="@drawable/bg_unlock"
                     android:fontFamily="@font/lato_medium"

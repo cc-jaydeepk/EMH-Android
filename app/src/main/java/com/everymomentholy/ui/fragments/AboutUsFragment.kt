@@ -12,6 +12,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
@@ -28,6 +29,7 @@ class AboutUsFragment : Fragment() {
     private lateinit var txtAbout: TextView
     lateinit var spanned: Spanned
     lateinit var webView: WebView
+    lateinit var progressCardView: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,12 +40,14 @@ class AboutUsFragment : Fragment() {
         (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
         // txtAbout = view.findViewById(R.id.txtAbout)
         webView = view.findViewById(R.id.webView)
+        progressCardView = view.findViewById(R.id.progressCardView)
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true
         webSettings.javaScriptCanOpenWindowsAutomatically = true
         webView.settings.setSupportZoom(true)
        
         if (Utils.isNetworkAvailable(requireContext())) {
+            progressCardView.visibility = View.VISIBLE
             aboutUs()
         } else {
             Toast.makeText(
@@ -66,7 +70,7 @@ class AboutUsFragment : Fragment() {
                     response: Response<AboutUsResponseVO>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        progressCardView.visibility = View.GONE
                         webView.loadData(
                             response.body()!!.response.description,
                             "text/html",

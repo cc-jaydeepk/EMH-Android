@@ -16,9 +16,9 @@
 package com.folioreader.ui.folio.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,16 +28,17 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,8 +57,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import kotlin.jvm.JvmStatic;
 
 import com.folioreader.Config;
 import com.folioreader.Constants;
@@ -89,9 +88,11 @@ import org.readium.r2.streamer.parser.EpubParser;
 import org.readium.r2.streamer.parser.PubBox;
 import org.readium.r2.streamer.server.Server;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.folioreader.Constants.CHAPTER_SELECTED;
 import static com.folioreader.Constants.HIGHLIGHT_SELECTED;
@@ -101,7 +102,7 @@ import static com.folioreader.Constants.TYPE;
 public class FolioActivity
         extends AppCompatActivity
         implements FolioActivityCallback, MediaControllerCallback,
-        View.OnSystemUiVisibilityChangeListener {
+        View.OnSystemUiVisibilityChangeListener, TextToSpeech.OnInitListener {
 
     private static final String LOG_TAG = "FolioActivity";
 
@@ -113,6 +114,11 @@ public class FolioActivity
     public static final String EXTRA_SEARCH_ITEM = "EXTRA_SEARCH_ITEM";
     public static final String ACTION_SEARCH_CLEAR = "ACTION_SEARCH_CLEAR";
     public static final String EXTRA_LITURGY_DATA = "EXTRA_LITURGY_DATA";
+
+    @Override
+    public void onInit(int i) {
+
+    }
 
     public enum EpubSourceType {
         RAW,
@@ -129,6 +135,8 @@ public class FolioActivity
     private Toolbar toolbar;
     private boolean distractionFreeMode = false;
     private Handler handler;
+    TextView txtIncludedIn;
+    TextView includedText;
 
     private int currentChapterIndex;
     private FolioPageFragmentAdapter mFolioPageFragmentAdapter;
@@ -156,6 +164,15 @@ public class FolioActivity
     private Boolean topActivity;
     private int taskImportance;
     private MyLiturgiesDataVo myLiturgiesDataVo;
+
+    private MediaPlayer mediaPlayer;
+    Boolean isAuto = false;
+    boolean isplay;
+
+
+    // private var tts: TextToSpeech? = null
+
+    TextToSpeech tts;
 
     private Menu menu;
 
@@ -246,6 +263,11 @@ public class FolioActivity
         topActivity = false;
     }
 
+    private void ConvertTextToSpeech() {
+        String text = "Content not available";
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -271,6 +293,30 @@ public class FolioActivity
         setContentView(R.layout.folio_activity);
         this.savedInstanceState = savedInstanceState;
 
+        //Log.e("USERID", "onCreate: "+ myLiturgiesDataVo.getUserId());
+
+
+        // mediaPlayer.start();
+
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+
+            @Override
+            public void onInit(int status) {
+                // TODO Auto-generated method stub
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = tts.setLanguage(Locale.US);
+                    if (result == TextToSpeech.LANG_MISSING_DATA ||
+                            result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("error", "This Language is not supported");
+                    } else {
+                        // ConvertTextToSpeech();
+                    }
+                } else
+                    Log.e("error", "Initilization Failed!");
+            }
+        });
+
+
         if (savedInstanceState != null) {
             searchAdapterDataBundle = savedInstanceState.getBundle(SearchAdapter.DATA_BUNDLE);
             searchQuery = savedInstanceState.getCharSequence(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY);
@@ -287,29 +333,72 @@ public class FolioActivity
                     .getString(FolioActivity.INTENT_EPUB_SOURCE_PATH);
         }
 
+        Uri uri = Uri.parse(myLiturgiesDataVo.getAudio_file());
+        Log.e("AUDIO", "AUDIOURL: " + uri);
+        String includedTag = myLiturgiesDataVo.getVolumeTags();
+        Log.e("INCLUDED", "INCLUDED: " + includedTag);
+        txtIncludedIn = findViewById(R.id.txtIncludedIn);
+        includedText = findViewById(R.id.includedText);
+
+        if (myLiturgiesDataVo.getVolumeTags() == "") {
+//            txtIncludedIn.visibility = View.GONE,
+//            holder.txtInclude.visibility = View.GONE
+            txtIncludedIn.setVisibility(View.GONE);
+            includedText.setVisibility(View.GONE);
+        } else {
+            txtIncludedIn.setVisibility(View.VISIBLE);
+            includedText.setVisibility(View.VISIBLE);
+            txtIncludedIn.setText(includedTag);
+        }
+
+
+        mediaPlayer = MediaPlayer.create(this, uri);
+
+
         initActionBar();
         initMediaController();
 
-        if (ContextCompat.checkSelfPermission(FolioActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+      /*  if (ContextCompat.checkSelfPermission(FolioActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(FolioActivity.this, Constants.getWriteExternalStoragePerms(), Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
         } else {
             setupBook();
+        }*/
+
+        final int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    Constants.permissions(),
+                    Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
+        } else {
+            setupBook();
         }
+
+
     }
 
     private void initActionBar() {
 
         appBarLayout = findViewById(R.id.appBarLayout);
         toolbar = findViewById(R.id.toolbar);
+        // txtIncludedIn = findViewById(R.id.txtIncludedIn);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
 
         Config config = AppUtil.getSavedConfig(getApplicationContext());
         assert config != null;
 
+        //  txtIncludedIn.setText(myLiturgiesDataVo.getVolumeTags());
+
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_close_green_24dp);
         UiUtil.setColorIntToDrawable(config.getThemeColor(), drawable);
         toolbar.setNavigationIcon(drawable);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.stop();
+            }
+        });
 
         if (config.isNightMode()) {
             setNightMode();
@@ -323,13 +412,14 @@ public class FolioActivity
                 color = ContextCompat.getColor(this, R.color.black);
             } else {
                 int[] attrs = {android.R.attr.navigationBarColor};
-                TypedArray typedArray = getTheme().obtainStyledAttributes(attrs);
+                @SuppressLint("ResourceType") TypedArray typedArray = getTheme().obtainStyledAttributes(attrs);
                 color = typedArray.getColor(0, ContextCompat.getColor(this, R.color.white));
             }
             getWindow().setNavigationBarColor(color);
         }
 
     }
+
 
     @Override
     public void setDayMode() {
@@ -356,6 +446,8 @@ public class FolioActivity
                 getInstance(getSupportFragmentManager(), this);
     }
 
+    private boolean isPlay = false;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -373,12 +465,24 @@ public class FolioActivity
         if (myLiturgiesDataVo != null && myLiturgiesDataVo.isFavorite().equals("True")) {
             menu.getItem(4).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favourite_fill_folio));
         }
+
+        if (myLiturgiesDataVo.getAudio_file() == "") {
+            menu.findItem(R.id.itemTts).setVisible(false);
+        }
+
+        if (myLiturgiesDataVo.getUserId() < 1) {
+            //text and play visible other icon hide
+            menu.findItem(R.id.itemShare).setVisible(false);
+            menu.findItem(R.id.itemFavorite).setVisible(false);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Log.d(LOG_TAG, "-> onOptionsItemSelected -> " + item.getItemId());
+
 
         int itemId = item.getItemId();
 
@@ -405,8 +509,31 @@ public class FolioActivity
             return true;
 
         } else if (itemId == R.id.itemTts) {
+
+            // item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_pause_arrow));
+
+            // menu.findItem(R.id.itemTts).setVisible(false);
+            // menu.findItem(R.id.itempause).setVisible(true);
+
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.getTitle());
-            showMediaController();
+
+            // mediaPlayer.start();
+            // isAuto = true;
+
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                Log.e("PLAYAUDIO", "onOptionsItemSelected: " + "PLAY");
+                mediaPlayer.getCurrentPosition();
+                mediaPlayer.pause();
+
+                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_play_arrow));
+                //  isAuto = false;
+            } else {
+                Log.e("PLAYAUDIO", "onOptionsItemSelected: " + "PAUSE");
+                mediaPlayer.start();
+                item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_pause_arrow));
+                //isAuto = true;
+            }
+
             return true;
         } else if (itemId == R.id.itemShare) {
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.getTitle());
@@ -584,6 +711,14 @@ public class FolioActivity
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+        super.onBackPressed();
     }
 
     /**
@@ -803,6 +938,10 @@ public class FolioActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
 
         if (outState != null)
             outState.putParcelable(BUNDLE_READ_POSITION_CONFIG_CHANGE, lastReadPosition);
@@ -1127,4 +1266,24 @@ public class FolioActivity
             menu.getItem(4).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_favorite_folio));
         }
     }
+
+    public void isplayAudio(boolean isPlaying, Context context) {
+        if (isPlaying) {
+            menu.getItem(2).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_pause_arrow));
+            // mediaPlayer.stop();
+        } else {
+            menu.getItem(2).setIcon(ContextCompat.getDrawable(context, R.drawable.ic_play_arrow));
+            // mediaPlayer.start();
+        }
+    }
+
+     /*if (mediaPlayer.isPlaying()) {
+        Log.e("play", "pause");
+        mediaPlayer.pause();
+        item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_play_arrow));
+    } else {
+        Log.e("play", "play");
+        mediaPlayer.start();
+        item.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_pause_arrow));
+    }*/
 }

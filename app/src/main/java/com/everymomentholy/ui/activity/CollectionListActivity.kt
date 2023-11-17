@@ -9,10 +9,13 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Html
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,6 +27,7 @@ import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.*
 import com.everymomentholy.interfaces.OnInAppPurchaseListener
 import com.everymomentholy.ui.adapter.BottomSliderCollectionAdapter
+import com.everymomentholy.ui.adapter.CollectionAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
@@ -37,6 +41,8 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     var prefeUserId: Int = 0
     var android_id: String = ""
     var liturgies: GetLiturgiesDataVo = GetLiturgiesDataVo()
+
+    //lateinit var bottomSliderAdapter: CollectionAdapter
     lateinit var bottomSliderAdapter: BottomSliderCollectionAdapter
     lateinit var ivToolbarNotification: ImageView
     lateinit var txtToolbarName: TextView
@@ -44,6 +50,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     lateinit var ivToolbarBack: ImageView
     var isPurchaseSuccess: Boolean = false
     var volumePurchaseCode: String = ""
+    lateinit var progressCardView: CardView
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,8 +62,9 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
         txtToolbarName = findViewById(R.id.txt_toolbar_name)
         ivToolbarNotification = findViewById(R.id.iv_toolbar_notification)
         ivToolbarBack = findViewById(R.id.iv_toolbar_backImage)
+        progressCardView = findViewById(R.id.progressCardView)
 
-        txtToolbarName.text = "Get Collection"
+        txtToolbarName.text = "Collection"
         ivToolbarNotification.visibility = View.GONE
         // ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
         ivToolbarDrawer.visibility = View.GONE
@@ -80,7 +88,13 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
 
         if (Utils.isNetworkAvailable(this)) {
             if (liturgies.isVolume == "Yes")
-                getAboutVolume(liturgies.volumeId)
+                progressCardView.visibility = View.VISIBLE
+            getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+            getAboutVolume(liturgies.volumeId)
+
             getCollectionList(liturgies.volumeId)
 
         } else {
@@ -117,6 +131,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
+
                         var totalPriceCollection: Double = 0.0
 
                         /*for (i in response.body()!!.response.data) {
@@ -148,6 +163,8 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                             arrCollectionList.add(wholeCollection)
                         }
                         arrCollectionList.addAll(response.body()!!.response.data)
+                        progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         bottomSliderAdapter = BottomSliderCollectionAdapter(
                             this@CollectionListActivity,
                             arrCollectionList
@@ -161,6 +178,8 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         // showBottomSheetDialog()
 
                     } else {
+                        progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(
                             this@CollectionListActivity,
                             response.body()!!.response.message.toString(),
@@ -195,8 +214,12 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     response: Response<AboutVolumeResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
+                        progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         volumePurchaseCode = response.body()!!.response.volumePurchaseCode
                     } else {
+                        progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(
                             this@CollectionListActivity,
                             response.body()!!.status.toString(),
@@ -250,7 +273,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         ""
                     )
                 )
-                if(liturgies.isVolume != "Yes") liturgies.isPurchased = "Yes"
+                if (liturgies.isVolume != "Yes") liturgies.isPurchased = "Yes"
             }
             ProductTypes.VOLUME -> {
                 call = request.purchaseVolumeAcknowledge(
@@ -320,5 +343,17 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
             ).show()
         }
 
+    }
+
+    fun replaceFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle? = null) {
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+
+        transaction.replace(R.id.mainFrame, fragment)
+        transaction.disallowAddToBackStack()
+        if (arguments != null) {
+            fragment.arguments = arguments
+        }
+        transaction.commit()
     }
 }

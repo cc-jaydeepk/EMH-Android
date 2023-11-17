@@ -5,4 +5,5 @@ class SetFavouriteRequestVo {
     var bookId: Int = 0
     var chapterId: Int = 0
     var isFavorite: Boolean = false
+    var type:String = ""
 }

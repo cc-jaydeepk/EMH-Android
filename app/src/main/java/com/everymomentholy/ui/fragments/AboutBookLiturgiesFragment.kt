@@ -280,6 +280,7 @@ class AboutBookLiturgiesFragment : Fragment() {
             requireActivity().contentResolver,
             Settings.Secure.ANDROID_ID
         )
+
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(context)
         rvBootmSheet!!.layoutManager = layoutManager

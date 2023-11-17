@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.util.Log
 import android.util.Patterns
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -121,6 +122,10 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                     if (isAcceptTerms) {
                         progressCardView.visibility = View.VISIBLE
+                        getWindow().setFlags(
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                        )
                         btnRegister.isEnabled = false
                         var registrationRequestVo: RegisterRequestVo = RegisterRequestVo()
                         registrationRequestVo.firstName = edtFirstName.text.toString().trim()
@@ -176,18 +181,18 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                             registrationRequestVo.firstName + registrationRequestVo.lastName
                         )
 
-                        // Log.e("lastName", registrationRequestVo.lastName)
-
                         Utils.writeStringToSharedPref(
                             this@RegisterActivity, Constants.USER_EMAIL,
                             registrationRequestVo.email
                         )
 
                         progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         showDialog()
 
                     } else {
                         progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Log.e("Fail", response.body()!!.message.toString())
                         btnRegister.isEnabled = true
                         Toast.makeText(
@@ -201,6 +206,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                 override fun onFailure(call: Call<RegisterResponseVo>, t: Throwable) {
                     progressCardView.visibility = View.GONE
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     btnRegister.isEnabled = true
                     Toast.makeText(this@RegisterActivity, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
@@ -245,12 +251,13 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         myEdit.apply()*/
 
                         progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         showDialog()
 
 
                     } else {
                         progressCardView.visibility = View.GONE
-                        Log.e("Fail", response.body()!!.message.toString())
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(
                             this@RegisterActivity,
                             "Registration Fail",
@@ -277,6 +284,15 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         // val dialogLayout = inflater.inflate(R.layout.login_dialog, null)
         val txtOk = dialogLayout.findViewById<TextView>(R.id.txtOk)
         txtOk.setOnClickListener {
+            //txtOk
+
+            /*val intent =
+                Intent(this@RegisterActivity, SelectSubscriptionPlan::class.java)
+            intent.putExtra("boolean", true)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()*/
 
             if (Utils.isNetworkAvailable(this)) {
                 var loginRequestVo: LoginRequestVo = LoginRequestVo()
@@ -285,6 +301,10 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                 loginRequestVo.password = edtPassword.text.toString().trim()
                 loginRequestVo.deviceType = Constants.DEVICE_TYPE
                 progressCardView.visibility = View.VISIBLE
+                getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
                 login(loginRequestVo)
             } else {
                 Toast.makeText(
@@ -382,6 +402,8 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                 ) {
                     if (response.body()?.statusCode == 1) {
 
+                        Constants.USER_LOGIN_STATUS = Constants.LOGIN
+
                         Utils.writeIntToSharedPref(
                             this@RegisterActivity, Constants.PrefUserID,
                             response.body()!!.response.userId
@@ -390,6 +412,11 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         Utils.writeStringToSharedPref(
                             this@RegisterActivity, Constants.USER_NAME,
                             response.body()!!.response.firstName + " " + response.body()!!.response.lastName
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@RegisterActivity, Constants.USER_SUBSCRIPTIONSTATUS,
+                            response.body()!!.response.subscription
                         )
 
                         Utils.writeStringToSharedPref(
@@ -410,16 +437,26 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), true)
 
                         progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                        /*val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                         intent.putExtra("boolean", true)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()*/
+
+                        val intent =
+                            Intent(this@RegisterActivity, SelectSubscriptionPlan::class.java)
+                        intent.putExtra("boolean", true)
+//                        intent.flags =
+//                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
 
                     } else {
                         progressCardView.visibility = View.GONE
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                         Toast.makeText(
                             this@RegisterActivity,
@@ -431,12 +468,14 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
 
                 override fun onFailure(call: Call<LoginResponseVo>, t: Throwable) {
                     progressCardView.visibility = View.GONE
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     Toast.makeText(this@RegisterActivity, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } catch (exception: Exception) {
             progressCardView.visibility = View.GONE
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             exception.printStackTrace()
         }

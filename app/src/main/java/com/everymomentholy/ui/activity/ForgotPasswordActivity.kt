@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -47,6 +48,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
             if (checkValidation()) {
                 if (Utils.isNetworkAvailable(this)) {
                     progressCardView.visibility = View.VISIBLE
+                    getWindow().setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
                     btnForgotPswSubmit.isEnabled = false
                     forgotPassword()
                 } else {
@@ -101,6 +106,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     }
 
                     progressCardView.visibility = View.GONE
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     btnForgotPswSubmit.isEnabled = true
                 }
 
@@ -108,12 +114,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     Toast.makeText(this@ForgotPasswordActivity, "${t.message}", Toast.LENGTH_SHORT)
                         .show()
                     progressCardView.visibility = View.GONE
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     btnForgotPswSubmit.isEnabled = true
                 }
             })
         } catch (exception: Exception) {
             exception.printStackTrace()
             progressCardView.visibility = View.GONE
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             btnForgotPswSubmit.isEnabled = true
         }
     }

@@ -5,9 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.folio.activity.FolioActivity"
-    tools:menu="@menu/menu_main"
-    android:orientation="vertical">
+    tools:menu="@menu/menu_main">
 
     <com.folioreader.view.FolioAppBarLayout
         android:id="@+id/appBarLayout"
@@ -26,6 +26,35 @@
             app:contentInsetStartWithNavigation="0dp" />
 
     </com.folioreader.view.FolioAppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/includedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="3dp"
+            android:text="Included in:"
+            android:fontFamily="@font/lato_semibold"
+            android:textColor="@color/app_green"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txtIncludedIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/txt_buttom_border"
+            android:fontFamily="@font/lato_semibold"
+            android:text="Included in:"
+            android:textColor="@color/app_green"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
 
     <com.folioreader.view.DirectionalViewpager
         android:id="@+id/folioPageViewPager"

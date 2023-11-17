@@ -25,6 +25,7 @@ class MyLiturgyAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgLiturgycoverImage: ImageView = view.findViewById(R.id.imgLiturgycoverImage)
         var txtLiturgiesTitle: TextView = view.findViewById(R.id.txtLiturgiesTitle)
+        var txtLiturgiesCount: TextView = view.findViewById(R.id.txtLiturgiesCount)
         var mainRelative: RelativeLayout = view.findViewById(R.id.mainRelative)
         var btnOpen: Button = view.findViewById(R.id.btnOpen)
     }
@@ -39,11 +40,13 @@ class MyLiturgyAdapter(
         val myLiturgies = liturgyList[position]
 
         if (myLiturgies.isVolume == "Yes") {
+            holder.txtLiturgiesCount.text = myLiturgies.liturgyCount
             holder.txtLiturgiesTitle.text = myLiturgies.volumeTitle
             Glide.with(context)
                 .load(myLiturgies.volumeCoverPageImage)
                 .into(holder.imgLiturgycoverImage)
         } else {
+            holder.txtLiturgiesCount.text = "Liturgies: " +  myLiturgies.liturgyCount
             holder.txtLiturgiesTitle.text = myLiturgies.bookTitle
             Glide.with(context)
                 .load(myLiturgies.bookCoverPageImage)

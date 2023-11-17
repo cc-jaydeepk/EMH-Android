@@ -15,6 +15,7 @@ class GetLiturgiesDataVo : Serializable {
     var bookId: Int = 0
     var LiturgyAvailable: String = ""
     var bookAmount: String = ""
+    var liturgyCount: String = ""
 
     var bookCoverPageImage: String = ""
     var bookTitle: String = ""
@@ -22,5 +23,6 @@ class GetLiturgiesDataVo : Serializable {
     var isClicked: Boolean = false
     var isFree: String = ""
     var bookPurchaseCode: String = ""
+    var volumeTags: String = ""
 
 }

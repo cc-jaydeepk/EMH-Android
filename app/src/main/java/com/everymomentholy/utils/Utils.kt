@@ -208,7 +208,11 @@ class Utils {
         }
 
 
-        fun invokeBookReader(context: Context, path: String, myLiturgiesDataVo: MyLiturgiesDataVo) {
+        fun invokeBookReader(
+            context: Context,
+            path: String,
+            myLiturgiesDataVo: MyLiturgiesDataVo,
+        ) {
             val folioReader = FolioReader.get()
 
             val myLiturgyVo: com.folioreader.emh.MyLiturgiesDataVo =
@@ -223,6 +227,9 @@ class Utils {
             myLiturgyVo.bookId = myLiturgiesDataVo.bookId
             myLiturgyVo.chapterId = myLiturgiesDataVo.chapterId
             myLiturgyVo.isFavorite = myLiturgiesDataVo.isFavorite
+            myLiturgyVo.audio_file = myLiturgiesDataVo.audio_file
+            myLiturgyVo.volumeTags = myLiturgiesDataVo.volumeTags
+
             folioReader.openBook(
                 context?.filesDir?.absolutePath + "/" + "test_" + myLiturgiesDataVo.chapterId + ".epub",
                 myLiturgyVo

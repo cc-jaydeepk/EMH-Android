@@ -13,11 +13,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -29,6 +31,7 @@ import com.everymomentholy.api.response.*
 import com.everymomentholy.interfaces.ShareItem
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
+import com.everymomentholy.ui.activity.SelectSubscriptionPlan
 import com.everymomentholy.ui.adapter.QuoteAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
@@ -46,7 +49,8 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
     private lateinit var txtTitle: TextView
     private lateinit var txtQuote: TextView
-    private lateinit var txtDailyQuote: TextView
+
+    // private lateinit var txtDailyQuote: TextView
     private lateinit var txtDate: TextView
     private lateinit var txt_toolbar: TextView
     private lateinit var imgHomeClock: ImageView
@@ -57,10 +61,11 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
     private lateinit var iv_toolbar_notification: ImageView
     private lateinit var txtToolbarNotificationCount: TextView
     private lateinit var shareQuote: ImageView
+    lateinit var btnSubscribeNow: TextView
 
     lateinit var quotesText: String
     lateinit var cotedText: String
-    lateinit var progressbarHomeFragment: ProgressBar
+    lateinit var progressbarHomeFragment: CardView
     var notificationCount = 0
 
 
@@ -75,6 +80,8 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
     var data: String = ""
     var counter: Int = 0
+
+    var boolSubscriptionStatus = false
 
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
@@ -92,6 +99,41 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             this
         )
 
+        btnSubscribeNow = view.findViewById(R.id.btnSubscribeNow)
+
+        /*txt_drawer_UserName.text = Utils.readStringFromSharedPref(
+            this@MainActivity, Constants.USER_NAME,
+            ""
+        ).toString()*/
+
+        var subscriptionStatus = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.USER_SUBSCRIPTIONSTATUS,
+            ""
+        )
+
+        if (subscriptionStatus == "Yes") {
+            Log.e("AAAA", "onCreateView: "+  subscriptionStatus)
+            btnSubscribeNow.visibility = View.GONE
+        } else {
+            Log.e("AAAA", "onCreateView: "+  subscriptionStatus)
+            btnSubscribeNow.visibility = View.VISIBLE
+        }
+
+        btnSubscribeNow.setOnClickListener {
+            //val intent = Intent(requireActivity(), SelectSubscriptionPlan::class.java)
+            // startActivity(intent)
+
+            val bundle = Bundle()
+            bundle.putBoolean("onPress", true);
+            bundle.putBoolean("onPressHome", false);
+            var fragment: Fragment = SubscriptionPlanListFragment()
+            (activity as MainActivity).replaceFragment(
+                fragment,
+                "subscription",
+                bundle
+            )
+        }
+
         cardStackView = view.findViewById(R.id.card_stack_view)
         rootLayout = view.findViewById(R.id.rootLayout)
         txt_toolbar = view.findViewById(R.id.txt_toolbar)
@@ -99,7 +141,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         iv_toolbar_drawer = view.findViewById(R.id.iv_toolbar_drawer)
         iv_toolbar_notification = view.findViewById(R.id.iv_toolbar_notification)
         txtToolbarNotificationCount = view.findViewById(R.id.txt_toolbar_notification_count)
-        progressbarHomeFragment = view.findViewById(R.id.progressbar_home_fragment)
+        progressbarHomeFragment = view.findViewById(R.id.progressCardView)
 
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationListActivity::class.java)
@@ -112,7 +154,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
         txtTitle = view.findViewById(R.id.txtTitle)
         txtQuote = view.findViewById(R.id.txtQuote)
-        //  txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
+        // txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
         txtDate = view.findViewById(R.id.txtDate)
         imgHomeClock = view.findViewById(R.id.imgHomeClock)
         ivHomeShare = view.findViewById(R.id.ivHomeShare)
@@ -300,7 +342,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         val mainDir = File(
             context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Demo"
         )
-
         //If File is not present create directory
         if (!mainDir.exists()) {
             if (mainDir.mkdir()) Log.e(
@@ -344,6 +385,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         ivHomeShare.isEnabled = true
         // ivHomeShare.visibility = View.VISIBLE
         progressbarHomeFragment.visibility = View.GONE
+        //requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         rootLayout.visibility = View.VISIBLE
     }
 
@@ -354,10 +396,15 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             //  ivHomeShare.visibility = View.VISIBLE
             if (Utils.isNetworkAvailable(requireContext())) {
                 progressbarHomeFragment.visibility = View.VISIBLE
+                /*requireActivity().getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )*/
                 rootLayout.visibility = View.GONE
-                dailyLiturgyQuote()
+                // dailyLiturgyQuote()
                 //quoteLiturgy()
                 getSettings()
+                quoteLiturgy()
             } else {
                 /* Toast.makeText(
                      requireContext(),
@@ -381,6 +428,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                     response: Response<HomegetSettingResponseVo>
                 ) {
                     progressbarHomeFragment.visibility = View.GONE
+                    //requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     rootLayout.visibility = View.VISIBLE
                     if (response.body()?.statusCode == 1) {
 
@@ -442,13 +490,14 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                     if (response.body()?.statusCode == 1) {
 
                         txtQuote.text = response.body()!!.response.parentLiturgy
-                        // txtDailyQuote.text = response.body()!!.response.quote
+                        //  txtDailyQuote.text = response.body()!!.response.quote
 
                         Utils.storeJsonInFile(
                             context!!,
                             Gson().toJson(response.body()!!.response),
                             Constants.DAILY_QUOTE_FILE_NAME
                         )
+
 
                         //  quotesText = response.body()!!.response.quote
                         cotedText = response.body()!!.response.parentLiturgy
@@ -571,7 +620,8 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
     private fun showOfflineUI() {
 
         progressbarHomeFragment.visibility = View.GONE
-        rootLayout.visibility = View.VISIBLE
+//        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+       rootLayout.visibility = View.VISIBLE
 
         try {
             Glide
@@ -593,7 +643,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                 Gson().fromJson(jsonString, DailyLiturgiesResponseVo::class.java)
 
             txtQuote.text = response.parentLiturgy
-            // txtDailyQuote.text = response.quote
+            //  txtDailyQuote.text = response.quote
 
             cotedText = response.parentLiturgy
 

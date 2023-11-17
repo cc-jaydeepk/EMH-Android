@@ -22,10 +22,10 @@
             android:icon="@drawable/ic_fevrite"
             android:title="Favorites" />
 
-        <item
+        <!--<item
             android:id="@+id/nav_getLiturgiesFragment"
             android:icon="@drawable/ic_pruchase_liturgy"
-            android:title="Get Liturgies" />
+            android:title="Get Liturgies" />-->
 
         <item
             android:id="@+id/nav_featuredFragment"
@@ -36,6 +36,11 @@
             android:id="@+id/nav_orderBookFragment"
             android:icon="@drawable/ic_buy_liturgies"
             android:title="Order Book" />
+
+        <item
+            android:id="@+id/nav_subscription"
+            android:icon="@drawable/ic_pruchase_liturgy"
+            android:title="Subscription Plan" />
 
         <item
             android:id="@+id/nav_searchFragment"

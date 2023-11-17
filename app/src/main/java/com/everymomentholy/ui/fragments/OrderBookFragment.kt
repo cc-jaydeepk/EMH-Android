@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +26,7 @@ class OrderBookFragment : Fragment() {
 
     private lateinit var rvOrderBook: RecyclerView
     private var orderBookAdapter: RecyclerView.Adapter<OrderBookAdapter.MyViewHolder>? = null
+    lateinit var progressCardView: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +35,13 @@ class OrderBookFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ordeerbook, container, false)
         rvOrderBook = view.findViewById(R.id.rcv_order_book)
+        progressCardView = view.findViewById(R.id.progressCardView)
         /* rvOrderBook.layoutManager = LinearLayoutManager(activity)
          rvOrderBook.adapter = OrderBookAdapter()
          adapter = OrderBookAdapter()*/
 
         if (Utils.isNetworkAvailable(requireContext())) {
+            progressCardView.visibility = View.VISIBLE
             orderBooks()
         } else {
             Toast.makeText(
@@ -59,6 +64,7 @@ class OrderBookFragment : Fragment() {
                     response: Response<BookStoreResponseVo>
                 ) {
                     if (response.body()!!.statusCode == 1) {
+                        progressCardView.visibility = View.GONE
                         //setAdapter(this@OrderHistoryActivity, response.body()!!)
                         /*if (context != null) {
                             adapter = GetLiturgiesAdapter(

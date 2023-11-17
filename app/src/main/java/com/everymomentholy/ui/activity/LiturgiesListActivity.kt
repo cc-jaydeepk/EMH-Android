@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -17,11 +18,9 @@ import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.request.PurchaseRequestVo
-import com.everymomentholy.api.response.CollectionDataVo
-import com.everymomentholy.api.response.MyLiturgiesDataVo
-import com.everymomentholy.api.response.MyLiturgiesResponseVo
-import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.api.response.*
 import com.everymomentholy.interfaces.OnInAppPurchaseListener
+import com.everymomentholy.interfaces.PlayAudioClickListner
 import com.everymomentholy.ui.adapter.GetLiturgiesFromBookIDAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
@@ -30,7 +29,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
+class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener{
 
     lateinit var rvLiturgiesList: RecyclerView
     private lateinit var android_id: String
@@ -39,8 +38,13 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
     lateinit var ivToolbarDrawer: ImageView
     lateinit var txtToolbarName: TextView
     lateinit var ivToolbarNotification: ImageView
+
     lateinit var collectionData: CollectionDataVo
+
+    // var collectionData: CollectionDataVo? = null
+    lateinit var collectionFavData: GetFavoritesDataVo
     var bookId = 0
+    var bookfavId = 0
     var isPurchaseSuccess: Boolean = false
     lateinit var ivToolbarBack: ImageView
 
@@ -78,9 +82,22 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
 
         bookId = intent.getIntExtra("bookID", 0)
         collectionData = intent.getSerializableExtra("collection") as CollectionDataVo
+//        if (intent.hasExtra("collection")) {
+//            collectionData = intent.getSerializableExtra("collection") as CollectionDataVo
+//        } else {
+//            collectionData = CollectionDataVo()
+//        }
+//
+//        bookfavId = intent.getIntExtra("favBookID", 0)
+//        if (intent.hasExtra("favCollection")){
+//            collectionFavData = intent.getSerializableExtra("favCollection") as GetFavoritesDataVo
+//        }else{
+//            collectionFavData = GetFavoritesDataVo()
+//        }
 
         if (Utils.isNetworkAvailable(this)) {
             getMyLiturgiesList(bookId)
+            //getMyFavLiturgiesList(bookfavId)
         } else {
             Toast.makeText(
                 this@LiturgiesListActivity,
@@ -118,6 +135,8 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     if (response.body()?.statusCode == 1) {
 
                         var liturgiesList: ArrayList<MyLiturgiesDataVo> = ArrayList()
+
+
                         var liturgie: MyLiturgiesDataVo = MyLiturgiesDataVo()
                         liturgie.bookId = collectionData.bookId
                         liturgie.chapterPageImage = collectionData.bookCoverPageImage
@@ -159,6 +178,8 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
             exception.printStackTrace()
         }
     }
+
+
 
     /**
      * This callback will acknowledge the successful in-app purchase to the backend server.
@@ -256,6 +277,8 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
             ).show()
         }
 
+
+
         /*  Handler(Looper.getMainLooper()).postDelayed(
               Runnable {
                   if (isPurchaseSuccess) {
@@ -274,5 +297,7 @@ class LiturgiesListActivity : AppCompatActivity(), OnInAppPurchaseListener {
               Constants.AFTER_PURCHASE_REFRESH_DELAY
           )*/
     }
+
+
     // test
 }

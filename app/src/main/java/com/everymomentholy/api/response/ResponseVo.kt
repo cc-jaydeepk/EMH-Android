@@ -8,6 +8,7 @@ open class ResponseVo {
     var token: String = ""
     var userId: Int = 0
     var userProfilePic: String = ""
+    var subscription: String = ""
 
 
 }

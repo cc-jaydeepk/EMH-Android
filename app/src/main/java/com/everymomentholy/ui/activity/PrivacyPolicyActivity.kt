@@ -1,6 +1,9 @@
 package com.everymomentholy.ui.activity
 
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.Toast
@@ -25,6 +28,30 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
         policyWebView = findViewById(R.id.policyWebView)
         ivToolbarBackImage = findViewById(R.id.iv_toolbar_backImage)
+
+        policyWebView.setHorizontalScrollBarEnabled(false)
+        policyWebView.setOnTouchListener(object : View.OnTouchListener {
+            var m_downX = 0f
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+                if (event.pointerCount > 1) {
+                    //Multi touch detected
+                    return true
+                }
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+
+                        m_downX = event.x
+                    }
+                    MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+
+                        // set x so that it doesn't move
+                        event.setLocation(m_downX, event.y)
+                    }
+                }
+                return false
+            }
+        })
+
 
         ivToolbarBackImage.setOnClickListener {
             onBackPressed()

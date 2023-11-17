@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -34,10 +35,7 @@ import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.GetUserProfileUpdateResponseVo
 import com.everymomentholy.api.response.GetUserProfileVo
 import com.everymomentholy.api.response.NotificationAlertResponseVo
-import com.everymomentholy.ui.activity.ChangePasswordActivity
-import com.everymomentholy.ui.activity.MainActivity
-import com.everymomentholy.ui.activity.OrderHistoryActivity
-import com.everymomentholy.ui.activity.SelectOptionActivity
+import com.everymomentholy.ui.activity.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.github.drjacky.imagepicker.ImagePicker
@@ -75,6 +73,12 @@ class MyProfileFragment : Fragment() {
     private var profile_upload_ImageUri: Uri? = null
     private lateinit var file: File
 
+    var subscriptionStart = ""
+    var subscriptionEnd = ""
+    var subscriptionStatus = ""
+    var subscriptionType = ""
+    var subscriptionID = ""
+
     var isImageSelect = false
 
     // var profile_upload_ImageUri: Uri? = "null"
@@ -87,6 +91,8 @@ class MyProfileFragment : Fragment() {
     var isCheck: Boolean = true
     private var status: String = "On"
     private lateinit var notificationStatus: String
+
+    lateinit var txtMySubscription: TextView
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -101,6 +107,8 @@ class MyProfileFragment : Fragment() {
         (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
 
         ivChangePassword = view.findViewById(R.id.ivChangePassword)
+
+        txtMySubscription = view.findViewById(R.id.txtMySubscription)
 
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile)
@@ -184,6 +192,7 @@ class MyProfileFragment : Fragment() {
         //ccp!!.setDefaultCountryUsingNameCode("IN")
         selectedCode = countryCodePicker!!.selectedCountryCode
 
+
         btnEditProfile.setOnClickListener {
             isImageSelect = true
 
@@ -221,6 +230,10 @@ class MyProfileFragment : Fragment() {
                 if (Utils.isNetworkAvailable(requireActivity())) {
 
                     progressCardView.visibility = View.VISIBLE
+                    requireActivity().getWindow().setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
 
                     getUserProfileUpdate()
 
@@ -255,6 +268,11 @@ class MyProfileFragment : Fragment() {
             ""
         ).toString()
 
+        progressCardView.visibility = View.VISIBLE
+        requireActivity().getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
         getUserProfile()
 
         ivChangePassword.setOnClickListener()
@@ -266,6 +284,16 @@ class MyProfileFragment : Fragment() {
         ivOrderHistory.setOnClickListener()
         {
             val intent = Intent(context, OrderHistoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        txtMySubscription.setOnClickListener {
+            val intent = Intent(activity, MySubscriptionStatus::class.java)
+            intent.putExtra("Start", subscriptionStart);
+            intent.putExtra("End", subscriptionEnd);
+            intent.putExtra("Status", subscriptionStatus);
+            intent.putExtra("Type", subscriptionType);
+            intent.putExtra("SubscriptionId", subscriptionID);
             startActivity(intent)
         }
 
@@ -285,6 +313,10 @@ class MyProfileFragment : Fragment() {
         alertButtonYes.setOnClickListener {
             if (Utils.isNetworkAvailable(requireActivity())) {
                 progressCardView.visibility = View.VISIBLE
+                requireActivity().getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                )
                 deleteUserAccount()
             } else {
                 Toast.makeText(
@@ -299,6 +331,7 @@ class MyProfileFragment : Fragment() {
             show.dismiss()
         }
         show.setCanceledOnTouchOutside(false)
+
     }
 
     private fun deleteUserAccount() {
@@ -337,7 +370,7 @@ class MyProfileFragment : Fragment() {
                         activity?.finish()
                     } else {
                         Toast.makeText(
-                            requireContext(),
+                            requireActivity(),
                             response.body()!!.message,
                             Toast.LENGTH_LONG
                         ).show()
@@ -389,7 +422,9 @@ class MyProfileFragment : Fragment() {
                     response: Response<GetUserProfileVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        progressCardView.visibility = View.GONE
+                        requireActivity().getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                         /*Utils.writeStringToSharedPref(
                             requireActivity(), Constants.USER_NAME,
                             response.body()!!.response.firstName
@@ -407,6 +442,45 @@ class MyProfileFragment : Fragment() {
                         var email = response.body()!!.response.email
                         var phoneNo = response.body()!!.response.mobile
                         var progileImage = response.body()!!.response.userProfilePic
+                        //  var upCominStartDate = response.body()!!.response.userSubscriptionData.started_at
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.UpcomingPlan,
+                            response.body()!!.response.userSubscriptionData.upcomingPlan
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.UPCOMING_STARTED_AT,
+                            response.body()!!.response.userSubscriptionData.upcomingPlanData.started_at
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.UPCOMING_EXPIRED_AT,
+                            response.body()!!.response.userSubscriptionData.upcomingPlanData.expire_at
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.UPCOMING_SUB_TYPE,
+                            response.body()!!.response.userSubscriptionData.upcomingPlanData.subscription_type
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.UPCOMING_SUB_STATUS,
+                            response.body()!!.response.userSubscriptionData.upcomingPlanData.subscription_status
+                        )
+
+                        subscriptionStart =
+                            response.body()!!.response.userSubscriptionData.started_at
+                        subscriptionEnd =
+                            response.body()!!.response.userSubscriptionData.expire_at
+                        subscriptionStatus =
+                            response.body()!!.response.userSubscriptionData.subscription_status
+                        subscriptionType =
+                            response.body()!!.response.userSubscriptionData.subscription_type
+                        subscriptionID =
+                            response.body()!!.response.userSubscriptionData.subscription_id
+
+
                         fun String.toEditable(): Editable =
                             Editable.Factory.getInstance().newEditable(this)
                         edtUserFirstName.text =
@@ -648,6 +722,8 @@ class MyProfileFragment : Fragment() {
 
                     } else {
                         progressCardView.visibility = View.GONE
+                        requireActivity().getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                         Toast.makeText(
                             requireActivity(),
                             response.body()!!.message,
@@ -708,6 +784,7 @@ class MyProfileFragment : Fragment() {
         val txtDialogSucces = alertView.findViewById<View>(R.id.txtDialogSucces) as TextView
         txtDialogSucces.text = "User profile updated successfully"
         progressCardView.visibility = View.GONE
+        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         ivOpenGallery.visibility = View.GONE
         btnUpdateProfile.visibility = View.GONE
         alertButton.setOnClickListener {
@@ -819,4 +896,6 @@ class MyProfileFragment : Fragment() {
         }
         return mimeType
     }
+
+
 }

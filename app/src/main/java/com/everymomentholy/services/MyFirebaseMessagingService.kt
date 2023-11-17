@@ -26,6 +26,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     var addNewToken = ""
     var type = ""
 
+
     /**
      * Called if InstanceID token is updated. This may occur if the security of
      * the previous token had been compromised. Note that this is called when the InstanceID token
@@ -85,7 +86,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getActivity(
                 this, UNIQUE_NUMBER, intent,
                 PendingIntent.FLAG_IMMUTABLE
@@ -95,7 +96,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 this, UNIQUE_NUMBER, intent,
                 PendingIntent.FLAG_ONE_SHOT
             )
-        }
+        }*/
+
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            UNIQUE_NUMBER,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT // setting the mutability flag
+        )
+
+        /*val pendingIntent = PendingIntent.getActivity(
+            this, UNIQUE_NUMBER,
+            intent, PendingIntent.FLAG_IMMUTABLE
+        )*/
+
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(
             this,

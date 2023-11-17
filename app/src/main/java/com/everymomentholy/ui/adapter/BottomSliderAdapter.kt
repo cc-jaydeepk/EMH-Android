@@ -8,6 +8,9 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,22 +31,21 @@ import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.interfaces.PlayAudioClickListner
 import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.activity.PlayAudioActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import com.folioreader.Config
-import com.folioreader.FolioReader
 import com.folioreader.emh.EMHUtils
-import com.folioreader.util.AppUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.lang.Exception
 
 class BottomSliderAdapter(
     var context: Context,
     var liturgyList: List<MyLiturgiesDataVo>,
+    var playAudioClickListner: PlayAudioClickListner
 ) : RecyclerView.Adapter<BottomSliderAdapter.MyViewHolder>() {
 
     public var bookOpenPosition = -1
@@ -53,8 +55,11 @@ class BottomSliderAdapter(
         var imgShare = view.findViewById<ImageView>(R.id.imgShare)
         var imgFreeLiturgiescover = view.findViewById<ImageView>(R.id.imgFreeLiturgiescover)
         var txtfreeLiturgiesTitle = view.findViewById<TextView>(R.id.txtFreeLiturgiesTitle)
-        var btnReadNow = view.findViewById<Button>(R.id.btnReadNow)
+        var btnReadNow = view.findViewById<TextView>(R.id.btnReadNow)
         var txtFree = view.findViewById<TextView>(R.id.txt_free)
+        var txtPlayNow = view.findViewById<TextView>(R.id.txtPlayNow)
+        var txtIncludedIn = view.findViewById<TextView>(R.id.txtIncludedIn)
+        var txtIncludedTag = view.findViewById<TextView>(R.id.txtIncludedTag)
         var imgFavorite = view.findViewById<ImageView>(R.id.imgFavorite)
     }
 
@@ -69,6 +74,21 @@ class BottomSliderAdapter(
         val freeLiturgy = liturgyList[position]
 
         holder.txtfreeLiturgiesTitle.text = freeLiturgy.chapterTitle
+        holder.txtIncludedIn.text = freeLiturgy.volumeTags
+        val spannable = SpannableString(freeLiturgy.volumeTags)
+        spannable.setSpan(
+            UnderlineSpan(),
+            0, // start
+            spannable.length, // end
+            Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+        )
+        if (freeLiturgy.volumeTags == "") {
+            holder.txtIncludedIn.visibility = View.GONE
+            holder.txtIncludedTag.visibility = View.GONE
+        } else {
+            holder.txtIncludedTag.visibility = View.VISIBLE
+            holder.txtIncludedIn.text = spannable
+        }
 
         Glide.with(context)
             .load(freeLiturgy.chapterPageImage)
@@ -90,6 +110,53 @@ class BottomSliderAdapter(
             }
         }
 
+       /* if(liturgyList[position].isPurchased == "Yes"){
+            if (liturgyList[position].audio_file == ""){
+                holder.txtPlayNow.visibility = View.GONE
+            }else{
+                holder.txtPlayNow.visibility = View.VISIBLE
+            }
+        }else{
+            holder.txtPlayNow.visibility = View.GONE
+        }*/
+
+        if (liturgyList[position].audio_file == ""){
+            holder.txtPlayNow.visibility = View.GONE
+        }else{
+            holder.txtPlayNow.visibility = View.VISIBLE
+        }
+
+        holder.txtPlayNow.setOnClickListener {
+           /* val intent = Intent(context, PlayAudioActivity::class.java)
+            intent.putExtra("title", liturgyList[position].chapterTitle);
+            intent.putExtra("audio", liturgyList[position].audio_file);
+            intent.putExtra("URL", liturgyList[position].chapterPageImage);
+            context.startActivity(intent)*/
+
+            playAudioClickListner.onPlayAudio(
+                liturgyList[position].chapterTitle,
+                liturgyList[position].audio_file,
+                false
+            )
+
+            /*val bundle = Bundle()
+            bundle.putString("title", liturgyList[position].chapterTitle)
+            bundle.putString("audio", liturgyList[position].audio_file);
+            var fragment: Fragment = PlayAudioFragment()
+            (context as MainActivity).replaceFragment(
+                fragment,
+                "Audio",
+                bundle
+            )*/
+
+            /* holder.itemView.setOnClickListener {
+                 val optionsFrag = PlayAudioFragment()
+                 (context as MainActivity).getSupportFragmentManager().beginTransaction()
+                     .replace(android.R.id.mainFrameLayout, optionsFrag, "OptionsFragment")
+                     .addToBackStack(null).commit()
+             }*/
+        }
+
         holder.btnReadNow.setOnClickListener() {
             bookOpenPosition = position
 
@@ -106,7 +173,7 @@ class BottomSliderAdapter(
                     context?.filesDir?.absolutePath + "/" + "test_" + freeLiturgy.chapterId + ".epub",
                     freeLiturgy
                 )
-            } else if(Utils.isNetworkAvailable(context)){
+            } else if (Utils.isNetworkAvailable(context)) {
                 progressDialog = Utils.showProgressDialog(context)!!
                 progressDialog.show()
                 val downloadId =
@@ -138,9 +205,7 @@ class BottomSliderAdapter(
                             }
                         })
                 Log.e("id", downloadId.toString())
-            }
-            else
-            {
+            } else {
                 Toast.makeText(
                     context,
                     context.resources.getString(R.string.liturgy_not_downloaded),
@@ -190,6 +255,9 @@ class BottomSliderAdapter(
             }.show()
     }
 
+    // var liturgyList: List<MyLiturgiesDataVo>,
+
+
     private fun setLiturgiesFavourite(
         ivfav: ImageView,
         liturgiesDataVo: MyLiturgiesDataVo,
@@ -202,6 +270,7 @@ class BottomSliderAdapter(
         setFavouriteRequestVo.isFavorite = liturgiesDataVo.isFavorite != "True"
         setFavouriteRequestVo.bookId = liturgiesDataVo.bookId
         setFavouriteRequestVo.chapterId = liturgiesDataVo.chapterId
+        setFavouriteRequestVo.type = "liturgy"
 
         val request = APIService.buildService(APIInterface::class.java)
         val call =

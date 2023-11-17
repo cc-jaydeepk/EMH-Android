@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/txtHeader"
+            style="@style/dialogBigTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txtMessage"
+            style="@style/dialogSmallTextStyle"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginRight="@dimen/_7sdp"
+            android:gravity="center" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="#DAD5D5" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_layout_hight"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtLougotCancel"
+                style="@style/dialogOkTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="No"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="@dimen/_33sdp"
+                android:layout_toRightOf="@id/txtOk"
+                android:background="#DAD5D5"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/txtOk"
+                style="@style/dialogOkTextStyle"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/OK" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -2,7 +2,7 @@ package com.folioreader.emh
 
 class PrivateSharingRequestVo {
 
-    var userId: Int = -1
+    var userId: Int = 0
     var deviceId: String = ""
-    var liturgyId: Int = -1
+    var liturgyId: Int = 0
 }

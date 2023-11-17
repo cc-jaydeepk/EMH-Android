@@ -18,4 +18,9 @@ class GetUserProfileResponseVo {
 
     var userProfilePic: String = ""
 
+    //var userSubscriptionDataresponse: GetUserProfileResponseVo = GetUserProfileResponseVo()
+
+    var userSubscriptionData: UserSubscriptionDataResVO = UserSubscriptionDataResVO()
+
 }
+

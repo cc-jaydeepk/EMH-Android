@@ -1,112 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/mainFrameLayout"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/bottom_sheet_padding">
-
-        <ImageView
-            android:id="@+id/imgFreeLiturgiescover"
-            style="@style/liturgiesListImageStyle"
-            android:src="@drawable/ic_fav_liturgy" />
-
-
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/bottom_sheet_text_margintop"
-            android:orientation="vertical"
-            android:padding="@dimen/bottom_sheet_textpadding">
+            android:layout_margin="7dp"
+            android:gravity="center"
+            android:padding="@dimen/bottom_sheet_padding">
 
-            <TextView
-                android:id="@+id/txtFreeLiturgiesTitle"
-                style="@style/liturgiesListTitleTextStyle"
-                android:text="Liturgies Name" />
+            <ImageView
+                android:id="@+id/imgFreeLiturgiescover"
+                style="@style/liturgiesListImageStyle"
+                android:src="@drawable/ic_fav_liturgy" />
 
-
-            <!--<TextView
-                android:id="@+id/txtFreeLiturgiesTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Liturgies Name"
-                android:textColor="@color/black"
-                android:textSize="@dimen/buttomsheet_txt_size"
-                android:textStyle="bold" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtLiturgiesTitle"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/buttomsheet_txt_margin"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/bottom_sheet_text_margintop"
+                android:orientation="vertical"
+                android:padding="@dimen/bottom_sheet_textpadding">
 
                 <TextView
-                    android:id="@+id/txt_free"
-                    android:layout_width="0dp"
+                    android:id="@+id/txtFreeLiturgiesTitle"
+                    style="@style/liturgiesListTitleTextStyle"
+                    android:text="Liturgies Name" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txtIncludedTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_medium"
+                        android:maxLines="1"
+                        android:text="Included in: "
+                        android:textColor="@color/graylight"
+                        android:textSize="@dimen/includedtext"/>
+
+                    <TextView
+                        android:id="@+id/txtIncludedIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_medium"
+                        android:maxLines="1"
+                        android:background="@drawable/txt_buttom_border"
+                        android:backgroundTint="@color/graylight"
+                        android:text="Included in: "
+                        android:textColor="@color/graylight"
+                        android:textSize="@dimen/includedtext"/>
+
+                </LinearLayout>
+
+
+
+
+                <!--<TextView
+                    android:id="@+id/txtFreeLiturgiesTitle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
-                    android:layout_weight="0.4"
-                    android:fontFamily="@font/lato_medium"
-                    android:gravity="center|left"
-                    android:text="Purchased"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/buttomsheet_freetxt_size" />
+                    android:text="Liturgies Name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/buttomsheet_txt_size"
+                    android:textStyle="bold" />-->
 
-                <ImageView
-                    android:id="@+id/imgShare"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/buttomsheet_shareimg_size"
-                    android:layout_gravity="center"
-                    android:layout_weight="0.15"
-                    android:gravity="center"
-                    android:src="@drawable/homeshare" />
-
-                <ImageView
-                    android:id="@+id/imgFavorite"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/buttomsheet_shareimg_size"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/_3sdp"
-                    android:layout_weight="0.15"
-                    android:gravity="center"
-                    android:src="@drawable/ic_fevrite" />
-
-                <Button
-                    android:id="@+id/btnReadNow"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/lato_medium"
-                    android:padding="@dimen/bottom_sheet_readnow_btn_padding"
-                    android:text="@string/read_now"
-                    android:textAllCaps="true"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/bottom_sheet_btnreadnow_txtsize"
-                    app:strokeColor="@color/loginbg" />
+                    android:layout_below="@+id/txtLiturgiesTitle"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/buttomsheet_txt_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txt_free"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_weight="0.4"
+                        android:fontFamily="@font/lato_medium"
+                        android:gravity="center|left"
+                        android:text="Purchased"
+                        android:textColor="@color/loginbg"
+                        android:textSize="@dimen/buttomsheet_freetxt_size"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/imgShare"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/buttomsheet_shareimg_size"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.15"
+                        android:gravity="center"
+                        android:src="@drawable/homeshare" />
+
+                    <ImageView
+                        android:id="@+id/imgFavorite"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/buttomsheet_shareimg_size"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_3sdp"
+                        android:layout_weight="0.15"
+                        android:gravity="center"
+                        android:src="@drawable/ic_fevrite" />
+
+                    <TextView
+                        android:id="@+id/txtPlayNow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_toRightOf="@+id/imgFavorite"
+                        android:background="@drawable/bg_unlock"
+                        android:fontFamily="@font/lato_medium"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingTop="@dimen/_6sdp"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_6sdp"
+                        android:text="Play Now"
+                        android:visibility="gone"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/bottom_sheet_btnreadnow_txtsize" />
+
+                    <!--<TextView
+                        android:id="@+id/txtPlayNow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:layout_toRightOf="@+id/imgFavorite"
+                        android:background="@drawable/bg_unlock"
+                        android:fontFamily="@font/lato_medium"
+                        android:padding="@dimen/_8sdp"
+                        android:text="Play Now"
+                        android:gravity="center"
+                        android:textAllCaps="true"
+                        android:layout_weight="0.5"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/bottom_sheet_btnreadnow_txtsize" />-->
+
+
+                    <TextView
+                        android:id="@+id/btnReadNow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_toRightOf="@+id/imgFavorite"
+                        android:background="@drawable/bg_read_now"
+                        android:fontFamily="@font/lato_medium"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingTop="@dimen/_6sdp"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_6sdp"
+                        android:text="@string/read_now"
+                        android:textAllCaps="true"
+                        android:textColor="@color/loginbg"
+                        android:textSize="@dimen/bottom_sheet_btnreadnow_txtsize" />
+
+                    <!--<Button
+                        android:id="@+id/btnReadNow"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/lato_medium"
+                        android:padding="@dimen/bottom_sheet_readnow_btn_padding"
+                        android:text="@string/read_now"
+                        android:textAllCaps="true"
+                        android:textColor="@color/loginbg"
+                        android:textSize="@dimen/bottom_sheet_btnreadnow_txtsize"
+                        app:strokeColor="@color/loginbg" />-->
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/mainRelative"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@android:color/black" />
+
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/mainRelative"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:background="@android:color/black" />
 
-</LinearLayout>
+</FrameLayout>

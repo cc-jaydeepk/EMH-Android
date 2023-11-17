@@ -1,5 +1,6 @@
 package com.everymomentholy.ui.fragments
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -21,6 +22,8 @@ import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.request.MyLiturgiesRequestVo
 import com.everymomentholy.api.response.*
 import com.everymomentholy.interfaces.LiturgyLitstClickListner
+import com.everymomentholy.interfaces.PlayAudioClickListner
+import com.everymomentholy.ui.activity.PlayAudioActivity
 import com.everymomentholy.ui.adapter.BottomSliderAdapter
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
 import com.everymomentholy.utils.Constants
@@ -35,7 +38,7 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
+class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner, PlayAudioClickListner {
 
     private lateinit var recycler_liturgy: RecyclerView
     private lateinit var ll_enroute_bottom_sheet: LinearLayout
@@ -82,11 +85,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             getBooks()
         } else {
             setUpOfflineView()
-          /*  Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()*/
+            /*  Toast.makeText(
+                  requireContext(),
+                  resources.getString(R.string.check_internet),
+                  Toast.LENGTH_LONG
+              ).show()*/
         }
 
         ll_enroute_bottom_sheet.setOnClickListener {
@@ -152,9 +155,9 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                 override fun onFailure(call: Call<MyLiturgiesResponseVo>, t: Throwable) {
                     progressCardView.visibility = View.GONE
                     if (context != null) {
-                     /*   Toast.makeText(
-                            requireContext(), "${t.message}", Toast.LENGTH_SHORT
-                        ).show()*/
+                        /*   Toast.makeText(
+                               requireContext(), "${t.message}", Toast.LENGTH_SHORT
+                           ).show()*/
                     }
                 }
             })
@@ -222,6 +225,7 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             bottomSliderAdapter = BottomSliderAdapter(
                 requireContext(),
                 filteredDataVo,
+                this@MyLiturgiesFragment
             )
             val layoutManager: RecyclerView.LayoutManager =
                 LinearLayoutManager(context)
@@ -254,11 +258,11 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
             getMyLiturgiesList(bookID, isAuto)
         } else {
             showLiturgiesOffline(bookID, isAuto)
-          /*  Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.check_internet),
-                Toast.LENGTH_LONG
-            ).show()*/
+            /*  Toast.makeText(
+                  requireContext(),
+                  resources.getString(R.string.check_internet),
+                  Toast.LENGTH_LONG
+              ).show()*/
         }
     }
 
@@ -343,9 +347,9 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
 
                 override fun onFailure(call: Call<GetLiturgiesResponseVo>, t: Throwable) {
                     if (context != null) {
-                       /* Toast.makeText(
-                            requireContext(), "${t.message}", Toast.LENGTH_SHORT
-                        ).show()*/
+                        /* Toast.makeText(
+                             requireContext(), "${t.message}", Toast.LENGTH_SHORT
+                         ).show()*/
                     }
                 }
             })
@@ -438,5 +442,12 @@ class MyLiturgiesFragment : Fragment(), LiturgyLitstClickListner {
                     }.show()
             }
         }
+    }
+
+    override fun onPlayAudio(title: String, audioUrl: String, isAuto: Boolean) {
+        val intent = Intent(context, PlayAudioActivity::class.java)
+        intent.putExtra("title", title);
+        intent.putExtra("audio", audioUrl);
+        context?.startActivity(intent)
     }
 }

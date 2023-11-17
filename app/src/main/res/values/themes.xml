@@ -32,6 +32,20 @@
         <item name="android:textSize">@dimen/edittext_hint_size</item>
     </style>
 
+    <style name="myStatusTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/loginbg</item>
+        <item name="android:textSize">@dimen/subscriptiontxt</item>
+    </style>
+
+    <style name="myStatusTextStyleRes">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/subscriptiontxt</item>
+    </style>
+
     <style name="bigTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -79,7 +93,7 @@
         <item name="fontFamily">@font/lato_bold</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/dialog_main_text</item>
-        <item name="android:text">Every Moment Holy</item>
+        <item name="android:text">Every Moment HOLY</item>
     </style>
 
     <style name="dialogSmallTextStyle">

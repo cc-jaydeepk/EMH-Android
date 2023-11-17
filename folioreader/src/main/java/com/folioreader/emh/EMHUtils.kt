@@ -3,26 +3,37 @@ package com.folioreader.emh
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import com.folioreader.Constants
+import com.folioreader.R
+import com.folioreader.ui.folio.activity.FolioActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
-import com.folioreader.R
-import com.folioreader.ui.folio.activity.FolioActivity
 
 class EMHUtils {
 
+
     companion object {
+
 
         var favoriteFlagChange: Boolean = false
         var favoriteStatusChange: Boolean = false
+
+        lateinit var mediaPlayer: MediaPlayer
+        lateinit var audioManager: AudioManager
 
         fun setLiturgiesFavourite(
             context: android.content.Context,
@@ -36,6 +47,7 @@ class EMHUtils {
                 !(liturgiesDataVo.isFavorite == "True" || liturgiesDataVo.isFavorite == "true")
             setFavouriteRequestVo.bookId = liturgiesDataVo.bookId
             setFavouriteRequestVo.chapterId = liturgiesDataVo.chapterId
+            setFavouriteRequestVo.type = "liturgy"
 
             val request = APIService.buildService(APIInterface::class.java)
             val call =
@@ -93,8 +105,7 @@ class EMHUtils {
                 context.contentResolver,
                 Settings.Secure.ANDROID_ID
             )
-            privateSharingRequest.userId =
-                liturgyDataVo.userId
+            privateSharingRequest.userId = liturgyDataVo.userId
             privateSharingRequest.liturgyId = liturgyDataVo.chapterId
 
             val request = APIService.buildService(APIInterface::class.java)
@@ -103,7 +114,7 @@ class EMHUtils {
 
             try {
                 call.enqueue(object : Callback<PrivateShareResponseVo> {
-                    @RequiresApi(Build.VERSION_CODES.CUPCAKE)
+
                     override fun onResponse(
                         call: Call<PrivateShareResponseVo>,
                         response: Response<PrivateShareResponseVo>
@@ -204,6 +215,24 @@ class EMHUtils {
 
             show.setCanceledOnTouchOutside(false)
         }
+
+        /*fun playAudio(context: android.content.Context, myLiturgiesDataVo: MyLiturgiesDataVo) {
+            mediaPlayer = MediaPlayer()
+            lateinit var audioUrl: String
+
+            audioUrl = myLiturgiesDataVo.audio_file
+
+            mediaPlayer.setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build()
+            )
+            mediaPlayer.setDataSource(audioUrl)
+            mediaPlayer.start()
+            (context as FolioActivity).isplayAudio(false, context)
+        }*/
+
     }
 
 }

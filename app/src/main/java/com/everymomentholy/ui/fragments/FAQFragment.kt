@@ -12,6 +12,7 @@ import android.webkit.WebView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
@@ -29,6 +30,7 @@ class FAQFragment : Fragment() {
     private lateinit var btnContactus: Button
     private lateinit var textFaq: TextView
     private lateinit var faqWebview: WebView
+    private lateinit var progressCardView: CardView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,9 +41,11 @@ class FAQFragment : Fragment() {
         (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
         textFaq = view.findViewById(R.id.textFaq)
         faqWebview = view.findViewById(R.id.faqWebview)
+        progressCardView = view.findViewById(R.id.progressCardView)
         val webSettings: WebSettings = faqWebview.getSettings()
         webSettings.javaScriptEnabled = true
         if (Utils.isNetworkAvailable(requireContext())) {
+            progressCardView.visibility = View.VISIBLE
             frequentlyAsked()
         } else {
             Toast.makeText(
@@ -73,7 +77,7 @@ class FAQFragment : Fragment() {
                     response: Response<FaqResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-
+                        progressCardView.visibility = View.GONE
                         faqWebview.loadData(
                             response.body()!!.response.description,
                             "text/html",

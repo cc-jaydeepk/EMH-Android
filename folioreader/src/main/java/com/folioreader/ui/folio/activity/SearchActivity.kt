@@ -268,13 +268,25 @@ class SearchActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Any?>,
             }
         })
 
-        itemSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+        /*itemSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
 
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                Log.v(LOG_TAG, "-> onMenuItemActionCollapse")
+                navigateBack()
+                return false
+            }
+        })*/
+
+        itemSearch.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(menuItem: MenuItem): Boolean {
                 Log.v(LOG_TAG, "-> onMenuItemActionCollapse")
                 navigateBack()
                 return false

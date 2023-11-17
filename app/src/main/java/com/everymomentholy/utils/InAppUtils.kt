@@ -2,6 +2,7 @@ package com.everymomentholy.utils
 
 import android.app.Activity
 import android.app.Application
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
@@ -24,6 +25,7 @@ import com.android.billingclient.api.ConsumeResponseListener
 import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.BillingClient
 import com.everymomentholy.ui.activity.CollectionListActivity
+import com.everymomentholy.ui.activity.FavLiturgyListActivity
 import com.everymomentholy.ui.activity.LiturgiesListActivity
 
 
@@ -195,6 +197,8 @@ class InAppUtils private constructor(
                     (activity as CollectionListActivity).onPurchaseComplete(purchaseRequestVo)
                 else if (activity is LiturgiesListActivity)
                     (activity as LiturgiesListActivity).onPurchaseComplete(purchaseRequestVo)
+                else if (activity is FavLiturgyListActivity)
+                    (activity as FavLiturgyListActivity).onPurchaseComplete(purchaseRequestVo)
 
             } else {
                 Log.e(TAG, "Consume Billing failed: " + billingResult.debugMessage)

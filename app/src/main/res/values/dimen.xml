@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <dimen name="seek_bar_thickness">4dp</dimen>
+    <dimen name="seek_bar_thumb_size">23dp</dimen>
+    <dimen name="openbtnn_widthnew">@dimen/_75sdp</dimen>
+
+
+    <dimen name="playaudio_playbtn">@dimen/_50sdp</dimen>
+    <dimen name="playaudio_volume_increse">@dimen/_25sdp</dimen>
+    <dimen name="playaudio_txt_size">@dimen/_14ssp</dimen>
+    <dimen name="playaudio_titletxt_size">@dimen/_16ssp</dimen>
+
+
+
+    <dimen name="mysubscriptiontext">18sp</dimen>
+    <dimen name="myprofilefrag">@dimen/_10sdp</dimen>
+    <dimen name="subscriptiontxt">@dimen/_14ssp</dimen>
+    <dimen name="subscription_marginlr">30dp</dimen>
+
+    <dimen name="homecardstack_size">@dimen/_290sdp</dimen>
+    <dimen name="homeshare_size">@dimen/_26sdp</dimen>
+    <dimen name="homeshareicon_size">@dimen/_18sdp</dimen>
+
+    <dimen name="subscribe_titletxt">@dimen/_16ssp</dimen>
+    <dimen name="subscribe_pricetxt">@dimen/_18ssp</dimen>
+    <dimen name="marginleft">20dp</dimen>
+    <dimen name="subscribe_plantype">18sp</dimen>
+    <dimen name="subscribe_txtdesc">14sp</dimen>
+    <dimen name="subscribe_txtsave">@dimen/_18ssp</dimen>
+    <dimen name="subscribe_save">17dp</dimen>
+    <dimen name="subscribe_nowbtn">16sp</dimen>
+    <dimen name="subscribe_nowbtnmarginbtm">15dp</dimen>
+
     <dimen name="login_margin">@dimen/_28sdp</dimen>
     <dimen name="login_margintop">@dimen/_45sdp</dimen>
     <dimen name="register_margintop">@dimen/_11sdp</dimen>
@@ -29,10 +61,12 @@
     <dimen name="home_frg_dessize">@dimen/_14ssp</dimen>
     <dimen name="home_frg_size">@dimen/_14ssp</dimen>
     <dimen name="home_frg_shareimg">@dimen/_33sdp</dimen>
+    <dimen name="home_frg_shareimg1">@dimen/_27sdp</dimen>
     <dimen name="home_frg_txtmrg">@dimen/_25sdp</dimen>
     <dimen name="myliturgyimagsize">@dimen/_70sdp</dimen>
     <dimen name="myliturgyimagmrg">@dimen/_3sdp</dimen>
     <dimen name="myliturgytxtsize">@dimen/_12ssp</dimen>
+    <dimen name="includedtext">@dimen/_8ssp</dimen>
     <dimen name="myliturgybtnmargin">@dimen/_15sdp</dimen>
     <dimen name="viewmargin">@dimen/_10sdp</dimen>
     <dimen name="liturgitxtsize">@dimen/_12ssp</dimen>
@@ -91,7 +125,7 @@
     <dimen name="openbtnn_textsize">@dimen/_8ssp</dimen>
     <dimen name="openbtnn_width">@dimen/_85sdp</dimen>
     <dimen name="openbtnn_height">@dimen/_35sdp</dimen>
-    <dimen name="openbtnn_margintop">@dimen/_54sdp</dimen>
+    <dimen name="openbtnn_margintop">@dimen/_56sdp</dimen>
     <dimen name="openbtnn_marginleft">@dimen/_85sdp</dimen>
     <dimen name="getliturgy_about_btn">@dimen/_6sdp</dimen>
     <dimen name="notification_next_arrow">@dimen/_28sdp</dimen>
@@ -102,7 +136,7 @@
     <dimen name="profile_image_hight">@dimen/_210sdp</dimen>
     <dimen name="profile_historybtn">@dimen/_5sdp</dimen>
     <dimen name="profile_historybtn_layout">@dimen/_70sdp</dimen>
-    <dimen name="profile_historybtn_margin">@dimen/_5sdp</dimen>
+    <dimen name="profile_historybtn_margin">@dimen/_7sdp</dimen>
     <dimen name="profile_edit_icon">@dimen/_25sdp</dimen>
     <dimen name="profile_edit_iconmargin">@dimen/_38sdp</dimen>
     <dimen name="dialog_main_text">@dimen/_18ssp</dimen>
@@ -131,12 +165,12 @@
     <dimen name="bottom_sheet_textpadding">@dimen/_5sdp</dimen>
     <dimen name="bottom_sheet_btnreadnow_txtsize">@dimen/_8ssp</dimen>
     <dimen name="getliturgy_cardview_height">@dimen/_280sdp</dimen>
-    <dimen name="bg_read_now_border">@dimen/_2sdp</dimen>
+    <dimen name="bg_read_now_border">@dimen/_1sdp</dimen>
     <dimen name="change_password_edtxtmargin">@dimen/_28sdp</dimen>
     <dimen name="toolbar_back">@dimen/_20sdp</dimen>
     <dimen name="changepassword_mainimage_margintop">@dimen/_25sdp</dimen>
     <dimen name="change_password_submitbtn_margin">@dimen/_70sdp</dimen>
-    <dimen name="fav_liturgiy_text_size">@dimen/_10ssp</dimen>
+    <dimen name="fav_liturgiy_text_size">@dimen/_8ssp</dimen>
     <dimen name="search_icon_size">@dimen/_18sdp</dimen>
     <dimen name="search_result_textsize">@dimen/_14ssp</dimen>
     <dimen name="search_show_matches_text_margintop">@dimen/_7sdp</dimen>

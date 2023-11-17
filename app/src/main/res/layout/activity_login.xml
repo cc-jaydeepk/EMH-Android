@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:indeterminateTint="@color/loginbg"
                 android:layout_marginBottom="@dimen/progressbar_margin_bottom" />
 
             <TextView
@@ -68,6 +69,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+
                 <!-- <ImageView
                      android:id="@+id/ivLoginBack"
                      android:layout_width="@dimen/_40sdp"
@@ -104,9 +106,10 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/rgste_fstnm_margintop"
                     android:background="@drawable/bg_register_edt"
-                    android:hint="@string/email"
+                    android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
                     android:singleLine="true" />
+
 
                 <EditText
                     android:id="@+id/edtLoginPassword"
@@ -129,17 +132,6 @@
                     android:text="@string/forgot_password"
                     android:textColor="@color/black"
                     android:textSize="@dimen/forgot_textsize" />
-
-                <!--<Button
-                    android:id="@+id/btn_Login"
-                    style="@style/edtStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/button_margin"
-                    android:backgroundTint="@color/loginbg"
-                    android:text="@string/login"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/login_button_txtsize" />-->
 
                 <Button
                     android:id="@+id/btn_Login"

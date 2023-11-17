@@ -43,10 +43,55 @@
             android:layout_toRightOf="@+id/imgFavCover"
             android:fontFamily="@font/lato_semibold"
             android:maxLines="3"
-            android:text="A Liturgy for DayBreak A Liturgy for DayBreak
-A Liturgy for DayBreak"
+            android:text="Liturgy Title"
             android:textColor="@color/black"
             android:textSize="@dimen/myliturgytxtsize" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFavLiturgyName"
+            android:layout_toLeftOf="@+id/imgFavShareImg"
+            android:layout_toRightOf="@+id/imgFavCover"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_medium"
+                android:maxLines="1"
+                android:text="Included in:"
+                android:textColor="@color/graylight"
+                android:textSize="@dimen/includedtext" />
+
+            <TextView
+                android:id="@+id/txtIncludedIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="4dp"
+                android:fontFamily="@font/lato_medium"
+                android:text="Included in: "
+                android:maxLines="1"
+                android:textColor="@color/graylight"
+                android:textSize="@dimen/includedtext" />
+
+            <!-- <TextView
+             android:background="@drawable/txt_buttom_border"
+                 android:backgroundTint="@color/graylight"
+                 android:id="@+id/txtIncludedIn"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@drawable/txt_buttom_border"
+                 android:fontFamily="@font/lato_medium"
+                 android:text="Included in: "
+                 android:textAllCaps="true"
+                 android:backgroundTint="@color/graylight"
+                 android:textColor="@color/graylight"
+                 android:textSize="@dimen/includedtext" />-->
+
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/imgFavShareImg"
@@ -70,7 +115,7 @@ A Liturgy for DayBreak"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="11dp"
             android:layout_marginEnd="11dp"
-            android:layout_marginRight="11dp"
+            android:layout_marginRight="9dp"
             app:srcCompat="@drawable/ic_favourite_fill"
             tools:ignore="VectorDrawableCompat" />
 
@@ -84,9 +129,34 @@ A Liturgy for DayBreak"
             android:fontFamily="@font/lato_medium"
             android:text="Free"
             android:textColor="@color/loginbg"
-            android:textSize="@dimen/fav_frag_freetxt" />
+            android:textSize="@dimen/fav_frag_freetxt"
+            android:visibility="gone" />
 
-        <Button
+        <TextView
+            android:id="@+id/btn_fav_read_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFavLiturgyName"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginRight="9dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_read_now"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_9sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingRight="@dimen/_9sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:text="Read Now"
+            android:textAllCaps="true"
+            android:textColor="@color/loginbg"
+            android:textSize="@dimen/openbtnn_textsize" />
+
+        <!--<Button
             android:id="@+id/btn_fav_read_now"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="@dimen/openbtnn_width"
@@ -100,7 +170,7 @@ A Liturgy for DayBreak"
             android:text="Read Now"
             android:textColor="@color/loginbg"
             android:textSize="@dimen/openbtnn_textsize"
-            app:strokeColor="@color/loginbg" />
+            app:strokeColor="@color/loginbg" />-->
 
     </RelativeLayout>
 
