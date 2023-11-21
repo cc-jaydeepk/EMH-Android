@@ -12,6 +12,7 @@ import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextUtils
 import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -211,11 +212,21 @@ class GetLiturgiesFromBookIDAdapter(
 
         mediaPlayer = MediaPlayer()
 
-        if (liturgyList[position].audio_file == "" || holder.btnUnlock.text == "Subscribe") {
+        if(liturgyList[position].isPurchased.equals("Yes", true)){
+            if (TextUtils.isEmpty(liturgyList[position].audio_file) || holder.btnUnlock.text == "Subscribe") {
+                holder.btnPlayNow.visibility = View.GONE
+            } else {
+                holder.btnPlayNow.visibility = View.VISIBLE
+            }
+        }else{
+            holder.btnPlayNow.visibility = View.GONE
+        }
+
+       /* if (liturgyList[position].audio_file == "" || holder.btnUnlock.text == "Subscribe") {
             holder.btnPlayNow.visibility = View.GONE
         } else {
             holder.btnPlayNow.visibility = View.VISIBLE
-        }
+        }*/
 
         holder.btnPlayNow.setOnClickListener {
             Log.e("AUDIOURL", "onBindViewHolder: " + liturgyList[position].chapterPageImage)
@@ -236,13 +247,17 @@ class GetLiturgiesFromBookIDAdapter(
 
 
         holder.imgFavorite.setOnClickListener {
-            setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
+            if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                showDialogForUnlockWithoutLogin(liturgyList[position])
+            } else {
+                setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
+            }
         }
 
         holder.imgShare.setOnClickListener() {
             if (Utils.isNetworkAvailable(context)) {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                    (context as MainActivity).showLoginDialog()
+                    showDialogForUnlockWithoutLogin(liturgyList[position])
                 } else {
                     privateShareLiturgy(liturgyList[position])
                 }

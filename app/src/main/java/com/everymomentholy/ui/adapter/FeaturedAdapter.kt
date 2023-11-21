@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextUtils
 import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -168,10 +169,14 @@ class FeaturedAdapter(
             holder.btnPlayNow.visibility = View.GONE
         }*/
 
-        if (featuredLiturgiesList[position].audio_file == ""){
-            holder.btnPlayNow.visibility = View.GONE
+        if(featuredLiturgiesList[position].isPurchased.equals("Yes", true)){
+            if (TextUtils.isEmpty(featuredLiturgiesList[position].audio_file)){
+                holder.btnPlayNow.visibility = View.GONE
+            }else{
+                holder.btnPlayNow.visibility = View.VISIBLE
+            }
         }else{
-            holder.btnPlayNow.visibility = View.VISIBLE
+            holder.btnPlayNow.visibility = View.GONE
         }
 
         holder.btnPlayNow.setOnClickListener {

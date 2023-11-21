@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextUtils
 import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -120,10 +121,14 @@ class BottomSliderAdapter(
             holder.txtPlayNow.visibility = View.GONE
         }*/
 
-        if (liturgyList[position].audio_file == ""){
-            holder.txtPlayNow.visibility = View.GONE
+        if(liturgyList[position].isPurchased.equals("Yes", true)){
+            if (TextUtils.isEmpty(liturgyList[position].audio_file)){
+                holder.txtPlayNow.visibility = View.GONE
+            }else{
+                holder.txtPlayNow.visibility = View.VISIBLE
+            }
         }else{
-            holder.txtPlayNow.visibility = View.VISIBLE
+            holder.txtPlayNow.visibility = View.GONE
         }
 
         holder.txtPlayNow.setOnClickListener {

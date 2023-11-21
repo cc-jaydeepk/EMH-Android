@@ -172,7 +172,11 @@ class BottomSliderCollectionAdapter(
 
 
         holder.imgFavorite.setOnClickListener {
-            setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
+            if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                showDialogForUnlockWithoutLogin(freeLiturgies)
+            } else {
+                setLiturgiesFavourite(holder.imgFavorite, liturgyList[position], position)
+            }
         }
 
         if (freeLiturgies.isFavorite == "True" || freeLiturgies.isFavorite == "true") {
@@ -251,7 +255,7 @@ class BottomSliderCollectionAdapter(
                     transferToLiturgyList(freeLiturgies)
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                        if (holder.btnReadNow.text == "Subscribe") {
+                        if (holder.btnReadNow.text == "OPEN") {
                             transferToLiturgyList(freeLiturgies)
                         } else {
                             showDialogForUnlockWithoutLogin(freeLiturgies)

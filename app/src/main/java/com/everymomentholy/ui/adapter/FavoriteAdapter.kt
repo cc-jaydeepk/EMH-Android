@@ -134,6 +134,7 @@ class FavoriteAdapter(
                     myLiturgiesDataVo.chapterId = favLiturgiesList[position].chapterId
                     myLiturgiesDataVo.isFavorite = favLiturgiesList[position].isFavorite
                     myLiturgiesDataVo.audio_file = favLiturgiesList[position].audio_file
+                    myLiturgiesDataVo.isPurchased = favLiturgiesList[position].isPurchased
 
                     Utils.invokeBookReader(
                         context,

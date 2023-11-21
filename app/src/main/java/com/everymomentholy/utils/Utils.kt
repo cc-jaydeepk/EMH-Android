@@ -229,6 +229,7 @@ class Utils {
             myLiturgyVo.isFavorite = myLiturgiesDataVo.isFavorite
             myLiturgyVo.audio_file = myLiturgiesDataVo.audio_file
             myLiturgyVo.volumeTags = myLiturgiesDataVo.volumeTags
+            myLiturgyVo.isPurchased = myLiturgiesDataVo.isPurchased
 
             folioReader.openBook(
                 context?.filesDir?.absolutePath + "/" + "test_" + myLiturgiesDataVo.chapterId + ".epub",

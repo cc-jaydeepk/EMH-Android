@@ -168,6 +168,7 @@ public class FolioActivity
     private MediaPlayer mediaPlayer;
     Boolean isAuto = false;
     boolean isplay;
+    String isPurchased;
 
 
     // private var tts: TextToSpeech? = null
@@ -334,8 +335,9 @@ public class FolioActivity
         }
 
         Uri uri = Uri.parse(myLiturgiesDataVo.getAudio_file());
-        Log.e("AUDIO", "AUDIOURL: " + uri);
+      //  Log.e("AUDIO", "AUDIOURL: " + uri);
         String includedTag = myLiturgiesDataVo.getVolumeTags();
+        isPurchased = myLiturgiesDataVo.isPurchased();
         Log.e("INCLUDED", "INCLUDED: " + includedTag);
         txtIncludedIn = findViewById(R.id.txtIncludedIn);
         includedText = findViewById(R.id.includedText);
@@ -466,7 +468,13 @@ public class FolioActivity
             menu.getItem(4).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_favourite_fill_folio));
         }
 
-        if (myLiturgiesDataVo.getAudio_file() == "") {
+        if (isPurchased.equalsIgnoreCase("Yes")) {
+            if (TextUtils.isEmpty(myLiturgiesDataVo.getAudio_file())) {
+                menu.findItem(R.id.itemTts).setVisible(false);
+            } else {
+                menu.findItem(R.id.itemTts).setVisible(true);
+            }
+        } else {
             menu.findItem(R.id.itemTts).setVisible(false);
         }
 
