@@ -112,7 +112,7 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
         rcvSubscriptionPlan = findViewById(R.id.rcvSubscriptionPlan)
         progressCardView = findViewById(R.id.progressCardView)
 
-        btnSubscribeNow.isEnabled = true
+        btnSubscribeNow.isClickable = true
 
         iv_toolbar_backImage.setOnClickListener {
             onBackPressed()
@@ -156,7 +156,7 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
         }
 
         btnSubscribeNow.setOnClickListener {
-            btnSubscribeNow.isEnabled = false
+            btnSubscribeNow.isClickable = false
             if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                 //showLoginDialog()
                 showDialogForUnlockWithoutLogin()
@@ -600,6 +600,7 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
 
     override fun onResume() {
         super.onResume()
+        btnSubscribeNow.isClickable = true
         // Toast.makeText(context, "This is on resume", Toast.LENGTH_LONG).show()
 
     }

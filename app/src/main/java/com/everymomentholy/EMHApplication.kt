@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.downloader.PRDownloader
 import com.downloader.PRDownloaderConfig
-import com.everymomentholy.utils.InAppUtils
 import kotlinx.coroutines.GlobalScope
 
 class EMHApplication : Application() {
@@ -14,10 +13,10 @@ class EMHApplication : Application() {
     // Container of objects shared across the whole app
     inner class AppContainer {
         private val applicationScope = GlobalScope
-        private val inAppUtils = InAppUtils.getInstance(
+        /*private val inAppUtils = InAppUtils.getInstance(
             this@EMHApplication,
             applicationScope
-        )
+        )*/
     }
 
     override fun onCreate() {

@@ -30,7 +30,6 @@ import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.ui.activity.*
 import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
@@ -397,9 +396,9 @@ class BottomSliderCollectionAdapter(
             discountAmount = collectionDataVo.discountAmount
         )
 
-        val inAppUtils =
+        /*val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
-        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
+        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)*/
     }
 
     fun showDialogForUnlockWithoutLogin(myLiturgyDataVo: CollectionDataVo) {

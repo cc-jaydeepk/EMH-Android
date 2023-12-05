@@ -98,6 +98,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         relativeLayout = view.findViewById(R.id.relativeLayout)
 
         // (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        btnSubscribeNow.isClickable = true
 
         isFrom = requireArguments().getBoolean("onPress")
         isFromHome = requireArguments().getBoolean("onPressHome")
@@ -169,7 +170,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         subscriptionPlanList()
 
         btnSubscribeNow.setOnClickListener {
-            // btnSubscribeNow.isEnabled = false
+            btnSubscribeNow.isClickable = false
 
             if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                 //showLoginDialog()
@@ -598,6 +599,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
 
     override fun onResume() {
         super.onResume()
+        btnSubscribeNow.isClickable = true
         // Toast.makeText(context, "This is on resume", Toast.LENGTH_LONG).show()
         if (context != null) {
             /*     if (Utils.isNetworkAvailable(requireContext())) {

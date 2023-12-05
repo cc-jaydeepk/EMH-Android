@@ -41,6 +41,7 @@ class MySubscriptionStatus : AppCompatActivity() {
     var prefeUserId: Int = 0
     lateinit var subScription_id: String
     lateinit var cancelMessage: String
+    lateinit var subscription_status: String
     lateinit var progressCardView: CardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,6 +120,10 @@ class MySubscriptionStatus : AppCompatActivity() {
         txtExpiretDate.text = endDate
         txtSttus.text = statusDate
         txtTypeDate.text = typeDate
+        subscription_status = ""
+        if (statusDate != null) {
+            subscription_status = statusDate
+        }
 
         /*if (subscriptionStatus == "Yes" && upcomingPlan == "Yes") {
             btnUnsubscribe.visibility = View.VISIBLE
@@ -126,9 +131,13 @@ class MySubscriptionStatus : AppCompatActivity() {
             btnUnsubscribe.visibility = View.GONE
         }*/
 
-        if (subscriptionStatus == "Yes" && upcomingPlan == "Yes") {
+        if (subscriptionStatus.equals("Yes",true) && upcomingPlan.equals("Yes",true)) {
             btnUnsubscribe.visibility = View.GONE
-        } else {
+        } else if(subscription_status.equals("cancelled",true) || subscription_status.equals("canceled",true))
+        {
+            btnUnsubscribe.visibility = View.GONE
+        }
+        else {
             btnUnsubscribe.visibility = View.VISIBLE
         }
 

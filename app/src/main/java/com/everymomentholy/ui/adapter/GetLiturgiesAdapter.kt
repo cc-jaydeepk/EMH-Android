@@ -22,7 +22,6 @@ import com.everymomentholy.ui.activity.CollectionListActivity
 import com.everymomentholy.ui.activity.LiturgiesListDialogActivity
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
 
@@ -181,8 +180,8 @@ class GetLiturgiesAdapter(
     }
 
     private fun startPurchaseFlow(price: String) {
-        val inAppUtils =
-            InAppUtils.getInstance((context as Activity).application, GlobalScope)
+        /*val inAppUtils =
+            InAppUtils.getInstance((context as Activity).application, GlobalScope)*/
         // inAppUtils.initiatePurchaseFlow(context as Activity, price)
     }
 }

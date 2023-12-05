@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -22,9 +24,10 @@ import com.downloader.PRDownloader
 import com.everymomentholy.R
 import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.SelectOptionActivity
+import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.Utils
 import kotlinx.coroutines.GlobalScope
 
@@ -62,7 +65,7 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
             myLiturgiesDataVo.isFeatured == "Yes"
         ) {
             //holder.txtSearchLiturgyReadNow.text = "Read Now"
-            holder.txtSearchLiturgyReadNow.text = "Open"
+            holder.txtSearchLiturgyReadNow.text = "OPEN"
             var sdk = android.os.Build.VERSION.SDK_INT;
             if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 holder.txtSearchLiturgyReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
@@ -73,7 +76,7 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
             }
         } else {
             //holder.txtSearchLiturgyReadNow.text = "Buy Now"
-            holder.txtSearchLiturgyReadNow.text = "Subscribe"
+            holder.txtSearchLiturgyReadNow.text = "SUBSCRIBE"
             holder.txtSearchLiturgyReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
             holder.txtSearchLiturgyReadNow.setTextColor(context.resources.getColor(R.color.white))
         }
@@ -103,13 +106,21 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                     startPurchaseFlow(myLiturgiesDataVo)
                 }
             }*/
-            if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Open") {
+            if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "OPEN") {
                 readBook(myLiturgiesDataVo)
-            } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "Subscribe") {
+            } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "SUBSCRIBE") {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(myLiturgiesDataVo)
                 } else {
-                    startPurchaseFlow(myLiturgiesDataVo)
+                   // startPurchaseFlow(myLiturgiesDataVo)
+                    val bundle = Bundle()
+                    bundle.putBoolean("onPress", false);
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    (context as MainActivity).replaceFragment(
+                        fragment,
+                        "subscription",
+                        bundle
+                    )
                 }
             }
         }
@@ -159,32 +170,6 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
         Log.e("id", downloadId.toString())
     }
 
-    @SuppressLint("HardwareIds")
-    private fun startPurchaseFlow(myLiturgyDataVo: MyLiturgiesDataVo) {
-        val deviceId = Settings.Secure.getString(
-            context.contentResolver,
-            Settings.Secure.ANDROID_ID
-        )
-        val userId = Utils.readIntData(
-            context,
-            Constants.PrefUserID,
-            0
-        )
-        val purchaseRequestVo = PurchaseRequestVo(
-            userId,
-            bookId = myLiturgyDataVo.bookId,
-            amount = myLiturgyDataVo.price,
-            deviceId = deviceId,
-            liturgyId = myLiturgyDataVo.chapterId,
-            volumeId = 0,
-            productType = myLiturgyDataVo.productType,
-            productId = myLiturgyDataVo.liturgyPurchaseCode
-        )
-
-        val inAppUtils =
-            InAppUtils.getInstance((context as Activity).application, GlobalScope)
-        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
-    }
 
     fun showDialogForUnlockWithoutLogin(myLiturgyDataVo: MyLiturgiesDataVo) {
         val alertDialog = AlertDialog.Builder(
@@ -212,7 +197,15 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
 
         alertButtonPurchase.setOnClickListener() {
             dialog.dismiss()
-            startPurchaseFlow(myLiturgyDataVo)
+          //  startPurchaseFlow(myLiturgyDataVo)
+            val bundle = Bundle()
+            bundle.putBoolean("onPress", false);
+            var fragment: Fragment = SubscriptionPlanListFragment()
+            (context as MainActivity).replaceFragment(
+                fragment,
+                "subscription",
+                bundle
+            )
         }
         dialog.setCanceledOnTouchOutside(false)
     }

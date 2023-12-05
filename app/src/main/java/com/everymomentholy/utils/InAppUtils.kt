@@ -1,6 +1,6 @@
 package com.everymomentholy.utils
 
-import android.app.Activity
+/*import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.os.Handler
@@ -111,8 +111,9 @@ class InAppUtils private constructor(
             return skuDetailsResult.skuDetailsList?.get(0)!!
         else
             return null
-        /*} else
-            return null*/
+} else
+            return null
+
         // Process the result.
     }
 
@@ -149,10 +150,11 @@ class InAppUtils private constructor(
         retryBillingServiceConnectionWithExponentialBackoff()
     }
 
-    /**
+*
      * Retries the billing service connection with exponential backoff, maxing out at the time
      * specified by RECONNECT_TIMER_MAX_TIME_MILLISECONDS.
-     */
+
+
     private fun retryBillingServiceConnectionWithExponentialBackoff() {
         handler.postDelayed(
             { billingClient.startConnection(this@InAppUtils) },
@@ -174,10 +176,11 @@ class InAppUtils private constructor(
                 // This doesn't mean that your app is set up correctly in the console -- it just
                 // means that you have a connection to the Billing service.
                 reconnectMilliseconds = RECONNECT_TIMER_START_MILLISECONDS
-                /*defaultScope.launch {
+defaultScope.launch {
                    // querySkuDetails()
                     // refreshPurchases()
-                }*/
+                }
+
             }
             else -> retryBillingServiceConnectionWithExponentialBackoff()
         }
@@ -209,16 +212,16 @@ class InAppUtils private constructor(
         if (null != purchases) {
             for (purchase in purchases) {
 
-                /*For consumables, the consumeAsync() method fulfills the acknowledgement requirement and indicates
+For consumables, the consumeAsync() method fulfills the acknowledgement requirement and indicates
                 that your app has granted entitlement to the user. This method also enables your app to make the
-                one-time product available for purchase again.*/
+                one-time product available for purchase again.
+
                 val consumeParams = ConsumeParams
                     .newBuilder()
                     .setPurchaseToken(purchase.purchaseToken)
                     .build()
                 billingClient.consumeAsync(consumeParams, listener)
 
-                /*
                  No need to call acknowledgePurchase for consumable products and it is already handled by
                  consumeAsync()
 
@@ -234,12 +237,14 @@ class InAppUtils private constructor(
                              Log.e(TAG, "Error acknowledging purchase: ${purchase.skus.toString()}")
                          } else {
                              // purchase acknowledged
-                             *//*for (sku in purchase.skus) {
+
+for (sku in purchase.skus) {
                                 setSkuState(sku, SkuState.SKU_STATE_PURCHASED_AND_ACKNOWLEDGED)
-                            }*//*
+                            }
                         }
                     }
-                }*/
+                }
+
             }
         }
     }
@@ -303,4 +308,4 @@ class InAppUtils private constructor(
         // initializeFlows()
         billingClient.startConnection(this)
     }
-}
+}*/

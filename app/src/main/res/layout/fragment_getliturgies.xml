@@ -176,6 +176,7 @@
                 android:gravity="center"
                 android:padding="@dimen/getliturgy_btn_padding"
                 android:text="Unlock"
+                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/getliturgy_btn_txtsize" />

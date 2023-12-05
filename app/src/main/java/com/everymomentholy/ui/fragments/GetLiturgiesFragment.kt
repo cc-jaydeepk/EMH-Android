@@ -30,7 +30,6 @@ import com.everymomentholy.interfaces.GetLiturgiesClickListner
 import com.everymomentholy.ui.activity.*
 import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.utils.Constants
-import com.everymomentholy.utils.InAppUtils
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
 import com.stripe.android.PaymentConfiguration
@@ -88,7 +87,8 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         txtSubscribeForFull = view.findViewById(R.id.txtSubscribeForFull)
         progressCardView = view.findViewById(R.id.progressCardView)
 
-        // progressCardView = view.findViewById(R.id.progressCardView)
+        progressCardView.visibility = View.VISIBLE
+
 
         var usersubscriptionStatus = Utils.readStringFromSharedPref(
             requireActivity(), Constants.USER_SUBSCRIPTIONSTATUS,
@@ -96,11 +96,11 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         )
         if (usersubscriptionStatus == "Yes") {
             txtSubscribeForFull.visibility = View.GONE
-
         } else {
             txtSubscribeForFull.visibility = View.GONE
 
         }
+
 
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
@@ -197,6 +197,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     //progressCardView.visibility = View.GONE
                     if (response.body()?.statusCode == 1) {
                         progressCardView.visibility = View.GONE
+                        txtUnlock.visibility = View.VISIBLE
                         llGetLiturgiesMain.visibility = View.VISIBLE
                         var isVolume =
                             response.body()!!.response.data.filter { it.isVolume == "Yes" } as ArrayList<GetLiturgiesDataVo>
@@ -420,9 +421,9 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             discountAmount = getLiturgiesDataVo.discountAmount
         )
 
-        val inAppUtils =
+        /*val inAppUtils =
             InAppUtils.getInstance((context as Activity).application, GlobalScope)
-        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)
+        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)*/
     }
 
     fun showDialogForUnlockWithoutLogin(myLiturgyDataVo: GetLiturgiesDataVo) {

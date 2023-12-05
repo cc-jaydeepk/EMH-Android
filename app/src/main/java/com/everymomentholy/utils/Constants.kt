@@ -10,10 +10,10 @@ class Constants {
         //const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/"
 
         //31-10-2023 staging
-        //const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/apiV2/"
+        const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/apiV2/"
 
         //Live server
-        const val BASE_URL = "https://app.everymomentholy.com/apiV2/"
+        //const val BASE_URL = "https://app.everymomentholy.com/apiV2/"
 
         //API
         const val API_REGISTRATION = "register"
@@ -77,6 +77,7 @@ class Constants {
         const val USER_EMAIL = "email"
         const val UPCOMINGPLAN = "upcomingplan"
         const val USER_SUBSCRIPTIONSTATUS = "subscriptionStatus"
+        const val USER_SUBSCRIPTION = "usersubscription"
         const val USER_SUBSCRIPTIONMESSAGE = "  message"
         const val PROFILE_PIC = "userProfilePic"
         const val PROFILE = "userProfilePic"
