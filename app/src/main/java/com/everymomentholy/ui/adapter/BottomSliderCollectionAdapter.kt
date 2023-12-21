@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
@@ -26,13 +23,10 @@ import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.CollectionDataVo
-import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.ui.activity.*
-import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
-import kotlinx.coroutines.GlobalScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -70,7 +64,7 @@ class BottomSliderCollectionAdapter(
         holder.imgFavorite.visibility = View.VISIBLE
 
         if (position == 0) {
-            if (freeLiturgies.isPurchased == "Yes") {
+            if (freeLiturgies.isPurchased.equals("Yes", true)) {
                 if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased == "Yes") {
                     holder.btnReadNow.text = "OPEN"
                     // holder.btnPlayNow.visibility = View.VISIBLE
@@ -137,7 +131,7 @@ class BottomSliderCollectionAdapter(
                 }
             }
         } else {
-            if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased == "Yes") {
+            if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased.equals("Yes", true)) {
                 holder.btnReadNow.text = "OPEN"
                 // holder.btnReadNow.text = "OPEN"
                 var sdk = android.os.Build.VERSION.SDK_INT;
@@ -148,7 +142,7 @@ class BottomSliderCollectionAdapter(
                     holder.btnReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
-                if (freeLiturgies.isPurchased == "Yes") {
+                if (freeLiturgies.isPurchased.equals("Yes", true)) {
                     holder.txtLiturgiesPrice.text = "Purchased"
                 } else {
                     holder.txtLiturgiesPrice.text = "Free"
@@ -166,10 +160,6 @@ class BottomSliderCollectionAdapter(
             .load(freeLiturgies.bookCoverPageImage)
             .into(holder.imgFreeLiturgiescover)
 
-
-
-
-
         holder.imgFavorite.setOnClickListener {
             if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                 showDialogForUnlockWithoutLogin(freeLiturgies)
@@ -185,7 +175,7 @@ class BottomSliderCollectionAdapter(
         }
 
         holder.btnReadNow.setOnClickListener() {
-            if (holder.btnReadNow.text == "Subscribe") {
+            if (holder.btnReadNow.text.toString().equals("Subscribe", true)) {
                 // holder.btnReadNow.text == "Unlock Collection"
                 // this is collection part
                 freeLiturgies.productTypes = ProductTypes.BOOK
@@ -205,7 +195,7 @@ class BottomSliderCollectionAdapter(
                         bundle
                     )*/
                 }
-            } else if (holder.btnReadNow.text == "Subscribe") {
+            } else if (holder.btnReadNow.text.toString().equals("Subscribe", true)) {
                 // holder.btnReadNow.text == "Unlock Volume"
                 //this is volume paart
                 freeLiturgies.productTypes = ProductTypes.VOLUME
@@ -228,10 +218,10 @@ class BottomSliderCollectionAdapter(
                         bundle
                     )*/
                 }
-            } else if (holder.btnReadNow.text == "OPEN") {
+            } else if (holder.btnReadNow.text.toString().equals("OPEN", true)) {
                 transferToLiturgyList(freeLiturgies)
             } else {
-                if (freeLiturgies.isPurchased == "Yes") {
+                if (freeLiturgies.isPurchased.equals("Yes", true)) {
                     //if (position > 0) {
                     transferToLiturgyList(freeLiturgies)
                     //}
@@ -245,7 +235,7 @@ class BottomSliderCollectionAdapter(
 
         holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
 
-            if (freeLiturgies.isPurchased == "Yes") {
+            if (freeLiturgies.isPurchased.equals("Yes", true)) {
                 //if (position > 0) {
                 transferToLiturgyList(freeLiturgies)
                 //}
@@ -254,7 +244,7 @@ class BottomSliderCollectionAdapter(
                     transferToLiturgyList(freeLiturgies)
                 } else {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                        if (holder.btnReadNow.text == "OPEN") {
+                        if (holder.btnReadNow.text.toString().equals("OPEN", true)) {
                             transferToLiturgyList(freeLiturgies)
                         } else {
                             showDialogForUnlockWithoutLogin(freeLiturgies)
@@ -270,14 +260,6 @@ class BottomSliderCollectionAdapter(
         }
 
     }
-
-    /* private fun replaceFragment(fragment: Fragment, s: String, bundle: Bundle) {
-         val fragmentManager = context.supportFragmentManager
-         val transaction = fragmentManager.beginTransaction()
-         transaction.replace(R.id.frameLayout, fragment)
-
-     }*/
-
 
     override fun getItemCount(): Int {
         return liturgyList.size

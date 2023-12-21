@@ -273,8 +273,8 @@ class LoginActivity : AppCompatActivity() {
                 loginRequestVo.firebase_token = token
                 login(loginRequestVo)
 //                        Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-                Log.e("token", token.toString())
+               // Log.e("token", token.toString())
+                Log.e("TOKEN", "getFirebaseToken: "+ token )
             })
-
     }
 }

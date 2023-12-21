@@ -185,6 +185,7 @@
                             android:gravity="center"
                             android:paddingLeft="3dp"
                             android:paddingRight="3dp"
+                            android:visibility="gone"
                             android:src="@drawable/homeshare" />
 
 
@@ -197,9 +198,11 @@
                             android:layout_marginRight="@dimen/_12sdp"
                             android:layout_toRightOf="@+id/imgShare"
                             android:gravity="center"
+                            android:visibility="gone"
                             android:src="@drawable/ic_fevrite" />
 
                         <TextView
+
                             android:id="@+id/txtPlayNow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

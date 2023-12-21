@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -84,8 +85,8 @@ class BottomSliderLiturgiesAdapter(
         holder.imageBook.visibility = View.GONE
 
 
-        if (freeLiturgies.price == "0.00" || freeLiturgies.isPurchased == "Yes") {
-            if (freeLiturgies.isPurchased == "Yes") {
+        if (freeLiturgies.price == "0.00" || freeLiturgies.isPurchased.equals("Yes", true)) {
+            if (freeLiturgies.isPurchased.equals("Yes", true)) {
                 holder.txtLiturgiesPrice.text = "Purchased"
             } else {
                 holder.txtLiturgiesPrice.text = "Free"
@@ -131,11 +132,6 @@ class BottomSliderLiturgiesAdapter(
             context.startActivity(intent)
 
         }
-       /* if () {
-            holder.txtPlayNow.visibility = View.GONE
-        } else {
-            holder.txtPlayNow.visibility = View.VISIBLE
-        }*/
 
         holder.imgShare.setOnClickListener() {
             if (Utils.isNetworkAvailable(context)) {
@@ -176,7 +172,7 @@ class BottomSliderLiturgiesAdapter(
         }
 
         holder.btnReadNow.setOnClickListener() {
-            if (holder.btnReadNow.text == "Subscribe") {
+            if (holder.btnReadNow.text.toString().equals("Subscribe", true)) {
                 //  holder.btnReadNow.text == "Subscribe Collection
                 // this is the collection part
                 freeLiturgies.productType = ProductTypes.BOOK
@@ -187,14 +183,9 @@ class BottomSliderLiturgiesAdapter(
                     val bundle = Bundle()
                     bundle.putBoolean("onPress", true);
                     var fragment: Fragment = SubscriptionPlanListFragment()
-                    /*  (context as MainActivity).replaceFragment(
-                          fragment,
-                          "subscription",
-                          bundle
-                      )*/
                     (context as MainActivity).replaceFragment(fragment, "subscription", bundle)
                 }
-            } else if (holder.btnReadNow.text == "Subscribe") {
+            } else if (holder.btnReadNow.text.toString().equals("Subscribe", true)) {
                 freeLiturgies.productType = ProductTypes.LITURGY
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(freeLiturgies)
@@ -215,7 +206,7 @@ class BottomSliderLiturgiesAdapter(
         }
 
         holder.llBottomSliderGetLiturgiesAbout.setOnClickListener() {
-            if (holder.btnReadNow.text == "Subscribe") {
+            if (holder.btnReadNow.text.toString().equals("Subscribe", true)) {
                 //if (holder.btnReadNow.text == "Unlock Collection")
                 freeLiturgies.productType = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
@@ -223,7 +214,7 @@ class BottomSliderLiturgiesAdapter(
                 } else {
                     startPurchaseFlow(freeLiturgies)
                 }
-            } else if (holder.btnReadNow.text == "Open") {
+            } else if (holder.btnReadNow.text.toString().equals("Open", true)) {
                 readBook(freeLiturgies)
             }
         }
@@ -402,9 +393,9 @@ class BottomSliderLiturgiesAdapter(
                 ) {
                     if (response.body()?.statusCode == 1) {
                         if (liturgiesDataVo.isFavorite == "True") {
-                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+                            ivfav.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite))
                         } else {
-                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+                            ivfav.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favourite_fill))
                         }
                         updateList(setFavouriteRequestVo.isFavorite, position)
                     } else {

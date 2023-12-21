@@ -9,7 +9,6 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.provider.Settings
-import android.speech.tts.TextToSpeech
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
@@ -25,6 +24,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -33,20 +33,16 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.PrivateSharingRequestVo
-import com.everymomentholy.api.request.PurchaseRequestVo
 import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
-import com.everymomentholy.interfaces.PlayAudioClickListner
-import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.PlayAudioActivity
 import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.ui.activity.SelectSubscriptionPlan
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
-import kotlinx.coroutines.GlobalScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,7 +55,6 @@ class GetLiturgiesFromBookIDAdapter(
 
     lateinit var progressDialog: ProgressDialog
 
-    lateinit var tts: TextToSpeech
     lateinit var mediaPlayer: MediaPlayer
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -97,91 +92,133 @@ class GetLiturgiesFromBookIDAdapter(
     ) {
 
         if (position == 0) {
-            if (liturgyList[position].isFree == "Yes" || liturgyList[position].price == "0.0" || liturgyList[position].price == "0.00") {
+
+            if (liturgyList[position].isFree.equals(
+                    "Yes",
+                    true
+                ) || liturgyList[position].price == "0.0" || liturgyList[position].price == "0.00"
+            ) {
                 holder.imageBook.visibility = View.GONE
                 holder.txtPrice.text = "Free"
                 holder.btnUnlock.text = "Read Now"
                 holder.txtIncludedText.visibility = View.GONE
                 holder.txtIncludedIn.visibility = View.GONE
+                holder.imgFavorite.visibility = View.VISIBLE
+                holder.imgShare.visibility = View.VISIBLE
                 // holder.btnPlayNow.visibility = View.VISIBLE
-                var sdk = android.os.Build.VERSION.SDK_INT;
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                } else {
-                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                }
-            } else if (liturgyList[position].isPurchased == "Yes") {
+                /* var sdk = android.os.Build.VERSION.SDK_INT;
+                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                 } else {
+                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                 }*/
+                holder.btnUnlock.setBackground(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.bg_read_now
+                    )
+                );
+                holder.btnUnlock.setTextColor(ContextCompat.getColor(context, R.color.loginbg))
+            } else if (liturgyList[position].isPurchased.equals("Yes", true)) {
                 holder.imageBook.visibility = View.GONE
                 holder.txtIncludedText.visibility = View.GONE
                 holder.txtIncludedIn.visibility = View.GONE
+                holder.imgFavorite.visibility = View.VISIBLE
+                holder.imgShare.visibility = View.VISIBLE
                 holder.txtPrice.text = "Purchased"
                 holder.btnUnlock.text = "Read Now"
-                // holder.btnPlayNow.visibility = View.VISIBLE
-                var sdk = android.os.Build.VERSION.SDK_INT;
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                } else {
-                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                }
+                /* var sdk = android.os.Build.VERSION.SDK_INT;
+                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                 } else {
+                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                 }*/
+                holder.btnUnlock.setBackground(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.bg_read_now
+                    )
+                );
+                holder.btnUnlock.setTextColor(ContextCompat.getColor(context, R.color.loginbg))
             } else {
                 holder.imageBook.visibility = View.VISIBLE
                 //holder.btnUnlock.text = "Subscribe Collection"
                 holder.btnUnlock.text = "Subscribe"
                 holder.txtPrice.text = "$" + liturgyList[position].price
+                holder.imgFavorite.visibility = View.GONE
+                holder.imgShare.visibility = View.GONE
 
                 // holder.btnUnlock.visibility = View.GONE
                 // holder.imgFavorite.visibility = View.GONE
-                holder.imgShare.visibility = View.GONE
+              //  holder.imgShare.visibility = View.GONE
 
             }
         } else {
             holder.imageBook.visibility = View.GONE
             //DENISHA
-            if (liturgyList[position].isFree == "Yes") {
+            if (liturgyList[position].isFree.equals("Yes", true)) {
                 holder.txtPrice.text = "Free"
                 holder.btnUnlock.text = "Read Now"
+                holder.btnUnlock.setBackground(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.bg_read_now
+                    )
+                );
+                holder.imgFavorite.visibility = View.VISIBLE
+                holder.imgShare.visibility = View.VISIBLE
+                holder.btnUnlock.setTextColor(ContextCompat.getColor(context, R.color.loginbg))
                 //   holder.btnPlayNow.visibility = View.VISIBLE
-                var sdk = android.os.Build.VERSION.SDK_INT;
+                /*var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 } else {
                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                }
-            } else if (liturgyList[position].isPurchased == "Yes") {
+                }*/
+            } else if (liturgyList[position].isPurchased.equals("Yes", true)) {
                 holder.txtPrice.text = "Purchased"
                 holder.btnUnlock.text = "Read Now"
+                holder.btnUnlock.setBackground(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.bg_read_now
+                    )
+                );
+                holder.imgFavorite.visibility = View.VISIBLE
+                holder.imgShare.visibility = View.VISIBLE
+                holder.btnUnlock.setTextColor(ContextCompat.getColor(context, R.color.loginbg))
                 //  holder.btnPlayNow.visibility = View.VISIBLE
-                var sdk = android.os.Build.VERSION.SDK_INT;
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                } else {
-                    holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                    holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                }
+                /* var sdk = android.os.Build.VERSION.SDK_INT;
+                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                 } else {
+                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
+                 }*/
             } else {
                 holder.txtPrice.text = "$" + liturgyList[position].price
                 holder.btnUnlock.text = "Subscribe"
-                holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
-                holder.btnUnlock.setTextColor(context.resources.getColor(R.color.white))
+                holder.btnUnlock.setBackground(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.bg_unlock
+                    )
+                );
+                holder.imgFavorite.visibility = View.VISIBLE
+                holder.imgShare.visibility = View.VISIBLE
+                holder.btnUnlock.setTextColor(ContextCompat.getColor(context, R.color.white))
                 //holder.btnUnlock.visibility = View.VISIBLE
                 //holder.btnPlayNow.visibility = View.GONE
 
-            }
-        }
 
-        if (position == 0) {
-            holder.txtIncludedText.visibility = View.GONE
-            holder.txtIncludedIn.visibility = View.GONE
-        } else {
-            holder.txtIncludedText.visibility = View.VISIBLE
-            holder.txtIncludedIn.visibility = View.VISIBLE
+            }
         }
 
         holder.txtLiturgyName.text = liturgyList[position].chapterTitle
@@ -203,7 +240,6 @@ class GetLiturgiesFromBookIDAdapter(
             holder.txtIncludedIn.visibility = View.VISIBLE
             holder.txtIncludedIn.text = spannable
         }
-        //holder.txtIncludedIn.text = spannable
 
         Glide.with(context)
             .load(liturgyList[position].chapterPageImage)
@@ -211,21 +247,23 @@ class GetLiturgiesFromBookIDAdapter(
 
         mediaPlayer = MediaPlayer()
 
-        if(liturgyList[position].isPurchased.equals("Yes", true)){
-            if (TextUtils.isEmpty(liturgyList[position].audio_file) || holder.btnUnlock.text == "Subscribe") {
+        if (liturgyList[position].isPurchased.equals("Yes", true)) {
+            if (TextUtils.isEmpty(liturgyList[position].audio_file) || holder.btnUnlock.text.toString()
+                    .equals("Subscribe", true)
+            ) {
                 holder.btnPlayNow.visibility = View.GONE
             } else {
                 holder.btnPlayNow.visibility = View.VISIBLE
             }
-        }else{
+        } else {
             holder.btnPlayNow.visibility = View.GONE
         }
 
-       /* if (liturgyList[position].audio_file == "" || holder.btnUnlock.text == "Subscribe") {
-            holder.btnPlayNow.visibility = View.GONE
-        } else {
-            holder.btnPlayNow.visibility = View.VISIBLE
-        }*/
+        /* if (liturgyList[position].audio_file == "" || holder.btnUnlock.text == "Subscribe") {
+             holder.btnPlayNow.visibility = View.GONE
+         } else {
+             holder.btnPlayNow.visibility = View.VISIBLE
+         }*/
 
         holder.btnPlayNow.setOnClickListener {
             Log.e("AUDIOURL", "onBindViewHolder: " + liturgyList[position].chapterPageImage)
@@ -238,7 +276,11 @@ class GetLiturgiesFromBookIDAdapter(
         }
 
         //liturgyList[position].isFree
-        if (liturgyList[position].isFavorite == "True" || liturgyList[position].isFavorite == "true") {
+        if (liturgyList[position].isFavorite.equals(
+                "True",
+                true
+            ) || liturgyList[position].isFavorite.equals("true", true)
+        ) {
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
         } else {
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
@@ -270,8 +312,7 @@ class GetLiturgiesFromBookIDAdapter(
         }
 
         holder.btnUnlock.setOnClickListener() {
-            if (holder.btnUnlock.text == "Read Now") {
-                Log.e("DENISHA", "onBindViewHolder: "+ liturgyList[position].chapterUrl)
+            if (holder.btnUnlock.text.toString().equals("Read Now", true)) {
                 progressDialog = Utils.showProgressDialog(context)!!
                 progressDialog.show()
                 val cw = ContextWrapper(context)
@@ -311,9 +352,8 @@ class GetLiturgiesFromBookIDAdapter(
                         })
                 Log.e("id", downloadId.toString())
 
-                // Log.e("NAME", "onBindViewHolder: "+ liturgyList[position].chapterUrl)
 //(holder.btnUnlock.text == "Subscribe Collection"
-            } else if (holder.btnUnlock.text == "Subscribe") {
+            } else if (holder.btnUnlock.text.toString().equals("Subscribe", true)) {
                 liturgyList[position].productType = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(liturgyList[position])
@@ -322,7 +362,7 @@ class GetLiturgiesFromBookIDAdapter(
                     context?.startActivity(intent)
                     // startPurchaseFlow(liturgyList[position])
                 }
-            } else if (holder.btnUnlock.text == "Subscribe") {
+            } else if (holder.btnUnlock.text.toString().equals("Subscribe", true)) {
                 liturgyList[position].productType = ProductTypes.LITURGY
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(liturgyList[position])
@@ -335,7 +375,7 @@ class GetLiturgiesFromBookIDAdapter(
         }
 
         holder.llCollectionRaw.setOnClickListener() {
-            if (holder.btnUnlock.text == "Read Now") {
+            if (holder.btnUnlock.text.toString().equals("Read Now", true)) {
                 progressDialog = Utils.showProgressDialog(context)!!
                 progressDialog.show()
                 val cw = ContextWrapper(context)
@@ -375,7 +415,7 @@ class GetLiturgiesFromBookIDAdapter(
                         })
                 Log.e("id", downloadId.toString())
                 //holder.btnUnlock.text == "Subscribe Collection"
-            } else if (holder.btnUnlock.text == "Subscribe") {
+            } else if (holder.btnUnlock.text.toString().equals("Subscribe", true)) {
                 liturgyList[position].productType = ProductTypes.BOOK
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(liturgyList[position])
@@ -384,7 +424,7 @@ class GetLiturgiesFromBookIDAdapter(
                     val intent = Intent(context, SelectSubscriptionPlan::class.java)
                     context?.startActivity(intent)
                 }
-            } else if (holder.btnUnlock.text == "Subscribe") {
+            } else if (holder.btnUnlock.text.toString().equals("Subscribe", true)) {
                 liturgyList[position].productType = ProductTypes.LITURGY
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(liturgyList[position])
@@ -577,31 +617,6 @@ class GetLiturgiesFromBookIDAdapter(
         }
     }
 
-    private fun startPurchaseFlow(myLiturgyDataVo: MyLiturgiesDataVo) {
-        val deviceId = Settings.Secure.getString(
-            context.contentResolver,
-            Settings.Secure.ANDROID_ID
-        )
-        val userId = Utils.readIntData(
-            context,
-            Constants.PrefUserID,
-            0
-        )!!
-        val purchaseRequestVo = PurchaseRequestVo(
-            userId,
-            bookId = myLiturgyDataVo.bookId,
-            amount = myLiturgyDataVo.price,
-            deviceId = deviceId,
-            liturgyId = myLiturgyDataVo.chapterId,
-            volumeId = 0,
-            productType = myLiturgyDataVo.productType,
-            productId = myLiturgyDataVo.liturgyPurchaseCode
-        )
-
-        /*val inAppUtils =
-            InAppUtils.getInstance((context as Activity).application, GlobalScope)
-        inAppUtils.initiatePurchaseFlow(context as Activity, purchaseRequestVo)*/
-    }
 
     fun showDialogForUnlockWithoutLogin(myLiturgyDataVo: MyLiturgiesDataVo) {
         val alertDialog = AlertDialog.Builder(

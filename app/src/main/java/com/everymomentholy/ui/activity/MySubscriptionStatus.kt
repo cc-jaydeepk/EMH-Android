@@ -2,7 +2,6 @@ package com.everymomentholy.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -63,7 +62,6 @@ class MySubscriptionStatus : AppCompatActivity() {
             this@MySubscriptionStatus, Constants.UpcomingPlan,
             ""
         )
-        Log.e("PLAN", "onCreate: " + upcomingPlan)
 
 
         txtUpcominStartDate = findViewById(R.id.txtUpcominStartDate)
@@ -80,7 +78,6 @@ class MySubscriptionStatus : AppCompatActivity() {
         txtTypeDate = findViewById(R.id.txtTypeDate)
         txtSttus = findViewById(R.id.txtSttus)
         btnUnsubscribe = findViewById(R.id.btnUnsubscribe)
-
 
 
         txtUpcominStartDate.text = Utils.readStringFromSharedPref(
@@ -125,12 +122,6 @@ class MySubscriptionStatus : AppCompatActivity() {
             subscription_status = statusDate
         }
 
-        /*if (subscriptionStatus == "Yes" && upcomingPlan == "Yes") {
-            btnUnsubscribe.visibility = View.VISIBLE
-        } else {
-            btnUnsubscribe.visibility = View.GONE
-        }*/
-
         if (subscriptionStatus.equals("Yes",true) && upcomingPlan.equals("Yes",true)) {
             btnUnsubscribe.visibility = View.GONE
         } else if(subscription_status.equals("cancelled",true) || subscription_status.equals("canceled",true))
@@ -146,7 +137,6 @@ class MySubscriptionStatus : AppCompatActivity() {
         iv_toolbar_drawer.visibility = View.GONE
         iv_toolbar_notification.visibility = View.GONE
         txt_toolbar_name.text = "Subscription Plan"
-        //txt_toolbar_name.setTextColor(getResources().getColor(R.color.loginbg));
         txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
 
         btnUnsubscribe.setOnClickListener {
@@ -160,10 +150,6 @@ class MySubscriptionStatus : AppCompatActivity() {
                 CancelSubscriptionReqVo()
             cancelSubscriptionReqVo.appUserId = prefeUserId
             cancelSubscriptionReqVo.subscriptionId = subScription_id
-//            cancelSubscriptionReqVo.subscriptionId = Utils.readStringFromSharedPref(
-//                this@MySubscriptionStatus, Constants.SUBSCRIPTION_ID,
-//                ""
-//            ).toString()
 
             cancelSubscriptionPlan(cancelSubscriptionReqVo)
         }
@@ -196,11 +182,6 @@ class MySubscriptionStatus : AppCompatActivity() {
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                         showCancelSubscriptioDialog()
-//                        val intent = Intent(this@MySubscriptionStatus, MainActivity::class.java)
-//                        intent.flags =
-//                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                        startActivity(intent)
-//                        finish()
 
                     } else {
                         progressCardView.visibility = View.GONE
@@ -236,20 +217,10 @@ class MySubscriptionStatus : AppCompatActivity() {
         val txtOk = alertView.findViewById<View>(R.id.txtOk) as TextView
         val txtHeader = alertView.findViewById<TextView>(R.id.txtHeader) as TextView
 
-        //txtHeader.text = "Subscription for all Content"
-
-        /* var createSubscrptionReqVo: CreateSubscrptionReqVo =
-             CreateSubscrptionReqVo()
-         createSubscrptionReqVo.appUserId = prefeUserId.toString()
-         createSubscrptionReqVo.planType = selectedPlanType
-         subscribedUser(createSubscrptionReqVo)
-
-         txtMessage.text = message*/
 
         txtMessage.text = cancelMessage
 
         txtOk.setOnClickListener {
-            //onBackPressed()
             val intent = Intent(this, MainActivity::class.java)
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

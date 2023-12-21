@@ -1,6 +1,5 @@
 package com.everymomentholy.ui.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -15,15 +14,14 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
-import com.everymomentholy.api.request.CreateSubscrptionReqVo
 import com.everymomentholy.api.request.GetLiturgiesRequestVo
 import com.everymomentholy.api.request.PurchaseRequestVo
-import com.everymomentholy.api.response.CreateSubscrptionResVo
 import com.everymomentholy.api.response.GetLiturgiesDataVo
 import com.everymomentholy.api.response.GetLiturgiesResponseVo
 import com.everymomentholy.interfaces.GetLiturgiesClickListner
@@ -32,10 +30,8 @@ import com.everymomentholy.ui.adapter.GetLiturgiesAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
-import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
-import kotlinx.coroutines.GlobalScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,7 +59,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     lateinit var paymentIntentClientSecret: String
     lateinit var progressCardView: CardView
 
-    // var prefeUserId: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -78,7 +73,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         viewPager = view.findViewById(R.id.viewPager)
         txtLiturgyTitle = view.findViewById(R.id.txtLiturgyTitle)
         txtLiturgyPrice = view.findViewById(R.id.txtLiturgyPrice)
-        // btnGetLiturgiesReadNow = view.findViewById(R.id.btnGetLiturgiesReadNow)
         txtGetLiturgiesAbout = view.findViewById(R.id.txtGetLiturgiesAbout)
         txtUnlock = view.findViewById(R.id.txtUnlock)
 
@@ -101,7 +95,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
         }
 
-
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID
@@ -116,11 +109,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             requireActivity(), Constants.USER_SUBSCRIPTIONSTATUS,
             ""
         )
-
-        /*if (subscriptionStatus == "No") {
-            showSubscriptionDialog()
-        }*/
-
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
@@ -194,13 +182,12 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     call: Call<GetLiturgiesResponseVo>,
                     response: Response<GetLiturgiesResponseVo>
                 ) {
-                    //progressCardView.visibility = View.GONE
                     if (response.body()?.statusCode == 1) {
                         progressCardView.visibility = View.GONE
                         txtUnlock.visibility = View.VISIBLE
                         llGetLiturgiesMain.visibility = View.VISIBLE
                         var isVolume =
-                            response.body()!!.response.data.filter { it.isVolume == "Yes" } as ArrayList<GetLiturgiesDataVo>
+                            response.body()!!.response.data.filter { it.isVolume.equals("Yes", true) } as ArrayList<GetLiturgiesDataVo>
                         Log.e("VOLUME", "onResponse: " + isVolume.size.toString())
                         if (context != null) {
                             adapter = GetLiturgiesAdapter(
@@ -240,10 +227,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun setLiturgiesAndVolumeData(liturgyData: GetLiturgiesDataVo) {
         txtGetLiturgiesAbout.setOnClickListener() {
-            /*    val intent = Intent(context, AboutBookLiturgiesActivity::class.java)
-                intent.putExtra("liturgies", liturgyData)
-                context?.startActivity(intent)
-    */
 
             val bundle = Bundle()
             bundle.putSerializable("liturgies", liturgyData)
@@ -253,14 +236,14 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         }
 
         txtUnlock.setOnClickListener() {
-            if (liturgyData.isVolume == "Yes") {
+            if (liturgyData.isVolume.equals("Yes", true)) {
                 val intent = Intent(context, CollectionListActivity::class.java)
                 intent.putExtra("liturgies", liturgyData)
                 context?.startActivity(intent)
-            } else if (liturgyData.isFreeLiturgyAvailable == "No") {
+            } else if (liturgyData.isFreeLiturgyAvailable.equals("No", true)) {
                 showLiturgyDialog()
             } else {
-                if (txtUnlock.text == "Open") {
+                if (txtUnlock.text.toString().equals("Open", true)) {
                     // if (txtUnlock.text == "Read Now")
                     val intent = Intent(context, LiturgiesListDialogActivity::class.java)
                     intent.putExtra("liturgies", liturgyData)
@@ -269,11 +252,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         showDialogForUnlockWithoutLogin(liturgyData)
                     } else {
-                        // startPurchaseFlow(liturgyData)
-
-                        // val intent = Intent(context, SelectSubscriptionPlan::class.java)
-                        //context?.startActivity(intent)
-
                         val bundle = Bundle()
                         bundle.putSerializable("liturgies", liturgyData)
                         bundle.putBoolean("onPress", true);
@@ -285,24 +263,18 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                             bundle
                         )
 
-                        /* var createSubscrptionReqVo: CreateSubscrptionReqVo =
-                             CreateSubscrptionReqVo()
-                         //createSubscrptionReqVo.appUserId = "1"
-                         createSubscrptionReqVo.appUserId = prefeUserId.toString()
-                         createSubscrptionReqVo.planType = "monthly"
-                         createSubscription(createSubscrptionReqVo)*/
-
                     }
                 }
             }
         }
 
 
-        if (liturgyData.isVolume == "Yes") {
+        if (liturgyData.isVolume.equals("Yes", true
+            )) {
 
             txtLiturgyTitle.text = liturgyData.volumeTitle
 
-            if (liturgyData.bookAmount == "0.0" || liturgyData.bookAmount == "0.00" || liturgyData.isPurchased == "Yes") {
+            if (liturgyData.volumeAmount == "0.0" || liturgyData.volumeAmount == "0.00" || liturgyData.isPurchased == "Yes") {
                 txtUnlock.text = "Open"
                 var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -318,7 +290,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     txtLiturgyPrice.text = "Free"
                 }
                 txtDollar.text = ""
-            } else {
+            }  else {
                 if (!liturgyData.discountAmount.isNullOrEmpty() && liturgyData.discountAmount != "0.00") {
                     txtLiturgyPrice.text = "$" + liturgyData.discountAmount
                 } else {
@@ -332,7 +304,8 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
         } else {
 
-            if (liturgyData.bookAmount == "0.0" || liturgyData.bookAmount == "0.00" || liturgyData.isPurchased == "Yes") {
+            //if (liturgyData.bookAmount == "0.0" || liturgyData.bookAmount == "0.00" || liturgyData.isPurchased == "Yes")
+            if (liturgyData.bookAmount == "0.0" || liturgyData.bookAmount == "0.00" || liturgyData.isPurchased.equals("Yes", true)) {
                 txtUnlock.text = "Open"
                 var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -342,7 +315,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_read_now));
                     txtUnlock.setTextColor(context?.resources?.getColor(R.color.loginbg)!!)
                 }
-                if (liturgyData.isPurchased == "Yes") {
+                if (liturgyData.isPurchased.equals("Yes", true)) {
                     txtLiturgyPrice.text = "Purchased"
                 } else {
                     txtLiturgyPrice.text = "Free"
@@ -350,28 +323,15 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 txtDollar.text = ""
             } else {
                 txtLiturgyPrice.text = "$ " + liturgyData.bookAmount
-                txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_unlock));
-                txtUnlock.setTextColor(context?.resources?.getColor(R.color.white)!!)
+                txtUnlock.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.bg_unlock));
+                txtUnlock.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white)!!)
                 // txtUnlock.text = "Unlock"
+                //txtUnlock.text = "Subscribe"
                 txtUnlock.text = "Subscribe"
             }
             txtLiturgyTitle.text = liturgyData.bookTitle
 
         }
-    }
-
-
-    private fun presentPaymentSheet() {
-        val configuration: PaymentSheet.Configuration =
-            PaymentSheet.Configuration.Builder("Example, Inc.")
-                .customer(customerConfig) // Set `allowsDelayedPaymentMethods` to true if your business can handle payment methods
-                // that complete payment after a delay, like SEPA Debit and Sofort.
-                .allowsDelayedPaymentMethods(true)
-                .build()
-        paymentSheet.presentWithPaymentIntent(
-            paymentIntentClientSecret,
-            configuration
-        )
     }
 
     fun showLiturgyDialog() {
@@ -452,7 +412,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
         alertButtonPurchase.setOnClickListener() {
             show.dismiss()
-            startPurchaseFlow(myLiturgyDataVo)
+            //startPurchaseFlow(myLiturgyDataVo)
         }
         show.setCanceledOnTouchOutside(false)
     }
@@ -522,6 +482,5 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
             }
         }
     }
-
 
 }

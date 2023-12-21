@@ -42,6 +42,11 @@ import retrofit2.Response
 
 class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
 
+    //link for In App subscription
+    // https://reintech.io/blog/implementing-in-app-purchases-and-subscriptions-in-android-apps
+    //https://codelabs.developers.google.com/play-billing-codelab#0
+    //https://dev.to/theplebdev/adding-subscriptions-to-your-android-app-part-3-checking-if-user-is-subscribed-3793
+
     var liturgies: GetLiturgiesDataVo = GetLiturgiesDataVo()
 
     var prefeUserId: Int = 0

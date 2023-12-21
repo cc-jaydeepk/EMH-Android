@@ -38,7 +38,7 @@ class NotificationListAdapter(
             notificationClickListner.onNotificationListClick(position, notification)
         }
 
-        if (notification.mode == "Unread") {
+        if (notification.mode.equals("Unread", true)) {
             holder.rlNotificationRawMain.setBackgroundColor(context.resources.getColor(R.color.app_gray))
         } else {
             holder.rlNotificationRawMain.setBackgroundColor(context.resources.getColor(R.color.white))

@@ -54,7 +54,7 @@ class GetLiturgiesAdapter(
 
         val getLiturgies = getLiturgiesList[position]
 
-        if (getLiturgies.isVolume == "Yes") {
+        if (getLiturgies.isVolume.equals("Yes", true)) {
 
             txtLiturgyTitle.text = getLiturgies.volumeTitle
 
@@ -70,7 +70,7 @@ class GetLiturgiesAdapter(
                  txtLiturgyPrice.text = "$ " + getLiturgies.volumeAmount
              }*/
 
-            if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
+            if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased.equals("Yes", true)) {
                 btnUnlock.text = "Read Now"
                 var sdk = Build.VERSION.SDK_INT;
                 if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
@@ -80,7 +80,7 @@ class GetLiturgiesAdapter(
                     btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
-                if (getLiturgies.isPurchased == "Yes") {
+                if (getLiturgies.isPurchased.equals("Yes", true)) {
                     txtLiturgyPrice.text = "Purchased"
                 } else {
                     txtLiturgyPrice.text = "Free"
@@ -96,7 +96,7 @@ class GetLiturgiesAdapter(
 
         } else {
 
-            if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased == "Yes") {
+            if (getLiturgies.bookAmount == "0.0" || getLiturgies.bookAmount == "0.00" || getLiturgies.isPurchased.equals("Yes", true)) {
                 btnUnlock.text = "Read Now"
                 var sdk = Build.VERSION.SDK_INT;
                 if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
@@ -106,7 +106,7 @@ class GetLiturgiesAdapter(
                     btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                     btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
                 }
-                if (getLiturgies.isPurchased == "Yes") {
+                if (getLiturgies.isPurchased.equals("Yes", true)) {
                     txtLiturgyPrice.text = "Purchased"
                 } else {
                     txtLiturgyPrice.text = "Free"
@@ -133,7 +133,7 @@ class GetLiturgiesAdapter(
         container.addView(view)
 
         imgGetLiturge.setOnClickListener {
-            if (getLiturgies.isFreeLiturgyAvailable == "No") {
+            if (getLiturgies.isFreeLiturgyAvailable.equals("No", true)) {
                 (context as MainActivity).showLiturgyDialog()
             } else {
                 val bundle = Bundle()
@@ -150,12 +150,12 @@ class GetLiturgiesAdapter(
         }
 
         btnUnlock.setOnClickListener() {
-            if (getLiturgies.isVolume == "Yes") {
+            if (getLiturgies.isVolume.equals("Yes", true)) {
                 val intent = Intent(context, CollectionListActivity::class.java)
                 intent.putExtra("liturgies", getLiturgies)
                 context.startActivity(intent)
             } else {
-                if (btnUnlock.text == "Read Now") {
+                if (btnUnlock.text.toString().equals("Read Now", true)) {
                     val intent = Intent(context, LiturgiesListDialogActivity::class.java)
                     intent.putExtra("liturgies", getLiturgies)
                     context.startActivity(intent)
@@ -163,7 +163,7 @@ class GetLiturgiesAdapter(
                     if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                         Utils.showDialogForUnlockWithoutLogin(context)
                     } else {
-                        startPurchaseFlow(getLiturgies.bookAmount)
+                        //startPurchaseFlow(getLiturgies.bookAmount)
                     }
                 }
             }

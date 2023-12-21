@@ -61,8 +61,8 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
             .load(myLiturgiesDataVo.chapterPageImage)
             .into(holder.ivSearchLiturgies)
 
-        if (myLiturgiesDataVo.isPurchased == "Yes" || myLiturgiesDataVo.isFree == "Yes" ||
-            myLiturgiesDataVo.isFeatured == "Yes"
+        if (myLiturgiesDataVo.isPurchased.equals("Yes", true) || myLiturgiesDataVo.isFree.equals("Yes", true) ||
+            myLiturgiesDataVo.isFeatured.equals("Yes", true)
         ) {
             //holder.txtSearchLiturgyReadNow.text = "Read Now"
             holder.txtSearchLiturgyReadNow.text = "OPEN"
@@ -82,13 +82,13 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
         }
 
         when {
-            myLiturgiesDataVo.isPurchased == "Yes" -> {
+            myLiturgiesDataVo.isPurchased.equals("Yes", true) -> {
                 holder.txtSearchLiturgyFree.text = "Purchased"
             }
-            myLiturgiesDataVo.isFree == "Yes" -> {
+            myLiturgiesDataVo.isFree.equals("Yes", true) -> {
                 holder.txtSearchLiturgyFree.text = "Free"
             }
-            myLiturgiesDataVo.isFeatured == "Yes" -> {
+            myLiturgiesDataVo.isFeatured.equals("Yes", true) -> {
                 holder.txtSearchLiturgyFree.text = "Featured"
             }
             else -> {
@@ -106,9 +106,9 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                     startPurchaseFlow(myLiturgiesDataVo)
                 }
             }*/
-            if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "OPEN") {
+            if (holder.txtSearchLiturgyReadNow.text.toString().trim().equals("OPEN", true)) {
                 readBook(myLiturgiesDataVo)
-            } else if (holder.txtSearchLiturgyReadNow.text.toString().trim() == "SUBSCRIBE") {
+            } else if (holder.txtSearchLiturgyReadNow.text.toString().trim().equals("SUBSCRIBE", true)) {
                 if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
                     showDialogForUnlockWithoutLogin(myLiturgiesDataVo)
                 } else {

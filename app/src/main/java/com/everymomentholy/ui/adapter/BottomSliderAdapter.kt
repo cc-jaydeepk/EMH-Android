@@ -20,6 +20,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -34,7 +35,6 @@ import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
 import com.everymomentholy.interfaces.PlayAudioClickListner
 import com.everymomentholy.ui.activity.MainActivity
-import com.everymomentholy.ui.activity.PlayAudioActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.emh.EMHUtils
@@ -111,55 +111,23 @@ class BottomSliderAdapter(
             }
         }
 
-       /* if(liturgyList[position].isPurchased == "Yes"){
-            if (liturgyList[position].audio_file == ""){
+        if (liturgyList[position].isPurchased.equals("Yes", true)) {
+            if (TextUtils.isEmpty(liturgyList[position].audio_file)) {
                 holder.txtPlayNow.visibility = View.GONE
-            }else{
+            } else {
                 holder.txtPlayNow.visibility = View.VISIBLE
             }
-        }else{
-            holder.txtPlayNow.visibility = View.GONE
-        }*/
-
-        if(liturgyList[position].isPurchased.equals("Yes", true)){
-            if (TextUtils.isEmpty(liturgyList[position].audio_file)){
-                holder.txtPlayNow.visibility = View.GONE
-            }else{
-                holder.txtPlayNow.visibility = View.VISIBLE
-            }
-        }else{
+        } else {
             holder.txtPlayNow.visibility = View.GONE
         }
 
         holder.txtPlayNow.setOnClickListener {
-           /* val intent = Intent(context, PlayAudioActivity::class.java)
-            intent.putExtra("title", liturgyList[position].chapterTitle);
-            intent.putExtra("audio", liturgyList[position].audio_file);
-            intent.putExtra("URL", liturgyList[position].chapterPageImage);
-            context.startActivity(intent)*/
 
             playAudioClickListner.onPlayAudio(
                 liturgyList[position].chapterTitle,
                 liturgyList[position].audio_file,
                 false
             )
-
-            /*val bundle = Bundle()
-            bundle.putString("title", liturgyList[position].chapterTitle)
-            bundle.putString("audio", liturgyList[position].audio_file);
-            var fragment: Fragment = PlayAudioFragment()
-            (context as MainActivity).replaceFragment(
-                fragment,
-                "Audio",
-                bundle
-            )*/
-
-            /* holder.itemView.setOnClickListener {
-                 val optionsFrag = PlayAudioFragment()
-                 (context as MainActivity).getSupportFragmentManager().beginTransaction()
-                     .replace(android.R.id.mainFrameLayout, optionsFrag, "OptionsFragment")
-                     .addToBackStack(null).commit()
-             }*/
         }
 
         holder.btnReadNow.setOnClickListener() {
@@ -219,16 +187,32 @@ class BottomSliderAdapter(
             }
         }
 
-        if (freeLiturgy.isPurchased == "Yes") {
+        if (freeLiturgy.isPurchased.equals("Yes", true)) {
             holder.txtFree.text = "Purchased"
-        } else if (freeLiturgy.isFree == "Yes") {
+        } else if (freeLiturgy.isFree.equals("Yes", true)) {
             holder.txtFree.text = "Free"
         }
 
-        if (freeLiturgy.isFavorite == "True" || freeLiturgy.isFavorite == "true") {
-            holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+        if (freeLiturgy.isFavorite.equals("True", true) || freeLiturgy.isFavorite.equals(
+                "true",
+                true
+            )
+        ) {
+            // holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+            holder.imgFavorite.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_favourite_fill
+                )
+            )
+
         } else {
-            holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+            holder.imgFavorite.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_favorite
+                )
+            )
         }
 
         holder.imgShare.setOnClickListener() {
@@ -260,9 +244,6 @@ class BottomSliderAdapter(
             }.show()
     }
 
-    // var liturgyList: List<MyLiturgiesDataVo>,
-
-
     private fun setLiturgiesFavourite(
         ivfav: ImageView,
         liturgiesDataVo: MyLiturgiesDataVo,
@@ -292,10 +273,11 @@ class BottomSliderAdapter(
                     response: Response<BaseResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
-                        if (liturgiesDataVo.isFavorite == "True") {
-                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+                        if (liturgiesDataVo.isFavorite.equals("True", true)) {
+                            ivfav.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite))
+
                         } else {
-                            ivfav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+                            ivfav.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favourite_fill))
                         }
                         updateList(setFavouriteRequestVo.isFavorite, position)
                     } else {

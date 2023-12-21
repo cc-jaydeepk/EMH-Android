@@ -5,9 +5,9 @@ class GetUserSubscriptionPlanResVo {
 
     var statusCode: Int = 1
 
-//    var response: UserSubscriptionDataVo = UserSubscriptionDataVo()
-var response: ResponseData = ResponseData()
-   // var response: userSubscriptionData = userSubscriptionData()
+    //    var response: UserSubscriptionDataVo = UserSubscriptionDataVo()
+    var response: ResponseData = ResponseData()
+    // var response: userSubscriptionData = userSubscriptionData()
 }
 
 class ResponseData {

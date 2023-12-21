@@ -39,8 +39,8 @@ class MyLiturgyAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val myLiturgies = liturgyList[position]
 
-        if (myLiturgies.isVolume == "Yes") {
-            holder.txtLiturgiesCount.text = myLiturgies.liturgyCount
+        if (myLiturgies.isVolume.equals("Yes", true)) {
+            holder.txtLiturgiesCount.text = "Liturgies: " + myLiturgies.liturgyCount
             holder.txtLiturgiesTitle.text = myLiturgies.volumeTitle
             Glide.with(context)
                 .load(myLiturgies.volumeCoverPageImage)

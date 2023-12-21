@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -159,16 +160,6 @@ class FeaturedAdapter(
             }
         }
 
-        /*if(featuredLiturgiesList[position].isPurchased == "Yes"){
-            if (featuredLiturgiesList[position].audio_file == ""){
-                holder.btnPlayNow.visibility = View.GONE
-            }else{
-                holder.btnPlayNow.visibility = View.VISIBLE
-            }
-        }else{
-            holder.btnPlayNow.visibility = View.GONE
-        }*/
-
         if(featuredLiturgiesList[position].isPurchased.equals("Yes", true)){
             if (TextUtils.isEmpty(featuredLiturgiesList[position].audio_file)){
                 holder.btnPlayNow.visibility = View.GONE
@@ -180,28 +171,13 @@ class FeaturedAdapter(
         }
 
         holder.btnPlayNow.setOnClickListener {
-            /*val intent = Intent(context, PlayAudioActivity::class.java)
-            intent.putExtra("title", featuredLiturgiesList[position].chapterTitle);
-            intent.putExtra("audio", featuredLiturgiesList[position].audio_file);
-            context.startActivity(intent)*/
+
 
             playAudioClickListner.onPlayAudio(
                 featuredLiturgiesList[position].chapterTitle,
                 featuredLiturgiesList[position].audio_file,
                 false
             )
-
-           // liturgyListClickListner.onMyLiturgiesListClick(position, myLiturgies.bookId, false)
-
-            /*val bundle = Bundle()
-            bundle.putString("title", featuredLiturgiesList[position].chapterTitle)
-            bundle.putString("audio", featuredLiturgiesList[position].audio_file);
-            var fragment: Fragment = PlayAudioFragment()
-            (context as MainActivity).replaceFragment(
-                fragment,
-                "Audio",
-                bundle
-            )*/
         }
 
         holder.imgFeaturedFav.setOnClickListener() {
@@ -221,9 +197,9 @@ class FeaturedAdapter(
         }
 
         if (featuredLiturgyData.isFavorite == "True") {
-            holder.imgFeaturedFav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favourite_fill))
+            holder.imgFeaturedFav.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favourite_fill))
         } else {
-            holder.imgFeaturedFav.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
+            holder.imgFeaturedFav.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite))
         }
     }
 
