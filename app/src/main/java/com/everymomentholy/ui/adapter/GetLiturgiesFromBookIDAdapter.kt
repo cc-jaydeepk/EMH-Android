@@ -8,6 +8,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
@@ -25,6 +26,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -37,9 +39,11 @@ import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.MyLiturgiesDataVo
 import com.everymomentholy.api.response.PrivateShareResponseVo
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.PlayAudioActivity
 import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.ui.activity.SelectSubscriptionPlan
+import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
@@ -76,9 +80,6 @@ class GetLiturgiesFromBookIDAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        /* val itemView =
-             LayoutInflater.from(parent.context)
-                 .inflate(R.layout.collection_raw, parent, false)*/
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.collection_raw_new, parent, false)
@@ -105,15 +106,7 @@ class GetLiturgiesFromBookIDAdapter(
                 holder.txtIncludedIn.visibility = View.GONE
                 holder.imgFavorite.visibility = View.VISIBLE
                 holder.imgShare.visibility = View.VISIBLE
-                // holder.btnPlayNow.visibility = View.VISIBLE
-                /* var sdk = android.os.Build.VERSION.SDK_INT;
-                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                 } else {
-                     holder.btnUnlock.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
-                     holder.btnUnlock.setTextColor(context.resources.getColor(R.color.loginbg))
-                 }*/
+
                 holder.btnUnlock.setBackground(
                     ContextCompat.getDrawable(
                         context,
@@ -214,15 +207,12 @@ class GetLiturgiesFromBookIDAdapter(
                 holder.imgFavorite.visibility = View.VISIBLE
                 holder.imgShare.visibility = View.VISIBLE
                 holder.btnUnlock.setTextColor(ContextCompat.getColor(context, R.color.white))
-                //holder.btnUnlock.visibility = View.VISIBLE
-                //holder.btnPlayNow.visibility = View.GONE
 
 
             }
         }
 
         holder.txtLiturgyName.text = liturgyList[position].chapterTitle
-        //holder.txtIncludedIn.text =  liturgyList[position].volumeTags
         val spannable = SpannableString(liturgyList[position].volumeTags)
         spannable.setSpan(
             UnderlineSpan(),
@@ -259,23 +249,15 @@ class GetLiturgiesFromBookIDAdapter(
             holder.btnPlayNow.visibility = View.GONE
         }
 
-        /* if (liturgyList[position].audio_file == "" || holder.btnUnlock.text == "Subscribe") {
-             holder.btnPlayNow.visibility = View.GONE
-         } else {
-             holder.btnPlayNow.visibility = View.VISIBLE
-         }*/
-
         holder.btnPlayNow.setOnClickListener {
             Log.e("AUDIOURL", "onBindViewHolder: " + liturgyList[position].chapterPageImage)
             val intent = Intent(context, PlayAudioActivity::class.java)
             intent.putExtra("title", liturgyList[position].chapterTitle);
             intent.putExtra("audio", liturgyList[position].audio_file);
-            // intent.putExtra("image", liturgyList[position].chapterPageImage)
             intent.putExtra("URL", liturgyList[position].chapterPageImage);
             context.startActivity(intent)
         }
 
-        //liturgyList[position].isFree
         if (liturgyList[position].isFavorite.equals(
                 "True",
                 true
@@ -360,6 +342,11 @@ class GetLiturgiesFromBookIDAdapter(
                 } else {
                     val intent = Intent(context, SelectSubscriptionPlan::class.java)
                     context?.startActivity(intent)
+                    /*val bundle = Bundle()
+                    bundle.putBoolean("onPress", true);
+                    bundle.putBoolean("onPressHome", false);
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    (context as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)*/
                     // startPurchaseFlow(liturgyList[position])
                 }
             } else if (holder.btnUnlock.text.toString().equals("Subscribe", true)) {
@@ -369,6 +356,11 @@ class GetLiturgiesFromBookIDAdapter(
                 } else {
                     val intent = Intent(context, SelectSubscriptionPlan::class.java)
                     context?.startActivity(intent)
+                    /*val bundle = Bundle()
+                    bundle.putBoolean("onPress", true);
+                    bundle.putBoolean("onPressHome", false);
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    (context as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)*/
                     // startPurchaseFlow(liturgyList[position])
                 }
             }
@@ -423,6 +415,11 @@ class GetLiturgiesFromBookIDAdapter(
                     //  startPurchaseFlow(liturgyList[position])
                     val intent = Intent(context, SelectSubscriptionPlan::class.java)
                     context?.startActivity(intent)
+                    /*val bundle = Bundle()
+                    bundle.putBoolean("onPress", true);
+                    bundle.putBoolean("onPressHome", false);
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    (context as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)*/
                 }
             } else if (holder.btnUnlock.text.toString().equals("Subscribe", true)) {
                 liturgyList[position].productType = ProductTypes.LITURGY
@@ -430,8 +427,15 @@ class GetLiturgiesFromBookIDAdapter(
                     showDialogForUnlockWithoutLogin(liturgyList[position])
                 } else {
                     //  startPurchaseFlow(liturgyList[position])
+
                     val intent = Intent(context, SelectSubscriptionPlan::class.java)
                     context?.startActivity(intent)
+
+                  /*  val bundle = Bundle()
+                    bundle.putBoolean("onPress", true);
+                    bundle.putBoolean("onPressHome", false);
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    (context as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)*/
                 }
             }
         }
@@ -645,8 +649,15 @@ class GetLiturgiesFromBookIDAdapter(
         alertButtonPurchase.setOnClickListener() {
             show.dismiss()
             // startPurchaseFlow(myLiturgyDataVo)
+
             val intent = Intent(context, SelectSubscriptionPlan::class.java)
             context?.startActivity(intent)
+
+           /* val bundle = Bundle()
+            bundle.putBoolean("onPress", true);
+            bundle.putBoolean("onPressHome", false);
+            var fragment: Fragment = SubscriptionPlanListFragment()
+            (context as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)*/
         }
         show.setCanceledOnTouchOutside(false)
     }

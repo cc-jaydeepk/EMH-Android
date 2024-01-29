@@ -240,6 +240,12 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 val intent = Intent(context, CollectionListActivity::class.java)
                 intent.putExtra("liturgies", liturgyData)
                 context?.startActivity(intent)
+
+                /*val bundle = Bundle()
+                bundle.putSerializable("liturgies", liturgyData)
+                var fragment: Fragment = CollectionListFragment()
+                (activity as MainActivity).replaceFragment(fragment, "Collection", bundle)*/
+
             } else if (liturgyData.isFreeLiturgyAvailable.equals("No", true)) {
                 showLiturgyDialog()
             } else {

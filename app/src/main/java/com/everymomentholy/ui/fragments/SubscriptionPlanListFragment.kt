@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,13 +34,19 @@ import com.everymomentholy.ui.adapter.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.stripe.android.PaymentConfiguration
+import com.stripe.android.model.PaymentMethod
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
+
+    //InApp subscription link
+    //https://dev.to/theplebdev/adding-subscriptions-to-your-android-app-part-3-checking-if-user-is-subscribed-3793
+    //https://codelabs.developers.google.com/play-billing-codelab#1
 
     lateinit var txtSkip: TextView
 
@@ -68,6 +75,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
     lateinit var paymentSheet: PaymentSheet
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
     lateinit var paymentIntentClientSecret: String
+
     lateinit var relativeLayout: RelativeLayout
 
     var isFrom: Boolean = false
@@ -76,6 +84,18 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
     var message: String = ""
     lateinit var subscriptionSatus: String
     lateinit var upcomingPlanstatus: String
+    lateinit var token: String
+    lateinit var encryptCustomerIdKey: String
+    lateinit var encryptSubscriptionIdKey: String
+    lateinit var encryptPublishableKey: String
+    lateinit var encryptEphemeralKeyIdKey: String
+    lateinit var encryptPaymentIntentIdKey: String
+
+    lateinit var finalCusKey: String
+    lateinit var finalSubKey: String
+    lateinit var finalPublishKey: String
+    lateinit var finalEphemeralKey: String
+    lateinit var finalPaymentIntentKey: String
 
     @SuppressLint("HardwareIds")
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -103,10 +123,27 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         isFrom = requireArguments().getBoolean("onPress")
         isFromHome = requireArguments().getBoolean("onPressHome")
 
+        Log.e("BOOLEAN", "onCreateView: " + isFrom)
+
         android_id = Settings.Secure.getString(
             requireContext().contentResolver,
             Settings.Secure.ANDROID_ID
         )
+
+        token = Utils.readStringFromSharedPref(
+            requireActivity(),
+            Constants.SHARED_PREF_TOKEN,
+            ""
+        ).toString()
+
+        Log.e("TOKEN", "TOKEN: " + token)
+
+        prefeUserId = Utils.readIntData(
+            requireContext(),
+            Constants.PrefUserID,
+            0
+        )!!
+
 
         if (isFrom == true) {
             txtSkip.visibility = View.VISIBLE
@@ -119,6 +156,13 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
             (activity as MainActivity).toolbar.visibility = View.VISIBLE
         }
 
+        getUserSubscriptionPlans()
+
+        upcomingPlanstatus = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.UPCOMINGPLAN,
+            ""
+        ).toString()
+
         txtSkip.setOnClickListener {
             val intent = Intent(requireActivity(), MainActivity::class.java)
             intent.flags =
@@ -128,13 +172,10 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         }
 
 
+        //DENISHA
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
 
-        prefeUserId = Utils.readIntData(
-            requireContext(),
-            Constants.PrefUserID,
-            0
-        )!!
+
 
         progressCardView.visibility = View.VISIBLE
         requireActivity().getWindow().setFlags(
@@ -143,12 +184,6 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         )
         relativeLayout.visibility = View.GONE
 
-        getUserSubscriptionPlans()
-
-        upcomingPlanstatus = Utils.readStringFromSharedPref(
-            requireActivity(), Constants.UPCOMINGPLAN,
-            ""
-        ).toString()
 
 
         ivBack.setOnClickListener() {
@@ -159,6 +194,13 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
                 (activity as MainActivity).toolbar.visibility = View.GONE
                 (activity as MainActivity).replaceFragment(HomeFragment(), "")
             }
+            /*if (isFrom == true) {
+                (activity as MainActivity).toolbar.visibility = View.VISIBLE
+                (activity as MainActivity).replaceFragment(CollectionListFragment(), "Collection")
+            } else {
+                (activity as MainActivity).toolbar.visibility = View.GONE
+                (activity as MainActivity).replaceFragment(HomeFragment(), "")
+            }*/
         }
 
         var subscriptionStatus = Utils.readStringFromSharedPref(
@@ -189,7 +231,16 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
                             CreateSubscrptionReqVo()
                         createSubscrptionReqVo.appUserId = prefeUserId.toString()
                         createSubscrptionReqVo.planType = selectedPlanType
-                        createSubscription(createSubscrptionReqVo)
+                        // createSubscription(createSubscrptionReqVo)
+                        if (Utils.isNetworkAvailable(requireActivity())) {
+                            createSubscription(createSubscrptionReqVo)
+                        } else {
+                            Toast.makeText(
+                                requireActivity(),
+                                resources.getString(R.string.check_internet),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
                 } else {
                     Toast.makeText(requireContext(), "Please Select Plan", Toast.LENGTH_SHORT)
@@ -234,6 +285,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         show.setCanceledOnTouchOutside(false)
     }
 
+    //DENISHA
     fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
         when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
@@ -273,9 +325,13 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
     private fun getSubscriptionStatus(PaymentStatus: String) {
         var getSubscriptionStatusReqVo: GetSubscriptionStatusReqVo = GetSubscriptionStatusReqVo()
         getSubscriptionStatusReqVo.appUserId = prefeUserId.toString()
-        getSubscriptionStatusReqVo.stripeCustomerId = customer_ID
-        getSubscriptionStatusReqVo.subscriptionId = subscription_ID
+        getSubscriptionStatusReqVo.stripeCustomerId = finalCusKey
+        getSubscriptionStatusReqVo.subscriptionId = finalSubKey
         getSubscriptionStatusReqVo.subscriptionStatus = PaymentStatus
+        /* getSubscriptionStatusReqVo.appUserId = prefeUserId.toString()
+         getSubscriptionStatusReqVo.stripeCustomerId = customer_ID
+         getSubscriptionStatusReqVo.subscriptionId = subscription_ID
+         getSubscriptionStatusReqVo.subscriptionStatus = PaymentStatus*/
 
         val request = APIService.buildService(APIInterface::class.java)
         val call = request.getSubscriptionStatus(getSubscriptionStatusReqVo)
@@ -413,10 +469,15 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
     private fun createSubscription(createSubscrptionReqVo: CreateSubscrptionReqVo) {
 
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.createSubscription(createSubscrptionReqVo)
+        //val call = request.createSubscription(createSubscrptionReqVo)
+        val call = request.createSubscription(
+            createSubscrptionReqVo,
+            "bearer $token"
+        )
 
         try {
             call.enqueue(object : Callback<CreateSubscrptionResVo> {
+                @RequiresApi(Build.VERSION_CODES.O)
                 override fun onResponse(
                     call: Call<CreateSubscrptionResVo>,
                     response: Response<CreateSubscrptionResVo>
@@ -428,36 +489,72 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
                         ephemeralKey_ID = response.body()!!.response.ephemeralKey_id
                         payment_intent_ID = response.body()!!.response.payment_intent_id
 
+                        val decodedBytesCustomerId = Base64.decode(customer_ID, Base64.DEFAULT)
+                        encryptCustomerIdKey = String(decodedBytesCustomerId, Charsets.UTF_8)
+
+                        val decodedBytesSubscriptionId =
+                            Base64.decode(subscription_ID, Base64.DEFAULT)
+                        encryptSubscriptionIdKey =
+                            String(decodedBytesSubscriptionId, Charsets.UTF_8)
+
+                        val decodedBytesPublishableId =
+                            Base64.decode(publishable_Key, Base64.DEFAULT)
+                        encryptPublishableKey = String(decodedBytesPublishableId, Charsets.UTF_8)
+
+                        val decodedBytesEphemeralID = Base64.decode(ephemeralKey_ID, Base64.DEFAULT)
+                        encryptEphemeralKeyIdKey = String(decodedBytesEphemeralID, Charsets.UTF_8)
+
+                        val decodedBytesPaymentID = Base64.decode(payment_intent_ID, Base64.DEFAULT)
+                        encryptPaymentIntentIdKey = String(decodedBytesPaymentID, Charsets.UTF_8)
+
+                        val decodeCustomerKey = encryptCustomerIdKey.replace(token, "")
+                        finalCusKey = decodeCustomerKey.replace("EMHcustomer_id==", "")
+
+                        val decodeSubscriptionKey = encryptSubscriptionIdKey.replace(token, "")
+                        finalSubKey = decodeSubscriptionKey.replace("EMHsubscription_id==", "")
+
+                        val decodePublishKey = encryptPublishableKey.replace(token, "")
+                        finalPublishKey = decodePublishKey.replace("EMHpublishable_key==", "")
+
+                        val decodeencryptEphemeralKey = encryptEphemeralKeyIdKey.replace(token, "")
+                        finalEphemeralKey =
+                            decodeencryptEphemeralKey.replace("EMHephemeralKey_id==", "")
+
+                        val decodeencryptPaymentKey = encryptPaymentIntentIdKey.replace(token, "")
+                        finalPaymentIntentKey =
+                            decodeencryptPaymentKey.replace("EMHpayment_intent_id==", "")
+
                         Utils.writeStringToSharedPref(
                             requireContext(), Constants.CUSTOMER_ID,
-                            response.body()!!.response.customer_id
+                            finalCusKey
                         )
 
                         Utils.writeStringToSharedPref(
                             requireContext(), Constants.SUBSCRIPTION_ID,
-                            response.body()!!.response.subscription_id
+                            finalSubKey
                         )
 
                         Utils.writeStringToSharedPref(
                             requireContext(), Constants.PUBLISHABLE_KEY,
-                            response.body()!!.response.publishable_key
+                            finalPublishKey
                         )
                         Utils.writeStringToSharedPref(
                             requireContext(), Constants.EPHEMERALKEY_ID,
-                            response.body()!!.response.ephemeralKey_id
+                            finalEphemeralKey
                         )
                         Utils.writeStringToSharedPref(
                             requireContext(), Constants.PAYMENT_INTENT_ID,
-                            response.body()!!.response.payment_intent_id
+                            finalPaymentIntentKey
                         )
 
-                        paymentIntentClientSecret = response.body()!!.response.payment_intent_id
+                        paymentIntentClientSecret = finalPaymentIntentKey
                         customerConfig = PaymentSheet.CustomerConfiguration(
-                            response.body()!!.response.customer_id,
-                            response.body()!!.response.ephemeralKey_id
+                            finalCusKey,
+                            finalEphemeralKey
                         )
 
-                        val publishableKey = response.body()!!.response.publishable_key
+                        val publishableKey = finalPublishKey
+                        //DENISHA
                         PaymentConfiguration.init(requireContext(), publishableKey)
 
                         progressCardView.visibility = View.GONE
@@ -466,20 +563,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
                         presentPaymentSheet()
 
                     } else {
-                        /* progressCardView.visibility = View.GONE
-                         requireActivity().getWindow()
-                             .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                         Toast.makeText(
-                             requireContext(),
-                             "Call getUserSubscriptionPlans",
-                             Toast.LENGTH_LONG
-                         ).show()*/
-                        //getUserSubscriptionPlans()
-                        /*Toast.makeText(
-                            requireContext(),
-                            response.body()?.message,
-                            Toast.LENGTH_LONG
-                        ).show()*/
+
                     }
 
                 }
@@ -510,7 +594,8 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         val request = APIService.buildService(APIInterface::class.java)
         val call =
             request.getUserSubscriptionPlans(
-                getUserSubscription.userId, getUserSubscription.deviceId,
+                getUserSubscription.userId,
+                getUserSubscription.deviceId,
                 "bearer " + Utils.readStringFromSharedPref(
                     requireContext(),
                     Constants.SHARED_PREF_TOKEN,
@@ -583,15 +668,18 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
         show.setCanceledOnTouchOutside(false)
     }
 
+    //DENISHA
     private fun presentPaymentSheet() {
+        // var PaymentMethod.BillingDetails = PaymentMethod.BillingDetails.Builder()
         val configuration: PaymentSheet.Configuration =
             PaymentSheet.Configuration.Builder("Example, Inc.")
                 .customer(customerConfig) // Set `allowsDelayedPaymentMethods` to true if your business can handle payment methods
                 // that complete payment after a delay, like SEPA Debit and Sofort.
                 .allowsDelayedPaymentMethods(true)
+                //.defaultBillingDetails()
                 .build()
         paymentSheet.presentWithPaymentIntent(
-            payment_intent_ID,
+            finalPaymentIntentKey,
             configuration
         )
     }

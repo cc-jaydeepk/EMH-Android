@@ -72,7 +72,7 @@ class SubscriptionListPlanAdapter(
             selectedItemPosition = position
 
            // planTypeClickListner.onSelectPlan(position, planList.plan_type, true)
-            //planTypeClickListner.onSelectPlan(position, planList.plan_type, true)
+          //  planTypeClickListner.onSelectPlan(position, planList.plan_type, true)
 
             planTypeClickListner.onSelectPlan(position, selectedPlanType, true)
             notifyDataSetChanged()
@@ -89,6 +89,7 @@ class SubscriptionListPlanAdapter(
             holder.txtUnlimitedAccess.setTextColor(context.getResources().getColor(R.color.white));
             holder.txtSaving.setTextColor(context.getResources().getColor(R.color.white));
             planTypeClickListner.onSelectPlan(position, selectedPlanType, true)
+            //planTypeClickListner.onSelectPlan(position, planList.plan_type, true)
 
         } else {
             holder.textPlaneName.setTextColor(context.getResources().getColor(R.color.loginbg));

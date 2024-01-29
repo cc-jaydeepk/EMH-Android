@@ -84,6 +84,7 @@ class MyProfileFragment : Fragment() {
     // var profile_upload_ImageUri: Uri? = "null"
     var prefeUserId: Int = 0
     lateinit var userProfileMultipart: MultipartBody.Part
+    //visible
     lateinit var progressCardView: CardView
 
     lateinit var notification_switch: SwitchCompat
@@ -113,6 +114,7 @@ class MyProfileFragment : Fragment() {
         btnEditProfile = view.findViewById(R.id.btnEditProfile)
         btnUpdateProfile = view.findViewById(R.id.btnUpdateProfile)
 
+        //visible
         progressCardView = view.findViewById(R.id.progressCardView)
 
         edtUserFirstName = view.findViewById(R.id.edtUserFirstName)
@@ -229,6 +231,7 @@ class MyProfileFragment : Fragment() {
 
                 if (Utils.isNetworkAvailable(requireActivity())) {
 
+                    //visible
                     progressCardView.visibility = View.VISIBLE
                     requireActivity().getWindow().setFlags(
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -268,6 +271,7 @@ class MyProfileFragment : Fragment() {
             ""
         ).toString()
 
+        //visible
         progressCardView.visibility = View.VISIBLE
         requireActivity().getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -312,6 +316,7 @@ class MyProfileFragment : Fragment() {
 
         alertButtonYes.setOnClickListener {
             if (Utils.isNetworkAvailable(requireActivity())) {
+                //visible
                 progressCardView.visibility = View.VISIBLE
                 requireActivity().getWindow().setFlags(
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -422,6 +427,7 @@ class MyProfileFragment : Fragment() {
                     response: Response<GetUserProfileVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
+                        //visible
                         progressCardView.visibility = View.GONE
                         requireActivity().getWindow()
                             .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
@@ -448,6 +454,7 @@ class MyProfileFragment : Fragment() {
                             requireActivity(), Constants.UpcomingPlan,
                             response.body()!!.response.userSubscriptionData.upcomingPlan
                         )
+
 
                         Utils.writeStringToSharedPref(
                             requireActivity(), Constants.UPCOMING_STARTED_AT,
@@ -575,7 +582,6 @@ class MyProfileFragment : Fragment() {
                          ).show()*/
 
                     } else {
-                        // progressCardView.visibility = View.GONE
                         /* Log.e("Log", "onResponse: " + response.body()!!.message)
                          Toast.makeText(
                              requireActivity(),
@@ -721,6 +727,7 @@ class MyProfileFragment : Fragment() {
                         showAlert()
 
                     } else {
+                        //visible
                         progressCardView.visibility = View.GONE
                         requireActivity().getWindow()
                             .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
@@ -783,6 +790,7 @@ class MyProfileFragment : Fragment() {
         val alertButton = alertView.findViewById<View>(R.id.txtOk) as TextView
         val txtDialogSucces = alertView.findViewById<View>(R.id.txtDialogSucces) as TextView
         txtDialogSucces.text = "User profile updated successfully"
+        //visible
         progressCardView.visibility = View.GONE
         requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         ivOpenGallery.visibility = View.GONE

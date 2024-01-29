@@ -12,8 +12,15 @@ class Constants {
         //31-10-2023 staging
         //const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/apiV2/"
 
+
+        //10-01-2024 staging
+        //static let baseURL =  "http://ec2-3-8-23-34.eu-west-2.compute.amazonaws.com/apiV2"
+        //const val BASE_URL = "http://ec2-3-8-23-34.eu-west-2.compute.amazonaws.com/apiV2/"
+//        const val BASE_URL = "http://ec2-3-8-23-34.eu-west-2.compute.amazonaws.com/apiV3/"
+
         //Live server
-        const val BASE_URL = "https://app.everymomentholy.com/apiV2/"
+       // const val BASE_URL = "https://app.everymomentholy.com/apiV2/"
+         const val BASE_URL = "https://app.everymomentholy.com/apiV3/"
 
         //API
         const val API_REGISTRATION = "register"
@@ -89,6 +96,8 @@ class Constants {
         const val SEARCH_FROM_MY_LITURGY = 1
         const val SEARCH_FROM_FAVORITES = 2
         const val SEARCH_FROM_GET_LITURGY = 3
+        const val FROM_COLLECTION_LIST = 1
+        const val FROM_LITURGY_LIST = 2
         const val SEARCH_FROM_FEATURED_LITURGY = 4
         var CURRENT_FRAGMENT = 0
         var USER_LOGIN_STATUS = 0

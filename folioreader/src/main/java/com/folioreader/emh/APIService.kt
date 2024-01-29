@@ -10,12 +10,14 @@ object APIService {
 
     // dev. server
     //const val BASE_URL = "http://ec2-13-234-132-104.ap-south-1.compute.amazonaws.com/api/"
+    //const val BASE_URL = "http://ec2-3-8-23-34.eu-west-2.compute.amazonaws.com/apiV3/"
 
     //Live server
     //const val BASE_URL = "https://app.everymomentholy.com/api/"
 
     //Live server
-    const val BASE_URL = "https://app.everymomentholy.com/apiV2/"
+//    const val BASE_URL = "https://app.everymomentholy.com/apiV2/"
+    const val BASE_URL = "https://app.everymomentholy.com/apiV3/"
 
     private val interceptor = run {
         val httpLoggingInterceptor = HttpLoggingInterceptor()

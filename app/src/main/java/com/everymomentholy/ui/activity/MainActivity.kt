@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 R.id.nav_featuredFragment -> {
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
-                    navBottomView.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
                     Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FEATURED_LITURGY
                     replaceFragment(FeaturedFragment(), "Featured Liturgies")
                     navBottomView.selectedItemId = R.id.nav_featuredFragment
@@ -246,6 +246,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     true
                 }
                 R.id.nav_orderBookFragment -> {
+                    navBottomView.visibility = View.GONE
                     replaceFragment(OrderBookFragment(), "Order Books")
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.GONE
@@ -720,11 +721,26 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
             } else if (fragment is SubscriptionPlanListFragment) {
                 toolbar.visibility = View.VISIBLE
-                replaceFragment(GetLiturgiesFragment(), "subscription")
+                replaceFragment(GetLiturgiesFragment(), "Subscription")
             } else if (fragment is SubscriptionPlanListFragment) {
                 toolbar.visibility = View.VISIBLE
                 replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
-            } else if (fragment is SearchFragment) {
+            } /*else if (fragment is SubscriptionPlanListFragment) {
+                when (Constants.CURRENT_FRAGMENT) {
+                    Constants.FROM_COLLECTION_LIST -> {
+                        toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
+                        replaceFragment(CollectionListFragment(), "Collection")
+                    }
+                    Constants.FROM_LITURGY_LIST -> {
+                        toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
+                        replaceFragment(LiturgiesListFragment(), "Liturgies")
+                    }
+                }
+            }*/ else if (fragment is SearchFragment) {
                 when (Constants.CURRENT_FRAGMENT) {
                     Constants.SEARCH_FROM_MY_LITURGY -> {
                         toolbar.visibility = View.VISIBLE

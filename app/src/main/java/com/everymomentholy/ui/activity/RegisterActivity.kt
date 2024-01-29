@@ -283,6 +283,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         val dialogLayout = inflater.inflate(R.layout.register_dialog, null)
         // val dialogLayout = inflater.inflate(R.layout.login_dialog, null)
         val txtOk = dialogLayout.findViewById<TextView>(R.id.txtOk)
+        txtOk.isEnabled = true
         txtOk.setOnClickListener {
             //txtOk
 
@@ -300,6 +301,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                 loginRequestVo.email = edtEmail.text.toString().trim()
                 loginRequestVo.password = edtPassword.text.toString().trim()
                 loginRequestVo.deviceType = Constants.DEVICE_TYPE
+                txtOk.isEnabled = false
                 progressCardView.visibility = View.VISIBLE
                 getWindow().setFlags(
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,

@@ -20,7 +20,16 @@ interface APIInterface {
     fun userLogin(@Body loginRequestVo: LoginRequestVo): Call<LoginResponseVo>
 
     @POST(Constants.API_CREATESUBSCRIPTION)
-    fun createSubscription(@Body createSubscrptionReqVo: CreateSubscrptionReqVo): Call<CreateSubscrptionResVo>
+    fun createSubscription(
+        @Body createSubscrptionReqVo: CreateSubscrptionReqVo,
+        @Header("Authorization") token: String
+    ): Call<CreateSubscrptionResVo>
+
+  /*  @POST(Constants.API_PURCHASE_VOLUME)
+    fun purchaseVolumeAcknowledge(
+        @Body privateSharingRequestVo: PurchaseRequestVo,
+        @Header("Authorization") token: String
+    ): Call<PrivateShareResponseVo>*/
 
     @GET(Constants.API_GETUSERSUBSCRIPTIONPLANS)
     fun getUserSubscriptionPlans(

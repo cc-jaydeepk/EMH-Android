@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.everymomentholy.R
@@ -24,6 +26,9 @@ import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.CollectionDataVo
 import com.everymomentholy.ui.activity.*
+import com.everymomentholy.ui.fragments.CollectionListFragment
+import com.everymomentholy.ui.fragments.LiturgiesListFragment
+import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
@@ -131,7 +136,11 @@ class BottomSliderCollectionAdapter(
                 }
             }
         } else {
-            if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased.equals("Yes", true)) {
+            if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased.equals(
+                    "Yes",
+                    true
+                )
+            ) {
                 holder.btnReadNow.text = "OPEN"
                 // holder.btnReadNow.text = "OPEN"
                 var sdk = android.os.Build.VERSION.SDK_INT;
@@ -183,15 +192,17 @@ class BottomSliderCollectionAdapter(
                     showDialogForUnlockWithoutLogin(freeLiturgies)
                 } else {
                     // startPurchaseFlow(freeLiturgies)
+
                     val intent = Intent(context, SelectSubscriptionPlan::class.java)
                     context?.startActivity(intent)
 
                     /*val bundle = Bundle()
                     bundle.putBoolean("onPress", true);
+                    bundle.putBoolean("onPressHome", false);
                     var fragment: Fragment = SubscriptionPlanListFragment()
-                    replaceFragment(
-                        SubscriptionPlanListFragment(),
-                        "Subscription",
+                    (context as MainActivity).replaceFragment(
+                        fragment,
+                        "Subscription Plans",
                         bundle
                     )*/
                 }
@@ -206,17 +217,18 @@ class BottomSliderCollectionAdapter(
                         freeLiturgies.bookAmount = freeLiturgies.discountAmount
                     }
                     //startPurchaseFlow(freeLiturgies)
-                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
-                    context?.startActivity(intent)
 
-                    /*val bundle = Bundle()
-                    bundle.putBoolean("onPress", true);
+                    val bundle = Bundle()
                     var fragment: Fragment = SubscriptionPlanListFragment()
-                    (context as CollectionListActivity).replaceFragment(
-                        SubscriptionPlanListFragment(),
-                        "Subscription",
+                    bundle.putBoolean("onPress", true);
+                    bundle.putBoolean("onPressHome", false);
+                    (context as MainActivity).replaceFragment(
+                        fragment,
+                        "Subscription Plans",
                         bundle
-                    )*/
+                    )
+
+
                 }
             } else if (holder.btnReadNow.text.toString().equals("OPEN", true)) {
                 transferToLiturgyList(freeLiturgies)
@@ -354,6 +366,13 @@ class BottomSliderCollectionAdapter(
         intent.putExtra("bookID", freeLiturgies.bookId)
         intent.putExtra("collection", freeLiturgies)
         context.startActivity(intent)
+
+        /*val bundle = Bundle()
+        bundle.putInt("bookID", freeLiturgies.bookId)
+        bundle.putSerializable("collection", freeLiturgies)
+        var fragment: Fragment = LiturgiesListFragment()
+
+        (context as MainActivity).replaceFragment(fragment, "Liturgies", bundle)*/
     }
 
     private fun startPurchaseFlow(collectionDataVo: CollectionDataVo) {
@@ -410,8 +429,11 @@ class BottomSliderCollectionAdapter(
         alertButtonPurchase.setOnClickListener() {
             show.dismiss()
             //startPurchaseFlow(myLiturgyDataVo)
-            val intent = Intent(context, SelectSubscriptionPlan::class.java)
-            context?.startActivity(intent)
+            val bundle = Bundle()
+            bundle.putBoolean("onPress", true);
+            bundle.putBoolean("onPressHome", false);
+            var fragment: Fragment = SubscriptionPlanListFragment()
+            (context as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)
         }
         show.setCanceledOnTouchOutside(false)
     }

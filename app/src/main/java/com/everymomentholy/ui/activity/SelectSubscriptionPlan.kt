@@ -4,8 +4,10 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -13,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -80,6 +83,19 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
     private lateinit var txt_toolbar_name: TextView
     val subscriptionSatus: String = ""
 
+    lateinit var token: String
+    lateinit var encryptCustomerIdKey : String
+    lateinit var encryptSubscriptionIdKey : String
+    lateinit var encryptPublishableKey : String
+    lateinit var encryptEphemeralKeyIdKey : String
+    lateinit var encryptPaymentIntentIdKey : String
+
+    lateinit var finalCusKey : String
+    lateinit var finalSubKey : String
+    lateinit var finalPublishKey : String
+    lateinit var finalEphemeralKey : String
+    lateinit var finalPaymentIntentKey : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_subscription_plan)
@@ -93,6 +109,12 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
         iv_toolbar_drawer.visibility = View.GONE
         iv_toolbar_notification.visibility = View.GONE
         txt_toolbar_name.text = "SUBSCRIPTION PLANS"
+
+        token = Utils.readStringFromSharedPref(
+            this,
+            Constants.SHARED_PREF_TOKEN,
+            ""
+        ).toString()
 
 
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
@@ -179,7 +201,16 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
                             CreateSubscrptionReqVo()
                         createSubscrptionReqVo.appUserId = prefeUserId.toString()
                         createSubscrptionReqVo.planType = selectedPlanType
-                        createSubscription(createSubscrptionReqVo)
+                        //createSubscription(createSubscrptionReqVo)
+                        if (Utils.isNetworkAvailable(this)) {
+                            createSubscription(createSubscrptionReqVo)
+                        } else {
+                            Toast.makeText(
+                               this,
+                                resources.getString(R.string.check_internet),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
 
                 } else {
@@ -324,8 +355,8 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
 
         var getSubscriptionStatusReqVo: GetSubscriptionStatusReqVo = GetSubscriptionStatusReqVo()
         getSubscriptionStatusReqVo.appUserId = prefeUserId.toString()
-        getSubscriptionStatusReqVo.stripeCustomerId = customer_ID
-        getSubscriptionStatusReqVo.subscriptionId = subscription_ID
+        getSubscriptionStatusReqVo.stripeCustomerId = finalCusKey
+        getSubscriptionStatusReqVo.subscriptionId = finalSubKey
         getSubscriptionStatusReqVo.subscriptionStatus = PaymentStatus
 
         val request = APIService.buildService(APIInterface::class.java)
@@ -503,11 +534,17 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
         rcvSubscriptionPlan.adapter = planListAdapter
     }
 
-    private fun createSubscription(createSubscrptionReqVo: CreateSubscrptionReqVo) {
+    /*private fun createSubscription(createSubscrptionReqVo: CreateSubscrptionReqVo) {
 
 
         val request = APIService.buildService(APIInterface::class.java)
-        val call = request.createSubscription(createSubscrptionReqVo)
+        val call = request.createSubscription(
+            createSubscrptionReqVo, "bearer " + Utils.readStringFromSharedPref(
+                this,
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            )
+        )
 
         try {
             call.enqueue(object : Callback<CreateSubscrptionResVo> {
@@ -587,6 +624,112 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
             progressCardView.visibility = View.GONE
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         }
+    }*/
+
+    private fun createSubscription(createSubscrptionReqVo: CreateSubscrptionReqVo) {
+
+        val request = APIService.buildService(APIInterface::class.java)
+        //val call = request.createSubscription(createSubscrptionReqVo)
+        val call = request.createSubscription(
+            createSubscrptionReqVo,
+            "bearer $token"
+        )
+
+        try {
+            call.enqueue(object : Callback<CreateSubscrptionResVo> {
+                @RequiresApi(Build.VERSION_CODES.O)
+                override fun onResponse(
+                    call: Call<CreateSubscrptionResVo>,
+                    response: Response<CreateSubscrptionResVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        customer_ID = response.body()!!.response.customer_id
+                        subscription_ID = response.body()!!.response.subscription_id
+                        publishable_Key = response.body()!!.response.publishable_key
+                        ephemeralKey_ID = response.body()!!.response.ephemeralKey_id
+                        payment_intent_ID = response.body()!!.response.payment_intent_id
+
+                        val decodedBytesCustomerId = Base64.decode(customer_ID, Base64.DEFAULT)
+                        encryptCustomerIdKey = String(decodedBytesCustomerId,Charsets.UTF_8)
+
+                        val decodedBytesSubscriptionId = Base64.decode(subscription_ID, Base64.DEFAULT)
+                        encryptSubscriptionIdKey = String(decodedBytesSubscriptionId,Charsets.UTF_8)
+
+                        val decodedBytesPublishableId = Base64.decode(publishable_Key, Base64.DEFAULT)
+                        encryptPublishableKey = String(decodedBytesPublishableId,Charsets.UTF_8)
+
+                        val decodedBytesEphemeralID = Base64.decode(ephemeralKey_ID, Base64.DEFAULT)
+                        encryptEphemeralKeyIdKey = String(decodedBytesEphemeralID,Charsets.UTF_8)
+
+                        val decodedBytesPaymentID = Base64.decode(payment_intent_ID, Base64.DEFAULT)
+                        encryptPaymentIntentIdKey = String(decodedBytesPaymentID,Charsets.UTF_8)
+
+                        val decodeCustomerKey = encryptCustomerIdKey.replace(token, "")
+                        finalCusKey = decodeCustomerKey.replace("EMHcustomer_id==", "")
+
+                        val decodeSubscriptionKey = encryptSubscriptionIdKey.replace(token, "")
+                        finalSubKey = decodeSubscriptionKey.replace("EMHsubscription_id==", "")
+
+                        val decodePublishKey = encryptPublishableKey.replace(token, "")
+                        finalPublishKey = decodePublishKey.replace("EMHpublishable_key==", "")
+
+                        val decodeencryptEphemeralKey = encryptEphemeralKeyIdKey.replace(token, "")
+                        finalEphemeralKey = decodeencryptEphemeralKey.replace("EMHephemeralKey_id==", "")
+
+                        val decodeencryptPaymentKey = encryptPaymentIntentIdKey.replace(token, "")
+                        finalPaymentIntentKey = decodeencryptPaymentKey.replace("EMHpayment_intent_id==", "")
+
+                        Utils.writeStringToSharedPref(
+                            this@SelectSubscriptionPlan, Constants.CUSTOMER_ID,
+                            finalCusKey
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@SelectSubscriptionPlan, Constants.SUBSCRIPTION_ID,
+                            finalSubKey
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@SelectSubscriptionPlan, Constants.PUBLISHABLE_KEY,
+                            finalPublishKey
+                        )
+                        Utils.writeStringToSharedPref(
+                           this@SelectSubscriptionPlan, Constants.EPHEMERALKEY_ID,
+                            finalEphemeralKey
+                        )
+                        Utils.writeStringToSharedPref(
+                            this@SelectSubscriptionPlan, Constants.PAYMENT_INTENT_ID,
+                            finalPaymentIntentKey
+                        )
+
+                        paymentIntentClientSecret = finalPaymentIntentKey
+                        customerConfig = PaymentSheet.CustomerConfiguration(
+                            finalCusKey,
+                            finalEphemeralKey
+                        )
+
+                        val publishableKey = finalPublishKey
+                        //DENISHA
+                        PaymentConfiguration.init(this@SelectSubscriptionPlan, publishableKey)
+
+                        progressCardView.visibility = View.GONE
+                        getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        presentPaymentSheet()
+
+                    } else {
+
+                    }
+
+                }
+
+                override fun onFailure(call: Call<CreateSubscrptionResVo>, t: Throwable) {
+                    // Toast.makeText(context, "${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
     }
 
     private fun presentPaymentSheet() {
@@ -597,7 +740,7 @@ class SelectSubscriptionPlan : AppCompatActivity(), SubscriptionPlanListCLick {
                 .allowsDelayedPaymentMethods(true)
                 .build()
         paymentSheet.presentWithPaymentIntent(
-            payment_intent_ID,
+            finalPaymentIntentKey,
             configuration
         )
     }
