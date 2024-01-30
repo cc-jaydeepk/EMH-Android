@@ -193,8 +193,9 @@ class BottomSliderCollectionAdapter(
                 } else {
                     // startPurchaseFlow(freeLiturgies)
 
-                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
-                    context?.startActivity(intent)
+                    //FOR TESTING PORPOSE
+                    /*val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    context?.startActivity(intent)*/
 
                     /*val bundle = Bundle()
                     bundle.putBoolean("onPress", true);

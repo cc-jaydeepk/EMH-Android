@@ -47,6 +47,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick {
     //InApp subscription link
     //https://dev.to/theplebdev/adding-subscriptions-to-your-android-app-part-3-checking-if-user-is-subscribed-3793
     //https://codelabs.developers.google.com/play-billing-codelab#1
+    //https://developer.android.com/google/play/billing/integrate
 
     lateinit var txtSkip: TextView
 
