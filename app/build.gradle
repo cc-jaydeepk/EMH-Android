@@ -112,8 +112,10 @@ dependencies {
     
 
     //GooglePlay Billing
-    implementation "com.android.billingclient:billing:6.1.0"
-    implementation "com.android.billingclient:billing-ktx:6.1.0"
+    implementation 'com.android.billingclient:billing:5.0.0'
+
+    // used for ImmutableList
+    implementation "com.google.firebase:firebase-crashlytics-buildtools:2.9.9"
 
 // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
