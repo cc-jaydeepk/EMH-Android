@@ -30,8 +30,10 @@ import com.everymomentholy.ui.fragments.CollectionListFragment
 import com.everymomentholy.ui.fragments.LiturgiesListFragment
 import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
+import com.everymomentholy.utils.InAppSubscription
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
+import kotlinx.coroutines.GlobalScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -193,9 +195,12 @@ class BottomSliderCollectionAdapter(
                 } else {
                     // startPurchaseFlow(freeLiturgies)
 
+                    /*val inAppSubscription = InAppSubscription.getInstance((context as Activity).application, GlobalScope)
+                    inAppSubscription.establishConnection()*/
+
                     //FOR TESTING PORPOSE
-                    /*val intent = Intent(context, SelectSubscriptionPlan::class.java)
-                    context?.startActivity(intent)*/
+                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    context?.startActivity(intent)
 
                     /*val bundle = Bundle()
                     bundle.putBoolean("onPress", true);

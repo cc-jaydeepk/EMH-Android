@@ -41,10 +41,11 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.SelectSubscriptionPlan"
+            android:name="com.everymomentholy.ui.activity.SelectSubscriptionPlan"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:replace="screenOrientation">
+            tools:replace="screenOrientation"
+            tools:ignore="MissingClass">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -58,35 +59,35 @@
             android:value="${crashlyticsEnabled}" />
 
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.OrderHistoryActivity"
+            android:name="com.everymomentholy.ui.activity.OrderHistoryActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.PlayAudioActivity"
+            android:name="com.everymomentholy.ui.activity.PlayAudioActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.LiturgiesListDialogActivity"
+            android:name="com.everymomentholy.ui.activity.LiturgiesListDialogActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.PrivacyPolicyActivity"
+            android:name="com.everymomentholy.ui.activity.PrivacyPolicyActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.LiturgiesListActivity"
+            android:name="com.everymomentholy.ui.activity.LiturgiesListActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.FavLiturgyListActivity"
+            android:name="com.everymomentholy.ui.activity.FavLiturgyListActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.CollectionListActivity"
+            android:name="com.everymomentholy.ui.activity.CollectionListActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.SplashActivity"
+            android:name="com.everymomentholy.ui.activity.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation">
@@ -97,56 +98,56 @@
             </intent-filter>-->
         </activity>
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.SelectOptionActivity"
+            android:name="com.everymomentholy.ui.activity.SelectOptionActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.RegisterActivity"
+            android:name="com.everymomentholy.ui.activity.RegisterActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.LoginActivity"
+            android:name="com.everymomentholy.ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.ForgotPasswordActivity"
+            android:name="com.everymomentholy.ui.activity.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.ResetPasswordActivity"
+            android:name="com.everymomentholy.ui.activity.ResetPasswordActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" /> <!-- <activity android:name=".ui.activity.HomeActivity" /> -->
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.MainActivity"
+            android:name="com.everymomentholy.ui.activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.GetCollectionActivity"
+            android:name="com.everymomentholy.ui.activity.GetCollectionActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.ChangePasswordActivity"
+            android:name="com.everymomentholy.ui.activity.ChangePasswordActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.ContactUsActivity"
+            android:name="com.everymomentholy.ui.activity.ContactUsActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.NotificationListActivity"
+            android:name="com.everymomentholy.ui.activity.NotificationListActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.NotificationDetailActivity"
+            android:name="com.everymomentholy.ui.activity.NotificationDetailActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.EditProfileActivity"
+            android:name="com.everymomentholy.ui.activity.EditProfileActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.everymomentholy.ui.activity.ui.activity.MySubscriptionStatus"
+            android:name="com.everymomentholy.ui.activity.MySubscriptionStatus"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
 
@@ -163,7 +164,7 @@
         </provider>
 
         <service
-            android:name="com.everymomentholy.ui.activity.services.MyFirebaseMessagingService"
+            android:name="com.everymomentholy.services.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
