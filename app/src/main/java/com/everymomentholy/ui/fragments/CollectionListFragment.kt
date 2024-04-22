@@ -2,6 +2,8 @@ package com.everymomentholy.ui.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,13 +43,14 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
 
     //lateinit var bottomSliderAdapter: CollectionAdapter
     lateinit var bottomSliderAdapter: BottomSliderCollectionAdapter
-    lateinit var ivToolbarNotification: ImageView
-    lateinit var txtToolbarName: TextView
-    lateinit var ivToolbarDrawer: ImageView
-    lateinit var ivToolbarBack: ImageView
+   // lateinit var ivToolbarNotification: ImageView
+   // lateinit var txtToolbarName: TextView
+   // lateinit var ivToolbarDrawer: ImageView
+   // lateinit var ivToolbarBack: ImageView
     var isPurchaseSuccess: Boolean = false
     var volumePurchaseCode: String = ""
     lateinit var progressCardView: CardView
+    var isFrom: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,22 +59,18 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_collection_list, container, false)
 
-        (activity as MainActivity).toolbar.visibility = View.GONE
+        (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_backImage.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
+        (activity as MainActivity).iv_toolbar_drawer.visibility = View.GONE
+        (activity as MainActivity).txt_toolbar_name.text = "Collection"
 
         rvCollectionList = view.findViewById(R.id.rvCollectionList)
-        ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
-        txtToolbarName = view.findViewById(R.id.txt_toolbar_name)
-        ivToolbarNotification = view.findViewById(R.id.iv_toolbar_notification)
-        ivToolbarBack = view.findViewById(R.id.iv_toolbar_backImage)
+
         progressCardView = view.findViewById(R.id.progressCardView)
 
-        txtToolbarName.text = "Collection"
-        ivToolbarNotification.visibility = View.GONE
-        // ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
-        ivToolbarDrawer.visibility = View.GONE
-        ivToolbarBack.visibility = View.VISIBLE
 
-        ivToolbarBack.setOnClickListener() {
+        (activity as MainActivity).iv_toolbar_backImage.setOnClickListener() {
             requireActivity().onBackPressed()
         }
 
@@ -87,6 +86,7 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
         )
 
         //liturgies = intent.getSerializableExtra("liturgies") as GetLiturgiesDataVo
+        //liturgies = requireArguments().getSerializable("liturgies") as GetLiturgiesDataVo
         if (arguments != null) {
             liturgies = requireArguments().getSerializable("liturgies") as GetLiturgiesDataVo
         }
@@ -117,6 +117,7 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
         var collectionRequestVo: CollectionRequestVo = CollectionRequestVo()
         collectionRequestVo.volumeId = volumeId
         collectionRequestVo.deviceId = android_id
+
 
         if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
             prefeUserId = Constants.SKIP_LOGIN_USER_ID
@@ -171,7 +172,8 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
                         }
                         arrCollectionList.addAll(response.body()!!.response.data)
                         progressCardView.visibility = View.GONE
-                        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        requireActivity().getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         bottomSliderAdapter = BottomSliderCollectionAdapter(
                             requireActivity(),
                             arrCollectionList
@@ -186,7 +188,8 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
 
                     } else {
                         progressCardView.visibility = View.GONE
-                        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        requireActivity().getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(
                             requireActivity(),
                             response.body()!!.response.message.toString(),
@@ -222,11 +225,13 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
                 ) {
                     if (response.body()?.statusCode == 1) {
                         progressCardView.visibility = View.GONE
-                        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        requireActivity().getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         volumePurchaseCode = response.body()!!.response.volumePurchaseCode
                     } else {
                         progressCardView.visibility = View.GONE
-                        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        requireActivity().getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(
                             requireActivity(),
                             response.body()!!.status.toString(),
@@ -334,19 +339,18 @@ class CollectionListFragment : Fragment(), OnInAppPurchaseListener {
 
     override fun onResume() {
         super.onResume()
-
-        if (Utils.isNetworkAvailable(requireActivity())) {
-            if (liturgies.isVolume == "Yes")
+        /*if (Utils.isNetworkAvailable(requireActivity())) {
+            if (liturgies.isVolume == "Yes") {
                 getAboutVolume(liturgies.volumeId)
-            getCollectionList(liturgies.volumeId)
+                getCollectionList(liturgies.volumeId)
+            }
         } else {
             Toast.makeText(
                 requireActivity(),
                 resources.getString(R.string.check_internet),
                 Toast.LENGTH_LONG
             ).show()
-        }
-
+        }*/
     }
 
     /*fun replaceFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle? = null) {

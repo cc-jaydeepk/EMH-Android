@@ -15,6 +15,8 @@ import com.everymomentholy.ui.activity.SelectOptionActivity
 import com.everymomentholy.utils.SharedPreference.Companion.getPreferences
 import com.folioreader.FolioReader
 import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Utils {
 
@@ -305,6 +307,68 @@ class Utils {
             } catch (ioException: IOException) {
                 false
             }
+        }
+
+        fun convertLongToDate(longDate: Long): String {
+            val date = Date(longDate)
+            val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            return format.format(date)
+        }
+
+        fun convertLongToDateUTC(longDate: Long): String {
+            val date = Date(longDate)
+            val outputFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            outputFmt.timeZone = TimeZone.getTimeZone("UTC")
+            return outputFmt.format(date)
+        }
+
+        fun getCurrentUTC(): String? {
+            val time = Calendar.getInstance().time
+            val outputFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            outputFmt.timeZone = TimeZone.getTimeZone("UTC")
+            return outputFmt.format(time)
+        }
+
+        fun convertLongToDatePlusOneMonth(longDate: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = longDate
+            calendar.add(Calendar.MONTH, 1) // Add one month
+
+            val dateAfterOneMonth = calendar.time
+            val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            return format.format(dateAfterOneMonth)
+        }
+
+        fun convertLongToDatePlusOneMonthUTC(longDate: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = longDate
+            calendar.add(Calendar.MONTH, 1) // Add one month
+
+            val dateAfterOneMonth = calendar.time
+            val outputFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            outputFmt.timeZone = TimeZone.getTimeZone("UTC")
+            return outputFmt.format(dateAfterOneMonth)
+        }
+
+        fun convertLongToDatePlusOneYear(longDate: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = longDate
+            calendar.add(Calendar.YEAR, 1) // Add one year
+
+            val dateAfterOneMonth = calendar.time
+            val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            return format.format(dateAfterOneMonth)
+        }
+
+        fun convertLongToDatePlusOneYearUTC(longDate: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = longDate
+            calendar.add(Calendar.YEAR, 1) // Add one year
+
+            val dateAfterOneYear = calendar.time
+            val outputFmt = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            outputFmt.timeZone = TimeZone.getTimeZone("UTC")
+            return outputFmt.format(dateAfterOneYear)
         }
 
         /*fun isFilePresent(context: Context): Boolean {

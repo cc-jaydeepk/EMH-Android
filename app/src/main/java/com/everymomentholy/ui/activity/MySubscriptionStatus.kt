@@ -1,6 +1,7 @@
 package com.everymomentholy.ui.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -9,11 +10,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.request.CancelSubscriptionReqVo
 import com.everymomentholy.api.response.CancelSubscriptionResVo
+import com.everymomentholy.ui.fragments.HomeFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import retrofit2.Call
@@ -80,6 +83,8 @@ class MySubscriptionStatus : AppCompatActivity() {
         btnUnsubscribe = findViewById(R.id.btnUnsubscribe)
 
 
+        alreadySubscribeDialog()
+
         txtUpcominStartDate.text = Utils.readStringFromSharedPref(
             this@MySubscriptionStatus, Constants.UPCOMING_STARTED_AT,
             ""
@@ -129,7 +134,7 @@ class MySubscriptionStatus : AppCompatActivity() {
             btnUnsubscribe.visibility = View.GONE
         }
         else {
-            btnUnsubscribe.visibility = View.VISIBLE
+            btnUnsubscribe.visibility = View.GONE
         }
 
 
@@ -157,6 +162,60 @@ class MySubscriptionStatus : AppCompatActivity() {
         iv_toolbar_backImage.setOnClickListener {
             onBackPressed()
         }
+    }
+
+    private fun alreadySubscribeDialog() {
+        val alertDialog = AlertDialog.Builder(
+            this
+        )
+        val inflater = layoutInflater
+        val alertView: View = inflater.inflate(R.layout.logout_dialog, null)
+        alertDialog.setView(alertView)
+        val show = alertDialog.show()
+        val alertButtonCancel = alertView.findViewById<View>(R.id.txtLougotCancel) as TextView
+        val alertButtonYes = alertView.findViewById<View>(R.id.txtLogoutYes) as TextView
+        val txtMessage = alertView.findViewById<View>(R.id.txtMessage) as TextView
+        val txtSubType = alertView.findViewById<View>(R.id.txtSubType) as TextView
+
+        txtMessage.text =
+            "This subscription was done with the Stripe payment system. When it ends, you will need to re-subscribe. Future subscriptions will be handled by Apple/Google."
+        txtSubType.visibility = View.VISIBLE
+        txtSubType.visibility = View.GONE
+        alertButtonCancel.visibility = View.GONE
+
+        /*if (planTypeIsStripe.equals("strip", true)) {
+            txtMessage.text =
+                "This subscription is in Stripe. After the current subscription ends, you will have to re-subscribe again.\n" +
+                        "All the future subscriptions will be handled by Google/Apple from now on."
+            txtSubType.visibility = View.VISIBLE
+            txtSubType.visibility = View.GONE
+            alertButtonCancel.visibility = View.GONE
+        } else {
+            txtMessage.text = getString(R.string.unsubscribestep)
+            txtSubType.visibility = View.VISIBLE
+            txtSubType.text = "You have a current subscription" + " " + subType
+        }*/
+
+
+        /*txtMessage.text = getString(R.string.unsubscribestep)
+        txtSubType.visibility = View.VISIBLE
+        txtSubType.text = "You have a current subscription" + " " + subType*/
+
+        alertButtonCancel.text = "Cancel existing plan"
+        alertButtonYes.text = "Ok"
+        alertButtonCancel.setTextSize(15f);
+        alertButtonYes.setTextSize(15f);
+
+        alertButtonYes.setOnClickListener {
+            /*show.dismiss()
+            val bundle = Bundle()
+            var fragment: Fragment = HomeFragment()
+            (context as MainActivity).replaceFragment(fragment, "Every Moment Holy", bundle)*/
+            show.dismiss()
+
+
+        }
+        show.setCanceledOnTouchOutside(false)
     }
 
     private fun cancelSubscriptionPlan(cancelSubscriptionReqVo: CancelSubscriptionReqVo) {

@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.everymomentholy.R
@@ -33,21 +35,21 @@ import retrofit2.Response
 class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
 
     lateinit var rvLiturgiesList: RecyclerView
+    lateinit var progressCardView: CardView
     private lateinit var android_id: String
     var prefeUserId: Int = 0
     lateinit var getLiturgiesFromBookIDAdapter: GetLiturgiesFromBookIDAdapter
-    lateinit var ivToolbarDrawer: ImageView
-    lateinit var txtToolbarName: TextView
-    lateinit var ivToolbarNotification: ImageView
+   // lateinit var ivToolbarDrawer: ImageView
+   // lateinit var txtToolbarName: TextView
+   // lateinit var ivToolbarNotification: ImageView
 
     lateinit var collectionData: CollectionDataVo
 
-    // var collectionData: CollectionDataVo? = null
     lateinit var collectionFavData: GetFavoritesDataVo
     var bookId = 0
     var bookfavId = 0
     var isPurchaseSuccess: Boolean = false
-    lateinit var ivToolbarBack: ImageView
+   // lateinit var ivToolbarBack: ImageView
 
 
     override fun onCreateView(
@@ -57,23 +59,43 @@ class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_liturgies_list, container, false)
 
-        (activity as MainActivity).toolbar.visibility = View.GONE
+        (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_backImage.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
+        (activity as MainActivity).iv_toolbar_drawer.visibility = View.GONE
+        (activity as MainActivity).txt_toolbar_name.text = "Liturgies"
+
+        /*(activity as MainActivity).iv_toolbar_backImage.setOnClickListener() {
+            requireActivity().onBackPressed()
+        }*/
 
         rvLiturgiesList = view.findViewById(R.id.rvLiturgiesList)
-        ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
-        ivToolbarNotification = view.findViewById(R.id.iv_toolbar_notification)
-        txtToolbarName = view.findViewById(R.id.txt_toolbar_name)
-        ivToolbarBack = view.findViewById(R.id.iv_toolbar_backImage)
+        progressCardView = view.findViewById(R.id.progressCardView)
+        progressCardView.visibility = View.VISIBLE
+        requireActivity().getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
+//        ivToolbarDrawer = view.findViewById(R.id.iv_toolbar_drawer)
+//        ivToolbarNotification = view.findViewById(R.id.iv_toolbar_notification)
+//        txtToolbarName = view.findViewById(R.id.txt_toolbar_name)
+       // ivToolbarBack = view.findViewById(R.id.iv_toolbar_backImage)
 
-        ivToolbarNotification.visibility = View.GONE
+        //ivToolbarNotification.visibility = View.GONE
         //ivToolbarDrawer.setImageDrawable(resources.getDrawable(R.drawable.ic_back))
-        ivToolbarDrawer.visibility = View.GONE
-        ivToolbarBack.visibility = View.VISIBLE
-        txtToolbarName.text = "Liturgies"
+        //ivToolbarDrawer.visibility = View.GONE
+       // ivToolbarBack.visibility = View.VISIBLE
+        //txtToolbarName.text = "Liturgies"
 
-        ivToolbarBack.setOnClickListener() {
+        /*ivToolbarBack.setOnClickListener() {
             requireActivity().onBackPressed()
-        }
+        }*/
+        /*ivToolbarBack.setOnClickListener() {
+//            (activity as MainActivity).toolbar.visibility = View.VISIBLE
+//            (activity as MainActivity).replaceFragment(CollectionListFragment(), "Collection")
+
+            requireActivity().onBackPressed()
+        }*/
 
         android_id = Settings.Secure.getString(
             requireActivity().contentResolver,
@@ -89,12 +111,15 @@ class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
 //        bookId = intent.getIntExtra("bookID", 0)
 //        collectionData = intent.getSerializableExtra("collection") as CollectionDataVo
 
-        if (arguments != null) {
+        bookId = requireArguments().getInt("bookID", 0)
+        collectionData = requireArguments().getSerializable("collection") as CollectionDataVo
+
+        /*if (arguments != null) {
             //liturgies = requireArguments().getSerializable("liturgies") as GetLiturgiesDataVo
            // bookId = intent.getIntExtra("bookID", 0)
             bookId = requireArguments().getInt("bookID", 0)
             collectionData = requireArguments().getSerializable("collection") as CollectionDataVo
-        }
+        }*/
 
         if (Utils.isNetworkAvailable(requireActivity())) {
             getMyLiturgiesList(bookId)
@@ -136,6 +161,9 @@ class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
                 ) {
                     if (response.body()?.statusCode == 1) {
 
+                        progressCardView.visibility = View.GONE
+                        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                         var liturgiesList: ArrayList<MyLiturgiesDataVo> = ArrayList()
 
 
@@ -162,6 +190,8 @@ class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
                         rvLiturgiesList.adapter = getLiturgiesFromBookIDAdapter
 
                     } else {
+                        progressCardView.visibility = View.GONE
+                        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(
                             requireActivity(),
                             response.body()!!.response.message.toString(),
@@ -180,7 +210,6 @@ class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
             exception.printStackTrace()
         }
     }
-
 
 
     /**
@@ -269,7 +298,7 @@ class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
     override fun onResume() {
         super.onResume()
 
-        if (Utils.isNetworkAvailable(requireActivity())) {
+       /* if (Utils.isNetworkAvailable(requireActivity())) {
             getMyLiturgiesList(bookId)
         } else {
             Toast.makeText(
@@ -277,7 +306,7 @@ class LiturgiesListFragment : Fragment(), OnInAppPurchaseListener {
                 resources.getString(R.string.check_internet),
                 Toast.LENGTH_LONG
             ).show()
-        }
+        }*/
     }
 
 

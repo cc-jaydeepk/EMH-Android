@@ -44,6 +44,7 @@ class OrderHistoryAdapter(
         holder.txtOrderHistoryPrice.text = "$" + orderHistoryData.price
         holder.txtOrderHistoryTitle.text = orderHistoryData.title
         holder.txtOrderHistoryOrderID.text = orderHistoryData.displayOrderId
+
         Glide.with(context)
             .load(orderHistoryData.coverPageImage)
             .into(holder.ivOrderHistoryCover)

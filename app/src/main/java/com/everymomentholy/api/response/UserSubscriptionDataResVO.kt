@@ -11,7 +11,10 @@ class UserSubscriptionDataResVO {
     var subscription_id: String = ""
 
     var subscription_type: String = ""
+    var plan_type: String = ""
+    var type: String = ""
     var upcomingPlan: String = ""
+    var subscription: String = ""
 
 
     //var upcomingPlanData: UserSubscriptionDataResVO = UserSubscriptionDataResVO()

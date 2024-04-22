@@ -9,6 +9,7 @@ import android.os.Looper
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -188,6 +189,11 @@ class SearchFragment : Fragment() {
                             )
                             recyclerviewSearch.adapter = adapter
                         }
+                    }else{
+                        progressCardView.visibility = View.GONE
+                        Log.e("TAG", "DDDDDDDD ", )
+                        Toast.makeText(requireActivity(), "No result found", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 

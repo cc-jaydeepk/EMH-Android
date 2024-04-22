@@ -18,6 +18,7 @@ import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
 import com.everymomentholy.api.response.*
+import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.adapter.FavoriteAdapter
 import com.everymomentholy.ui.adapter.FavoriteBookAdapter
 import com.everymomentholy.ui.adapter.MyLiturgyAdapter
@@ -47,12 +48,22 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
+
+        (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_backImage.visibility = View.GONE
+        (activity as MainActivity).iv_toolbar_search.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_drawer.visibility = View.VISIBLE
+
+        (activity as MainActivity).iv_toolbar_notification.visibility = View.GONE
+
         favRecyclerView = view.findViewById(R.id.favRecyclerView)
         favBookRecyclerView = view.findViewById(R.id.favBookRecyclerView)
         favRecyclerView.layoutManager = LinearLayoutManager(activity)
         favBookRecyclerView.layoutManager = LinearLayoutManager(activity)
 
         progressbar = view.findViewById(R.id.progressCardView)
+
+
 
         //favLiturgiesList = ArrayList<GetFavoritesDataVo>()
 

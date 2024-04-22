@@ -151,8 +151,10 @@
                                     android:layout_marginRight="@dimen/_10sdp"
                                     android:layout_toRightOf="@+id/imgShare"
                                     android:gravity="center"
-                                    android:src="@drawable/ic_fevrite"
-                                    android:visibility="visible" />
+                                    android:src="@drawable/ic_favorite"
+                                    android:visibility="gone" />
+
+
 
                                 <TextView
                                     android:id="@+id/txtPlayNow"
@@ -173,6 +175,17 @@
                                     android:textSize="@dimen/bottom_sheet_btnreadnow_txtsize"
                                     android:visibility="gone" />
 
+                                <ImageView
+                                    android:id="@+id/imgLocked"
+                                    android:layout_width="@dimen/buttomsheet_favimg_size"
+                                    android:layout_height="@dimen/buttomsheet_favimg_size"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/_10sdp"
+                                    android:layout_toRightOf="@+id/txtPlayNow"
+                                    android:gravity="center"
+                                    android:src="@drawable/ic_lock"
+                                    android:visibility="gone" />
+
 
                                 <TextView
                                     android:id="@+id/btnReadNow"
@@ -184,6 +197,7 @@
                                     android:background="@drawable/bg_unlock"
                                     android:fontFamily="@font/lato_medium"
                                     android:paddingLeft="@dimen/_7sdp"
+                                    android:visibility="visible"
                                     android:paddingTop="@dimen/_5sdp"
                                     android:paddingRight="@dimen/_7sdp"
                                     android:paddingBottom="@dimen/_5sdp"

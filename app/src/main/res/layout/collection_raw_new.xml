@@ -173,6 +173,7 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:layout_alignParentRight="true">
 
                         <ImageView
@@ -181,10 +182,9 @@
                             android:layout_height="@dimen/buttomsheet_shareimg_size"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
-                            android:layout_weight="0.15"
                             android:gravity="center"
-                            android:paddingLeft="3dp"
-                            android:paddingRight="3dp"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp"
                             android:visibility="gone"
                             android:src="@drawable/homeshare" />
 
@@ -195,26 +195,37 @@
                             android:layout_height="@dimen/buttomsheet_shareimg_size"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/_12sdp"
+                            android:layout_marginRight="@dimen/_9sdp"
                             android:layout_toRightOf="@+id/imgShare"
                             android:gravity="center"
                             android:visibility="gone"
                             android:src="@drawable/ic_fevrite" />
 
                         <TextView
-
                             android:id="@+id/txtPlayNow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/_12sdp"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_marginRight="@dimen/_9sdp"
                             android:layout_toRightOf="@+id/imgFavorite"
                             android:background="@drawable/bg_unlock"
                             android:fontFamily="@font/lato_medium"
-                            android:padding="@dimen/_6sdp"
+                            android:padding="@dimen/_4sdp"
                             android:text="Play Now"
                             android:textAllCaps="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/getcollection_btntxt"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/imgLocked"
+                            android:layout_width="@dimen/buttomsheet_favimg_size"
+                            android:layout_height="@dimen/buttomsheet_favimg_size"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_toRightOf="@+id/txtPlayNow"
+                            android:gravity="center"
+                            android:src="@drawable/ic_lock"
                             android:visibility="gone" />
 
                         <TextView
@@ -222,6 +233,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_2sdp"
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_toRightOf="@+id/txtPlayNow"
                             android:background="@drawable/bg_unlock"

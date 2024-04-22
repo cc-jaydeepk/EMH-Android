@@ -1,8 +1,12 @@
 package com.everymomentholy.ui.activity
 
+import android.Manifest
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -18,6 +22,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -37,6 +43,7 @@ import com.everymomentholy.ui.fragments.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
+import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
@@ -49,24 +56,26 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarToggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
-    private lateinit var iv_toolbar_drawer: ImageView
+    lateinit var iv_toolbar_drawer: ImageView
     lateinit var iv_toolbar_notification: ImageView
     lateinit var iv_toolbar_search: ImageView
     lateinit var iv_toolbar_backImage: ImageView
-    private lateinit var txt_toolbar_name: TextView
+    lateinit var txt_toolbar_name: TextView
     public lateinit var toolbar: Toolbar
-
     private lateinit var iv_drawer_profile_image: ImageView
     private lateinit var txt_drawer_UserName: TextView
     private lateinit var txt_drawer_email: TextView
-    private var currentFragment: String = ""
 
+    private var currentFragment: String = ""
     private lateinit var android_id: String
     var prefeUserId: Int = 0
     var profileImage: String = ""
     var userImage: String = ""
-
+    var statusHistory: String = ""
+    private val CONTACTS_PERMISSION_REQUEST_CODE = 101
     lateinit var ivToolbarDrawer: ImageView
+    var subscriptionStatus: String = ""
+    var isLogin: Boolean = false
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +89,43 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             Settings.Secure.ANDROID_ID
         )
 
+
+// Check if the permission is already granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is not granted
+            // Request the permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_CONTACTS),
+                CONTACTS_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            // Permission has already been granted
+            // You can now access contacts
+            // AccessContacts()
+            val account = getActiveGoogleAccount(this)
+            if (account != null) {
+                val email = account.name
+                // Do something with the email
+
+                val activeEmail = Utils.writeStringToSharedPref(
+                    this, Constants.ACTIVE_PLAYSTORE_EMAIL,
+                    email
+                ).toString()
+                Log.d("ActiveAccount", "Active Google play account: $activeEmail")
+            } else {
+                Log.d("ActiveAccount", "No active Google account found")
+            }
+        }
+
         prefeUserId = Utils.readIntData(
             this,
             Constants.PrefUserID,
             0
         )!!
+
 
         toolbar = findViewById(R.id.toolbar)
         iv_toolbar_drawer = findViewById(R.id.iv_toolbar_drawer)
@@ -108,22 +149,38 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         val navBottomView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
         navBottomView.visibility = View.VISIBLE
 
-        toolbar.visibility = View.GONE
+        toolbar.visibility = View.VISIBLE
         var fragment1: Fragment? = null
         fragment1 = HomeFragment()
         navView.setCheckedItem(R.id.nav_homeFragment)
         addFragment(fragment1, "Every Moment Holy", null)
 
+
         if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            isLogin = true
             txt_drawer_email.text = ""
             val nav_Menu: Menu = navView.getMenu()
             nav_Menu.findItem(R.id.nav_logoutFragment).setTitle("Login")
-
         } else {
             if (Utils.isNetworkAvailable(this)) {
                 getUserProfile()
             }
         }
+        val nav_purchas: Menu = navView.getMenu()
+        if (isLogin){
+            nav_purchas.findItem(R.id.purchase).setVisible(false)
+        }else{
+            nav_purchas.findItem(R.id.purchase).setVisible(true)
+        }
+
+        //true = visible, false = gone
+
+
+        var planStatusasd = Utils.readStringFromSharedPref(
+            this@MainActivity, Constants.PLAN_STATUS,
+            ""
+        ).toString()
+        Log.e("PLANPLANPLAN", "subscriptionStatusfromProfile: " + planStatusasd)
 
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(this@MainActivity, NotificationListActivity::class.java)
@@ -162,6 +219,8 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         ""
                     ).toString()
 
+
+
                     Glide.with(this@MainActivity)
                         .load(profileImage)
                         .into(iv_drawer_profile_image)
@@ -170,6 +229,18 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         this@MainActivity, Constants.USER_NAME,
                         ""
                     ).toString()
+
+                    /*val subStatus = Utils.readStringFromSharedPref(
+                        this@MainActivity, Constants.PROFILE_STATUS,
+                        ""
+                    ).toString()
+
+                    val nav_purchas: Menu = navView.getMenu()
+                    if (subStatus.equals("Yes", true)){
+                        nav_purchas.findItem(R.id.purchase).setVisible(false)
+                    }else{
+                        nav_purchas.findItem(R.id.purchase).setVisible(true)
+                    }*/
 
                     Log.e(
                         "user name", Utils.readStringFromSharedPref(
@@ -195,7 +266,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             drawerLayout.closeDrawer(GravityCompat.START)
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
-                    toolbar.visibility = View.GONE
+                    toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     replaceFragment(HomeFragment(), "Every Moment Holy")
                     navBottomView.selectedItemId = R.id.nav_homeFragment
@@ -205,6 +276,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
                     Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_MY_LITURGY
                     replaceFragment(MyLiturgiesFragment(), "My Liturgies")
                     navBottomView.selectedItemId = R.id.nav_myLiturgiesFragment
@@ -246,7 +318,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     true
                 }
                 R.id.nav_orderBookFragment -> {
-                    navBottomView.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
                     replaceFragment(OrderBookFragment(), "Order Books")
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.GONE
@@ -257,15 +329,40 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     //showUnderDevDialog()
                     false
                 }
+                /*R.id.nav_pastPurchase -> {
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FEATURED_LITURGY
+                    replaceFragment(PreviousPurchaseFragment(), "Previous Purchase")
+                    navBottomView.selectedItemId = R.id.nav_pastPurchase
+                    //showUnderDevDialog()
+                    true
+                }*/
+                R.id.purchase -> {
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
+                    iv_toolbar_notification.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FEATURED_LITURGY
+                    replaceFragment(PreviousPurchaseFragment(), "Past Purchase")
+                    navBottomView.selectedItemId = R.id.purchase
+                    //showUnderDevDialog()
+                    true
+                }
                 R.id.nav_subscription -> {
                     toolbar.visibility = View.VISIBLE
                     navBottomView.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.GONE
                     iv_toolbar_notification.visibility = View.GONE
+                    iv_toolbar_backImage.visibility = View.GONE
+                    ivToolbarDrawer.visibility = View.VISIBLE
                     //navBottomView.selectedItemId = R.id.nav_subScriptionPlanListFrag
                     //replaceFragment(SubscriptionPlanFragment(), "Subscription")
                     val bundle = Bundle()
                     bundle.putBoolean("onPress", false);
+                    Constants.CURRENT_FRAGMENT = Constants.FROM_HOME_SCREEN
                     //replaceFragment(SubscriptionPlanListFragment(), "Subscription")
                     replaceFragment(
                         SubscriptionPlanListFragment(),
@@ -286,7 +383,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     // replaceFragment(SearchFragment(), "Search")
                     toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.GONE
-                    navBottomView.visibility = View.GONE
+                    navBottomView.visibility = View.VISIBLE
                     iv_toolbar_search.visibility = View.GONE
                     ivToolbarDrawer.visibility = View.VISIBLE
                     iv_toolbar_backImage.visibility = View.GONE
@@ -361,14 +458,56 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             val fragment: Fragment
             when (it.itemId) {
                 R.id.nav_homeFragment -> {
-                    toolbar.visibility = View.GONE
+                    toolbar.visibility = View.VISIBLE
                     iv_toolbar_notification.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.GONE
+                    iv_toolbar_backImage.visibility = View.GONE
                     // iv_toolbar_search.visibility = View.GONE
                     iv_toolbar_notification.setImageResource(R.drawable.ic_notification);
                     txt_toolbar_name.text = "Every Moment Holy"
                     fragment = HomeFragment()
-                    loadFragment(fragment)
+                    replaceFragment(fragment, "Every Moment Holy")
+                    //loadFragment(fragment)
                     navView.setCheckedItem(R.id.nav_homeFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_featuredLiturgiesFragment -> {
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    txt_toolbar_name.text = "Featured Liturgies"
+                    fragment = FeaturedFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FEATURED_LITURGY
+                    replaceFragment(fragment, "Featured Liturgies")
+                    navView.setCheckedItem(R.id.nav_myLiturgiesFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_getLiturgiesFragment -> {
+                    toolbar.visibility = View.VISIBLE
+                    iv_toolbar_search.visibility = View.VISIBLE
+                    iv_toolbar_notification.visibility = View.GONE
+                    Constants.GET_LITURGIES_VIEW_PAGER_POSITION = 0
+                    fragment = GetLiturgiesFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
+                    replaceFragment(fragment, "Get Liturgies")
+                    navView.setCheckedItem(R.id.nav_getLiturgiesFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.nav_favoritesFragment -> {
+                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                        showLoginDialog()
+                    } else {
+                        toolbar.visibility = View.VISIBLE
+                        txt_toolbar_name.text = "Favorites"
+                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_notification.visibility = View.GONE
+                        fragment = FavoritesFragment()
+                        replaceFragment(fragment, "Favorites")
+                        Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
+                        navView.setCheckedItem(R.id.nav_favoritesFragment)
+                    }
+                    // showUnderDevDialog()
+                    // return@setOnNavigationItemSelectedListener true
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.nav_searchFragment -> {
@@ -391,48 +530,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
 //                    replaceFragment(SearchFragment(), "Search")
                     return@setOnNavigationItemSelectedListener true
                 }
-
-                R.id.nav_myLiturgiesFragment -> {
-                    toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
-                    txt_toolbar_name.text = "My Liturgies"
-                    fragment = MyLiturgiesFragment()
-                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_MY_LITURGY
-                    replaceFragment(fragment, "My Liturgies")
-                    navView.setCheckedItem(R.id.nav_myLiturgiesFragment)
-                    return@setOnNavigationItemSelectedListener true
-                }
-
-                R.id.nav_favoritesFragment -> {
-                    if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
-                        showLoginDialog()
-                    } else {
-                        toolbar.visibility = View.VISIBLE
-                        txt_toolbar_name.text = "Favorites"
-                        iv_toolbar_search.visibility = View.VISIBLE
-                        iv_toolbar_notification.visibility = View.GONE
-                        fragment = FavoritesFragment()
-                        replaceFragment(fragment, "Favorites")
-                        Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_FAVORITES
-                        navView.setCheckedItem(R.id.nav_favoritesFragment)
-                    }
-                    // showUnderDevDialog()
-                    // return@setOnNavigationItemSelectedListener true
-                    return@setOnNavigationItemSelectedListener true
-                }
-
-                R.id.nav_getLiturgiesFragment -> {
-                    toolbar.visibility = View.VISIBLE
-                    iv_toolbar_search.visibility = View.VISIBLE
-                    iv_toolbar_notification.visibility = View.GONE
-                    Constants.GET_LITURGIES_VIEW_PAGER_POSITION = 0
-                    fragment = GetLiturgiesFragment()
-                    Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
-                    replaceFragment(fragment, "Get Liturgies")
-                    navView.setCheckedItem(R.id.nav_getLiturgiesFragment)
-                    return@setOnNavigationItemSelectedListener true
-                }
+                // FeaturedFragment
 
             }
             false
@@ -463,6 +561,55 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         }
     }
 
+    // Handle the permission request response
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            CONTACTS_PERMISSION_REQUEST_CODE -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // Permission granted
+                    // You can now access contacts
+                    // AccessContacts()
+                    val account = getActiveGoogleAccount(this)
+                    if (account != null) {
+                        val email = account.name
+                        // Do something with the email
+                        Log.d("ActiveAccount", "Active Google account: $email")
+                    } else {
+                        Log.d("ActiveAccount", "No active Google account found")
+                    }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "The app was not allowed to read your contact",
+                        Toast.LENGTH_LONG
+                    ).show();
+                    // Permission denied
+                    // You may want to handle this case gracefully
+                    // You can display a message to the user indicating why you need the permission and how to enable it
+                }
+                return
+            }
+            // Handle other permissions if needed
+        }
+    }
+
+    private fun getActiveGoogleAccount(context: Context): Account? {
+        val accounts =
+            AccountManager.get(context).getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE)
+        return if (accounts.isNotEmpty()) {
+            accounts[0] // Return the first Google account
+        } else {
+            null
+        }
+    }
+
     fun showUnderDevDialog() {
         AlertDialog.Builder(this)
             .setMessage("This part is under Development.")
@@ -488,6 +635,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             logoutRequestVo.userId = prefeUserId
             if (Utils.isNetworkAvailable(this)) {
                 logoutUser(logoutRequestVo)
+                show.dismiss()
             } else {
                 Toast.makeText(
                     this@MainActivity,
@@ -526,9 +674,9 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                         Utils.writeUserIdBooleanFromSharedPref(getApplicationContext(), false);
                         Utils.clearAllPreference(this@MainActivity)
                         //dialog.dismiss()
-                        val intent = Intent(this@MainActivity, SelectOptionActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                       // val intent = Intent(this@MainActivity, SelectOptionActivity::class.java)
+                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
 
@@ -592,6 +740,17 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                             response.body()!!.response.firstName
                         )
 
+                        Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.PLAN_STATUS,
+                            response.body()!!.response.userSubscriptionData.subscription
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.SUBSCRIPTION_TYPE,
+                            response.body()!!.response.userSubscriptionData.subscription_type
+                        )
+
+
                         Log.e("Name", response.body()!!.response.firstName)
 
                         Utils.writeStringToSharedPref(
@@ -604,10 +763,26 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                             response.body()!!.response.userProfilePic
                         )
 
+                        /*Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.UPCOMING_SUB_TYPE,
+                            response.body()!!.response.userSubscriptionData.upcomingPlanData.subscription
+                        )*/
+
                         txt_drawer_UserName.text = Utils.readStringFromSharedPref(
                             this@MainActivity, Constants.USER_NAME,
                             ""
                         ).toString()
+
+                        Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.PROFILE_STATUS,
+                            response.body()!!.response.userSubscriptionData.subscription
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            this@MainActivity, Constants.ISSUBSCRIBE,
+                            response.body()!!.response.userSubscriptionData.subscription
+                        )
+
 
                         Glide.with(this@MainActivity)
                             .load(response.body()!!.response.userProfilePic)
@@ -663,12 +838,16 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             val transaction = fragmentManager.beginTransaction()
             if (fragment is AboutBookLiturgiesFragment)
                 transaction.replace(R.id.nav_host_fragment, fragment)
-            else if (fragment is SubscriptionPlanListFragment)
+            else if (fragment is CollectionListFragment) {
+                //transaction.addToBackStack(CollectionListFragment::class.java.name)
                 transaction.replace(R.id.nav_host_fragment, fragment)
+            } else if (fragment is LiturgiesListFragment) {
+                // transaction.addToBackStack(LiturgiesListFragment::class.java.name)
+                transaction.replace(R.id.nav_host_fragment, fragment)
+            } else if (fragment is SubscriptionPlanListFragment)
+                transaction.replace(R.id.nav_host_fragment, fragment, "subscriptionFrag")
             else if (fragment is PlayAudioFragment)
                 transaction.replace(R.id.nav_host_fragment, fragment)
-            /* else if (fragment is AboutBookLiturgiesFragment)
-                 transaction.replace(R.id.nav_host_fragment, fragment)*/
             else if (fragment is SearchFragment)
                 transaction.replace(R.id.nav_host_fragment, fragment, "searchFrag")
             else
@@ -682,7 +861,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         }
     }
 
-    private fun addFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle?) {
+    fun addFragment(fragment: Fragment, txtToolbarTitle: String, arguments: Bundle?) {
         //  txt_toolbar_name.setTextColor(ContextCompat.getColor(this, R.color.loginbg));
         txt_toolbar_name.text = txtToolbarTitle
         val transaction = supportFragmentManager.beginTransaction()
@@ -690,8 +869,14 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         if (fragment is AboutBookLiturgiesFragment) {
             transaction.addToBackStack("yes")
         }
+        if (fragment is CollectionListFragment) {
+            transaction.addToBackStack(CollectionListFragment::class.java.name)
+        }
+        if (fragment is LiturgiesListFragment) {
+            transaction.addToBackStack(LiturgiesListFragment::class.java.name)
+        }
         if (fragment is SubscriptionPlanListFragment) {
-            transaction.addToBackStack("yes")
+            transaction.addToBackStack(SubscriptionPlanListFragment::class.java.name)
         }
         if (arguments != null) {
             fragment.arguments = arguments
@@ -719,28 +904,72 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             if (fragment is AboutBookLiturgiesFragment) {
                 toolbar.visibility = View.VISIBLE
                 replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
-            } else if (fragment is SubscriptionPlanListFragment) {
+            } else if (fragment is CollectionListFragment) {
                 toolbar.visibility = View.VISIBLE
-                replaceFragment(GetLiturgiesFragment(), "Subscription")
-            } else if (fragment is SubscriptionPlanListFragment) {
+                txt_toolbar_name.text = "Get Liturgies"
+                iv_toolbar_search.visibility = View.VISIBLE
+                iv_toolbar_drawer.visibility = View.VISIBLE
+                iv_toolbar_backImage.visibility = View.GONE
+                super.onBackPressed()
+                // replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+            } else if (fragment is LiturgiesListFragment) {
                 toolbar.visibility = View.VISIBLE
-                replaceFragment(GetLiturgiesFragment(), "Get Liturgies")
+                txt_toolbar_name.text = "Collection"
+                super.onBackPressed()
+                //replaceFragment(CollectionListFragment(), "Collection")
             } /*else if (fragment is SubscriptionPlanListFragment) {
+                toolbar.visibility = View.VISIBLE
+                txt_toolbar_name.text = "Collection"
+                super.onBackPressed()
+                //replaceFragment(GetLiturgiesFragment(), "Subscription")
+            }*/ else if (fragment is SubscriptionPlanListFragment) {
                 when (Constants.CURRENT_FRAGMENT) {
                     Constants.FROM_COLLECTION_LIST -> {
                         toolbar.visibility = View.VISIBLE
-                        iv_toolbar_search.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.GONE
                         iv_toolbar_notification.visibility = View.GONE
-                        replaceFragment(CollectionListFragment(), "Collection")
+                        txt_toolbar_name.text = "Collection"
+                        super.onBackPressed()
+                        //replaceFragment(CollectionListFragment(), "Collection")
                     }
                     Constants.FROM_LITURGY_LIST -> {
                         toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.GONE
+                        iv_toolbar_notification.visibility = View.GONE
+                        txt_toolbar_name.text = "Liturgies"
+                        super.onBackPressed()
+                        //replaceFragment(LiturgiesListFragment(), "Liturgies")
+                    }
+                    Constants.FROM_FAVOURITE_LIST -> {
+                        toolbar.visibility = View.VISIBLE
                         iv_toolbar_search.visibility = View.VISIBLE
                         iv_toolbar_notification.visibility = View.GONE
-                        replaceFragment(LiturgiesListFragment(), "Liturgies")
+                        txt_toolbar_name.text = "Favorites"
+                        super.onBackPressed()
+                        //replaceFragment(LiturgiesListFragment(), "Liturgies")
+                    }
+                    Constants.FROM_SEARCH -> {
+                        toolbar.visibility = View.VISIBLE
+                        ivToolbarDrawer.visibility = View.VISIBLE
+                        iv_toolbar_backImage.visibility = View.GONE
+                        //iv_toolbar_search.visibility = View.VISIBLE
+                        //iv_toolbar_notification.visibility = View.GONE
+                        txt_toolbar_name.text = "Search"
+                        super.onBackPressed()
+                        //replaceFragment(LiturgiesListFragment(), "Liturgies")
+                    }
+
+                    Constants.FROM_HOME_SCREEN -> {
+                        toolbar.visibility = View.VISIBLE
+                        iv_toolbar_search.visibility = View.GONE
+                        iv_toolbar_notification.visibility = View.VISIBLE
+                        //replaceFragment(HomeFragment(), "Every Moment Holy")
+                        txt_toolbar_name.text = "Every Moment Holy"
+                        super.onBackPressed()
+                        //replaceFragment(CollectionListFragment(), "Collection")
                     }
                 }
-            }*/ else if (fragment is SearchFragment) {
+            } else if (fragment is SearchFragment) {
                 when (Constants.CURRENT_FRAGMENT) {
                     Constants.SEARCH_FROM_MY_LITURGY -> {
                         toolbar.visibility = View.VISIBLE
@@ -783,8 +1012,9 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         val show = alertDialog.show()
         val alertCancel = alertView.findViewById<View>(R.id.txtLoginCancel) as TextView
         val alertOk = alertView.findViewById<View>(R.id.txtLoginOk) as TextView
+        val messageShow = alertView.findViewById<View>(R.id.txtMeaasge) as TextView
 
-
+        messageShow.text = "You need to login first."
         alertOk.setOnClickListener {
             show.dismiss()
             val intent = Intent(this@MainActivity, LoginActivity::class.java)

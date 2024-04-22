@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.downloader.PRDownloader
 import com.downloader.PRDownloaderConfig
+import com.everymomentholy.utils.InAppSubscription
 import kotlinx.coroutines.GlobalScope
 
 class EMHApplication : Application() {
@@ -18,6 +19,9 @@ class EMHApplication : Application() {
             applicationScope
         )*/
     }
+
+    val billingClientLifecycle: InAppSubscription
+        get() = InAppSubscription.getInstance(this,GlobalScope)
 
     override fun onCreate() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

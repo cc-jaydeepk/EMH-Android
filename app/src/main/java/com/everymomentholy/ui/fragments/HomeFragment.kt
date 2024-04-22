@@ -9,12 +9,12 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.*
@@ -27,14 +27,15 @@ import com.bumptech.glide.Glide
 import com.everymomentholy.R
 import com.everymomentholy.api.APIInterface
 import com.everymomentholy.api.APIService
+import com.everymomentholy.api.request.GetUserProfileRequestVo
 import com.everymomentholy.api.response.*
 import com.everymomentholy.interfaces.ShareItem
 import com.everymomentholy.ui.activity.MainActivity
 import com.everymomentholy.ui.activity.NotificationListActivity
-import com.everymomentholy.ui.activity.SelectSubscriptionPlan
 import com.everymomentholy.ui.adapter.QuoteAdapter
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
+import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.yuyakaido.android.cardstackview.*
 import retrofit2.Call
@@ -44,6 +45,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
@@ -64,6 +66,8 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
     lateinit var btnSubscribeNow: TextView
 
     lateinit var quotesText: String
+
+    // lateinit var subscriptionStatusfromProfile: String
     lateinit var cotedText: String
     lateinit var progressbarHomeFragment: CardView
     var notificationCount = 0
@@ -80,8 +84,14 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
     var data: String = ""
     var counter: Int = 0
+    private lateinit var android_id: String
+    var prefeUserId: Int = 0
+    lateinit var userStatus: String
 
     var boolSubscriptionStatus = false
+    var subscriptionStatusfromProfile: String = ""
+    var subscriptionStatus: String = ""
+    var isSkip: Boolean = false
 
 
     @RequiresApi(Build.VERSION_CODES.FROYO)
@@ -99,49 +109,168 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             this
         )
 
+        (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_backImage.visibility = View.GONE
+        (activity as MainActivity).iv_toolbar_search.visibility = View.GONE
+        (activity as MainActivity).iv_toolbar_drawer.visibility = View.VISIBLE
+        (activity as MainActivity).txt_toolbar_name.text = "Every Moment Holy"
+        (activity as MainActivity).iv_toolbar_notification.visibility = View.VISIBLE
+
         btnSubscribeNow = view.findViewById(R.id.btnSubscribeNow)
-
-        /*txt_drawer_UserName.text = Utils.readStringFromSharedPref(
-            this@MainActivity, Constants.USER_NAME,
-            ""
-        ).toString()*/
-
-        var subscriptionStatus = Utils.readStringFromSharedPref(
-            requireActivity(), Constants.USER_SUBSCRIPTIONSTATUS,
-            ""
-        )
-
-        if (subscriptionStatus == "Yes") {
-            Log.e("AAAA", "onCreateView: "+  subscriptionStatus)
-            btnSubscribeNow.visibility = View.GONE
-        } else {
-            Log.e("AAAA", "onCreateView: "+  subscriptionStatus)
-            btnSubscribeNow.visibility = View.VISIBLE
-        }
-
-        btnSubscribeNow.setOnClickListener {
-            //val intent = Intent(requireActivity(), SelectSubscriptionPlan::class.java)
-            // startActivity(intent)
-
-            val bundle = Bundle()
-            bundle.putBoolean("onPress", true);
-            bundle.putBoolean("onPressHome", false);
-            var fragment: Fragment = SubscriptionPlanListFragment()
-            (activity as MainActivity).replaceFragment(
-                fragment,
-                "subscription",
-                bundle
-            )
-        }
-
         cardStackView = view.findViewById(R.id.card_stack_view)
         rootLayout = view.findViewById(R.id.rootLayout)
         txt_toolbar = view.findViewById(R.id.txt_toolbar)
-        //  (activity as MainActivity?)!!.initToolBar("Every Moment Holy")
         iv_toolbar_drawer = view.findViewById(R.id.iv_toolbar_drawer)
         iv_toolbar_notification = view.findViewById(R.id.iv_toolbar_notification)
         txtToolbarNotificationCount = view.findViewById(R.id.txt_toolbar_notification_count)
         progressbarHomeFragment = view.findViewById(R.id.progressCardView)
+        txtTitle = view.findViewById(R.id.txtTitle)
+        txtQuote = view.findViewById(R.id.txtQuote)
+        txtDate = view.findViewById(R.id.txtDate)
+        imgHomeClock = view.findViewById(R.id.imgHomeClock)
+        ivHomeShare = view.findViewById(R.id.ivHomeShare)
+        rightButton = view.findViewById(R.id.rightArraw)
+        leftButton = view.findViewById(R.id.leftArrow)
+        shareQuote = view.findViewById(R.id.shareImage)
+
+        progressbarHomeFragment.visibility = View.VISIBLE
+        rootLayout.visibility = View.GONE
+
+        android_id = Settings.Secure.getString(
+            requireActivity().contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+
+        prefeUserId = Utils.readIntData(
+            requireActivity(),
+            Constants.PrefUserID,
+            0
+        )!!
+
+
+        setupCardStackView()
+
+        //getUserProfile()
+
+
+        var statusFromSaveData = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.IN_STATUS_FROM_SAVE_DATA,
+            ""
+        )
+        Log.e("strewer", "statusFromSaveData: " + statusFromSaveData)
+
+        /*var statusFromonQueryPurchase = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.IN_APP_SUBSCRIPTION_STATUS,
+            ""
+        ).toString()*/
+
+        val planStatus = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.PLAN_STATUS,
+            ""
+        ).toString()
+
+
+
+        subscriptionStatusfromProfile = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.PROFILE_STATUS,
+            ""
+        ).toString()
+
+        val subStatus = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.USER_SUBSCRIPTIONSTATUS,
+            ""
+        ).toString()
+        Log.e("subStatus", "subscriptionStatusfromProfile: " + subStatus)
+
+        /*if (subStatus.equals("Yes", true)) {
+            Log.e("statusHistory", "onCreateView: " + "ifpasrt")
+            btnSubscribeNow.visibility = View.GONE
+        } else {
+            btnSubscribeNow.visibility = View.VISIBLE
+        }*/
+
+
+        val navigationView =
+            (activity as MainActivity).findViewById(R.id.nav_view) as NavigationView
+
+        if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+            isSkip = true
+        } else {
+            /*if (Utils.isNetworkAvailable(requireActivity())) {
+                // getUserProfile()
+            }*/
+
+        }
+
+        if (isSkip) {
+            navigationView.menu.findItem(R.id.purchase).setVisible(false)
+            btnSubscribeNow.visibility = View.GONE
+        } else {
+            if (subscriptionStatusfromProfile.equals("Yes", true)) {
+                Log.e("statusHistory", "onCreateView: " + "ifpasrt")
+                navigationView.menu.findItem(R.id.purchase).setVisible(false)
+                //btnSubscribeNow.visibility = View.GONE
+            } else {
+                navigationView.menu.findItem(R.id.purchase).setVisible(true)
+                // btnSubscribeNow.visibility = View.VISIBLE
+            }
+        }
+
+        if (subStatus.equals("Yes", true)){
+            btnSubscribeNow.visibility = View.GONE
+            navigationView.menu.findItem(R.id.purchase).setVisible(false)
+        }else if(subscriptionStatusfromProfile.equals("Yes", true)){
+            btnSubscribeNow.visibility = View.GONE
+        } else {
+            btnSubscribeNow.visibility = View.VISIBLE
+        }
+
+        /*if (subscriptionStatusfromProfile.equals("Yes", true)) {
+            Log.e("statusHistory", "onCreateView: " + "ifpasrt")
+            btnSubscribeNow.visibility = View.GONE
+        } else {
+            btnSubscribeNow.visibility = View.VISIBLE
+        }*/
+
+
+        /*if (isSkip) {
+            navigationView.menu.findItem(R.id.purchase).setVisible(false)
+            if (subscriptionStatusfromProfile.equals("Yes", true)) {
+                Log.e("statusHistory", "onCreateView: " + "ifpasrt")
+                navigationView.menu.findItem(R.id.purchase).setVisible(false)
+                btnSubscribeNow.visibility = View.GONE
+            } else {
+                navigationView.menu.findItem(R.id.purchase).setVisible(true)
+                btnSubscribeNow.visibility = View.VISIBLE
+            }
+        } else if(subscriptionStatusfromProfile.equals("Yes", true)){
+            navigationView.menu.findItem(R.id.purchase).setVisible(true)
+        }else{
+
+        }*/
+
+        /*if (subscriptionStatusfromProfile.equals("Yes", true)) {
+            Log.e("statusHistory", "onCreateView: " + "ifpasrt")
+            navigationView.menu.findItem(R.id.purchase).setVisible(false)
+            btnSubscribeNow.visibility = View.GONE
+        } else {
+            navigationView.menu.findItem(R.id.purchase).setVisible(true)
+            btnSubscribeNow.visibility = View.VISIBLE
+        }*/
+
+        btnSubscribeNow.setOnClickListener {
+            /*val bundle = Bundle()
+            bundle.putBoolean("onPress", false)
+            var fragment: Fragment = SubscriptionPlanListFragment()
+            Constants.CURRENT_FRAGMENT = Constants.FROM_HOME_SCREEN
+            (activity as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)*/
+
+            val bundle = Bundle()
+            bundle.putBoolean("onPress", false)
+            var fragment: Fragment = SubscriptionPlanListFragment()
+            Constants.CURRENT_FRAGMENT = Constants.FROM_HOME_SCREEN
+            (context as MainActivity).addFragment(fragment, "", bundle)
+        }
 
         iv_toolbar_notification.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationListActivity::class.java)
@@ -151,22 +280,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         iv_toolbar_drawer.setOnClickListener {
             (activity as MainActivity?)?.openDrawer()
         }
-
-        txtTitle = view.findViewById(R.id.txtTitle)
-        txtQuote = view.findViewById(R.id.txtQuote)
-        // txtDailyQuote = view.findViewById(R.id.txtDailyQuote)
-        txtDate = view.findViewById(R.id.txtDate)
-        imgHomeClock = view.findViewById(R.id.imgHomeClock)
-        ivHomeShare = view.findViewById(R.id.ivHomeShare)
-        //  ivHomeShare.visibility = View.VISIBLE
-
-        rightButton = view.findViewById(R.id.rightArraw)
-        leftButton = view.findViewById(R.id.leftArrow)
-
-        shareQuote = view.findViewById(R.id.shareImage)
-
-        quoteLiturgy()
-        setupCardStackView()
 
         leftButton.setOnClickListener {
             val setting = RewindAnimationSetting.Builder()
@@ -202,6 +315,10 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             this
         )
 
+
+        getSettings()
+        quoteLiturgy()
+
         ivHomeShare.setOnClickListener {
 
             shareScreenShot()
@@ -217,15 +334,15 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
     private fun shareScreenShot() {
         if (Utils.isNetworkAvailable(requireContext())) {
             ivHomeShare.visibility = View.INVISIBLE
-            iv_toolbar_drawer.visibility = View.GONE
-            iv_toolbar_notification.visibility = View.GONE
+            (activity as MainActivity).iv_toolbar_drawer.visibility = View.GONE
+            (activity as MainActivity).iv_toolbar_notification.visibility = View.GONE
             ivHomeShare.isEnabled = false
 
             screenShotCapture()
 
             //After taking screenshot reset the button and view again
-            iv_toolbar_drawer.visibility = View.VISIBLE
-            iv_toolbar_notification.visibility = View.VISIBLE
+            (activity as MainActivity).iv_toolbar_drawer.visibility = View.VISIBLE
+            (activity as MainActivity).iv_toolbar_notification.visibility = View.VISIBLE
         } else {
             Toast.makeText(
                 requireContext(),
@@ -242,8 +359,6 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
         manager.setMaxDegree(20.0f)
-        // manager.setDirections(Direction.HORIZONTAL)
-        // manager.setDirections(Direction.Right)
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(false)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
@@ -255,6 +370,78 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             if (this is DefaultItemAnimator) {
                 supportsChangeAnimations = false
             }
+        }
+    }
+
+    private fun getUserProfile() {
+        var getUserProfileRequestVo: GetUserProfileRequestVo = GetUserProfileRequestVo()
+        getUserProfileRequestVo.deviceId = android_id
+        getUserProfileRequestVo.userId = prefeUserId
+
+        Log.e(
+            "token", Utils.readStringFromSharedPref(
+                requireActivity(),
+                Constants.SHARED_PREF_TOKEN,
+                ""
+            ).toString()
+        )
+
+        val request = APIService.buildService(APIInterface::class.java)
+        val call =
+            request.getUserProfile(
+                getUserProfileRequestVo.userId, getUserProfileRequestVo.deviceId,
+                "bearer " + Utils.readStringFromSharedPref(
+                    requireActivity(),
+                    Constants.SHARED_PREF_TOKEN,
+                    ""
+                )
+            )
+
+        try {
+            call.enqueue(object : Callback<GetUserProfileVo> {
+                override fun onResponse(
+                    call: Call<GetUserProfileVo>,
+                    response: Response<GetUserProfileVo>
+                ) {
+                    if (response.body()?.statusCode == 1) {
+                        progressbarHomeFragment.visibility = View.GONE
+                        //requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        rootLayout.visibility = View.VISIBLE
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.PROFILE_STATUS,
+                            response.body()!!.response.userSubscriptionData.subscription
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.SUBSCRIPTION_TYPE,
+                            response.body()!!.response.userSubscriptionData.subscription_type
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.PLAN_TYPE,
+                            response.body()!!.response.userSubscriptionData.plan_type
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.TYPE,
+                            response.body()!!.response.userSubscriptionData.type
+                        )
+
+                        subscriptionStatus = Utils.readStringFromSharedPref(
+                            requireActivity(), Constants.PROFILE_STATUS,
+                            ""
+                        ).toString()
+
+                        //  userStatus = response.body()!!.response.userSubscriptionData.subscription
+                    }
+                }
+
+                override fun onFailure(call: Call<GetUserProfileVo>, t: Throwable) {
+
+                }
+            })
+        } catch (exception: Exception) {
+            exception.printStackTrace()
         }
     }
 
@@ -403,8 +590,18 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                 rootLayout.visibility = View.GONE
                 // dailyLiturgyQuote()
                 //quoteLiturgy()
+                //getUserProfile()
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    isSkip = true
+                } else {
+                    if (Utils.isNetworkAvailable(requireActivity())) {
+                        getUserProfile()
+                    }
+                }
                 getSettings()
                 quoteLiturgy()
+
+
             } else {
                 /* Toast.makeText(
                      requireContext(),
@@ -431,6 +628,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                     //requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     rootLayout.visibility = View.VISIBLE
                     if (response.body()?.statusCode == 1) {
+
 
                         // txtQuote.text = response.body()!!.response.parentLiturgy
                         try {
@@ -621,7 +819,7 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
         progressbarHomeFragment.visibility = View.GONE
 //        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-       rootLayout.visibility = View.VISIBLE
+        rootLayout.visibility = View.VISIBLE
 
         try {
             Glide

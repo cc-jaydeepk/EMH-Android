@@ -292,9 +292,11 @@
                         android:textSize="@dimen/login_button_txtsize" />
 
                     <LinearLayout
+                        android:id="@+id/subscriptionLinear"
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:layout_height="wrap_content">
 
                         <TextView

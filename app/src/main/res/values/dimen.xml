@@ -22,13 +22,13 @@
     <dimen name="homeshare_size">@dimen/_26sdp</dimen>
     <dimen name="homeshareicon_size">@dimen/_18sdp</dimen>
 
-    <dimen name="subscribe_titletxt">@dimen/_16ssp</dimen>
-    <dimen name="subscribe_pricetxt">@dimen/_18ssp</dimen>
+    <dimen name="subscribe_titletxt">@dimen/_14ssp</dimen>
+    <dimen name="subscribe_pricetxt">@dimen/_16ssp</dimen>
     <dimen name="marginleft">20dp</dimen>
-    <dimen name="subscribe_plantype">18sp</dimen>
-    <dimen name="subscribe_txtdesc">14sp</dimen>
-    <dimen name="subscribe_txtsave">@dimen/_18ssp</dimen>
-    <dimen name="subscribe_save">17dp</dimen>
+    <dimen name="subscribe_plantype">16sp</dimen>
+    <dimen name="subscribe_txtdesc">12sp</dimen>
+    <dimen name="subscribe_txtsave">@dimen/_16ssp</dimen>
+    <dimen name="subscribe_save">@dimen/_8ssp</dimen>
     <dimen name="subscribe_nowbtn">16sp</dimen>
     <dimen name="subscribe_nowbtnmarginbtm">15dp</dimen>
 
@@ -77,6 +77,7 @@
     <dimen name="buttomsheet_txt_margin">@dimen/_16sdp</dimen>
     <dimen name="buttomsheet_freetxt_size">@dimen/_14ssp</dimen>
     <dimen name="buttomsheet_shareimg_size">@dimen/_18sdp</dimen>
+    <dimen name="buttomsheet_favimg_size">@dimen/_24sdp</dimen>
     <dimen name="buttomsheet_shareimg_margin">@dimen/_20sdp</dimen>
     <dimen name="buttomsheet_margin">@dimen/_3sdp</dimen>
     <dimen name="buttomsheet_favmargin">@dimen/_12sdp</dimen>

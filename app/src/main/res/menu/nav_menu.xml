@@ -27,10 +27,23 @@
             android:icon="@drawable/ic_pruchase_liturgy"
             android:title="Get Liturgies" />-->
 
+
+
         <item
             android:id="@+id/nav_featuredFragment"
             android:icon="@drawable/ic_featured"
+            android:visible="false"
             android:title="Featured Liturgies" />
+
+        <!--<item
+            android:id="@+id/nav_purchases"
+            android:icon="@drawable/ic_featured"
+            android:title="Past Purchases"/>-->
+
+        <item
+            android:id="@+id/purchase"
+            android:icon="@drawable/ic_featured"
+            android:title="Past Purchases"/>
 
         <item
             android:id="@+id/nav_orderBookFragment"
@@ -41,6 +54,12 @@
             android:id="@+id/nav_subscription"
             android:icon="@drawable/ic_pruchase_liturgy"
             android:title="Subscription Plan" />
+
+        <!--<item
+            android:id="@+id/nav_pastPurchase"
+            android:icon="@drawable/ic_pruchase_liturgy"
+            android:visible="false"
+            android:title="Past Purchases" />-->
 
         <item
             android:id="@+id/nav_searchFragment"

@@ -113,14 +113,19 @@ class SearchAdapter(var context: Context, var searchedLiturgies: ArrayList<MyLit
                     showDialogForUnlockWithoutLogin(myLiturgiesDataVo)
                 } else {
                    // startPurchaseFlow(myLiturgiesDataVo)
-                    val bundle = Bundle()
+                   /* val bundle = Bundle()
                     bundle.putBoolean("onPress", false);
                     var fragment: Fragment = SubscriptionPlanListFragment()
                     (context as MainActivity).replaceFragment(
                         fragment,
                         "subscription",
                         bundle
-                    )
+                    )*/
+                    val bundle = Bundle()
+                    bundle.putBoolean("onPress", true)
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.FROM_SEARCH
+                    (context as MainActivity).addFragment(fragment, "", bundle)
                 }
             }
         }

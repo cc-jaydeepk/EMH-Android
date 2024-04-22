@@ -2,6 +2,7 @@ package com.everymomentholy.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -39,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
     var prefeUserId: Int = 0
     var isUserLogin: Boolean = false
     private lateinit var ivLoginBack: ImageView
+    lateinit var remmberCheckBox: CheckBox
+    private lateinit var sharedPreferences: SharedPreferences
 
     /*companion object {
         var bOne: Boolean? = true
@@ -70,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
             0
         )!!
 
+        remmberCheckBox = findViewById(R.id.myCheckBox)
         btn_Login = findViewById(R.id.btn_Login)
         edtLoginEmail = findViewById(R.id.edtLoginEmail)
         edtLoginPassword = findViewById(R.id.edtLoginPassword)
@@ -77,6 +81,34 @@ class LoginActivity : AppCompatActivity() {
         progressCardView = findViewById(R.id.progressCardView)
 
         // getUserProfile()
+
+        sharedPreferences =
+            getSharedPreferences("savestate", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        remmberCheckBox.setChecked(sharedPreferences.getBoolean("switch", true))
+
+        if (sharedPreferences.getBoolean("switch", true)) {
+            edtLoginEmail.setText(sharedPreferences.getString("email", ""))
+            edtLoginPassword.setText(sharedPreferences.getString("password", ""))
+            remmberCheckBox.isChecked = true
+        }
+
+        remmberCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                editor.putBoolean("switch", true);
+                editor.apply();
+                remmberCheckBox.setChecked(true)
+                val email = edtLoginEmail.text.toString()
+                val password = edtLoginPassword.text.toString()
+                saveCredentials(email, password, true)
+            } else {
+                editor.putBoolean("switch", false);
+                editor.apply();
+                remmberCheckBox.setChecked(false)
+
+                clearCredentials()
+            }
+        }
 
 
         txtForgotPsw.setOnClickListener {
@@ -113,6 +145,22 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun saveCredentials(email: String, password: String, remember: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.putString("password", password)
+        editor.putBoolean("remember", remember)
+        editor.apply()
+    }
+
+    private fun clearCredentials() {
+        val editor = sharedPreferences.edit()
+        editor.remove("email")
+        editor.remove("password")
+        editor.remove("remember")
+        editor.apply()
     }
 
     private fun login(loginRequestVo: LoginRequestVo) {
@@ -273,8 +321,8 @@ class LoginActivity : AppCompatActivity() {
                 loginRequestVo.firebase_token = token
                 login(loginRequestVo)
 //                        Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
-               // Log.e("token", token.toString())
-                Log.e("TOKEN", "getFirebaseToken: "+ token )
+                // Log.e("token", token.toString())
+                Log.e("TOKEN", "getFirebaseToken: " + token)
             })
     }
 }

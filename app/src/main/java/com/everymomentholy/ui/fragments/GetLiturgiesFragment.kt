@@ -58,6 +58,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
     lateinit var paymentIntentClientSecret: String
     lateinit var progressCardView: CardView
+    var subscriptionStatusfromProfile: String = ""
 
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
@@ -68,7 +69,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_getliturgies, container, false)
 
-        paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
 
         viewPager = view.findViewById(R.id.viewPager)
         txtLiturgyTitle = view.findViewById(R.id.txtLiturgyTitle)
@@ -83,6 +83,18 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
         progressCardView.visibility = View.VISIBLE
 
+        (activity as MainActivity).toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_backImage.visibility = View.GONE
+        (activity as MainActivity).iv_toolbar_search.visibility = View.VISIBLE
+        (activity as MainActivity).iv_toolbar_drawer.visibility = View.VISIBLE
+        (activity as MainActivity).txt_toolbar_name.text = "Get Liturgies"
+        (activity as MainActivity).iv_toolbar_notification.visibility = View.GONE
+
+        subscriptionStatusfromProfile = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.PROFILE_STATUS,
+            ""
+        ).toString()
+        Log.e("ASDWER", "onCreateView: "+ subscriptionStatusfromProfile )
 
         var usersubscriptionStatus = Utils.readStringFromSharedPref(
             requireActivity(), Constants.USER_SUBSCRIPTIONSTATUS,
@@ -139,22 +151,6 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         return view
     }
 
-    fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
-        when (paymentSheetResult) {
-            is PaymentSheetResult.Canceled -> {
-                print("Canceled")
-            }
-            is PaymentSheetResult.Failed -> {
-                print("Error: ${paymentSheetResult.error}")
-            }
-            is PaymentSheetResult.Completed -> {
-                // Display for example, an order confirmation screen
-                print("Completed")
-            }
-        }
-
-    }
-
     private fun getBooks() {
         var getLiturgiesRequestVo: GetLiturgiesRequestVo = GetLiturgiesRequestVo()
         getLiturgiesRequestVo.deviceId = android_id
@@ -187,8 +183,14 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                         txtUnlock.visibility = View.VISIBLE
                         llGetLiturgiesMain.visibility = View.VISIBLE
                         var isVolume =
-                            response.body()!!.response.data.filter { it.isVolume.equals("Yes", true) } as ArrayList<GetLiturgiesDataVo>
-                        Log.e("VOLUME", "onResponse: " + isVolume.size.toString())
+                            response.body()!!.response.data.filter {
+                                it.isVolume.equals(
+                                    "Yes",
+                                    true
+                                )
+                            } as ArrayList<GetLiturgiesDataVo>
+                        //Log.e("VOLUME", "onResponse: " + isVolume.size.toString())
+                        Log.e("VOLUME", "onResponse: " + isVolume)
                         if (context != null) {
                             adapter = GetLiturgiesAdapter(
                                 context!!,
@@ -237,14 +239,24 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
 
         txtUnlock.setOnClickListener() {
             if (liturgyData.isVolume.equals("Yes", true)) {
-                val intent = Intent(context, CollectionListActivity::class.java)
-                intent.putExtra("liturgies", liturgyData)
-                context?.startActivity(intent)
+                /* val intent = Intent(context, CollectionListActivity::class.java)
+                 intent.putExtra("liturgies", liturgyData)
+                 context?.startActivity(intent)*/
 
-                /*val bundle = Bundle()
+                /*toolbar.visibility = View.VISIBLE
+                iv_toolbar_search.visibility = View.VISIBLE
+                iv_toolbar_notification.visibility = View.GONE
+                Constants.GET_LITURGIES_VIEW_PAGER_POSITION = 0
+                fragment = GetLiturgiesFragment()
+                Constants.CURRENT_FRAGMENT = Constants.SEARCH_FROM_GET_LITURGY
+                replaceFragment(fragment, "Get Liturgies")*/
+
+                val bundle = Bundle()
                 bundle.putSerializable("liturgies", liturgyData)
+                bundle.putBoolean("onPress", true);
                 var fragment: Fragment = CollectionListFragment()
-                (activity as MainActivity).replaceFragment(fragment, "Collection", bundle)*/
+                (context as MainActivity).addFragment(fragment, "Collection", bundle)
+                // (activity as MainActivity).replaceFragment(fragment, "Collection", bundle)
 
             } else if (liturgyData.isFreeLiturgyAvailable.equals("No", true)) {
                 showLiturgyDialog()
@@ -275,11 +287,58 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
         }
 
 
-        if (liturgyData.isVolume.equals("Yes", true
-            )) {
-
+        if (liturgyData.isVolume.equals(
+                "Yes", true
+            )
+        ) {
+            //check first subscription status then aftr check ispurchase
             txtLiturgyTitle.text = liturgyData.volumeTitle
+            if (subscriptionStatusfromProfile.equals("Yes", true)){
+                txtUnlock.text = "Open"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_read_now));
+                    txtUnlock.setTextColor(context?.resources?.getColor(R.color.loginbg)!!)
+                } else {
+                    txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_read_now));
+                    txtUnlock.setTextColor(context?.resources?.getColor(R.color.loginbg)!!)
+                }
+                if (liturgyData.isPurchased == "Yes") {
+                    txtLiturgyPrice.text = "Purchased"
+                } else {
+                    txtLiturgyPrice.text = "Free"
+                }
+                txtDollar.text = ""
+            }else if (liturgyData.volumeAmount == "0.0" || liturgyData.volumeAmount == "0.00" || liturgyData.isPurchased == "Yes"){
+                txtUnlock.text = "Open"
+                var sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_read_now));
+                    txtUnlock.setTextColor(context?.resources?.getColor(R.color.loginbg)!!)
+                } else {
+                    txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_read_now));
+                    txtUnlock.setTextColor(context?.resources?.getColor(R.color.loginbg)!!)
+                }
+                if (liturgyData.isPurchased == "Yes") {
+                    txtLiturgyPrice.text = "Purchased"
+                } else {
+                    txtLiturgyPrice.text = "Free"
+                }
+                txtDollar.text = ""
+            }else{
+                if (!liturgyData.discountAmount.isNullOrEmpty() && liturgyData.discountAmount != "0.00") {
+                    txtLiturgyPrice.text = "$" + liturgyData.discountAmount
+                } else {
+                    txtLiturgyPrice.text = "$ " + liturgyData.volumeAmount
+                }
+                txtUnlock.setBackground(context?.resources?.getDrawable(R.drawable.bg_unlock));
+                txtUnlock.setTextColor(context?.resources?.getColor(R.color.white)!!)
+                // txtUnlock.text = "Unlock"
+                txtUnlock.text = "Subscribe"
+            }
 
+
+           /* txtLiturgyTitle.text = liturgyData.volumeTitle
             if (liturgyData.volumeAmount == "0.0" || liturgyData.volumeAmount == "0.00" || liturgyData.isPurchased == "Yes") {
                 txtUnlock.text = "Open"
                 var sdk = android.os.Build.VERSION.SDK_INT;
@@ -296,7 +355,7 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                     txtLiturgyPrice.text = "Free"
                 }
                 txtDollar.text = ""
-            }  else {
+            } else {
                 if (!liturgyData.discountAmount.isNullOrEmpty() && liturgyData.discountAmount != "0.00") {
                     txtLiturgyPrice.text = "$" + liturgyData.discountAmount
                 } else {
@@ -306,12 +365,17 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 txtUnlock.setTextColor(context?.resources?.getColor(R.color.white)!!)
                 // txtUnlock.text = "Unlock"
                 txtUnlock.text = "Subscribe"
-            }
+            }*/
 
         } else {
 
+
             //if (liturgyData.bookAmount == "0.0" || liturgyData.bookAmount == "0.00" || liturgyData.isPurchased == "Yes")
-            if (liturgyData.bookAmount == "0.0" || liturgyData.bookAmount == "0.00" || liturgyData.isPurchased.equals("Yes", true)) {
+            if (liturgyData.bookAmount == "0.0" || liturgyData.bookAmount == "0.00" || liturgyData.isPurchased.equals(
+                    "Yes",
+                    true
+                )
+            ) {
                 txtUnlock.text = "Open"
                 var sdk = android.os.Build.VERSION.SDK_INT;
                 if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -329,7 +393,12 @@ class GetLiturgiesFragment : Fragment(), GetLiturgiesClickListner {
                 txtDollar.text = ""
             } else {
                 txtLiturgyPrice.text = "$ " + liturgyData.bookAmount
-                txtUnlock.setBackground(ContextCompat.getDrawable(requireActivity(), R.drawable.bg_unlock));
+                txtUnlock.setBackground(
+                    ContextCompat.getDrawable(
+                        requireActivity(),
+                        R.drawable.bg_unlock
+                    )
+                );
                 txtUnlock.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white)!!)
                 // txtUnlock.text = "Unlock"
                 //txtUnlock.text = "Subscribe"

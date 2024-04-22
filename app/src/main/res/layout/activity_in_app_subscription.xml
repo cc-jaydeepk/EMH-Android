@@ -4,14 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ui.activity.InAppSubscriptionActivity">
+
+    <LinearLayout
+        android:id="@+id/linearMonthly"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_7sdp"
+        android:gravity="center"
+        android:background="@color/purple_200"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Monthly"
+            android:textSize="@dimen/_35sdp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearYearly"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_margin="@dimen/_7sdp"
+        android:background="@color/purple_200"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Yearly"
+            android:textSize="@dimen/_35sdp" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Buy now"/>
+        android:text="Buy now" />
 
 </LinearLayout>

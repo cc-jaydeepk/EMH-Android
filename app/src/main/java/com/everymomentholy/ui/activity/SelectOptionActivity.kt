@@ -4,9 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -14,17 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.work.*
 import com.everymomentholy.R
-import com.everymomentholy.api.request.LoginRequestVo
-import com.everymomentholy.ui.fragments.*
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
-import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 
 
@@ -88,7 +79,7 @@ class SelectOptionActivity : AppCompatActivity() {
             //replaceFragment(SubscriptionPlanListFragment(), "Subscription")
 
 
-            val intent = Intent(this@SelectOptionActivity, SelectSubscriptionPlan::class.java)
+            val intent = Intent(this@SelectOptionActivity, SubscriptionPlanListActivity::class.java)
 //            intent.flags =
 //                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

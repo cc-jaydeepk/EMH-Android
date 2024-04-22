@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.SelectSubscriptionPlan">
+    tools:context=".ui.activity.SubscriptionPlanListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,124 +87,352 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/txtSkip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginTop="@dimen/skip_margin"
-                    android:layout_marginRight="@dimen/_15sdp"
-                    android:background="@drawable/txt_buttom_border"
-                    android:fontFamily="@font/lato_bold"
-                    android:gravity="right"
-                    android:text="Skip"
-                    android:textAllCaps="true"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/skip_txtsize" />
-
-                <TextView
-                    android:id="@+id/txtUnlimited"
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtSkip"
-                    android:layout_marginLeft="@dimen/marginleft"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/marginleft"
-                    android:fontFamily="@font/lato_bold"
-                    android:gravity="center"
-                    android:text="Subscribe for Unlimited Access"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/subscribe_titletxt" />
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/TextStatic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtUnlimited"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:fontFamily="@font/lato_bold"
-                    android:gravity="center"
-                    android:text="@string/subscribetext"
-                    android:textColor="@color/loginbg"
-                    android:textSize="@dimen/_12ssp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcvSubscriptionPlan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/TextStatic"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="@dimen/_15sdp">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <!-- <TextView
-                     android:id="@+id/txtFreeTime"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@+id/rcvSubscriptionPlan"
-                     android:layout_marginTop="15dp"
-                     android:fontFamily="@font/lato_bold"
-                     android:gravity="center"
-                     android:text="*Free LifeTime"
-                     android:textAllCaps="true"
-                     android:textColor="@color/loginbg"
-                     android:textSize="24sp" />-->
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rcvSubscriptionPlan"
-                    android:layout_marginLeft="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="35dp"
-                    android:fontFamily="@font/lato_bold"
-                    android:gravity="center"
-                    android:text="Limited access to the selected content"
-                    android:textColor="@color/loginbg"
-                    android:textSize="22sp"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/btnSubscribeNow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="25dp"
-                    android:paddingLeft="28dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="28dp"
-                    android:paddingBottom="15dp"
-                    android:text="Subscribe Now"
-                    android:textSize="16sp" />
-
-                <!--<LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/rcvSubscriptionPlan"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/btnSubscribeNow"
+                    <TextView
+                        android:id="@+id/txtSkip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="28dp"
-                        android:paddingTop="15dp"
-                        android:paddingRight="28dp"
-                        android:paddingBottom="15dp"
-                        android:text="Subscribe Now"
-                        android:textSize="16sp" />
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="@dimen/skip_margin"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@drawable/txt_buttom_border"
+                        android:fontFamily="@font/lato_bold"
+                        android:gravity="right"
+                        android:text="Skip"
+                        android:textAllCaps="true"
+                        android:textColor="@color/loginbg"
+                        android:textSize="@dimen/skip_txtsize" />
 
-                </LinearLayout>-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/txtSkip">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:background="#F8F3F3"
+                            android:visibility="gone"
+                            android:padding="@dimen/_5sdp"
+                            app:cardCornerRadius="@dimen/_5sdp"
+                            app:cardElevation="@dimen/_2sdp"
+                            app:cardUseCompatPadding="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_2sdp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/txtSubscriptionType"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_bold"
+                                    android:gravity="center"
+                                    android:text="You are not subscribed"
+                                    android:textColor="@color/loginbg"
+                                    android:textSize="@dimen/_14ssp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/_15sdp"
+                                    android:fontFamily="@font/lato_medium"
+                                    android:gravity="center"
+                                    android:text="@string/unsubscribestep"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_11ssp" />
+
+
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/cardView">
+
+                            <TextView
+                                android:id="@+id/txtUnlimited"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/marginleft"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                android:layout_marginRight="@dimen/marginleft"
+                                android:fontFamily="@font/lato_bold"
+                                android:gravity="center"
+                                android:text="Subscribe for Unlimited Access"
+                                android:textColor="@color/loginbg"
+                                android:textSize="@dimen/subscribe_titletxt" />
+
+                            <TextView
+                                android:id="@+id/TextStatic"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtUnlimited"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:fontFamily="@font/lato_bold"
+                                android:gravity="center"
+                                android:text="@string/subscribetext"
+                                android:textColor="@color/loginbg"
+                                android:textSize="@dimen/_12ssp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rcvSubscriptionPlan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/TextStatic"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="7dp"
+                                android:layout_marginRight="10dp"
+                                android:visibility="visible">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                            <LinearLayout
+                                android:id="@+id/linearStatic"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/TextStatic"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingBottom="@dimen/_15sdp"
+                                android:visibility="visible">
+
+                                <LinearLayout
+                                    android:id="@+id/linearMonthly"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/_20sdp"
+                                    android:layout_marginTop="@dimen/subscribe_save"
+                                    android:layout_marginRight="@dimen/_20sdp"
+                                    android:background="@color/loginbg"
+                                    android:orientation="vertical"
+                                    android:padding="15dp"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:id="@+id/txtCurrency"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_bold"
+                                                android:text="$"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/subscribe_pricetxt" />
+                                            <!-- android:text="29.99"-->
+                                            <TextView
+                                                android:id="@+id/txtMontlyPrice"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_bold"
+                                                android:gravity="center"
+
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/subscribe_pricetxt" />
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_weight="1"
+                                            android:orientation="vertical">
+
+                                            <!--android:text="Annually"-->
+                                            <TextView
+                                                android:id="@+id/txtMonthly"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:fontFamily="@font/lato_bold"
+                                                android:textAllCaps="true"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/subscribe_plantype" />
+
+                                            <TextView
+                                                android:id="@+id/txtUnlimitedAccess"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_regular"
+                                                android:text="@string/unlimitedaccess"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/subscribe_txtdesc" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_regular"
+                                                android:text="@string/subscription"
+                                                android:textColor="@color/loginbg"
+                                                android:textSize="16sp"
+                                                android:visibility="gone" />
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <!--<TextView
+                                        android:id="@+id/txtYsave"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="7dp"
+                                        android:fontFamily="@font/lato_bold"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/subscribe_txtsave" />-->
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/linearYearly"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/_20sdp"
+                                    android:layout_marginTop="@dimen/subscribe_save"
+                                    android:layout_marginRight="@dimen/_20sdp"
+                                    android:background="@drawable/subcripiton_bg"
+                                    android:orientation="vertical"
+                                    android:padding="@dimen/_10sdp"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal">
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:id="@+id/txtYCurrency"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_bold"
+                                                android:text="$"
+                                                android:textColor="@color/loginbg"
+                                                android:textSize="@dimen/subscribe_pricetxt" />
+
+                                            <!--android:text="2.99"-->
+                                            <TextView
+                                                android:id="@+id/txtYPrice"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_bold"
+                                                android:gravity="center"
+                                                android:textColor="@color/loginbg"
+                                                android:textSize="@dimen/subscribe_pricetxt" />
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_weight="1"
+                                            android:orientation="vertical">
+
+                                            <!--android:text="Monthly"-->
+                                            <TextView
+                                                android:id="@+id/txtYearly"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:fontFamily="@font/lato_bold"
+                                                android:gravity="center"
+                                                android:textAllCaps="true"
+                                                android:textColor="@color/loginbg"
+                                                android:textSize="@dimen/subscribe_plantype" />
+
+                                            <TextView
+                                                android:id="@+id/txtYUnlimitedAccess"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_regular"
+                                                android:text="@string/unlimitedaccess"
+                                                android:textColor="@color/loginbg"
+                                                android:textSize="@dimen/subscribe_txtdesc" />
+
+                                            <TextView
+                                                android:id="@+id/txtMonthlyDes"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/lato_regular"
+                                                android:text="@string/subscription"
+                                                android:textColor="@color/loginbg"
+                                                android:textSize="16sp"
+                                                android:visibility="gone" />
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <TextView
+                                        android:id="@+id/txtYsave"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginTop="7dp"
+                                        android:fontFamily="@font/lato_bold"
+                                        android:textColor="@color/loginbg"
+                                        android:textSize="@dimen/subscribe_txtsave" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btnSubscribeNow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="@dimen/_70sdp"
+                                android:paddingLeft="28dp"
+                                android:paddingTop="15dp"
+                                android:paddingRight="28dp"
+                                android:paddingBottom="15dp"
+                                android:text="Subscribe Now" />
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
 
             </RelativeLayout>
 

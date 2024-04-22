@@ -156,6 +156,46 @@
             android:textColor="@color/loginbg"
             android:textSize="@dimen/openbtnn_textsize" />
 
+        <TextView
+            android:id="@+id/btn_fav_subscribe_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtFavLiturgyName"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginRight="9dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:background="@drawable/bg_unlock"
+            android:fontFamily="@font/lato_medium"
+            android:gravity="center"
+            android:paddingLeft="@dimen/_9sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingRight="@dimen/_9sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:text="Subscribe"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/openbtnn_textsize" />
+
+        <!--<TextView
+            android:id="@+id/txtUnlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtLiturgyName"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:background="@drawable/bg_unlock"
+            android:fontFamily="@font/lato_medium"
+            android:padding="@dimen/_5sdp"
+            android:text="Unlock"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/getcollection_btntxt" />-->
+
         <!--<Button
             android:id="@+id/btn_fav_read_now"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

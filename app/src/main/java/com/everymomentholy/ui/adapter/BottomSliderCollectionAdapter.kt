@@ -26,7 +26,6 @@ import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.CollectionDataVo
 import com.everymomentholy.ui.activity.*
-import com.everymomentholy.ui.fragments.CollectionListFragment
 import com.everymomentholy.ui.fragments.LiturgiesListFragment
 import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
@@ -37,7 +36,6 @@ import kotlinx.coroutines.GlobalScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import kotlin.math.roundToInt
 
 class BottomSliderCollectionAdapter(
@@ -55,6 +53,7 @@ class BottomSliderCollectionAdapter(
             view.findViewById<LinearLayout>(R.id.llBottomSliderGetLiturgiesAbout)
         var imageBook = view.findViewById<ImageView>(R.id.imageBook)
         var imgFavorite = view.findViewById<ImageView>(R.id.imgFavorite)
+        var imgLocked = view.findViewById<ImageView>(R.id.imgLocked)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -72,7 +71,12 @@ class BottomSliderCollectionAdapter(
 
         if (position == 0) {
             if (freeLiturgies.isPurchased.equals("Yes", true)) {
+
+
                 if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00" || freeLiturgies.isPurchased == "Yes") {
+                    holder.btnReadNow.visibility = View.VISIBLE
+                    holder.imgLocked.visibility = View.GONE
+                    holder.imgFavorite.visibility = View.VISIBLE
                     holder.btnReadNow.text = "OPEN"
                     // holder.btnPlayNow.visibility = View.VISIBLE
 
@@ -93,7 +97,11 @@ class BottomSliderCollectionAdapter(
                     }
                 }
             } else {
+
                 if (freeLiturgies.bookAmount == "0.0" || freeLiturgies.bookAmount == "0.00") {
+                    holder.btnReadNow.visibility = View.VISIBLE
+                    holder.imgLocked.visibility = View.GONE
+                    holder.imgFavorite.visibility = View.VISIBLE
                     holder.btnReadNow.text = "OPEN"
                     var sdk = android.os.Build.VERSION.SDK_INT;
                     if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -113,7 +121,11 @@ class BottomSliderCollectionAdapter(
                 } else {
                     // holder.btnReadNow.text = "Unlock Volume"
                     //this is volume part
-                    holder.btnReadNow.text = "Subscribe"
+                    //holder.btnReadNow.text = "Locked"
+                    holder.btnReadNow.visibility = View.GONE
+                    holder.imgLocked.visibility = View.VISIBLE
+                    holder.imgFavorite.visibility = View.GONE
+                    holder.btnReadNow.text = "OPEN"
                     holder.imgFavorite.visibility = View.GONE
                     holder.imageBook.visibility = View.GONE
                     holder.imageBook.setImageDrawable(context.resources.getDrawable(R.drawable.ic_volume))
@@ -143,6 +155,9 @@ class BottomSliderCollectionAdapter(
                     true
                 )
             ) {
+                holder.btnReadNow.visibility = View.VISIBLE
+                holder.imgLocked.visibility = View.GONE
+                holder.imgFavorite.visibility = View.VISIBLE
                 holder.btnReadNow.text = "OPEN"
                 // holder.btnReadNow.text = "OPEN"
                 var sdk = android.os.Build.VERSION.SDK_INT;
@@ -161,8 +176,11 @@ class BottomSliderCollectionAdapter(
             } else {
                 // holder.btnReadNow.text = "Unlock Collection"
                 //this is collection part
-                holder.btnReadNow.text = "Subscribe"
-                holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount
+                holder.btnReadNow.visibility = View.GONE
+                holder.imgLocked.visibility = View.VISIBLE
+                holder.imgFavorite.visibility = View.GONE
+                /*holder.btnReadNow.text = "Locked"
+                holder.txtLiturgiesPrice.text = "$" + freeLiturgies.bookAmount*/
             }
         }
         holder.txtfreeLiturgiesTitle.text = freeLiturgies.bookTitle
@@ -185,8 +203,52 @@ class BottomSliderCollectionAdapter(
             holder.imgFavorite.setImageDrawable(context.resources.getDrawable(R.drawable.ic_favorite))
         }
 
+        holder.imgLocked.setOnClickListener {
+            // holder.btnReadNow.text == "Unlock Collection"
+            // this is collection part
+            //freeLiturgies.productTypes = ProductTypes.BOOK
+            if (freeLiturgies.productTypes == ProductTypes.BOOK) {
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    showDialogForUnlockWithoutLogin(freeLiturgies)
+                } else {
+                    // startPurchaseFlow(freeLiturgies)
+
+                    /*val inAppSubscription = InAppSubscription.getInstance((context as Activity).application, GlobalScope)
+                    inAppSubscription.showProducts()*/
+
+
+                    //FOR TESTING PORPOSE
+                    /*val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    context?.startActivity(intent)*/
+
+                    val bundle = Bundle()
+                    bundle.putBoolean("onPress", true)
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.FROM_COLLECTION_LIST
+                    (context as MainActivity).addFragment(fragment, "", bundle)
+                }
+            } else {
+                freeLiturgies.productTypes = ProductTypes.VOLUME
+                if (Constants.USER_LOGIN_STATUS == Constants.SKIP_LOGIN) {
+                    showDialogForUnlockWithoutLogin(freeLiturgies)
+                } else {
+                    if (!freeLiturgies.discountAmount.isNullOrEmpty() && freeLiturgies.discountAmount != "0.00") {
+                        freeLiturgies.bookAmount = freeLiturgies.discountAmount
+                    }
+                    //startPurchaseFlow(freeLiturgies)
+
+                    val bundle = Bundle()
+                    bundle.putBoolean("onPress", true)
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.FROM_COLLECTION_LIST
+                    (context as MainActivity).addFragment(fragment, "", bundle)
+
+                }
+            }
+        }
+
         holder.btnReadNow.setOnClickListener() {
-            if (holder.btnReadNow.text.toString().equals("Subscribe", true)) {
+            if (holder.btnReadNow.text.toString().equals("Locked", true)) {
                 // holder.btnReadNow.text == "Unlock Collection"
                 // this is collection part
                 freeLiturgies.productTypes = ProductTypes.BOOK
@@ -195,24 +257,18 @@ class BottomSliderCollectionAdapter(
                 } else {
                     // startPurchaseFlow(freeLiturgies)
 
-                    /*val inAppSubscription = InAppSubscription.getInstance((context as Activity).application, GlobalScope)
-                    inAppSubscription.establishConnection()*/
-
                     //FOR TESTING PORPOSE
-                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
-                    context?.startActivity(intent)
+                    /*val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    context?.startActivity(intent)*/
 
-                    /*val bundle = Bundle()
-                    bundle.putBoolean("onPress", true);
-                    bundle.putBoolean("onPressHome", false);
+                    val bundle = Bundle()
+                    bundle.putBoolean("onPress", true)
                     var fragment: Fragment = SubscriptionPlanListFragment()
-                    (context as MainActivity).replaceFragment(
-                        fragment,
-                        "Subscription Plans",
-                        bundle
-                    )*/
+                    Constants.CURRENT_FRAGMENT = Constants.FROM_COLLECTION_LIST
+                    (context as MainActivity).addFragment(fragment, "", bundle)
+
                 }
-            } else if (holder.btnReadNow.text.toString().equals("Subscribe", true)) {
+            } else if (holder.btnReadNow.text.toString().equals("Locked", true)) {
                 // holder.btnReadNow.text == "Unlock Volume"
                 //this is volume paart
                 freeLiturgies.productTypes = ProductTypes.VOLUME
@@ -225,15 +281,10 @@ class BottomSliderCollectionAdapter(
                     //startPurchaseFlow(freeLiturgies)
 
                     val bundle = Bundle()
+                    bundle.putBoolean("onPress", true)
                     var fragment: Fragment = SubscriptionPlanListFragment()
-                    bundle.putBoolean("onPress", true);
-                    bundle.putBoolean("onPressHome", false);
-                    (context as MainActivity).replaceFragment(
-                        fragment,
-                        "Subscription Plans",
-                        bundle
-                    )
-
+                    Constants.CURRENT_FRAGMENT = Constants.FROM_COLLECTION_LIST
+                    (context as MainActivity).addFragment(fragment, "", bundle)
 
                 }
             } else if (holder.btnReadNow.text.toString().equals("OPEN", true)) {
@@ -368,17 +419,17 @@ class BottomSliderCollectionAdapter(
 
 
     private fun transferToLiturgyList(freeLiturgies: CollectionDataVo) {
-        var intent = Intent(context, LiturgiesListActivity::class.java)
-        intent.putExtra("bookID", freeLiturgies.bookId)
-        intent.putExtra("collection", freeLiturgies)
-        context.startActivity(intent)
+        /* var intent = Intent(context, LiturgiesListActivity::class.java)
+         intent.putExtra("bookID", freeLiturgies.bookId)
+         intent.putExtra("collection", freeLiturgies)
+         context.startActivity(intent)*/
 
-        /*val bundle = Bundle()
+        val bundle = Bundle()
         bundle.putInt("bookID", freeLiturgies.bookId)
         bundle.putSerializable("collection", freeLiturgies)
         var fragment: Fragment = LiturgiesListFragment()
-
-        (context as MainActivity).replaceFragment(fragment, "Liturgies", bundle)*/
+        (context as MainActivity).addFragment(fragment, "Liturgies", bundle)
+        //(context as MainActivity).replaceFragment(fragment, "Liturgies", bundle)
     }
 
     private fun startPurchaseFlow(collectionDataVo: CollectionDataVo) {
@@ -436,10 +487,10 @@ class BottomSliderCollectionAdapter(
             show.dismiss()
             //startPurchaseFlow(myLiturgyDataVo)
             val bundle = Bundle()
-            bundle.putBoolean("onPress", true);
-            bundle.putBoolean("onPressHome", false);
+            bundle.putBoolean("onPress", true)
             var fragment: Fragment = SubscriptionPlanListFragment()
-            (context as MainActivity).replaceFragment(fragment, "Subscription Plans", bundle)
+            Constants.CURRENT_FRAGMENT = Constants.FROM_COLLECTION_LIST
+            (context as MainActivity).addFragment(fragment, "", bundle)
         }
         show.setCanceledOnTouchOutside(false)
     }

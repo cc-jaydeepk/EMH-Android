@@ -101,17 +101,15 @@ class PlayAudioFragment : Fragment() {
         }
 
         ivPlay.setOnClickListener {
-
             ivPlay.setImageResource(R.drawable.ic_pausess)
             if (mediaPlayer.isPlaying) {
-
-
                 mediaPlayer.pause()
                 len = mediaPlayer.getCurrentPosition();
             } else {
                 ivPlay.setImageResource(R.drawable.ic_play)
                 mediaPlayer.currentPosition
                 mediaPlayer.start()
+
             }
         }
 

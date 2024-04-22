@@ -24,9 +24,10 @@
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginRight="@dimen/_7sdp"
             android:gravity="center"
-            android:text="Every Moment HOLY" />
+            android:text="Every Moment Holy" />
 
         <TextView
+            android:id="@+id/txtMeaasge"
             style="@style/dialogSmallTextStyle"
             android:layout_marginLeft="@dimen/_7sdp"
             android:layout_marginTop="@dimen/_3sdp"

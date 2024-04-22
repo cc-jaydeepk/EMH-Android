@@ -25,11 +25,11 @@ interface APIInterface {
         @Header("Authorization") token: String
     ): Call<CreateSubscrptionResVo>
 
-  /*  @POST(Constants.API_PURCHASE_VOLUME)
-    fun purchaseVolumeAcknowledge(
-        @Body privateSharingRequestVo: PurchaseRequestVo,
-        @Header("Authorization") token: String
-    ): Call<PrivateShareResponseVo>*/
+    /*  @POST(Constants.API_PURCHASE_VOLUME)
+      fun purchaseVolumeAcknowledge(
+          @Body privateSharingRequestVo: PurchaseRequestVo,
+          @Header("Authorization") token: String
+      ): Call<PrivateShareResponseVo>*/
 
     @GET(Constants.API_GETUSERSUBSCRIPTIONPLANS)
     fun getUserSubscriptionPlans(
@@ -88,6 +88,13 @@ interface APIInterface {
         @Query("deviceId") deviceId: String?,
         @Header("Authorization") token: String
     ): Call<GetLiturgiesResponseVo>
+
+    @GET(Constants.API_GET_PURCHASED_BOOKS)
+    fun getPurchasedBooks(
+        @Query("appUserId") appUserId: Int?,
+        @Query("deviceId") deviceId: String?,
+        @Header("Authorization") token: String
+    ): Call<PastPurchaseHistoryResponseVo>
 
     @GET(Constants.API_GET_USER_PROFILE)
     fun getUserProfile(
@@ -168,6 +175,19 @@ interface APIInterface {
         @Body logoutRequestVo: LogoutRequestVo,
         @Header("Authorization") token: String
     ): Call<LogoutResponseVo>
+
+    @POST(Constants.API_SAVE_SUBSCRIPTION_DATA)
+    fun savSubscriptionData(
+        @Body saveSubscriptionDataReqVo: SaveSubscriptionDataReqVo,
+        @Header("Authorization") token: String
+    ): Call<SaveSubscriptionDataResVo>
+
+    @FormUrlEncoded
+    @PUT(Constants.API_UPDATE_SUBSCRIPTION_STATUS)
+    fun updateSubscriptionStatus(
+        @Body updateSubscriptionStatusReq: UpdateSubscriptionStatusReq,
+        @Header("Authorization") token: String
+    ): Call<UpdateSubscriptionStatusRes>
 
     @POST(Constants.API_CHANGEPASSWORD)
     fun changePassword(
@@ -262,6 +282,13 @@ interface APIInterface {
         @Header("Authorization") token: String
     ): Call<OrderHistoryResponseVo>
 
+    @GET(Constants.API_ORDER_AND_SUBSCRIPTION_HISTORY)
+    fun getOrderandSubscriptionHistory(
+        @Query("userId") userID: Int,
+        @Query("deviceId") deviceId: String,
+        @Header("Authorization") token: String
+    ): Call<OrderAndSubResponseVo>
+
     @GET(Constants.API_GET_BOOK_STORE)
     fun getBookStore(): Call<BookStoreResponseVo>
 
@@ -303,4 +330,6 @@ interface APIInterface {
         @Path("userId") userID: Int,
         @Header("Authorization") token: String
     ): Call<BaseResponseVo>
+
+
 }

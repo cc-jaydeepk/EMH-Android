@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.activity.CollectionListActivity">
 
@@ -14,8 +15,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/progressCardView"
@@ -34,8 +35,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:indeterminateTint="@color/loginbg"
-                    android:layout_marginBottom="@dimen/progressbar_margin_bottom" />
+                    android:layout_marginBottom="@dimen/progressbar_margin_bottom"
+                    android:indeterminateTint="@color/loginbg" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -50,21 +51,20 @@
 
             </androidx.cardview.widget.CardView>
 
-            <include layout="@layout/toolbar_layout"
-                android:id="@+id/toolbarLayout"/>
+           <!-- <include
+                android:id="@+id/toolbarLayout"
+                android:visibility="gone"
+                layout="@layout/toolbar_layout" />-->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/toolbarLayout"
                 android:id="@+id/rvCollectionList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                />
 
         </RelativeLayout>
 
-
-
     </FrameLayout>
-
 
 
 </LinearLayout>

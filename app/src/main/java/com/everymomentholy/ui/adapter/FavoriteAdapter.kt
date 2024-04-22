@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,6 +22,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.downloader.OnDownloadListener
@@ -32,6 +34,8 @@ import com.everymomentholy.api.request.PrivateSharingRequestVo
 import com.everymomentholy.api.request.SetFavouriteRequestVo
 import com.everymomentholy.api.response.*
 import com.everymomentholy.ui.activity.FavLiturgyListActivity
+import com.everymomentholy.ui.activity.MainActivity
+import com.everymomentholy.ui.fragments.SubscriptionPlanListFragment
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.Utils
 import com.folioreader.emh.EMHUtils
@@ -58,6 +62,7 @@ class FavoriteAdapter(
         var txtFavFree = view.findViewById<TextView>(R.id.txt_fav_free)
         var txtLiturgy = view.findViewById<TextView>(R.id.txtLiturgy)
         var txtIncludedIn = view.findViewById<TextView>(R.id.txtIncludedIn)
+        var btn_fav_subscribe_now = view.findViewById<TextView>(R.id.btn_fav_subscribe_now)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -74,10 +79,22 @@ class FavoriteAdapter(
 
         val favLiturgy = favLiturgiesList[position]
 
-        var subscriptionStatus = Utils.readStringFromSharedPref(
+       /* var subscriptionStatus = Utils.readStringFromSharedPref(
             context, Constants.USER_SUBSCRIPTIONSTATUS,
             ""
-        )
+        )*/
+
+        /*var statusHistory = Utils.readStringFromSharedPref(
+            context, Constants.IN_APP_SUBSCRIPTION_STATUS,
+            ""
+        ).toString()*/
+
+        var statusHistory = Utils.readStringFromSharedPref(
+            context, Constants.PROFILE_STATUS,
+            ""
+        ).toString()
+
+        //if ()
 
         holder.txtFavLiturgyName.text = favLiturgiesList[position].chapterTitle
         //holder.txtIncludedIn.text = favLiturgiesList[position].volumeTags
@@ -105,11 +122,24 @@ class FavoriteAdapter(
             }
         }
 
+        /*if (subscriptionStatus == "Yes") {
+            holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+            holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+            holder.btnFavReadNow.text = "READ NOW"
+        } else {
+            holder.btnFavReadNow.text = "SUBSCRIBE"
+            holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
+            holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.white))
+        }*/
+
         holder.btnFavReadNow.setOnClickListener() {
 
             if (favLiturgiesList[position].chapterId == 0) {
                 if (holder.btnFavReadNow.text == "SUBSCRIBE") {
-
+                    val bundle = Bundle()
+                    var fragment: Fragment = SubscriptionPlanListFragment()
+                    Constants.CURRENT_FRAGMENT = Constants.FROM_FAVOURITE_LIST
+                    (context as MainActivity).addFragment(fragment, "", bundle)
                 } else {
                     transferToLiturgyList(favLiturgy)
                 }
@@ -203,7 +233,7 @@ class FavoriteAdapter(
             holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_unlock));
             holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.white))
 
-            if (subscriptionStatus == "Yes") {
+            if (statusHistory == "Yes") {
                 holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
                 holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
                 holder.btnFavReadNow.text = "READ NOW"
@@ -211,8 +241,38 @@ class FavoriteAdapter(
                 holder.btnFavReadNow.text = "SUBSCRIBE"
             }
         } else {
+            //dfggh
             holder.txtLiturgy.text = "Liturgy"
             holder.imgFavShareImg.visibility = View.VISIBLE
+
+            if (statusHistory.equals("Yes", true)) {
+                holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                holder.btnFavReadNow.text = "READ NOW"
+            } else if (favLiturgiesList[position].isPurchased.equals("No", true) && favLiturgiesList[position].isFree.equals("Yes", true)) {
+                holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                holder.btnFavReadNow.text = "READ NOW"
+            } else {
+                holder.btnFavReadNow.visibility = View.GONE
+                holder.btn_fav_subscribe_now.visibility = View.VISIBLE
+            }
+
+            /*if (statusHistory == "Yes") {
+                holder.btnFavReadNow.setBackground(context.resources.getDrawable(R.drawable.bg_read_now));
+                holder.btnFavReadNow.setTextColor(context.resources.getColor(R.color.loginbg))
+                holder.btnFavReadNow.text = "READ NOW"
+            } else {
+                holder.btnFavReadNow.visibility = View.GONE
+                holder.btn_fav_subscribe_now.visibility = View.VISIBLE
+            }*/
+        }
+
+        holder.btn_fav_subscribe_now.setOnClickListener {
+            val bundle = Bundle()
+            var fragment: Fragment = SubscriptionPlanListFragment()
+            Constants.CURRENT_FRAGMENT = Constants.FROM_FAVOURITE_LIST
+            (context as MainActivity).addFragment(fragment, "", bundle)
         }
 
         holder.imgFavShareImg.setOnClickListener() {

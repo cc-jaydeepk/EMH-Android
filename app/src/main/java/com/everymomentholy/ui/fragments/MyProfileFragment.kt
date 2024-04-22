@@ -84,6 +84,7 @@ class MyProfileFragment : Fragment() {
     // var profile_upload_ImageUri: Uri? = "null"
     var prefeUserId: Int = 0
     lateinit var userProfileMultipart: MultipartBody.Part
+
     //visible
     lateinit var progressCardView: CardView
 
@@ -91,9 +92,11 @@ class MyProfileFragment : Fragment() {
 
     var isCheck: Boolean = true
     private var status: String = "On"
+    lateinit var planTypeIsStripe: String
     private lateinit var notificationStatus: String
 
     lateinit var txtMySubscription: TextView
+    lateinit var subscriptionLinear: LinearLayout
 
     @RequiresApi(Build.VERSION_CODES.CUPCAKE)
     override fun onCreateView(
@@ -127,6 +130,7 @@ class MyProfileFragment : Fragment() {
         shadowView = view.findViewById(R.id.shadowView)
         ivOrderHistory = view.findViewById(R.id.ivOrderHistory)
         btnDeleteAccount = view.findViewById(R.id.btnDeleteAccount)
+        subscriptionLinear = view.findViewById(R.id.subscriptionLinear)
 
 
         notification_switch = view.findViewById(R.id.notification_switch)
@@ -136,6 +140,17 @@ class MyProfileFragment : Fragment() {
             MODE_PRIVATE
         )
         notification_switch.setChecked(sharedPreferences.getBoolean("value", true))*/
+
+        planTypeIsStripe = Utils.readStringFromSharedPref(
+            requireActivity(), Constants.PLAN_TYPE,
+            ""
+        ).toString()
+
+        if (planTypeIsStripe.equals("strip", true)) {
+            subscriptionLinear.visibility = View.VISIBLE
+        } else {
+            subscriptionLinear.visibility = View.GONE
+        }
 
         val sharedPreferences =
             requireActivity().getSharedPreferences("savestate", MODE_PRIVATE)
@@ -419,7 +434,6 @@ class MyProfileFragment : Fragment() {
                 )
             )
 
-
         try {
             call.enqueue(object : Callback<GetUserProfileVo> {
                 override fun onResponse(
@@ -455,10 +469,19 @@ class MyProfileFragment : Fragment() {
                             response.body()!!.response.userSubscriptionData.upcomingPlan
                         )
 
-
                         Utils.writeStringToSharedPref(
                             requireActivity(), Constants.UPCOMING_STARTED_AT,
                             response.body()!!.response.userSubscriptionData.upcomingPlanData.started_at
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.PLAN_TYPE,
+                            response.body()!!.response.userSubscriptionData.plan_type
+                        )
+
+                        Utils.writeStringToSharedPref(
+                            requireActivity(), Constants.PROFILE_STATUS,
+                            response.body()!!.response.userSubscriptionData.subscription
                         )
 
                         Utils.writeStringToSharedPref(
@@ -773,9 +796,7 @@ class MyProfileFragment : Fragment() {
         }
         //uploadFile(uri, "My Image");
 
-
         //creating a file
-
 
     }
 

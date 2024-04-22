@@ -23,7 +23,7 @@ import com.everymomentholy.api.response.BaseResponseVo
 import com.everymomentholy.api.response.CollectionDataVo
 import com.everymomentholy.ui.activity.LiturgiesListActivity
 import com.everymomentholy.ui.activity.SelectOptionActivity
-import com.everymomentholy.ui.activity.SelectSubscriptionPlan
+import com.everymomentholy.ui.activity.SubscriptionPlanListActivity
 import com.everymomentholy.utils.Constants
 import com.everymomentholy.utils.ProductTypes
 import com.everymomentholy.utils.Utils
@@ -183,7 +183,7 @@ class CollectionAdapter(
                     showDialogForUnlockWithoutLogin(freeLiturgies)
                 } else {
                     // startPurchaseFlow(freeLiturgies)
-                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    val intent = Intent(context, SubscriptionPlanListActivity::class.java)
                     context?.startActivity(intent)
 
                     /*val bundle = Bundle()
@@ -206,7 +206,7 @@ class CollectionAdapter(
                         freeLiturgies.bookAmount = freeLiturgies.discountAmount
                     }
                     //startPurchaseFlow(freeLiturgies)
-                    val intent = Intent(context, SelectSubscriptionPlan::class.java)
+                    val intent = Intent(context, SubscriptionPlanListActivity::class.java)
                     context?.startActivity(intent)
 
                     /*val bundle = Bundle()
@@ -384,8 +384,14 @@ class CollectionAdapter(
         alertButtonPurchase.setOnClickListener() {
             show.dismiss()
             //startPurchaseFlow(myLiturgyDataVo)
-            val intent = Intent(context, SelectSubscriptionPlan::class.java)
+            val intent = Intent(context, SubscriptionPlanListActivity::class.java)
             context?.startActivity(intent)
+
+          //  val bundle = Bundle()
+            //bundle.putInt("bookID", freeLiturgies.bookId)
+           // bundle.putSerializable("collection", freeLiturgies)
+//            var fragment: Fragment = SubscriptionPlanListFragment()
+//            (context as MainActivity).addFragment(fragment, "Subscription", bundle)
         }
         show.setCanceledOnTouchOutside(false)
     }

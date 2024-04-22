@@ -106,7 +106,14 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
         btnRegister = findViewById(R.id.btnRedister)
 
         ivRegiBack.setOnClickListener() {
-            onBackPressed()
+           // onBackPressed()
+           val intent =
+            Intent(this@RegisterActivity, SelectOptionActivity::class.java)
+            //intent.putExtra("boolean", true)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
 
         txt_privacy_policy.setOnClickListener {
@@ -449,7 +456,7 @@ class RegisterActivity : AppCompatActivity(), CountryCodePicker.OnCountryChangeL
                         finish()*/
 
                         val intent =
-                            Intent(this@RegisterActivity, SelectSubscriptionPlan::class.java)
+                            Intent(this@RegisterActivity, SubscriptionPlanListActivity::class.java)
                         intent.putExtra("boolean", true)
 //                        intent.flags =
 //                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

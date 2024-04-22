@@ -7,6 +7,10 @@
         android:targetSdkVersion="33"
         tools:overrideLibrary="com.example.lib1, com.example.lib2" />
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.ACCOUNT_MANAGER"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -31,17 +35,17 @@
         <activity
             android:name="com.everymomentholy.ui.activity.InAppSubscriptionActivity"
             android:exported="true">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.everymomentholy.ui.activity.SelectSubscriptionPlan"
+            android:name="com.everymomentholy.ui.activity.SubscriptionPlanListActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation"
@@ -91,11 +95,11 @@
             android:exported="true"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation">
-           <!-- <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name="com.everymomentholy.ui.activity.SelectOptionActivity"
@@ -120,10 +124,6 @@
         <activity
             android:name="com.everymomentholy.ui.activity.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            tools:replace="screenOrientation" />
-        <activity
-            android:name="com.everymomentholy.ui.activity.GetCollectionActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity

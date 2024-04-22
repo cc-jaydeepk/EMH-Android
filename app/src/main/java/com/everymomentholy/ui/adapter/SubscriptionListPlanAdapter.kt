@@ -107,4 +107,18 @@ class SubscriptionListPlanAdapter(
     override fun getItemCount(): Int {
         return subscriptionPlanList.size
     }
+
+    open fun setItemSelected(planType:String)
+    {
+        for(i in 0..subscriptionPlanList.size-1)
+        {
+            if (planType.equals(subscriptionPlanList[i].plan_type))
+            {
+                selectedItemPosition = i
+                notifyDataSetChanged()
+                break
+            }
+        }
+
+    }
 }

@@ -3,12 +3,12 @@ package com.everymomentholy.ui.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingFlowParams.ProductDetailsParams
-import com.android.billingclient.api.QueryProductDetailsParams.Product
 import com.everymomentholy.R
 import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collect.ImmutableList
 
@@ -16,11 +16,15 @@ import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.collec
 class InAppSubscriptionActivity : AppCompatActivity() {
     //https://droidrocks.com/how-to-integrate-google-play-in-app-purchase-billing-library/
 
+    private lateinit var queryProductDetailsParams: QueryProductDetailsParams
     lateinit var btnBuy: Button
+    lateinit var linearMonthly: LinearLayout
+    lateinit var linearYearly: LinearLayout
 
     //private lateinit var lifecycle: Lifecycle
 
     private lateinit var billingClient: BillingClient
+    lateinit var planType: String
     var response: String? = null
     var des: String? = null
     var sku: String? = null
@@ -31,6 +35,8 @@ class InAppSubscriptionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_in_app_subscription)
 
         btnBuy = findViewById(R.id.btnBuy)
+        linearMonthly = findViewById(R.id.linearMonthly)
+        linearYearly = findViewById(R.id.linearYearly)
 
         billingClient = BillingClient.newBuilder(this)
             .setListener(purchasesUpdatedListener)
@@ -40,9 +46,19 @@ class InAppSubscriptionActivity : AppCompatActivity() {
         //start the connection after initializing the billing client
         // establishConnection()
 
+        linearMonthly.setOnClickListener {
+            planType = "monthly"
+        }
+
+        linearYearly.setOnClickListener {
+            planType = "Yearly"
+        }
+
         btnBuy.setOnClickListener {
-            //establishConnection()
-            showProducts()
+            // establishConnection()
+            showProducts(planType)
+            /*val inAppSubscription = InAppSubscription.getInstance(application, GlobalScope)
+            inAppSubscription.showProducts()*/
         }
 
         /*billingClient = BillingClient.newBuilder(this)
@@ -86,161 +102,78 @@ class InAppSubscriptionActivity : AppCompatActivity() {
         })
     }
 
-    /*@SuppressLint("SetTextI18n")
-    fun showProducts() {
-        val productList: ArrayList<QueryProductDetailsParams.Product> = ArrayList()
-        productList.add(
-            QueryProductDetailsParams.Product.newBuilder()
-                .setProductId("emh-monthly-plan")
-                .setProductType(BillingClient.ProductType.SUBS)
-                .build()
-        )
-        productList.add(
-            QueryProductDetailsParams.Product.newBuilder()
-                .setProductId("emh_monthly_plan")
-                .setProductType(BillingClient.ProductType.SUBS)
-                .build()
-        )
-        val queryProductDetailsParams =
-            QueryProductDetailsParams.newBuilder().setProductList(productList).build()
-        *//*val queryProductDetailsParams =
-            QueryProductDetailsParams.newBuilder()
-                .setProductList(
-                    ImmutableList.of(
-                        QueryProductDetailsParams.Product.newBuilder()
-                            .setProductId("emh-monthly-plan") // set product id
-                            .setProductType(BillingClient.ProductType.SUBS)
-                            .build()
-                            QueryProductDetailsParams.Product.newBuilder()
-                            .setProductId("emh_monthly_plan") // set product id
-                            .setProductType(BillingClient.ProductType.SUBS)
-                            .build()
-
-                    )
-                )
-                .build()*//*
-
-        billingClient.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
-                                                                            productDetailsList ->
-            // check billingResult
-            // process returned productDetailsList
-
-            for (productDetails in productDetailsList) {
-                val productDetailsParamsList = listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
-                        .setProductDetails(productDetails)
-                        // For One-time product, "setOfferToken" method shouldn't be called.
-                        // For subscriptions, to get an offer token, call ProductDetails.subscriptionOfferDetails()
-                        // for a list of offers that are available to the user
-                        //.setOfferToken(selectedOfferToken)
-                        .build()
-                )
-
-                val billingFlowParams = BillingFlowParams.newBuilder()
-                    .setProductDetailsParamsList(productDetailsParamsList)
-                    .build()
-
-// Launch the billing flow
-                billingClient.launchBillingFlow(this, billingFlowParams)
-            }
-        }
-    }*/
-
-
-    fun launchPurchaseFlow(productDetails: ProductDetails) {
-        assert(productDetails.subscriptionOfferDetails != null)
-        val productDetailsParamsList: ImmutableList<ProductDetailsParams> = ImmutableList.of(
-            ProductDetailsParams.newBuilder()
-                .setProductDetails(productDetails)
-                .setOfferToken(productDetails.subscriptionOfferDetails!![0].offerToken)
-                .build()
-        )
-        val billingFlowParams = BillingFlowParams.newBuilder()
-            .setProductDetailsParamsList(productDetailsParamsList)
-            .build()
-        val billingResult = billingClient.launchBillingFlow(this, billingFlowParams)
-    }
-
     @SuppressLint("SetTextI18n")
-    fun showProductsnew() {
-        val productList = com.google.common.collect.ImmutableList.of( //Product 1
-            Product.newBuilder()
-                .setProductId("emh_monthly_plan")
-                .setProductType(BillingClient.ProductType.SUBS)
-                .build(),  //Product 2
-            Product.newBuilder()
-                .setProductId("emh_monthly_plan")
-                .setProductType(BillingClient.ProductType.SUBS)
-                .build()
-        )
-        val params = QueryProductDetailsParams.newBuilder()
-            .setProductList(productList)
-            .build()
-        billingClient.queryProductDetailsAsync(
-            params
-        ) { billingResult: BillingResult?, prodDetailsList: List<ProductDetails?> ->
-            if (prodDetailsList.size > 0) { // checking if there's a product returned then set the product(s)
-                // on the recycle viewer
-                //saveOfferToken(prodDetailsList);
-                // Process the result
-                /*productDetailsList.clear()
-                handler.postDelayed(Runnable {
-                    loadProducts.setVisibility(View.INVISIBLE)
-                    recyclerView.setVisibility(View.VISIBLE)
-                    productDetailsList.addAll(prodDetailsList)
-                    adapter = SubscriptionAdapter(
-                        applicationContext,
-                        productDetailsList,
-                        this@SubscriptionActivity
-                    )
-                    recyclerView.setHasFixedSize(true)
-                    recyclerView.setLayoutManager(
-                        LinearLayoutManager(
-                            this@SubscriptionActivity,
-                            LinearLayoutManager.VERTICAL,
-                            false
+    fun showProducts(planType: String) {
+        try {
+            var productDetailsM: ProductDetails? = null
+
+            if (planType == "monthly") {
+                queryProductDetailsParams =
+                    QueryProductDetailsParams.newBuilder()
+                        .setProductList(
+                            ImmutableList.of(
+                                QueryProductDetailsParams.Product.newBuilder()
+                                    .setProductId("emh_monthly_plan") // set product id
+                                    .setProductType(BillingClient.ProductType.SUBS)
+                                    .build(),
+                            )
+                        )
+                        .build()
+            } else {
+                queryProductDetailsParams =
+                    QueryProductDetailsParams.newBuilder()
+                        .setProductList(
+                            ImmutableList.of(
+                                QueryProductDetailsParams.Product.newBuilder()
+                                    .setProductId("emh_yearly_plan") // set product id
+                                    .setProductType(BillingClient.ProductType.SUBS)
+                                    .build(),
+                            )
+                        )
+                        .build()
+            }
+
+            /*val queryProductDetailsParams =
+                QueryProductDetailsParams.newBuilder()
+                    .setProductList(
+                        ImmutableList.of(
+                            QueryProductDetailsParams.Product.newBuilder()
+                                .setProductId("emh_monthly_plan") // set product id
+                                .setProductType(BillingClient.ProductType.SUBS)
+                                .build(),
+                            QueryProductDetailsParams.Product.newBuilder()
+                                .setProductId("emh_yearly_plan") // set product id
+                                .setProductType(BillingClient.ProductType.SUBS)
+                                .build()
                         )
                     )
-                    recyclerView.setAdapter(adapter)
-                }, 2000)*/
-            }
-        }
-    }
+                    .build()*/
+            var productDetailsParamsList = ArrayList<ProductDetailsParams>()
+            billingClient.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
+                                                                                productDetailsList ->
+                // check billingResult
+                // process returned productDetailsList
 
-    @SuppressLint("SetTextI18n")
-    fun showProducts() {
-        val queryProductDetailsParams =
-            QueryProductDetailsParams.newBuilder()
-                .setProductList(
-                    ImmutableList.of(
-                        QueryProductDetailsParams.Product.newBuilder()
-                            .setProductId("emh_monthly_plan") // set product id
-                            .setProductType(BillingClient.ProductType.SUBS)
+                for (productDetails in productDetailsList) {
+                    productDetailsM = productDetails
+                    /*productDetailsParamsList = listOf(
+                        BillingFlowParams.ProductDetailsParams.newBuilder()
+                            .setProductDetails(productDetails)
+                            .setOfferToken(productDetails.subscriptionOfferDetails!![0].offerToken)
                             .build()
-                    )
-                )
-                .build()
+                    ) as ArrayList<ProductDetailsParams>*/
 
-        billingClient.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
-                                                                            productDetailsList ->
-            // check billingResult
-            // process returned productDetailsList
-            for (productDetails in productDetailsList) {
-                val productDetailsParamsList = listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        .setProductDetails(productDetails)
-                        //.setOfferToken(selectedOfferToken)
-                        .build()
-                )
-                val billingFlowParams = BillingFlowParams.newBuilder()
+                }
+                /*val billingFlowParams = BillingFlowParams.newBuilder()
                     .setProductDetailsParamsList(productDetailsParamsList)
                     .build()
 
 // Launch the billing flow
-                billingClient.launchBillingFlow(this, billingFlowParams)
-
+                billingClient.launchBillingFlow(this, billingFlowParams)*/
+                productDetailsM?.let { launchPurchaseFlow1(it) }
             }
+        } catch (t: Throwable) {
+            t.printStackTrace()
         }
     }
 
@@ -305,47 +238,6 @@ class InAppSubscriptionActivity : AppCompatActivity() {
         }
     }
 
-
-    /*fun showProducts() {
-        val queryProductDetailsParams =
-            QueryProductDetailsParams.newBuilder()
-                .setProductList(
-                    ImmutableList.of(
-                        QueryProductDetailsParams.Product.newBuilder()
-                            .setProductId("product_id_example") // set product id
-                            .setProductType(BillingClient.ProductType.SUBS)
-                            .build()
-                    )
-                )
-                .build()
-
-        billingClient.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
-                                                                            productDetailsList ->
-            // check billingResult
-            // process returned productDetailsList
-
-            for (productDetails in productDetailsList) {
-                val productDetailsParamsList = listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        // retrieve a value for "productDetails" by calling queryProductDetailsAsync()
-                        .setProductDetails(productDetails)
-                        // For One-time product, "setOfferToken" method shouldn't be called.
-                        // For subscriptions, to get an offer token, call ProductDetails.subscriptionOfferDetails()
-                        // for a list of offers that are available to the user
-                        //.setOfferToken(selectedOfferToken)
-                        .build()
-                )
-
-                val billingFlowParams = BillingFlowParams.newBuilder()
-                    .setProductDetailsParamsList(productDetailsParamsList)
-                    .build()
-
-// Launch the billing flow
-                billingClient.launchBillingFlow(this, billingFlowParams)
-            }
-        }
-    }*/
-
     fun verifySubPurchase(purchases: Purchase) {
         val acknowledgePurchaseParams = AcknowledgePurchaseParams
             .newBuilder()
@@ -369,10 +261,137 @@ class InAppSubscriptionActivity : AppCompatActivity() {
 //        Log.d(TAG, "Purchase OrderID: " + purchases.orderId)
     }
 
+
     override fun onResume() {
         super.onResume()
         establishConnection()
     }
+
+    /*companion object {
+
+        private lateinit var billingClient: BillingClient
+        lateinit var activity: Activity
+
+        @SuppressLint("SetTextI18n")
+        fun showProductsNew() {
+            billingClient = BillingClient.newBuilder(activity)
+                .setListener(purchasesUpdatedListener)
+                .enablePendingPurchases()
+                .build()
+            try {
+                var productDetailsM: ProductDetails? = null
+                val queryProductDetailsParams =
+                    QueryProductDetailsParams.newBuilder()
+                        .setProductList(
+                            ImmutableList.of(
+                                QueryProductDetailsParams.Product.newBuilder()
+                                    .setProductId("emh_monthly_plan") // set product id
+                                    .setProductType(BillingClient.ProductType.SUBS)
+                                    .build()
+                            )
+                        )
+                        .build()
+                var productDetailsParamsList = ArrayList<ProductDetailsParams>()
+                billingClient.queryProductDetailsAsync(queryProductDetailsParams) { billingResult,
+                                                                                    productDetailsList ->
+                    // check billingResult
+                    // process returned productDetailsList
+
+                    for (productDetails in productDetailsList) {
+                        productDetailsM = productDetails
+                        *//*productDetailsParamsList = listOf(
+                            BillingFlowParams.ProductDetailsParams.newBuilder()
+                                .setProductDetails(productDetails)
+                                .setOfferToken(productDetails.subscriptionOfferDetails!![0].offerToken)
+                                .build()
+                        ) as ArrayList<ProductDetailsParams>*//*
+
+                    }
+                    *//*val billingFlowParams = BillingFlowParams.newBuilder()
+                        .setProductDetailsParamsList(productDetailsParamsList)
+                        .build()
+
+    // Launch the billing flow
+                    billingClient.launchBillingFlow(this, billingFlowParams)*//*
+                    productDetailsM?.let { launchPurchaseFlow1(it) }
+                }
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            }
+        }
+
+        fun launchPurchaseFlow1(productDetails: ProductDetails) {
+            assert(productDetails.subscriptionOfferDetails != null)
+            val productDetailsParamsList = com.google.common.collect.ImmutableList.of(
+                ProductDetailsParams.newBuilder()
+                    .setProductDetails(productDetails)
+                    .setOfferToken(productDetails.subscriptionOfferDetails!![0].offerToken)
+                    .build()
+            )
+            val billingFlowParams = BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(productDetailsParamsList)
+                .build()
+            billingClient.launchBillingFlow(activity, billingFlowParams)
+        }
+
+        fun verifySubPurchase(purchases: Purchase) {
+            val acknowledgePurchaseParams = AcknowledgePurchaseParams
+                .newBuilder()
+                .setPurchaseToken(purchases.purchaseToken)
+                .build()
+            billingClient.acknowledgePurchase(
+                acknowledgePurchaseParams
+            ) { billingResult: BillingResult ->
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    //user prefs to set premium
+                    Toast.makeText(activity, "You are a premium user now", Toast.LENGTH_SHORT)
+                        .show()
+                    //Setting premium to 1
+                    // 1 - premium
+                    // 0 - no premium
+                    // prefs.setPremium(1)
+                }
+            }
+//        Log.d(TAG, "Purchase Token: " + purchases.purchaseToken)
+//        Log.d(TAG, "Purchase Time: " + purchases.purchaseTime)
+//        Log.d(TAG, "Purchase OrderID: " + purchases.orderId)
+        }
+
+        val purchasesUpdatedListener =
+            PurchasesUpdatedListener { billingResult, purchases ->
+                // To be implemented in a later section.
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
+                    for (purchase in purchases) {
+                        //handlePurchase(purchase)
+                        verifySubPurchase(purchase)
+                    }
+                } else if (billingResult.responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
+                    Toast.makeText(
+                        activity,
+                        "ITEM_ALREADY_OWNED",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else if (billingResult.responseCode == BillingClient.BillingResponseCode.DEVELOPER_ERROR) {
+                    Toast.makeText(
+                        activity,
+                        "DEVELOPER_ERROR",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else if (billingResult.responseCode == BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED) {
+                    Toast.makeText(
+                        activity,
+                        "FEATURE_NOT_SUPPORTED",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        activity,
+                        "" + billingResult.debugMessage,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+    }*/
 
 
 }

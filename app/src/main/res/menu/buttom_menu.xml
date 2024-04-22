@@ -7,10 +7,12 @@
         android:title="Home"></item>
 
     <item
-        android:id="@+id/nav_myLiturgiesFragment"
+        android:id="@+id/nav_featuredLiturgiesFragment"
         android:icon="@drawable/ic_liturgies"
-        android:visible="false"
-        android:title="My Liturgies"></item>
+        android:visible="true"
+        android:title="Featured"></item>
+
+
     <!--android:visible="false"-->
 
     <item
@@ -28,9 +30,5 @@
         android:id="@+id/nav_searchFragment"
         android:icon="@drawable/ic_searchimg"
         android:title="Search"></item>
-
-
-
-
 
 </menu>

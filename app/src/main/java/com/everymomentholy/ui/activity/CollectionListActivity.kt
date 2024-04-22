@@ -106,6 +106,7 @@ class CollectionListActivity : AppCompatActivity(), OnInAppPurchaseListener {
         }
     }
 
+    //getBooksByVolume
     fun getCollectionList(volumeId: Int) {
         var collectionRequestVo: CollectionRequestVo = CollectionRequestVo()
         collectionRequestVo.volumeId = volumeId

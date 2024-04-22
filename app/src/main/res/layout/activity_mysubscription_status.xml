@@ -143,6 +143,7 @@
                             android:layout_marginTop="@dimen/margin_10"
                             android:backgroundTint="@color/loginbg"
                             android:clickable="true"
+                            android:visibility="gone"
                             android:text="UnSubscribe"
                             android:textColor="@color/white"
                             android:textSize="@dimen/login_button_txtsize" />
