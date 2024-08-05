@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -42,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var ivLoginBack: ImageView
     lateinit var remmberCheckBox: CheckBox
     private lateinit var sharedPreferences: SharedPreferences
+    private var deafultValue: Boolean = true
 
     /*companion object {
         var bOne: Boolean? = true
@@ -74,23 +76,36 @@ class LoginActivity : AppCompatActivity() {
         )!!
 
         remmberCheckBox = findViewById(R.id.myCheckBox)
+        //remmberCheckBox.isChecked = false
         btn_Login = findViewById(R.id.btn_Login)
         edtLoginEmail = findViewById(R.id.edtLoginEmail)
         edtLoginPassword = findViewById(R.id.edtLoginPassword)
         txtForgotPsw = findViewById(R.id.txtForgotPsw)
         progressCardView = findViewById(R.id.progressCardView)
 
+
         // getUserProfile()
+
+
 
         sharedPreferences =
             getSharedPreferences("savestate", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        remmberCheckBox.setChecked(sharedPreferences.getBoolean("switch", true))
+//        remmberCheckBox.setChecked(sharedPreferences.getBoolean("switch", false))
 
-        if (sharedPreferences.getBoolean("switch", true)) {
+//        if (sharedPreferences.getBoolean("switch", true)) {
+        if(!TextUtils.isEmpty(sharedPreferences.getString("email",null))){
             edtLoginEmail.setText(sharedPreferences.getString("email", ""))
             edtLoginPassword.setText(sharedPreferences.getString("password", ""))
             remmberCheckBox.isChecked = true
+        }
+        if(!TextUtils.isEmpty(sharedPreferences.getString("email",null)))
+        {
+            remmberCheckBox.setChecked(true)
+        }
+        else
+        {
+            remmberCheckBox.setChecked(false)
         }
 
         remmberCheckBox.setOnCheckedChangeListener { _, isChecked ->

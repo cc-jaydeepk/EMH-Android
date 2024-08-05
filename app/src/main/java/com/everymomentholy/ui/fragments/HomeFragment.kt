@@ -216,10 +216,10 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
             }
         }
 
-        if (subStatus.equals("Yes", true)){
+        if (subStatus.equals("Yes", true)) {
             btnSubscribeNow.visibility = View.GONE
             navigationView.menu.findItem(R.id.purchase).setVisible(false)
-        }else if(subscriptionStatusfromProfile.equals("Yes", true)){
+        } else if (subscriptionStatusfromProfile.equals("Yes", true)) {
             btnSubscribeNow.visibility = View.GONE
         } else {
             btnSubscribeNow.visibility = View.VISIBLE
@@ -380,11 +380,15 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
 
         Log.e(
             "token", Utils.readStringFromSharedPref(
-                requireActivity(),
+                requireContext(),
                 Constants.SHARED_PREF_TOKEN,
                 ""
             ).toString()
         )
+
+        /*if (isAdded) {
+            // Print getString(R.string.some_string).
+        }*/
 
         val request = APIService.buildService(APIInterface::class.java)
         val call =
@@ -407,30 +411,34 @@ class HomeFragment : Fragment(), CardStackListener, ShareItem {
                         progressbarHomeFragment.visibility = View.GONE
                         //requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                         rootLayout.visibility = View.VISIBLE
-                        Utils.writeStringToSharedPref(
-                            requireActivity(), Constants.PROFILE_STATUS,
-                            response.body()!!.response.userSubscriptionData.subscription
-                        )
 
-                        Utils.writeStringToSharedPref(
-                            requireActivity(), Constants.SUBSCRIPTION_TYPE,
-                            response.body()!!.response.userSubscriptionData.subscription_type
-                        )
+                        if (context != null) {
+                            Utils.writeStringToSharedPref(
+                                context!!, Constants.PROFILE_STATUS,
+                                response.body()!!.response.userSubscriptionData.subscription
+                            )
 
-                        Utils.writeStringToSharedPref(
-                            requireActivity(), Constants.PLAN_TYPE,
-                            response.body()!!.response.userSubscriptionData.plan_type
-                        )
+                            Utils.writeStringToSharedPref(
+                                context!!, Constants.SUBSCRIPTION_TYPE,
+                                response.body()!!.response.userSubscriptionData.subscription_type
+                            )
 
-                        Utils.writeStringToSharedPref(
-                            requireActivity(), Constants.TYPE,
-                            response.body()!!.response.userSubscriptionData.type
-                        )
+                            Utils.writeStringToSharedPref(
+                                context!!, Constants.PLAN_TYPE,
+                                response.body()!!.response.userSubscriptionData.plan_type
+                            )
 
-                        subscriptionStatus = Utils.readStringFromSharedPref(
-                            requireActivity(), Constants.PROFILE_STATUS,
-                            ""
-                        ).toString()
+                            Utils.writeStringToSharedPref(
+                                context!!, Constants.TYPE,
+                                response.body()!!.response.userSubscriptionData.type
+                            )
+
+                            subscriptionStatus = Utils.readStringFromSharedPref(
+                                context!!, Constants.PROFILE_STATUS,
+                                ""
+                            ).toString()
+                        }
+
 
                         //  userStatus = response.body()!!.response.userSubscriptionData.subscription
                     }

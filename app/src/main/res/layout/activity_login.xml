@@ -131,10 +131,10 @@
                     <CheckBox
                         android:id="@+id/myCheckBox"
                         android:layout_width="wrap_content"
-                        android:checked="false"
+                        android:layout_height="wrap_content"
                         android:backgroundTint="@color/loginbg"
                         android:buttonTint="@color/loginbg"
-                        android:layout_height="wrap_content" />
+                        android:checked="false" />
 
                     <TextView
                         android:id="@+id/myTextView"

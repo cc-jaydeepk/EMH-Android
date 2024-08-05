@@ -673,7 +673,7 @@ class FolioWebView : WebView {
         currentSelectionRect = Rect(newLeft, newTop, newRight, newBottom)
         Log.d(LOG_TAG, "-> setSelectionRect -> $currentSelectionRect")
 
-        computeTextSelectionRect(currentSelectionRect)
+        //computeTextSelectionRect(currentSelectionRect)
     }
 
     private fun computeTextSelectionRect(currentSelectionRect: Rect) {
@@ -686,7 +686,10 @@ class FolioWebView : WebView {
             Log.i(LOG_TAG, "-> currentSelectionRect doesn't intersects viewportRect")
             uiHandler.post {
                 popupWindow.dismiss()
-                uiHandler.removeCallbacks(isScrollingRunnable!!)
+                if (uiHandler != null && isScrollingRunnable!= null){
+                    uiHandler.removeCallbacks(isScrollingRunnable!!)
+                }
+
             }
             return
         }

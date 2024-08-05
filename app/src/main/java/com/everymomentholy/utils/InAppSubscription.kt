@@ -105,6 +105,11 @@ class InAppSubscription private constructor(
         if (responseCode == BillingClient.BillingResponseCode.OK) {
             // The billing client is ready.
             // You can query product details and purchases here.
+            /*Toast.makeText(
+                activity,
+                "test test test test",
+                Toast.LENGTH_LONG
+            ).show()*/
             querySubscriptionProductDetails()
             querySubscriptionPurchases()
             // queryPurchaseAsyncHistory()
@@ -113,11 +118,14 @@ class InAppSubscription private constructor(
     }
 
     override fun onBillingServiceDisconnected() {
-        Toast.makeText(
-            activity,
-            "Service Disconnected",
-            Toast.LENGTH_LONG
-        ).show()
+        if (application != null) {
+            Toast.makeText(
+                application,
+                "Service Disconnected",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
     }
 
     fun establishConnection() {
@@ -165,14 +173,14 @@ class InAppSubscription private constructor(
 
                 if (productDetailsList.size == 0) {
                     val packageManager = activity.packageManager
-                    checkPlayStoreConnection(packageManager)
+                    checkPlayStoreConnection(packageManager, activity)
                 }
 
                 for (productDetails in productDetailsList) {
                     productDetailsM = productDetails
                 }
 
-                productDetailsM?.let { launchPurchaseFlow(it) }
+                productDetailsM?.let { launchPurchaseFlow(it,activity) }
             }
         } catch (t: Throwable) {
             t.printStackTrace()
@@ -195,89 +203,79 @@ class InAppSubscription private constructor(
         return intent != null
     }
 
-    fun checkPlayStoreConnection(packageManager: PackageManager) {
+    fun checkPlayStoreConnection(packageManager: PackageManager, activity: Activity) {
         if (isPlayStoreInstalled(packageManager)) {
             if (isPlayStoreConnected(packageManager)) {
                 println("Google Play Store is installed and connected.")
-                Toast.makeText(
-                    application,
-                    "Google Play Store is installed and connected.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                if (activity != null) {
+                    Toast.makeText(
+                        activity,
+                        "Google Play Store is installed and connected.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             } else {
                 println("Google Play Store is installed but not connected.")
                 //huthgfvmfidknb;okfr;ok
                 isPlayStoreInstalled = true
-                playStorenotConnected(isPlayStoreInstalled)
+                playStorenotConnected(isPlayStoreInstalled, activity)
 
             }
         } else {
             println("Google Play Store is not installed.")
             isPlayStoreInstalled = false
-            playStorenotConnected(isPlayStoreInstalled)
+            playStorenotConnected(isPlayStoreInstalled, activity)
 
         }
     }
 
-    private fun playStorenotConnected(isPlayStoreInstalled: Boolean) {
-        val alertDialog = AlertDialog.Builder(
-            activity
-        )
-        val inflater = activity.layoutInflater
-        val alertView: View = inflater.inflate(R.layout.logout_dialog, null)
-        alertDialog.setView(alertView)
-        val show = alertDialog.show()
-        val alertButtonCancel = alertView.findViewById<View>(R.id.txtLougotCancel) as TextView
-        val alertButtonYes = alertView.findViewById<View>(R.id.txtLogoutYes) as TextView
-        val txtMessage = alertView.findViewById<View>(R.id.txtMessage) as TextView
-        alertButtonCancel.visibility = View.GONE
-        alertButtonYes.text = "OK"
-
-        if (isPlayStoreInstalled) {
-            txtMessage.text =
-                "Google Play Store is installed but not connected."
-
-            alertButtonYes.setOnClickListener {
-                show.dismiss()
-                openPlayStore()
-            }
-        } else {
-            txtMessage.text =
-                "Google Play Store is not installed on your device. The application does subscription using Google Play Store. Please use a device having Google Play Store and log into the account and then try to subscribe."
-
-            alertButtonYes.setOnClickListener {
-                show.dismiss()
-            }
-        }
-
-
-
-        alertButtonCancel.text = "Cancel existing plan"
-        alertButtonYes.text = "Ok"
-        alertButtonCancel.setTextSize(15f)
-        alertButtonYes.setTextSize(15f)
-
-        /*alertButtonYes.setOnClickListener {
-            show.dismiss()
-            val packageName = "com.everymomentholy.ui.fragments"
-
-            val subscriptionIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/account/subscriptions?package=$packageName")
+    private fun playStorenotConnected(isPlayStoreInstalled: Boolean, activity: Activity) {
+        if (activity != null) {
+            val alertDialog = AlertDialog.Builder(
+                activity
             )
-            if (subscriptionIntent.resolveActivity(activity.packageManager) != null) {
-                activity.startActivity(subscriptionIntent)
+            val inflater = activity.layoutInflater
+            val alertView: View = inflater.inflate(R.layout.logout_dialog, null)
+            alertDialog.setView(alertView)
+            val show = alertDialog.show()
+            val alertButtonCancel = alertView.findViewById<View>(R.id.txtLougotCancel) as TextView
+            val alertButtonYes = alertView.findViewById<View>(R.id.txtLogoutYes) as TextView
+            val txtMessage = alertView.findViewById<View>(R.id.txtMessage) as TextView
+            alertButtonCancel.visibility = View.GONE
+            alertButtonYes.text = "OK"
+
+            if (isPlayStoreInstalled) {
+                txtMessage.text =
+                    "Google Play Store is installed but not connected."
+
+                alertButtonYes.setOnClickListener {
+                    show.dismiss()
+                    openPlayStore(activity)
+                }
             } else {
-                // Handle the case where the Google Play Store is not installed on the device
-                // or there's no activity to handle the intent.
+                txtMessage.text =
+                    "Google Play Store is not installed on your device. The application does subscription using Google Play Store. Please use a device having Google Play Store and log into the account and then try to subscribe."
+
+                alertButtonYes.setOnClickListener {
+                    show.dismiss()
+                }
             }
 
-        }*/
 
-        show.setCanceledOnTouchOutside(false)
+
+            alertButtonCancel.text = "Cancel existing plan"
+            alertButtonYes.text = "Ok"
+            alertButtonCancel.setTextSize(15f)
+            alertButtonYes.setTextSize(15f)
+
+
+            show.setCanceledOnTouchOutside(false)
+        }
+
     }
 
-    private fun openPlayStore() {
+    private fun openPlayStore(activity: Activity) {
         val playStorePackageName = "com.android.vending"
         val intent =
             Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$playStorePackageName"))
@@ -293,7 +291,7 @@ class InAppSubscription private constructor(
     }
 
 
-    fun launchPurchaseFlow(productDetails: ProductDetails) {
+    fun launchPurchaseFlow(productDetails: ProductDetails, activity: Activity) {
         try {
             assert(productDetails.subscriptionOfferDetails != null)
             val productDetailsParamsList = com.google.common.collect.ImmutableList.of(
@@ -331,10 +329,13 @@ class InAppSubscription private constructor(
                 val purchaseList = mutableListOf<Purchase>()
                 purchaseList.add(purchases)
 
-                val activeEMail = Utils.readStringFromSharedPref(
-                    activity, Constants.ACTIVE_PLAYSTORE_EMAIL,
-                    ""
-                ).toString()
+                var activeEMail:String = ""
+                if(application != null) {
+                    activeEMail = Utils.readStringFromSharedPref(
+                        application, Constants.ACTIVE_PLAYSTORE_EMAIL,
+                        ""
+                    ).toString()
+                }
 
 
                 var jsonobject: JSONObject = JSONObject(purchases.originalJson)
@@ -352,7 +353,7 @@ class InAppSubscription private constructor(
                 var saveSubscriptionDataReqVo: SaveSubscriptionDataReqVo =
                     SaveSubscriptionDataReqVo()
                 saveSubscriptionDataReqVo.payment_email = activeEMail
-                saveSubscriptionDataReqVo.customer_id = "cdikgjihhboktgfb"
+                saveSubscriptionDataReqVo.customer_id = ""
                 saveSubscriptionDataReqVo.subscription_id = jsonOrderId.optString("orderId")
                 saveSubscriptionDataReqVo.subscription_type = "google_play"
                 saveSubscriptionDataReqVo.package_name = jsonobject.optString("productId")
@@ -382,53 +383,56 @@ class InAppSubscription private constructor(
         purchasesList: MutableList<Purchase>
     ) {
 
-        val request = APIService.buildService(APIInterface::class.java)
-        val call =
-            request.savSubscriptionData(
-                saveSubscriptionDataReqVo,
-                "bearer " + Utils.readStringFromSharedPref(
-                    activity,
-                    Constants.SHARED_PREF_TOKEN,
-                    ""
+        if(application != null) {
+            val request = APIService.buildService(APIInterface::class.java)
+            val call =
+                request.savSubscriptionData(
+                    saveSubscriptionDataReqVo,
+                    "bearer " + Utils.readStringFromSharedPref(
+                        application,
+                        Constants.SHARED_PREF_TOKEN,
+                        ""
+                    )
                 )
-            )
 
-        try {
-            call.enqueue(object : Callback<SaveSubscriptionDataResVo> {
-                override fun onResponse(
-                    call: Call<SaveSubscriptionDataResVo>,
-                    response: Response<SaveSubscriptionDataResVo>
-                ) {
-                    if (response.body()?.statusCode == 1) {
-                        Log.e("API", "API RESPONSE onResponse: " + response.body()?.message)
-                        isSadeDataCall = true
-                        Utils.writeStringToSharedPref(
-                            activity, Constants.IN_STATUS_FROM_SAVE_DATA,
-                            response.body()?.subscription_status
-                        )
-                        Utils.writeStringToSharedPref(
-                            activity, Constants.TYPE,
-                            response.body()?.type
-                        )
-                        if (response.body()?.subscription_status.equals("yes", true)) {
-                            mListener?.onQueryPurchase(purchasesList)
+            try {
+                call.enqueue(object : Callback<SaveSubscriptionDataResVo> {
+                    override fun onResponse(
+                        call: Call<SaveSubscriptionDataResVo>,
+                        response: Response<SaveSubscriptionDataResVo>
+                    ) {
+                        if (response.body()?.statusCode == 1) {
+                            Log.e("API", "API RESPONSE onResponse: " + response.body()?.message)
+                            isSadeDataCall = true
+                            Utils.writeStringToSharedPref(
+                                application, Constants.IN_STATUS_FROM_SAVE_DATA,
+                                response.body()?.subscription_status
+                            )
+                            Utils.writeStringToSharedPref(
+                                application, Constants.TYPE,
+                                response.body()?.type
+                            )
+                            if (response.body()?.subscription_status.equals("yes", true)) {
+                                mListener?.onQueryPurchase(purchasesList)
+                            }
+                        } else {
+                            Toast.makeText(
+                                application,
+                                response.body()!!.message,
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
-                    } else {
-                        Toast.makeText(
-                            activity,
-                            response.body()!!.message,
-                            Toast.LENGTH_LONG
-                        ).show()
                     }
-                }
 
-                override fun onFailure(call: Call<SaveSubscriptionDataResVo>, t: Throwable) {
-                    Toast.makeText(activity, "${t.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-        } catch (exception: Exception) {
-            exception.printStackTrace()
+                    override fun onFailure(call: Call<SaveSubscriptionDataResVo>, t: Throwable) {
+                        Toast.makeText(application, "${t.message}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                })
+
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
         }
     }
 
