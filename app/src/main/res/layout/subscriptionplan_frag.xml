@@ -414,6 +414,24 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/txtInAppInstructions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearStatic"
+                    android:layout_above="@+id/btnSubscribeNow"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:paddingLeft="@dimen/_15sdp"
+                    android:paddingRight="@dimen/_15sdp"
+                    android:fontFamily="@font/lato_bold"
+                    android:gravity="left"
+                    android:text="@string/free_trial_info_short"
+                    android:textColor="@color/loginbg"
+                    android:textSize="@dimen/_12ssp" />
+
                 <Button
                     android:id="@+id/btnSubscribeNow"
                     android:layout_width="wrap_content"

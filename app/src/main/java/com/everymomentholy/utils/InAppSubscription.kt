@@ -112,6 +112,7 @@ class InAppSubscription private constructor(
             ).show()*/
             querySubscriptionProductDetails()
             querySubscriptionPurchases()
+//            getMonthlyProductDetails(activity)
             // queryPurchaseAsyncHistory()
 //            queryOneTimeProductPurchases()
         }
@@ -184,6 +185,78 @@ class InAppSubscription private constructor(
             }
         } catch (t: Throwable) {
             t.printStackTrace()
+        }
+    }
+
+    fun getMonthlyProductDetails()
+    {
+
+        val productList = listOf(
+            QueryProductDetailsParams.Product.newBuilder()
+                .setProductId("emh_monthly_plan")
+                .setProductType(BillingClient.ProductType.SUBS)
+                .build()
+        )
+
+        val params = QueryProductDetailsParams.newBuilder()
+            .setProductList(productList)
+            .build()
+
+        billingClient.queryProductDetailsAsync(params) { billingResult, productDetailsList ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                for (productDetails in productDetailsList) {
+                    /*val pricingPhase = productDetails.subscriptionOfferDetails?.firstOrNull()
+                        ?.pricingPhases?.pricingPhaseList?.firstOrNull()
+
+                    val price = pricingPhase?.formattedPrice // e.g., "$1.99"
+                    val currency = pricingPhase?.priceCurrencyCode // e.g., "USD"*/
+                    val offerDetails = productDetails.subscriptionOfferDetails?.firstOrNull()
+
+                    // Find the first non-zero priced phase (i.e., the actual cost after trial)
+                    val originalPricePhase = offerDetails?.pricingPhases?.pricingPhaseList
+                        ?.firstOrNull { it.priceAmountMicros > 0 }
+
+                    val price = originalPricePhase?.formattedPrice
+                    val currency = originalPricePhase?.priceCurrencyCode
+
+                    Log.d("Billing", "Localized Price: $price ($currency)")
+                    if (price != null) {
+                        mListener?.onQueryMonthlySubs(price)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getYearlyProductDetails()
+    {
+
+        val productList = listOf(
+            QueryProductDetailsParams.Product.newBuilder()
+                .setProductId("emh_yearly_plan")
+                .setProductType(BillingClient.ProductType.SUBS)
+                .build()
+        )
+
+        val params = QueryProductDetailsParams.newBuilder()
+            .setProductList(productList)
+            .build()
+
+        billingClient.queryProductDetailsAsync(params) { billingResult, productDetailsList ->
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                for (productDetails in productDetailsList) {
+                    val pricingPhase = productDetails.subscriptionOfferDetails?.firstOrNull()
+                        ?.pricingPhases?.pricingPhaseList?.firstOrNull()
+
+                    val price = pricingPhase?.formattedPrice // e.g., "$1.99"
+                    val currency = pricingPhase?.priceCurrencyCode // e.g., "USD"
+
+                    Log.d("Billing", "Localized Price: $price ($currency)")
+                    if (price != null) {
+                        mListener?.onQueryYearlySubs(price)
+                    }
+                }
+            }
         }
     }
 
@@ -520,7 +593,6 @@ class InAppSubscription private constructor(
         params.setProductList(productList).let { productDetailsParams ->
             billingClient.queryProductDetailsAsync(productDetailsParams.build(), this)
         }
-
     }
 
     /**
@@ -594,6 +666,7 @@ class InAppSubscription private constructor(
             }
 
         }
+
     }
 
     private fun processProductDetails(productDetailsList: MutableList<ProductDetails>) {

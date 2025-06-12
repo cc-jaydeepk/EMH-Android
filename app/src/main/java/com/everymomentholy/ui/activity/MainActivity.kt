@@ -5,8 +5,10 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -73,6 +75,7 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
     var userImage: String = ""
     var statusHistory: String = ""
     private val CONTACTS_PERMISSION_REQUEST_CODE = 101
+    private val NOTIFICATIONS_PERMISSION_REQUEST_CODE = 102
     lateinit var ivToolbarDrawer: ImageView
     var subscriptionStatus: String = ""
     var isLogin: Boolean = false
@@ -105,20 +108,49 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
             // Permission has already been granted
             // You can now access contacts
             // AccessContacts()
-            val account = getActiveGoogleAccount(this)
-            if (account != null) {
-                val email = account.name
-                // Do something with the email
-
-                val activeEmail = Utils.writeStringToSharedPref(
-                    this, Constants.ACTIVE_PLAYSTORE_EMAIL,
-                    email
-                ).toString()
-                Log.d("ActiveAccount", "Active Google play account: $activeEmail")
-            } else {
-                Log.d("ActiveAccount", "No active Google account found")
-            }
+            getAccountDetails(this)
         }
+
+        //Check for the notification permission
+        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission is not granted
+            // Request the permission
+
+
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                NOTIFICATIONS_PERMISSION_REQUEST_CODE
+            )
+
+            *//*if(shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS))
+            {
+                // Show explanation before requesting
+                AlertDialog.Builder(this)
+                    .setTitle("Notification Permission Needed")
+                    .setMessage("This app needs permission to send you important notifications.")
+                    .setPositiveButton("Allow") { _, _ ->
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                            NOTIFICATIONS_PERMISSION_REQUEST_CODE
+                        )
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+            }
+            else{
+                // Directly request permission
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    NOTIFICATIONS_PERMISSION_REQUEST_CODE
+                )
+            }*//*
+
+        }*/
 
         prefeUserId = Utils.readIntData(
             this,
@@ -561,6 +593,39 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
         }
     }
 
+    fun getAccountDetails(context: Context)
+    {
+        val account = getActiveGoogleAccount(context)
+        if (account != null) {
+            val email = account.name
+            // Do something with the email
+
+            val activeEmail = Utils.writeStringToSharedPref(
+                context, Constants.ACTIVE_PLAYSTORE_EMAIL,
+                email
+            ).toString()
+            Log.d("ActiveAccount", "Active Google play account: $activeEmail")
+        } else {
+            Log.d("ActiveAccount", "No active Google account found")
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Permission is not granted
+                // Request the permission
+
+
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    NOTIFICATIONS_PERMISSION_REQUEST_CODE
+                )
+            }
+        }
+    }
+
     // Handle the permission request response
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -576,14 +641,15 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                     // Permission granted
                     // You can now access contacts
                     // AccessContacts()
-                    val account = getActiveGoogleAccount(this)
+                    /*val account = getActiveGoogleAccount(this)
                     if (account != null) {
                         val email = account.name
                         // Do something with the email
                         Log.d("ActiveAccount", "Active Google account: $email")
                     } else {
                         Log.d("ActiveAccount", "No active Google account found")
-                    }
+                    }*/
+                    getAccountDetails(this)
                 } else {
                     Toast.makeText(
                         this,
@@ -597,7 +663,38 @@ class MainActivity : AppCompatActivity(), OnInAppPurchaseListener {
                 return
             }
             // Handle other permissions if needed
+            NOTIFICATIONS_PERMISSION_REQUEST_CODE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // Permission granted
+                    // You can now send notifications
+
+                } else {
+                    // Permission denied
+                    //show the dialog for denied
+                    showPermissionDeniedDialog()
+                }
+                return
+            }
         }
+    }
+
+    private fun showPermissionDeniedDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Notification Permission Denied")
+            .setMessage(
+                "You have denied notification permission. To enable notifications, go to:\n\n" +
+                        "Settings > Apps > ${getString(R.string.app_name)} > Notifications"
+            )
+            .setPositiveButton("Open Settings", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", packageName, null)
+                    }
+                    startActivity(intent)
+                }
+            })
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun getActiveGoogleAccount(context: Context): Account? {

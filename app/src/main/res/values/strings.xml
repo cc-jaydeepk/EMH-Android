@@ -109,10 +109,26 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="subscribe_for_full_access_to_more_than_200_liturgies">Subscribe for full access to more than 200 liturgies</string>
-    <string name="subscribetext">To access all of the prayers and liturgies in the Every Moment Holy series, including audio reading, choose a monthly or annual subscription. Unsubscribed users have limited access.</string>
+    <string name="subscribetext">To access all of the prayers and liturgies in the Every Moment Holy series, including audio reading, choose a monthly or annual subscription.\n Unsubscribed users have limited access.</string>
     <string name="message">If you previously purchased content before the app moved to subscription status, that content is available to you through the Liturgies tab on the home screen, and will show as unlocked. \n Any new or "locked" content requires a subscription</string>
     <string name="unlimitedaccess">Unlimited Access to All Content</string>
     <string name="unsubscribestep"><![CDATA[To unsubscribe, Go to Google Play Store --> Click on the Profile icon at top right --> Payment and Subscriptions --> Select the subscription from EMH.]]></string>
 
+    <string name="free_trial_info">
+    • The Free trial will be given only for 1st time purchase of the plan.\n
+    • For all the plans, the Free trial will be for 7 days.\n
+    • You can cancel the plan anytime from the Subscriptions sections in Google Play Store.\n
+    Go to Google Play Store → Your name or image on top right corner → Payments and Subscriptions → Subscriptions → Plan name → cancel.\n
+    • If you have selected Free trial and if you cancel the plan before 7 days, then you won\'t be charged.\n
+    • Google Play Store will send a reminder before the trial ends.\n
+    • You can take trial only 1 time. If you cancel the trial and then at some point wish to purchase the plan, then Free trial won\'t be given again.
+</string>
+    <string name="free_trial_info_title">Free Trial Information</string>
+    <string name="free_trial_info_short">
+    • A 7-day Free trial will be given only for 1st time purchase of the plan.\n
+    • The plan will be renewed automatically.\n
+    • You can cancel the plan anytime via the Subscriptions section in the Google Play Store.\n
+    • If canceled before 7 days of Free trial, you won’t be charged. A reminder is sent by Google before the trial ends.
+    </string>
 
 </resources>

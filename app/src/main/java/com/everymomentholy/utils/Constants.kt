@@ -147,6 +147,8 @@ class Constants {
         const val UPCOMING_SUB_STATUS = "UpcominSubStatus"
         const val MONTHLY_SUB = "emh_monthly_plan"
         const val YEARLY_SUB = "emh_yearly_plan"
+        const val MONTHLY_SUB_PRICE = "monthly_sub_price"
+        const val YEARLY_SUB_PRICE = "yearly_sub_price"
     }
 
 }

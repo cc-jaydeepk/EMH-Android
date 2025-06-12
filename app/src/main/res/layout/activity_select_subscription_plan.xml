@@ -414,13 +414,36 @@
 
                             </LinearLayout>
 
+                            <ScrollView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_15sdp"
+                                android:layout_marginRight="@dimen/_15sdp"
+                                android:layout_below="@+id/linearStatic"
+                                android:layout_above="@+id/btnSubscribeNow"
+                                android:fillViewport="true">
+                            <TextView
+                                android:id="@+id/txtInAppInstructions"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:fontFamily="@font/lato_bold"
+                                android:gravity="left"
+                                android:text="@string/free_trial_info_short"
+                                android:textColor="@color/loginbg"
+                                android:textSize="@dimen/_12ssp" />
+                            </ScrollView>
+
                             <Button
                                 android:id="@+id/btnSubscribeNow"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentBottom="true"
                                 android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="@dimen/_70sdp"
+                                android:layout_marginBottom="@dimen/_30sdp"
                                 android:paddingLeft="28dp"
                                 android:paddingTop="15dp"
                                 android:paddingRight="28dp"

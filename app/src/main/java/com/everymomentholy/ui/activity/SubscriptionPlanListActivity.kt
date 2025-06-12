@@ -95,9 +95,12 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
     private lateinit var txtYUnlimitedAccess: TextView
     private lateinit var txtUnlimitedAccess: TextView
     private lateinit var txtSubscriptionType: TextView
+    private lateinit var txtInAppInstructions: TextView
     lateinit var linearStatic: LinearLayout
     lateinit var relativeLayout: RelativeLayout
     lateinit var planTypeIsStripe: String
+    lateinit var monthlyPlanPrice: String
+    lateinit var yearlyPlanPrice: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -130,6 +133,7 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
         btnSubscribeNow = findViewById(R.id.btnSubscribeNow)
         progressCardView = findViewById(R.id.progressCardView)
         txtSubscriptionType = findViewById(R.id.txtSubscriptionType)
+        txtInAppInstructions = findViewById(R.id.txtInAppInstructions)
 
         iv_toolbar_backImage.visibility = View.GONE
         iv_toolbar_drawer.visibility = View.GONE
@@ -248,7 +252,9 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
         relativeLayout.visibility = View.GONE
+
         subscriptionPlanList()
+
 
         /*linearMonthly.setOnClickListener {
             linearMonthly.setBackgroundColor(ContextCompat.getColor(this, R.color.loginbg));
@@ -420,6 +426,17 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
             }
 
         }
+
+        txtInAppInstructions.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Free Trial Information")
+                .setMessage(R.string.free_trial_info) // Display the string from resources
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss() // Dismiss the dialog when "OK" is pressed
+                }
+                .setCancelable(false) // Optionally prevent dismissing by tapping outside
+                .show() // Show the dialog
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -536,6 +553,9 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
                     response: Response<SubscriptionPlanListResponseVo>
                 ) {
                     if (response.body()?.statusCode == 1) {
+
+//                        billingClientLifecycle.getMonthlyProductDetails(this@SubscriptionPlanListActivity)
+
                         progressCardView.visibility = View.GONE
                         getWindow()
                             .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
@@ -548,15 +568,32 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
 
                             txtMontlyPrice.text = response.body()!!.response[0].unit_amount
                             txtMonthly.text = response.body()!!.response[0].plan_type
-                            txtUnlimitedAccess.text = response.body()!!.response[0].plan_message
+                            val monthlyrenewalMessage = response.body()!!.response[0].plan_message + "\n" +
+                                    "Billed Every Month"
+//                            txtUnlimitedAccess.text = response.body()!!.response[0].plan_message
+                            txtUnlimitedAccess.text = monthlyrenewalMessage
 
                             txtYPrice.text = response.body()!!.response[1].unit_amount
                             txtYearly.text = response.body()!!.response[1].plan_type
-                            txtYUnlimitedAccess.text = response.body()!!.response[1].plan_message
+                            val yearlyrenewalMessage = response.body()!!.response[1].plan_message + "\n" +
+                                    "Billed Every Year"
+//                            txtYUnlimitedAccess.text = response.body()!!.response[1].plan_message
+                            txtYUnlimitedAccess.text = yearlyrenewalMessage
 
                             txtYsave.text = "(Save $" + "" + response.body()!!.response[1].plan_savings + "/year)"
 
                         }
+                        billingClientLifecycle.getMonthlyProductDetails()
+                        billingClientLifecycle.getYearlyProductDetails()
+                        monthlyPlanPrice = Utils.readStringFromSharedPref(this@SubscriptionPlanListActivity,Constants.MONTHLY_SUB_PRICE,"$2.99")
+                            .toString()
+                        Log.e("monthlyPlanPrice","monthlyPlanPrice-->"+monthlyPlanPrice)
+                        txtMontlyPrice.setText(monthlyPlanPrice)
+
+                        yearlyPlanPrice = Utils.readStringFromSharedPref(this@SubscriptionPlanListActivity,Constants.YEARLY_SUB_PRICE,"$29.99")
+                            .toString()
+                        Log.e("yearlyPlanPrice","yearlyPlanPrice-->"+yearlyPlanPrice)
+                        txtYPrice.setText(yearlyPlanPrice)
 
                     } else {
                         progressCardView.visibility = View.GONE
@@ -565,7 +602,6 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
                         relativeLayout.visibility = View.VISIBLE
                         linearStatic.visibility = View.VISIBLE
                     }
-
                 }
 
                 override fun onFailure(call: Call<SubscriptionPlanListResponseVo>, t: Throwable) {
@@ -577,6 +613,7 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
                         .show()
                 }
             })
+
         } catch (exception: Exception) {
             exception.printStackTrace()
         }
@@ -699,7 +736,6 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
     override fun onQueryPurchase(
         purchasesList: MutableList<Purchase>
     ) {
-        Log.e("Purchase", "onQueryPurchase: In Fragment" + purchasesList.size)
 
         if (purchasesList != null && purchasesList.size > 0) {
 //            Toast.makeText(activity, "false", Toast.LENGTH_SHORT).show()
@@ -846,6 +882,7 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
         } else {
 
         }
+
     }
 
     private fun getUserProfile() {
@@ -903,6 +940,7 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
         } catch (exception: Exception) {
             exception.printStackTrace()
         }
+
     }
 
     private fun updateSubscriptionStatus(updateSubscriptionStatusReq: UpdateSubscriptionStatusReq) {
@@ -970,4 +1008,25 @@ class SubscriptionPlanListActivity : AppCompatActivity(), SubscriptionPlanListCL
 
     }
 
+    override fun onQueryMonthlySubs(monthlyPrice: String) {
+        Utils.writeStringToSharedPref(this@SubscriptionPlanListActivity,Constants.MONTHLY_SUB_PRICE,monthlyPrice)
+        Log.e("monthlyPlanPrice","monthlyPlanPrice-->"+monthlyPrice)
+        txtMontlyPrice.setText(monthlyPrice)
+        txtCurrency.visibility = View.INVISIBLE
+    }
+
+    override fun onQueryYearlySubs(yearlyPrice: String) {
+        Utils.writeStringToSharedPref(this@SubscriptionPlanListActivity,Constants.YEARLY_SUB_PRICE,yearlyPrice)
+        Log.e("yearlyPlanPrice","yearlyPlanPrice-->"+yearlyPrice)
+        txtYPrice.setText(yearlyPrice)
+        txtYCurrency.visibility = View.INVISIBLE
+        if(!yearlyPrice.contains("$"))
+        {
+            txtYsave.visibility = View.GONE
+        }
+        else
+        {
+            txtYsave.visibility = View.VISIBLE
+        }
+    }
 }

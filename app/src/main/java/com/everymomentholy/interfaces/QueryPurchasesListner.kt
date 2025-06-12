@@ -13,4 +13,6 @@ interface QueryPurchasesListner {
         purchasesList: MutableList<Purchase>,
         purchaseHistoryRecords: MutableList<PurchaseHistoryRecord>
     )*/
+    fun onQueryMonthlySubs(monthlyPrice: String)
+    fun onQueryYearlySubs(yearlyPrice: String)
 }

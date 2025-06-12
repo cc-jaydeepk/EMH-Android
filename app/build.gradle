@@ -17,11 +17,11 @@ android {
 
     defaultConfig {
         applicationId "com.brentwood.emh"
-        minSdkVersion 21
-        targetSdkVersion 34
+        minSdkVersion 23
+        targetSdkVersion 35
         //versionCode 17
-        versionCode 24
-        versionName "1.3.3"
+        versionCode 29
+        versionName "1.3.6"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

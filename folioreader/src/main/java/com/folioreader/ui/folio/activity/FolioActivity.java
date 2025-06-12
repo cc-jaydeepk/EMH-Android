@@ -368,14 +368,19 @@ public class FolioActivity
 
         final int permissionCheck = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    Constants.permissions(),
-                    Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
-        } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             setupBook();
         }
-
+        else
+        {
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        Constants.permissions(),
+                        Constants.WRITE_EXTERNAL_STORAGE_REQUEST);
+            } else {
+                setupBook();
+            }
+        }
 
     }
 

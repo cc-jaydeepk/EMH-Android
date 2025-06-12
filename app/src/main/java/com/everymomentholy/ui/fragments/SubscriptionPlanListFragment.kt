@@ -92,6 +92,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
     private lateinit var txtYUnlimitedAccess: TextView
     private lateinit var txtUnlimitedAccess: TextView
     private lateinit var txtSubscriptionType: TextView
+    private lateinit var txtInAppInstructions: TextView
     lateinit var linearMonthly: LinearLayout
     lateinit var linearYearly: LinearLayout
     lateinit var linearStatic: LinearLayout
@@ -104,6 +105,8 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
     lateinit var subscriptionType: String
     lateinit var subType: String
     lateinit var planTypeIsStripe: String
+    lateinit var monthlyPlanPrice: String
+    lateinit var yearlyPlanPrice: String
 
     // lateinit var inAppSubscriptionStatus: String
     lateinit var statusHistory: String
@@ -161,6 +164,7 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
         linearStatic = view.findViewById(R.id.linearStatic)
         txtSubscriptionType = view.findViewById(R.id.txtSubscriptionType)
         cardViewData = view.findViewById(R.id.cardView)
+        txtInAppInstructions = view.findViewById(R.id.txtInAppInstructions)
 
         linearStatic.visibility = View.VISIBLE
         //DENISHA
@@ -188,6 +192,16 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
             (activity as MainActivity).txt_toolbar_name.text = "Subscription Plan"
         }
 
+        txtInAppInstructions.setOnClickListener {
+            AlertDialog.Builder(activity as MainActivity)
+                .setTitle("Free Trial Information")
+                .setMessage(R.string.free_trial_info) // Display the string from resources
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss() // Dismiss the dialog when "OK" is pressed
+                }
+                .setCancelable(true)
+                .show() // Show the dialog
+        }
 
         /* if (isFromHome){
              (activity as MainActivity).toolbar.visibility = View.GONE
@@ -419,6 +433,11 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
         subscriptionPlanList()
 
 
+        monthlyPlanPrice = Utils.readStringFromSharedPref(requireActivity(),Constants.MONTHLY_SUB_PRICE,"$2.99")
+            .toString()
+        Log.e("monthlyPlanPrice","monthlyPlanPrice-->"+monthlyPlanPrice)
+        txtMonthly.setText(monthlyPlanPrice)
+
         linearMonthly.setOnClickListener {
             linearMonthly.setBackgroundColor(
                 ContextCompat.getColor(
@@ -545,11 +564,17 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
 
                             txtMontlyPrice.text = response.body()!!.response[0].unit_amount
                             txtMonthly.text = response.body()!!.response[0].plan_type
-                            txtUnlimitedAccess.text = response.body()!!.response[0].plan_message
+                            val monthlyrenewalMessage = response.body()!!.response[0].plan_message + "\n" +
+                                    "Billed Every Month"
+//                            txtUnlimitedAccess.text = response.body()!!.response[0].plan_message
+                            txtUnlimitedAccess.text = monthlyrenewalMessage
 
                             txtYPrice.text = response.body()!!.response[1].unit_amount
                             txtYearly.text = response.body()!!.response[1].plan_type
-                            txtYUnlimitedAccess.text = response.body()!!.response[1].plan_message
+                            val yearlyrenewalMessage = response.body()!!.response[1].plan_message + "\n" +
+                                    "Billed Every Year"
+//                            txtYUnlimitedAccess.text = response.body()!!.response[1].plan_message
+                            txtYUnlimitedAccess.text = yearlyrenewalMessage
 
 
                             txtYsave.text = "(Save $" + "" + response.body()!!.response[1].plan_savings + "/year)"
@@ -561,7 +586,6 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
                                 txtYsave.text = "(Save $" + "" + response.body()!!.response[0].plan_savings + "/year)"
                             }*/
 
-//                            fhygjghnh
 //                            planList.unit_amount
                             Log.e("PPPPPPP", "onResponse: "+ response.body()!!.response[i].plan_type)
                             Log.e("PPPPPPP", "onResponse: "+ response.body()!!.response[i].unit_amount)
@@ -572,6 +596,17 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
                             var temp = SubScriptionPlanSubResponseVo()
                             temp.plan_type = response.body()!!.response.
                         }*/
+                        billingClientLifecycle.getMonthlyProductDetails()
+                        billingClientLifecycle.getYearlyProductDetails()
+                        monthlyPlanPrice = Utils.readStringFromSharedPref(requireActivity(),Constants.MONTHLY_SUB_PRICE,"$2.99")
+                            .toString()
+                        Log.e("monthlyPlanPrice","monthlyPlanPrice-->"+monthlyPlanPrice)
+                        txtMontlyPrice.setText(monthlyPlanPrice)
+
+                        yearlyPlanPrice = Utils.readStringFromSharedPref(requireActivity(),Constants.YEARLY_SUB_PRICE,"$29.99")
+                            .toString()
+                        Log.e("yearlyPlanPrice","yearlyPlanPrice-->"+yearlyPlanPrice)
+                        txtYPrice.setText(yearlyPlanPrice)
 
                     } else {
                         progressCardView.visibility = View.GONE
@@ -1002,5 +1037,25 @@ class SubscriptionPlanListFragment : Fragment(), SubscriptionPlanListCLick, Quer
 
     }
 
+    override fun onQueryMonthlySubs(monthlyPrice: String) {
+        Utils.writeStringToSharedPref(requireActivity(),Constants.MONTHLY_SUB_PRICE,monthlyPrice)
+        Log.e("monthlyPlanPrice","monthlyPlanPrice-->"+monthlyPrice)
+        txtMontlyPrice.setText(monthlyPrice)
+        txtCurrency.visibility = View.INVISIBLE
+    }
 
+    override fun onQueryYearlySubs(yearlyPrice: String) {
+        Utils.writeStringToSharedPref(requireActivity(),Constants.YEARLY_SUB_PRICE,yearlyPrice)
+        Log.e("yearlyPlanPrice","yearlyPlanPrice-->"+yearlyPrice)
+        txtYPrice.setText(yearlyPrice)
+        txtYCurrency.visibility = View.INVISIBLE
+        if(!yearlyPrice.contains("$"))
+        {
+            txtYsave.visibility = View.GONE
+        }
+        else
+        {
+            txtYsave.visibility = View.VISIBLE
+        }
+    }
 }
